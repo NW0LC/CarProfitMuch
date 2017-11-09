@@ -5,11 +5,11 @@ import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.bean.GoodsCommentBean
+import com.exz.carprofitmuch.bean.CommentBean
 import kotlinx.android.synthetic.main.item_goods_detail_comment.view.*
 import java.util.*
 
-class GoodsCommentAdapter<T : GoodsCommentBean> : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_goods_detail_comment, ArrayList<T>()) {
+class GoodsCommentAdapter<T : CommentBean> : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_goods_detail_comment, ArrayList<T>()) {
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
         itemView.img.setImageURI(item.img)

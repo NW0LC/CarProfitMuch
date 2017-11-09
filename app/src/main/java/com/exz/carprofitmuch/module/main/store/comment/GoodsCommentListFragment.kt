@@ -10,7 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsCommentAdapter
-import com.exz.carprofitmuch.bean.GoodsCommentBean
+import com.exz.carprofitmuch.bean.CommentBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
@@ -32,7 +32,7 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
-    private lateinit var mAdapter: GoodsCommentAdapter<GoodsCommentBean>
+    private lateinit var mAdapter: GoodsCommentAdapter<CommentBean>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_comment_list, container, false)
@@ -54,7 +54,7 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
         SZWUtils.setMargin(header, 55f)
         return false
     }
-    private val arrayList2= ArrayList<GoodsCommentBean>()
+    private val arrayList2= ArrayList<CommentBean>()
     private fun initRecycler() {
         mAdapter = GoodsCommentAdapter()
         val imgs = ArrayList<String>()
@@ -62,9 +62,9 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
         imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
         imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
         imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        arrayList2.add(GoodsCommentBean(imgs))
-        arrayList2.add(GoodsCommentBean(imgs))
-        arrayList2.add(GoodsCommentBean(imgs))
+        arrayList2.add(CommentBean(imgs))
+        arrayList2.add(CommentBean(imgs))
+        arrayList2.add(CommentBean(imgs))
 
         mAdapter.setNewData(arrayList2)
 

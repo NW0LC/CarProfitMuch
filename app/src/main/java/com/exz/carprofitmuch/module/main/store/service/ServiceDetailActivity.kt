@@ -11,7 +11,7 @@ import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ServiceCommentAdapter
 import com.exz.carprofitmuch.adapter.ServiceShopGoodsAdapter
 import com.exz.carprofitmuch.bean.BannersBean
-import com.exz.carprofitmuch.bean.ServiceCommentBean
+import com.exz.carprofitmuch.bean.CommentBean
 import com.exz.carprofitmuch.bean.ServiceGoodsBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.module.main.store.comment.ServiceCommentListActivity
@@ -36,7 +36,7 @@ class ServiceDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickLis
 
 
     private lateinit var mServiceShopGoodsAdapter: ServiceShopGoodsAdapter<ServiceGoodsBean>
-    private lateinit var mServiceCommentAdapter: ServiceCommentAdapter<ServiceCommentBean>
+    private lateinit var mServiceCommentAdapter: ServiceCommentAdapter<CommentBean>
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.service_detail_name)
         //状态栏透明和间距处理
@@ -62,7 +62,7 @@ class ServiceDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickLis
         tv_service_confirm.setOnClickListener(this)
     }
     private val arrayList=ArrayList<ServiceGoodsBean>()
-    private val arrayList2=ArrayList<ServiceCommentBean>()
+    private val arrayList2=ArrayList<CommentBean>()
     private fun initRecycler() {
         mServiceShopGoodsAdapter = ServiceShopGoodsAdapter()
         mServiceCommentAdapter = ServiceCommentAdapter()
@@ -80,9 +80,9 @@ class ServiceDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickLis
         imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
         imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
         imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        arrayList2.add(ServiceCommentBean(imgs))
-        arrayList2.add(ServiceCommentBean(imgs))
-        arrayList2.add(ServiceCommentBean(imgs))
+        arrayList2.add(CommentBean(imgs))
+        arrayList2.add(CommentBean(imgs))
+        arrayList2.add(CommentBean(imgs))
 
         mServiceShopGoodsAdapter.goodsCount=arrayList.size
         mServiceShopGoodsAdapter.setNewData(arrayList)

@@ -4,11 +4,11 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.bean.ServiceCommentBean
+import com.exz.carprofitmuch.bean.CommentBean
 import kotlinx.android.synthetic.main.item_service_comment.view.*
 import java.util.*
 
-class ServiceCommentAdapter<T : ServiceCommentBean> : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_service_comment, ArrayList<T>()) {
+class ServiceCommentAdapter<T : CommentBean> : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_service_comment, ArrayList<T>()) {
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
         itemView.img.setImageURI(item.img)

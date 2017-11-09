@@ -13,6 +13,7 @@ import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.module.login.LoginActivity
 import com.exz.carprofitmuch.module.mine.AccountBalanceActivity
+import com.exz.carprofitmuch.module.mine.CardPackageListActivity
 import com.exz.carprofitmuch.module.mine.PersonInfoActivity
 import com.exz.carprofitmuch.module.mine.SettingsActivity
 import com.exz.carprofitmuch.utils.SZWUtils
@@ -101,7 +102,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_settings -> {
-                startActivityForResult(Intent(context,SettingsActivity::class.java),100)
+                startActivityForResult(Intent(context, SettingsActivity::class.java), 100)
             }
             R.id.action_notifications -> {
                 mHasNews = !mHasNews
@@ -116,17 +117,21 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     }
 
     override fun initEvent() {
-            bt_header.setOnClickListener(this)
-            bt_myBalance.setOnClickListener(this)
+        bt_header.setOnClickListener(this)
+        bt_myBalance.setOnClickListener(this)
+        bt_tab_card.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when (p0) {
             bt_header -> {
-                startActivityForResult(Intent(context, PersonInfoActivity::class.java),100)
+                startActivityForResult(Intent(context, PersonInfoActivity::class.java), 100)
             }
             bt_myBalance -> {
-                startActivityForResult(Intent(context, AccountBalanceActivity::class.java),100)
+                startActivityForResult(Intent(context, AccountBalanceActivity::class.java), 100)
+            }
+            bt_tab_card -> {
+                startActivityForResult(Intent(context, CardPackageListActivity::class.java), 100)
             }
             else -> {
             }
@@ -148,12 +153,13 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode== LoginActivity.RESULT_LOGIN_CANCELED){
-            (activity as MainActivity).mainTabBar.currentTab=0
-        }else if (resultCode== Activity.RESULT_OK){
+        if (resultCode == LoginActivity.RESULT_LOGIN_CANCELED) {
+            (activity as MainActivity).mainTabBar.currentTab = 0
+        } else if (resultCode == Activity.RESULT_OK) {
             //刷新 TODO
         }
     }
+
     override fun onDetach() {
         super.onDetach()
         SZWUtils.start = 0

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/White">
+
+    <LinearLayout
+        android:id="@+id/lay_shop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/margin_10"
+        android:paddingEnd="@dimen/margin_15"
+        android:paddingStart="@dimen/margin_15"
+        android:paddingTop="@dimen/margin_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_service_shop_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/margin_5"
+            android:drawableStart="@mipmap/icon_mine_card_package_store"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text=""
+            android:textColor="@color/MaterialGrey500"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_service_orderState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:minWidth="@dimen/margin_40"
+            android:text=""
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/sp_14"
+            tool:background="@color/MaterialGrey200" />
+    </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/lay_serviceOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lay_shop">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/img"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:roundBottomLeft="true"
+            app:roundBottomRight="true"
+            app:roundTopLeft="true"
+            app:roundTopRight="true"
+            app:roundedCornerRadius="3dp"
+            tool:background="@color/MaterialGrey200" />
+
+        <TextView
+            android:id="@+id/tv_service_orderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:minWidth="@dimen/margin_90"
+            android:text=""
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            app:layout_constraintTop_toTopOf="@+id/img"
+            tool:background="@color/MaterialGrey200" />
+
+        <TextView
+            android:id="@+id/tv_service_orderCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/card_package_list_count"
+            android:textColor="@color/MaterialGrey400"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            app:layout_constraintTop_toBottomOf="@+id/tv_service_orderName" />
+
+        <TextView
+            android:id="@+id/tv_service_orderPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/card_package_list_price"
+            android:textColor="@color/MaterialGrey400"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            app:layout_constraintTop_toBottomOf="@+id/tv_service_orderCount" />
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/lay_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="@dimen/margin_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lay_serviceOrder">
+
+        <TextView
+
+            android:id="@+id/tv_service_orderTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_5"
+            android:layout_marginStart="@dimen/margin_5"
+            android:layout_weight="1"
+            android:text=""
+            android:lines="1"
+            android:ellipsize="end"
+            android:textColor="@color/MaterialGrey400"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            app:layout_constraintTop_toBottomOf="@+id/tv_service_orderCount"
+            tool:background="@color/MaterialGrey200" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/bt_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minWidth="@dimen/margin_60"
+            android:paddingBottom="@dimen/margin_5"
+            android:paddingEnd="@dimen/margin_15"
+            android:paddingStart="@dimen/margin_15"
+            android:paddingTop="@dimen/margin_5"
+            android:text=""
+            android:textColor="@color/MaterialGrey700"
+            android:textSize="@dimen/sp_12"
+            app:rv_cornerRadius="@dimen/margin_3"
+            app:rv_strokeColor="@color/MaterialGrey700"
+            app:rv_strokeWidth="1dp" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/bt_mid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_5"
+            android:gravity="center"
+            android:minWidth="@dimen/margin_60"
+            android:paddingBottom="@dimen/margin_5"
+            android:paddingEnd="@dimen/margin_15"
+            android:paddingStart="@dimen/margin_15"
+            android:paddingTop="@dimen/margin_5"
+            android:text=""
+            android:textColor="@color/MaterialGrey700"
+            android:textSize="@dimen/sp_12"
+            app:rv_cornerRadius="@dimen/margin_3"
+            app:rv_strokeColor="@color/MaterialGrey700"
+            app:rv_strokeWidth="1dp" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/bt_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_5"
+            android:gravity="center"
+            android:minWidth="@dimen/margin_60"
+            android:paddingBottom="@dimen/margin_5"
+            android:paddingEnd="@dimen/margin_15"
+            android:paddingStart="@dimen/margin_15"
+            android:paddingTop="@dimen/margin_5"
+            android:text=""
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/sp_12"
+            app:rv_cornerRadius="@dimen/margin_3"
+            app:rv_strokeColor="@color/colorPrimary"
+            app:rv_strokeWidth="1dp" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

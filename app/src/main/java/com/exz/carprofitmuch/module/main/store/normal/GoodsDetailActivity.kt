@@ -43,7 +43,7 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
     private lateinit var classifyPop: GoodsDetailClassifyPop
     private lateinit var couponPop: CouponPop
     private lateinit var redPacketPop: RedPacketPop
-    private lateinit var mGoodsCommentAdapter: GoodsCommentAdapter<GoodsCommentBean>
+    private lateinit var mGoodsCommentAdapter: GoodsCommentAdapter<CommentBean>
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.goods_detail_name)
         toolbar.setNavigationIcon(R.mipmap.icon_goods_detail_back)
@@ -140,7 +140,7 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
         initEvent()
         mWebView.loadUrl("http://www.baidu.com")
     }
-    private val arrayList2=ArrayList<GoodsCommentBean>()
+    private val arrayList2=ArrayList<CommentBean>()
     private fun initRecycler() {
         mGoodsCommentAdapter = GoodsCommentAdapter()
         val imgs = ArrayList<String>()
@@ -148,9 +148,9 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
         imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
         imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
         imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        arrayList2.add(GoodsCommentBean(imgs))
-        arrayList2.add(GoodsCommentBean(imgs))
-        arrayList2.add(GoodsCommentBean(imgs))
+        arrayList2.add(CommentBean(imgs))
+        arrayList2.add(CommentBean(imgs))
+        arrayList2.add(CommentBean(imgs))
 
         mGoodsCommentAdapter.setNewData(arrayList2)
 
