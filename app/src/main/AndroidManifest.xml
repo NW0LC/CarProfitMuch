@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.exz.carprofitmuch">
+
+    <application
+        android:name=".app.ToolApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".module.LogoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--主-->
+        <activity android:name=".module.MainActivity"/>
+        <!--登录注册-->
+        <activity android:name=".module.login.LoginActivity"/>
+        <!--忘记密码-->
+        <activity android:name=".module.mine.ForgetPwdActivity"/>
+        <!--积分商城-->
+        <activity android:name=".module.main.store.score.ScoreStoreActivity"/>
+        <!--积分商品详情-->
+        <activity android:name=".module.main.store.score.ScoreGoodsDetailActivity"/>
+        <!--积分商品确认兑换-->
+        <activity android:name=".module.main.store.score.ScoreConfirmActivity"/>
+        <!--服务列表-->
+        <activity android:name=".module.main.store.service.ServiceListActivity"/>
+        <!--服务店铺-->
+        <activity android:name=".module.main.store.service.ServiceShopActivity"/>
+        <!--评价列表-->
+        <activity android:name=".module.main.store.comment.ServiceCommentListActivity"/>
+        <!--服务详情-->
+        <activity android:name=".module.main.store.service.ServiceDetailActivity"/>
+        <!--提交服务订单-->
+        <activity android:name=".module.main.store.service.ServiceConfirmActivity"/>
+        <!--图片预览-->
+        <activity android:name="com.szw.framelibrary.view.preview.PreviewActivity"/>
+        <!--服务订单支付-->
+        <activity android:name=".module.main.store.service.PayServiceActivity"/>
+        <!--支付密码 获取验证码-->
+        <activity android:name=".module.main.pay.PwdGetCodeActivity"/>
+        <!--支付密码 设置支付密码-->
+        <activity android:name=".module.main.pay.PwdSetActivity"/>
+        <!--服务支付成功-->
+        <activity android:name=".module.main.store.service.ServicePayResultActivity"/>
+        <!--商品搜索-->
+        <activity android:name="com.exz.carprofitmuch.module.main.store.goodssearch.SearchGoodsActivity"/>
+        <!--商品搜索结果-->
+        <activity android:name="com.exz.carprofitmuch.module.main.store.goodssearch.SearchResultActivity"/>
+        <!--商品详情-->
+        <activity android:name=".module.main.store.normal.GoodsDetailActivity"/>
+        <!--商品评价列表-->
+        <activity android:name=".module.main.store.comment.GoodsCommentListActivity"/>
+        <!--商品店铺-->
+        <activity android:name=".module.main.store.normal.GoodsShopActivity"/>
+        <!--商品店铺搜索结果页-->
+        <activity android:name=".module.main.store.normal.GoodsShopSearchResultActivity"/>
+        <!--广告专区-->
+        <activity android:name=".module.main.AdsActivity"/>
+        <!--红包专区-->
+        <activity android:name=".module.main.RedPacketActivity"/>
+        <!--设置-->
+        <activity android:name=".module.mine.SettingsActivity"/>
+        <!--个人资料-->
+        <activity android:name=".module.mine.PersonInfoActivity"/>
+        <!--账户安全-->
+        <activity android:name=".module.mine.AccountSafeActivity"/>
+        <!--修改账户密码-->
+        <activity android:name=".module.mine.ReAccountPwdActivity"/>
+        <!--网页-->
+        <activity android:name=".widget.MyWebActivity"/>
+        <!--账户余额-->
+        <activity android:name=".module.mine.AccountBalanceActivity"/>
+        <!--余额充值-->
+        <activity android:name=".module.mine.PayBalanceRechargeActivity"/>
+        <!--申请提现-->
+        <activity android:name=".module.mine.AccountBalanceWithdrawalActivity"/>
+        <!--余额变动记录-->
+        <activity android:name=".module.mine.AccountBalanceRecordActivity"/>
+
+
+        <!-- aliPay sdk begin -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <!--支付  end -->
+        <!-- 微信支付 begin -->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
+        <!--微信支付  end -->
+    </application>
+
+</manifest>

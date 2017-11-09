@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 连框颜色值 -->
+    <item>
+        <shape>
+            <corners android:radius="20dp"
+                />
+            <stroke android:width="@dimen/margin_0.5" android:color="@color/MaterialGrey300"/>
+        </shape>
+    </item>
+</layer-list>

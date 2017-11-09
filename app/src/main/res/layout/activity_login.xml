@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    >
+
+    <ImageView
+        android:id="@+id/parallax"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="-100dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/icon_login_top_bg"
+        app:layout_collapseMode="parallax"/>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlHeaderHeight="150dp"
+        app:srlHeaderMaxDragRate="1"
+        app:srlEnablePreviewInEditMode="false">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <android.support.design.widget.CollapsingToolbarLayout
+                    android:id="@+id/collapse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:titleEnabled="false"
+                    app:contentScrim="?attr/colorPrimary"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_marginTop="30dp"
+                            android:src="@mipmap/icon_login_top_icon"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <com.flyco.tablayout.SlidingTabLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:tl="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/tabs"
+                            android:layout_marginTop="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="@color/Transparent"
+                            tl:tl_iconVisible="false"
+                            tl:tl_indicator_height="10dp"
+                            tl:tl_indicator_width="25dp"
+                            tl:tl_indicator_style="TRIANGLE"
+                            tl:tl_indicator_color="@color/White"
+                            tl:tl_tab_space_equal="true"
+                            tl:tl_textBold="NONE"
+                            tl:tl_textSelectColor="@color/White"
+                            tl:tl_textUnselectColor="@color/White"
+                            tl:tl_textsize="15sp" />
+                    </LinearLayout>
+
+                </android.support.design.widget.CollapsingToolbarLayout>
+                <com.exz.carprofitmuch.widget.CustomViewpager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    >
+
+                </com.exz.carprofitmuch.widget.CustomViewpager>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:background="@android:color/transparent"
+        android:layout_marginBottom="0dp"
+        app:layout_collapseMode="pin">
+    </android.support.v7.widget.Toolbar>
+</FrameLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/White"
+    android:orientation="vertical"
+    android:paddingEnd="15dp"
+    android:paddingStart="15dp"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:text=""
+        android:textColor="@color/MaterialGrey700"
+        android:textSize="@dimen/text_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="@dimen/margin_70"
+        tool:background="@color/MaterialGrey200" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_5"
+        android:minHeight="95dp"
+        android:minWidth="50dp"
+        tool:background="@color/MaterialGrey200" />
+    <TextView
+        android:id="@+id/tv_time"
+        android:text=""
+        android:layout_marginTop="@dimen/margin_5"
+        android:textColor="@color/MaterialGrey400"
+        android:textSize="@dimen/text_12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="@dimen/margin_70"
+        tool:background="@color/MaterialGrey200" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_0.5"
+        android:layout_marginTop="@dimen/margin_10"
+        android:background="@color/MaterialGrey200" />
+</LinearLayout>

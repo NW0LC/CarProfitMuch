@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:background="@color/app_bg">
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnablePreviewInEditMode="false">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:id="@+id/header"
+            android:visibility="gone"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/black"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mRecyclerView"
+            android:overScrollMode="never"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="?attr/actionBarSize"
+            tool:listitem="@layout/item_goods_shop">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/toolbarLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:id="@+id/blurView"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:visibility="visible"
+            app:realtimeOverlayColor="@color/colorPrimary_trans" />
+
+        <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <RelativeLayout
+                android:id="@+id/parent_lay"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center">
+
+                <com.flyco.roundview.RoundLinearLayout
+                    android:layout_width="@dimen/margin_250"
+                    android:layout_height="30dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:layout_centerInParent="true"
+                    app:rv_backgroundColor="@color/White"
+                    app:rv_cornerRadius="@dimen/margin_20">
+
+                    <EditText
+                        android:id="@+id/mTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:drawableStart="@mipmap/icon_search"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:hint="@string/goods_shop_search_hint"
+                        android:lines="1"
+                        android:maxEms="10"
+                        android:padding="@dimen/margin_5"
+                        android:text=""
+                        android:imeOptions="actionSearch"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textColorHint="@color/MaterialGrey400"
+                        android:textSize="12sp" />
+                </com.flyco.roundview.RoundLinearLayout>
+
+                <ImageView
+                    android:id="@+id/mRightImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_10"
+                    android:scaleType="center"
+                    android:src="@mipmap/icon_goods_shop_classify"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/mLeftImg"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:scaleType="center"
+                    android:src="@mipmap/icon_arrow_white_back"
+                    tools:ignore="ContentDescription" />
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:realtimeBlurRadius="10dp"
+            app:realtimeOverlayColor="@color/blur_bg_white"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <com.exz.carprofitmuch.widget.DrawableCenterText
+                android:id="@+id/bt_sort1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center"
+                android:text="综合"
+                android:textColor="@color/MaterialGrey600"
+                android:textSize="@dimen/text_14" />
+
+            <com.exz.carprofitmuch.widget.DrawableCenterText
+                android:id="@+id/bt_sort2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:drawablePadding="@dimen/margin_5"
+                android:text="价格"
+                android:drawableEnd="@drawable/vector_goods_shop_search_result_price_off"
+                android:textColor="@color/MaterialGrey600"
+                android:textSize="@dimen/text_14" />
+
+            <com.exz.carprofitmuch.widget.DrawableCenterText
+                android:id="@+id/bt_sort3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center"
+                android:text="销量"
+                android:textColor="@color/MaterialGrey600"
+                android:textSize="@dimen/text_14" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
+</FrameLayout>

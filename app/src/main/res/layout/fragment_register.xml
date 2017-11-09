@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/White"
+    android:orientation="vertical">
+
+    <com.szw.framelibrary.view.ClearWriteEditText
+        android:id="@+id/ed_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_10"
+        android:background="@mipmap/icon_login_edit_text_white_bg"
+        android:drawablePadding="@dimen/margin_10"
+        android:drawableStart="@mipmap/icon_login_phone_off"
+        android:hint="@string/login_hint_phone"
+        android:inputType="phone"
+        android:paddingEnd="@dimen/margin_25"
+        android:paddingStart="@dimen/margin_25"
+        android:textColor="@color/MaterialGrey800"
+        android:textColorHint="@color/MaterialGrey400"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:textSize="@dimen/text_14" />
+
+    <LinearLayout
+        android:id="@+id/lay_code"
+        android:background="@mipmap/icon_login_edit_text_gray_bg"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.szw.framelibrary.view.ClearWriteEditText
+            android:id="@+id/ed_code"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:background="@null"
+            android:layout_height="match_parent"
+            android:drawablePadding="@dimen/margin_10"
+            android:drawableStart="@mipmap/icon_login_pwd_off"
+            android:hint="@string/login_hint_code"
+            android:inputType="number"
+            android:paddingEnd="@dimen/margin_25"
+            android:paddingStart="@dimen/margin_25"
+            android:textColor="@color/MaterialGrey800"
+            android:textColorHint="@color/MaterialGrey400"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="@dimen/text_14" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/bt_code"
+            android:layout_marginEnd="@dimen/margin_25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="@dimen/margin_5"
+            android:paddingEnd="@dimen/margin_10"
+            android:paddingStart="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_5"
+            android:text="@string/login_hint_get_code"
+            android:textColor="@color/MaterialTealA700"
+            app:rv_backgroundColor="#ffffff"
+            app:rv_backgroundPressColor="@color/MaterialTealA700"
+            app:rv_isRadiusHalfHeight="true"
+            app:rv_isRippleEnable="false"
+            app:rv_strokeColor="@color/MaterialTealA700"
+            app:rv_strokePressColor="@color/MaterialTealA400"
+            app:rv_strokeWidth="1dp"
+            app:rv_textPressColor="#ffffff" />
+    </LinearLayout>
+
+    <com.szw.framelibrary.view.ClearWriteEditText
+        android:id="@+id/ed_pwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@mipmap/icon_login_edit_text_gray_bg"
+        android:drawablePadding="@dimen/margin_10"
+        android:drawableStart="@mipmap/icon_login_pwd_off"
+        android:hint="@string/login_hint_pwd_6_15"
+        android:inputType="textPassword"
+        android:paddingEnd="@dimen/margin_25"
+        android:paddingStart="@dimen/margin_25"
+        android:textColor="@color/MaterialGrey800"
+        android:textColorHint="@color/MaterialGrey400"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:textSize="@dimen/text_14" />
+
+    <com.szw.framelibrary.view.ClearWriteEditText
+        android:id="@+id/ed_referrer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@mipmap/icon_login_edit_text_gray_bg"
+        android:drawablePadding="@dimen/margin_10"
+        android:drawableStart="@mipmap/icon_login_invite_off"
+        android:hint="@string/login_hint_referrer"
+        android:inputType="phone"
+        android:paddingEnd="@dimen/margin_25"
+        android:paddingStart="@dimen/margin_25"
+        android:textColor="@color/MaterialGrey800"
+        android:textColorHint="@color/MaterialGrey400"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:textSize="@dimen/text_14" />
+    <Button
+        android:id="@+id/bt_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@mipmap/icon_login_bt_bg"
+        android:text="@string/login_text_register"
+        android:textColor="@color/White"
+        android:textSize="@dimen/sp_16" />
+    <LinearLayout
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/margin_15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/MaterialGrey400"
+            android:textSize="12sp"
+            android:text="@string/login_text_protocol_agree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/bt_protocol"
+            android:padding="@dimen/margin_5"
+            android:textColor="@color/MaterialTealA700"
+            android:textSize="12sp"
+            android:text="@string/login_text_protocol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

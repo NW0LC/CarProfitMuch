@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnablePreviewInEditMode="false"
+        app:srlHeaderHeight="150dp"
+        app:srlHeaderMaxDragRate="1">
+
+        <View
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/black" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:paddingTop="?attr/actionBarSize">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/bt_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="95dp"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:background="@color/White"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="@dimen/margin_10"
+                        android:paddingEnd="@dimen/margin_10"
+                        android:paddingStart="@dimen/margin_15"
+                        android:paddingTop="@dimen/margin_10"
+                        android:text="@string/person_info_header"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_14"
+                        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/iv_header"
+                        android:layout_width="@dimen/margin_65"
+                        android:layout_height="@dimen/margin_65"
+                        app:placeholderImage="@mipmap/icon_mine_default_head"
+                        app:roundAsCircle="true"
+                        app:roundingBorderColor="@color/app_bg"
+                        app:roundingBorderWidth="1dp"
+                        tool:background="@mipmap/icon_mine_default_head" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:drawableEnd="@mipmap/icon_main_gray_next"
+                        android:paddingEnd="@dimen/margin_10"
+                        android:paddingStart="@dimen/margin_15"
+                        app:layout_constraintTop_toBottomOf="@+id/include" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bt_phoneNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/White"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/margin_15"
+                        android:text="@string/person_info_phone"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/White"
+                        android:gravity="center_vertical|end"
+                        android:minWidth="@dimen/margin_120"
+                        android:paddingEnd="@dimen/margin_35"
+                        android:paddingStart="0dp"
+                        android:text=""
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_12"
+                        tool:background="@color/MaterialGrey200" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/bt_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/White"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/margin_15"
+                        android:text="@string/person_info_gender"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:id="@+id/tv_gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/White"
+                        android:gravity="center_vertical|end"
+                        android:minWidth="@dimen/margin_60"
+                        android:paddingEnd="@dimen/margin_10"
+                        android:paddingStart="0dp"
+                        android:text=""
+                        android:drawableEnd="@mipmap/icon_main_gray_next"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_14"
+                        tool:background="@color/MaterialGrey200" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/bt_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    android:background="@color/White"
+                    android:drawableEnd="@mipmap/icon_main_gray_next"
+                    android:drawablePadding="@dimen/margin_5"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/margin_15"
+                    android:text="@string/person_info_address"
+                    android:textColor="@color/MaterialGrey600"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintTop_toBottomOf="@+id/bt_security" />
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <include layout="@layout/action_bar_custom" />
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/icon_score_pay_failed">
+
+        <ImageView
+            android:id="@+id/bt_score_failed_close"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="@dimen/margin_160"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_toEndOf="@+id/tv_title"
+            android:src="@mipmap/icon_score_pay_success_close" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="160dp"
+            android:text="@string/score_pay_failed"
+            android:textColor="@color/MaterialGrey700"
+            android:textSize="@dimen/text_16" />
+
+        <TextView
+            android:id="@+id/tv_score_failed_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_5"
+            android:textColor="@color/MaterialGrey400"
+            android:maxLines="2"
+            android:gravity="center"
+            tool:background="@color/MaterialGrey200"
+            android:minWidth="@dimen/margin_90"
+            android:textSize="@dimen/text_16" />
+    </RelativeLayout>
+</FrameLayout>

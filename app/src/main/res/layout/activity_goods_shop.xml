@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnablePreviewInEditMode="false">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize"
+            app:srlAccentColor="@android:color/black"
+            android:visibility="gone"
+            />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingTop="?attr/actionBarSize">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/img_goods_shop_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/img_goods_shop"
+                        android:layout_width="@dimen/margin_40"
+                        android:layout_height="@dimen/margin_40"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@color/MaterialGrey200"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_goodsShop_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text=""
+                        android:textColor="@color/White"
+                        android:textSize="@dimen/sp_14"
+                        app:layout_constraintEnd_toStartOf="@+id/bt_goodsShop_favorite"
+                        app:layout_constraintStart_toEndOf="@+id/img_goods_shop"
+                        app:layout_constraintTop_toTopOf="@+id/img_goods_shop"
+                        tool:background="@color/MaterialGrey200" />
+
+                    <com.flyco.roundview.RoundTextView
+                        android:id="@+id/bt_goodsShop_favorite"
+                        android:layout_width="55dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:padding="@dimen/margin_3"
+                        android:text="@string/goods_shop_favorite_add"
+                        android:textColor="@color/White"
+                        android:textSize="@dimen/sp_14"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/img_goods_shop"
+                        app:rv_backgroundColor="@color/colorPrimary"
+                        app:rv_cornerRadius="@dimen/margin_3"
+                        tool:background="@color/MaterialGrey200" />
+
+                    <com.flyco.roundview.RoundTextView
+                        android:id="@+id/tv_goodsShop_tag"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:paddingEnd="@dimen/margin_10"
+                        android:paddingStart="@dimen/margin_10"
+                        android:text="@string/goods_shop_tag"
+                        android:textColor="@color/White"
+                        android:textSize="@dimen/sp_12"
+                        app:layout_constraintStart_toEndOf="@+id/img_goods_shop"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_goodsShop_name"
+                        app:rv_backgroundColor="@color/colorPrimary"
+                        app:rv_cornerRadius="@dimen/margin_20"
+                        tool:background="@color/MaterialGrey200" />
+
+                    <TextView
+                        android:id="@+id/tv_goodsShop_favoriteCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="@string/goods_shop_favoriteCount"
+                        android:textColor="@color/White"
+                        android:textSize="@dimen/sp_12"
+                        app:layout_constraintEnd_toStartOf="@+id/bt_goodsShop_favorite"
+                        app:layout_constraintStart_toEndOf="@+id/tv_goodsShop_tag"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_goodsShop_name"
+                        tool:background="@color/MaterialGrey200" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:background="@color/White">
+
+                    <LinearLayout
+                        android:id="@+id/bt_goodsShop_allGoods"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_goodsShop_allGoodsCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_default"
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/sp_16"
+                            app:layout_constraintEnd_toStartOf="@+id/bt_goodsShop_favorite"
+                            app:layout_constraintStart_toEndOf="@+id/img_goods_shop"
+                            app:layout_constraintTop_toTopOf="@+id/img_goods_shop" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/goods_shop_allGoods"
+                            android:textColor="@color/MaterialGrey400"
+                            android:textSize="@dimen/sp_14"
+                            app:layout_constraintEnd_toStartOf="@+id/bt_goodsShop_favorite"
+                            app:layout_constraintStart_toEndOf="@+id/img_goods_shop"
+                            app:layout_constraintTop_toTopOf="@+id/img_goods_shop" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="@dimen/margin_0.5"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:background="@color/MaterialGrey200" />
+
+                    <LinearLayout
+                        android:id="@+id/bt_goodsShop_newGoods"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_goodsShop_newGoodsCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_default"
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/sp_16"
+                            app:layout_constraintEnd_toStartOf="@+id/bt_goodsShop_favorite"
+                            app:layout_constraintStart_toEndOf="@+id/img_goods_shop"
+                            app:layout_constraintTop_toTopOf="@+id/img_goods_shop" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/goods_shop_newGoods"
+                            android:textColor="@color/MaterialGrey400"
+                            android:textSize="@dimen/sp_14"
+                            app:layout_constraintEnd_toStartOf="@+id/bt_goodsShop_favorite"
+                            app:layout_constraintStart_toEndOf="@+id/img_goods_shop"
+                            app:layout_constraintTop_toTopOf="@+id/img_goods_shop" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="@dimen/margin_0.5"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:background="@color/MaterialGrey200" />
+
+                    <LinearLayout
+                        android:id="@+id/bt_goodsShop_hotGoods"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_goodsShop_hotGoodsCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_default"
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/sp_16"
+                            app:layout_constraintEnd_toStartOf="@+id/bt_goodsShop_favorite"
+                            app:layout_constraintStart_toEndOf="@+id/img_goods_shop"
+                            app:layout_constraintTop_toTopOf="@+id/img_goods_shop" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/goods_shop_hotGoods"
+                            android:textColor="@color/MaterialGrey400"
+                            android:textSize="@dimen/sp_14"
+                            app:layout_constraintEnd_toStartOf="@+id/bt_goodsShop_favorite"
+                            app:layout_constraintStart_toEndOf="@+id/img_goods_shop"
+                            app:layout_constraintTop_toTopOf="@+id/img_goods_shop" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <include layout="@layout/layout_banner" />
+
+                <TextView
+                    android:id="@+id/tv_newGoodsList"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/margin_10"
+                    android:text="@string/goods_shop_newGoodsList"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/sp_14" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mNewRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    tool:listitem="@layout/item_goods_shop" />
+
+                <TextView
+                    android:id="@+id/tv_hotGoodsList"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/margin_10"
+                    android:text="@string/goods_shop_hotGoodsList"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/sp_14" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mHotRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    tool:listitem="@layout/item_goods_shop" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom"
+        android:background="@color/app_bg"
+        android:gravity="center_vertical">
+
+
+        <Button
+            android:id="@+id/bt_goodsShop_detail"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/White"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:text="@string/goods_shop_detail"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/sp_14" />
+
+        <Button
+            android:id="@+id/bt_goodsShop_classify"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/White"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:text="@string/goods_shop_classify"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/sp_14" />
+
+        <Button
+            android:id="@+id/bt_goodsShop_phone"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/White"
+            android:gravity="center"
+            android:text="@string/goods_shop_phone"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/sp_14" />
+    </LinearLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/toolbarLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:id="@+id/blurView"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:visibility="visible"
+            app:realtimeOverlayColor="@color/colorPrimary_trans" />
+
+        <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <RelativeLayout
+                android:id="@+id/parent_lay"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center">
+
+                <com.flyco.roundview.RoundLinearLayout
+                    android:layout_width="@dimen/margin_250"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    app:rv_backgroundColor="@color/White"
+                    app:rv_cornerRadius="@dimen/margin_20">
+
+                    <TextView
+                        android:id="@+id/mTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:drawableStart="@mipmap/icon_search"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:hint="@string/goods_shop_search_hint"
+                        android:lines="1"
+                        android:maxEms="10"
+                        android:padding="@dimen/margin_5"
+                        android:text=""
+                        android:textColor="@color/MaterialGrey600"
+                        android:textColorHint="@color/MaterialGrey400"
+                        android:textSize="12sp" />
+                </com.flyco.roundview.RoundLinearLayout>
+
+                <ImageView
+                    android:id="@+id/mRightImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_10"
+                    android:scaleType="center"
+                    android:src="@mipmap/icon_goods_shop_classify"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/mLeftImg"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:scaleType="center"
+                    android:src="@mipmap/icon_arrow_white_back"
+                    tools:ignore="ContentDescription" />
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+
+    </RelativeLayout>
+
+</FrameLayout>

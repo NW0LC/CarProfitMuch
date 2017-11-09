@@ -1,0 +1,65 @@
+apply plugin: 'com.android.application'
+apply plugin: 'io.objectbox'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+    defaultConfig {
+        applicationId "com.exz.carprofitmuch"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        renderscriptTargetApi 25
+        renderscriptSupportModeEnabled true    // Enable RS support
+
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64', 'mips', 'mips64'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+        //        设置友盟统计key ,可在build里面
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "635a09fdad601abbb4b24fe8", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+
+                AMap_Key : "4dbce37156db4b2624e343a9b787b610", //高德key
+
+                UMENG_APPKEY : "59b0e408f29d983f190018f5", //友盟key
+
+                EASEMOB_APPKEY : "1175170810115218#logistics", //环信应用的AppKey
+
+                BD_APPKEY : "3ecea51f560650b1ed8a4b99808f52e8", //百度地图的AppKey
+        ]
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+    compile ('com.github.NW0LC:KtFramework:1.1.4')
+    compile ('com.android.support:gridlayout-v7:26.1.0')
+// 微信支付
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
+    compile "io.objectbox:objectbox-android:$objectboxVersion"
+    compile "io.objectbox:objectbox-kotlin:$objectboxVersion"
+    kapt "io.objectbox:objectbox-processor:$objectboxVersion"
+}
+repositories {
+    mavenCentral()
+}

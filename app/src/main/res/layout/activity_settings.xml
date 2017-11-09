@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnablePreviewInEditMode="false"
+        app:srlHeaderHeight="150dp"
+        app:srlHeaderMaxDragRate="1">
+
+        <View
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/black" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:paddingTop="?attr/actionBarSize">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--<TextView-->
+                    <!--android:id="@+id/bt_personInfo"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="@dimen/margin_15"-->
+                    <!--android:background="@color/White"-->
+                    <!--android:drawableEnd="@mipmap/icon_main_gray_next"-->
+                    <!--android:drawablePadding="@dimen/margin_5"-->
+                    <!--android:drawableStart="@mipmap/icon_mine_settings_person"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:paddingBottom="@dimen/margin_10"-->
+                    <!--android:paddingEnd="@dimen/margin_10"-->
+                    <!--android:paddingStart="@dimen/margin_15"-->
+                    <!--android:paddingTop="@dimen/margin_10"-->
+                    <!--android:text="@string/settings_person"-->
+                    <!--android:textColor="@color/MaterialGrey600"-->
+                    <!--android:textSize="@dimen/sp_14"-->
+                    <!--app:layout_constraintTop_toBottomOf="@+id/include" />-->
+
+                <TextView
+                    android:id="@+id/bt_security"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:background="@color/White"
+                    android:drawableEnd="@mipmap/icon_main_gray_next"
+                    android:drawablePadding="@dimen/margin_5"
+                    android:drawableStart="@mipmap/icon_mine_setting_security"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/margin_15"
+                    android:text="@string/settings_security"
+                    android:textColor="@color/MaterialGrey600"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintTop_toBottomOf="@+id/bt_personInfo" />
+
+                <TextView
+                    android:id="@+id/bt_aboutUs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    android:background="@color/White"
+                    android:drawableEnd="@mipmap/icon_main_gray_next"
+                    android:drawablePadding="@dimen/margin_5"
+                    android:drawableStart="@mipmap/icon_mine_settings_about_us"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/margin_15"
+                    android:text="@string/settings_aboutUs"
+                    android:textColor="@color/MaterialGrey600"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintTop_toBottomOf="@+id/bt_security" />
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <include layout="@layout/action_bar_custom" />
+
+
+    <TextView
+        android:id="@+id/bt_exit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/MaterialGrey700"
+        android:gravity="center"
+        android:padding="@dimen/margin_15"
+        android:text="@string/settings_exit"
+        android:textColor="@color/White"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/app_bg">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnablePreviewInEditMode="false"
+        app:srlHeaderHeight="150dp"
+        app:srlHeaderMaxDragRate="1">
+
+        <View
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/black" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/lay_time"
+                    android:padding="@dimen/margin_10"
+                    android:layout_marginTop="?attr/actionBarSize"
+                    android:orientation="vertical"
+                    android:background="@color/White"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+
+                        android:textColor="@color/MaterialGrey500"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/pay_service_leftTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                <com.exz.carprofitmuch.widget.ServicePayTimerView
+                    android:id="@+id/mTimerView"
+                    android:minWidth="@dimen/margin_40"
+                    android:minHeight="@dimen/margin_20"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </com.exz.carprofitmuch.widget.ServicePayTimerView>
+                </LinearLayout>
+<android.support.constraint.ConstraintLayout
+    android:background="@color/White"
+    android:layout_marginTop="@dimen/margin_0.5"
+    android:paddingTop="@dimen/margin_5"
+    android:paddingBottom="@dimen/margin_5"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img"
+        tool:background="@color/MaterialGrey200"
+        android:layout_width="@dimen/margin_60"
+        android:layout_height="@dimen/margin_60"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_service_goodsPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:minWidth="@dimen/margin_60"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintStart_toEndOf="@+id/img"
+        app:layout_constraintTop_toTopOf="parent"
+        tool:background="@color/MaterialGrey200"/>
+
+    <TextView
+        android:id="@+id/tv_service_goodsName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:minWidth="@dimen/margin_90"
+        android:textColor="@color/MaterialGrey500"
+        android:textSize="@dimen/sp_16"
+        tool:background="@color/MaterialGrey200"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_service_goodsPrice"
+        app:layout_constraintTop_toBottomOf="@+id/tv_service_goodsPrice" />
+</android.support.constraint.ConstraintLayout>
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_40">
+
+                    <RadioButton
+                        android:background="@color/White"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:checked="true"
+                        android:drawableEnd="@drawable/selector_service_pay"
+                        android:drawablePadding="@dimen/margin_10"
+                        android:drawableStart="@mipmap/icon_ali_pay"
+                        android:padding="@dimen/margin_15"
+                        android:text="@string/Ali_pay"
+                        android:textColor="@color/MaterialGrey500"
+                        android:textSize="@dimen/text_14" />
+
+
+                    <RadioButton
+                        android:drawableEnd="@drawable/selector_service_pay"
+                        android:background="@color/White"
+                        android:layout_marginTop="@dimen/margin_0.5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:checked="false"
+                        android:drawablePadding="@dimen/margin_10"
+                        android:drawableStart="@mipmap/icon_weichat"
+                        android:padding="@dimen/margin_15"
+                        android:text="@string/we_chat_pay"
+                        android:textColor="@color/MaterialGrey500"
+                        android:textSize="@dimen/text_14" />
+
+
+                    <RadioButton
+                        android:drawableEnd="@drawable/selector_service_pay"
+                        android:background="@color/White"
+                        android:layout_marginTop="@dimen/margin_0.5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:drawablePadding="@dimen/margin_10"
+                        android:drawableStart="@mipmap/icon_balance_pay"
+                        android:padding="@dimen/margin_15"
+                        android:text="@string/balance_pay"
+                        android:textColor="@color/MaterialGrey500"
+                        android:textSize="@dimen/text_14" />
+
+                </RadioGroup>
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/bt_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="@dimen/margin_15"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_40"
+                    android:layout_marginBottom="@dimen/margin_40"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_15"
+                    android:text="@string/pay_service_confirm"
+                    android:textColor="@color/White"
+                    android:textSize="@dimen/sp_16"
+                    app:rv_backgroundColor="@color/colorPrimary"
+                    app:rv_cornerRadius="5dp" />
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+    <include layout="@layout/action_bar_custom" />
+
+
+</FrameLayout>

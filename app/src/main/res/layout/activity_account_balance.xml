@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnablePreviewInEditMode="false"
+        app:srlHeaderHeight="150dp"
+        app:srlHeaderMaxDragRate="1">
+
+        <View
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/black" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:paddingTop="?attr/actionBarSize">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@color/White"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name"
+                        android:src="@mipmap/icon_account_balance" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="@string/balance_mine"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="@string/CNY"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="25sp" />
+
+                    <com.flyco.roundview.RoundTextView
+                        android:id="@+id/bt_recharge_money"
+                        android:layout_width="50dp"
+                        android:layout_height="25dp"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/balance_recharge"
+                        android:textColor="@color/White"
+                        android:textSize="@dimen/sp_12"
+                        app:rv_backgroundColor="@color/colorPrimary"
+                        app:rv_cornerRadius="@dimen/margin_5"
+
+                        />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/bt_request_withdrawal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:background="@color/White"
+                    android:drawableEnd="@mipmap/icon_main_gray_next"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/margin_15"
+                    android:text="@string/balance_deposit"
+                    android:textColor="@color/MaterialGrey600"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/bt_balance_change"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    android:background="@color/White"
+                    android:drawableEnd="@mipmap/icon_main_gray_next"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/margin_15"
+                    android:text="@string/balance_change"
+                    android:textColor="@color/MaterialGrey600"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <include layout="@layout/action_bar_custom" />
+</android.support.constraint.ConstraintLayout>

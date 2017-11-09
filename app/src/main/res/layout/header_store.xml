@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/app_bg"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:indicator_drawable_selected="@drawable/banner_point_green"
+        app:indicator_drawable_unselected="@drawable/banner_point_gray"
+        app:indicator_height="@dimen/margin_5"
+        app:indicator_width="@dimen/margin_5" />
+
+    <LinearLayout
+        android:id="@+id/bt_type_more_0"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/margin_0.5"
+        android:background="@color/White"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/margin_8"
+        android:paddingStart="@dimen/margin_8">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/main_store_type_0"
+            android:textColor="@color/MaterialGrey700"
+            android:textSize="@dimen/text_14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@mipmap/icon_main_gray_next"
+            android:drawablePadding="@dimen/margin_5"
+            android:gravity="end|center_vertical"
+            android:text="@string/main_see_all"
+            android:textColor="@color/MaterialGrey400"
+            android:textSize="@dimen/text_14" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lay_type_0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_0.5"
+        android:background="@color/White"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/margin_5"
+        android:paddingEnd="@dimen/margin_10"
+        android:paddingStart="@dimen/margin_10"
+        android:paddingTop="@dimen/margin_5">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bt_type_more_1"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/margin_8"
+        android:background="@color/White"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/margin_8"
+        android:paddingStart="@dimen/margin_8">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/main_store_type_1"
+            android:textColor="@color/MaterialGrey700"
+            android:textSize="@dimen/text_14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@mipmap/icon_main_gray_next"
+            android:drawablePadding="@dimen/margin_5"
+            android:gravity="end|center_vertical"
+            android:text="@string/main_see_all"
+            android:textColor="@color/MaterialGrey400"
+            android:textSize="@dimen/text_14" />
+    </LinearLayout>
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        android:padding="@dimen/margin_15"
+        app:columnCount="2"
+        app:rowCount="2">
+
+        <RelativeLayout
+            android:id="@+id/bt_service_lay_2"
+            android:layout_width="0dp"
+            android:layout_height="170dp"
+            android:layout_marginStart="@dimen/margin_5"
+            android:background="@color/White"
+            app:layout_column="1"
+            app:layout_columnWeight="0.4"
+            app:layout_rowSpan="2">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/img_service_bg_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/main_hot_msg"
+                android:minHeight="95dp"
+                android:minWidth="95dp"
+                app:placeholderImageScaleType="centerCrop"
+                app:placeholderImage="@mipmap/icon_main_store_service_bg_3"
+                tool:background="@color/MaterialGrey200" />
+
+            <TextView
+                android:id="@+id/tv_service_title_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="@dimen/margin_10"
+                android:layout_marginStart="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_20"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:maxWidth="120dp"
+                android:minWidth="@dimen/margin_60"
+                android:textColor="@color/MaterialYellow800"
+                android:textSize="@dimen/text_12"
+                tool:background="@color/MaterialGrey200" />
+
+            <TextView
+                android:id="@+id/tv_service_info_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_service_title_2"
+                android:layout_marginEnd="@dimen/margin_10"
+                android:layout_marginStart="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_5"
+                android:ellipsize="end"
+                android:lines="1"
+                android:maxWidth="100dp"
+                android:minWidth="@dimen/margin_50"
+                android:textColor="@color/MaterialGrey400"
+                android:textSize="@dimen/text_12"
+                tool:background="@color/MaterialGrey200" />
+
+            <TextView
+                android:id="@+id/tv_service_price_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_service_info_2"
+                android:layout_marginEnd="@dimen/margin_10"
+                android:layout_marginStart="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_5"
+                android:ellipsize="end"
+                android:lines="1"
+                android:maxWidth="100dp"
+                android:minWidth="@dimen/margin_50"
+                android:textColor="@color/MaterialRed400"
+                android:textSize="@dimen/text_12"
+                tool:background="@color/MaterialGrey200" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bt_service_lay_0"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/White"
+            app:layout_column="0"
+            app:layout_columnWeight="0.6"
+            app:layout_row="0"
+            app:layout_rowWeight="1">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/img_service_bg_0"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/main_hot_msg"
+                android:minHeight="45dp"
+                android:minWidth="45dp"
+                app:placeholderImageScaleType="centerCrop"
+                app:placeholderImage="@mipmap/icon_main_store_service_bg_1"
+                tool:background="@color/MaterialGrey200" />
+
+            <TextView
+                android:id="@+id/tv_service_title_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="@dimen/margin_10"
+                android:layout_marginStart="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_10"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:maxWidth="120dp"
+                android:minWidth="@dimen/margin_60"
+                android:textColor="@color/MaterialYellow800"
+                android:textSize="@dimen/text_12"
+                tool:background="@color/MaterialGrey200" />
+
+            <TextView
+                android:id="@+id/tv_service_info_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_service_title_0"
+                android:layout_marginEnd="@dimen/margin_10"
+                android:layout_marginStart="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_5"
+                android:ellipsize="end"
+                android:lines="1"
+                android:maxWidth="100dp"
+                android:minWidth="@dimen/margin_50"
+                android:textColor="@color/MaterialGrey400"
+                android:textSize="@dimen/text_12"
+                tool:background="@color/MaterialGrey200" />
+
+            <TextView
+                android:id="@+id/tv_service_price_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_service_info_0"
+                android:layout_marginEnd="@dimen/margin_10"
+                android:layout_marginStart="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_5"
+                android:ellipsize="end"
+                android:lines="1"
+                android:maxWidth="100dp"
+                android:minWidth="@dimen/margin_50"
+                android:textColor="@color/MaterialRed400"
+                android:textSize="@dimen/text_12"
+                tool:background="@color/MaterialGrey200" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bt_service_lay_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_8"
+            android:background="@color/White"
+            app:layout_column="0"
+            app:layout_columnWeight="0.6"
+            app:layout_row="1"
+            app:layout_rowWeight="1">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/img_service_bg_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/main_hot_msg"
+                android:minHeight="45dp"
+                android:minWidth="45dp"
+                app:placeholderImageScaleType="centerCrop"
+                app:placeholderImage="@mipmap/icon_main_store_service_bg_2"
+                tool:background="@color/MaterialGrey200" />
+
+            <TextView
+                android:id="@+id/tv_service_title_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="@dimen/margin_10"
+                android:layout_marginStart="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_10"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:maxWidth="120dp"
+                android:minWidth="@dimen/margin_90"
+                android:textColor="@color/MaterialYellow800"
+                android:textSize="@dimen/text_12"
+                tool:background="@color/MaterialGrey200" />
+
+            <TextView
+                android:id="@+id/tv_service_info_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/tv_service_title_1"
+                android:layout_below="@+id/tv_service_title_1"
+                android:layout_marginTop="@dimen/margin_5"
+                android:ellipsize="end"
+                android:lines="1"
+                android:maxWidth="100dp"
+                android:minWidth="@dimen/margin_70"
+                android:textColor="@color/MaterialGrey400"
+                android:textSize="@dimen/text_12"
+                tool:background="@color/MaterialGrey200" />
+
+            <TextView
+                android:id="@+id/tv_service_price_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/tv_service_info_1"
+                android:layout_below="@+id/tv_service_info_1"
+                android:layout_marginTop="@dimen/margin_5"
+                android:ellipsize="end"
+                android:lines="1"
+                android:maxWidth="100dp"
+                android:minWidth="@dimen/margin_70"
+                android:textColor="@color/MaterialRed400"
+                android:textSize="@dimen/text_12"
+                tool:background="@color/MaterialGrey200" />
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.GridLayout>
+
+    <LinearLayout
+        android:id="@+id/bt_type_more_2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/margin_8"
+        android:background="@color/White"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/margin_8"
+        android:paddingStart="@dimen/margin_8">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/main_store_type_2"
+            android:textColor="@color/MaterialGrey700"
+            android:textSize="@dimen/text_14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@mipmap/icon_main_gray_next"
+            android:drawablePadding="@dimen/margin_5"
+            android:gravity="end|center_vertical"
+            android:text="@string/main_see_all"
+            android:textColor="@color/MaterialGrey400"
+            android:textSize="@dimen/text_14" />
+    </LinearLayout>
+</LinearLayout>

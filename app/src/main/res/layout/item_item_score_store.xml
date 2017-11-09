@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/White"
+    android:orientation="vertical">
+
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:contentDescription="@string/main_hot_msg"
+        android:minHeight="45dp"
+        android:minWidth="45dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/icon_main_store_service_bg_1"
+        tool:background="@color/MaterialGrey200" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_5"
+        android:layout_marginStart="@dimen/margin_5"
+        android:layout_marginTop="@dimen/margin_3"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxWidth="120dp"
+        android:minWidth="@dimen/margin_60"
+        android:textColor="@color/MaterialGrey600"
+        android:textSize="@dimen/text_12"
+        tool:background="@color/MaterialGrey200" />
+
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_5"
+        android:layout_marginStart="@dimen/margin_5"
+        android:layout_marginTop="@dimen/margin_3"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxWidth="100dp"
+        android:minWidth="@dimen/margin_50"
+        android:textColor="@color/MaterialGrey400"
+        android:textSize="@dimen/text_12"
+        tool:background="@color/MaterialGrey200" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_5"
+        android:layout_marginStart="@dimen/margin_5"
+        android:layout_marginTop="@dimen/margin_3"
+        android:layout_marginBottom="@dimen/margin_3"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxWidth="100dp"
+        android:minWidth="@dimen/margin_50"
+        android:textColor="@color/MaterialRed400"
+        android:textSize="@dimen/text_12"
+        tool:background="@color/MaterialGrey200" />
+</LinearLayout>

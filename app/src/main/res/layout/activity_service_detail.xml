@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnablePreviewInEditMode="false">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:visibility="gone"
+            app:srlAccentColor="@android:color/black" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingTop="?attr/actionBarSize">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/layout_banner" />
+
+                    <TextView
+                        android:id="@+id/tv_service_goodsName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text=""
+                        android:textColor="@color/White"
+                        android:textSize="@dimen/sp_14"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_service_goodsInfo"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tool:background="@color/MaterialGrey200" />
+
+                    <TextView
+                        android:id="@+id/tv_service_goodsInfo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text=""
+                        android:textColor="@color/White"
+                        android:textSize="@dimen/sp_12"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tool:background="@color/MaterialGrey200" />
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:background="@color/White">
+
+                    <TextView
+                        android:id="@+id/tv_service_goodsPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:minWidth="@dimen/margin_60"
+                        android:text=""
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sp_16"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tool:background="@color/MaterialGrey200" />
+
+                    <TextView
+                        android:id="@+id/tv_service_goodsOldPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:minWidth="@dimen/margin_40"
+                        android:text=""
+                        android:textColor="@color/MaterialGrey400"
+                        android:textSize="@dimen/sp_14"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/tv_service_goodsPrice"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_service_confirm"
+                        app:layout_constraintStart_toEndOf="@+id/tv_service_goodsPrice"
+                        tool:background="@color/MaterialGrey200" />
+
+                    <com.flyco.roundview.RoundTextView
+                        android:id="@+id/tv_service_confirm"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_15"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:minWidth="@dimen/margin_90"
+                        android:paddingBottom="@dimen/margin_5"
+                        android:paddingTop="@dimen/margin_5"
+                        android:text="@string/service_detail_confirm"
+                        android:textColor="@color/White"
+                        android:textSize="@dimen/sp_14"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/tv_service_goodsOldPrice"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:rv_backgroundColor="@color/colorPrimary"
+                        app:rv_cornerRadius="@dimen/margin_3"
+                        tool:background="@color/MaterialGrey200" />
+                </android.support.constraint.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    android:background="@color/White"
+                    android:paddingBottom="@dimen/margin_10"
+                    android:paddingEnd="@dimen/margin_15"
+                    android:paddingStart="@dimen/margin_15"
+                    android:paddingTop="@dimen/margin_10">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="@dimen/margin_10"
+                        android:drawableStart="@mipmap/icon_service_detail_return"
+                        android:text="@string/service_detail_return"
+                        android:textColor="@color/colorPrimary" />
+
+                    <TextView
+                        android:id="@+id/tv_service_goodsSoldCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:drawableStart="@mipmap/icon_service_detail_sold_count"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:minWidth="@dimen/margin_60"
+                        android:text=""
+                        android:textColor="@color/MaterialGrey500" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/White"
+                    android:paddingStart="@dimen/margin_15"
+                    android:paddingEnd="@dimen/margin_15"
+                    android:paddingTop="@dimen/margin_10"
+                    android:paddingBottom="@dimen/margin_10"
+                    android:text="@string/service_shop_info"
+                    android:textColor="@color/MaterialGrey500" />
+
+                <LinearLayout
+                    android:id="@+id/bt_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/White">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_service_shop_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text=""
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/sp_14"
+                            app:layout_constraintBottom_toTopOf="@+id/tv_service_goodsInfo"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tool:background="@color/MaterialGrey200" />
+
+                        <TextView
+                            android:id="@+id/tv_service_shop_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text=""
+                            android:textColor="@color/MaterialGrey400"
+                            android:textSize="@dimen/sp_12"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tool:background="@color/MaterialGrey200" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/margin_8"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:background="@color/app_bg" />
+
+                    <ImageView
+                        android:id="@+id/tv_service_store_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:minWidth="@dimen/margin_70"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/icon_service_shop_phone"
+                        android:textColor="@color/MaterialGrey400"
+                        android:textSize="@dimen/text_12" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/White"
+                    android:drawableEnd="@mipmap/icon_main_gray_next"
+                    android:padding="@dimen/margin_15"
+                    android:text="@string/service_detail_detail"
+                    android:textColor="@color/MaterialGrey500" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/White"
+                    android:paddingStart="@dimen/margin_15"
+                    android:paddingEnd="@dimen/margin_15"
+                    android:paddingTop="@dimen/margin_10"
+                    android:paddingBottom="@dimen/margin_10"
+                    android:text="@string/service_detail_buyNeedKnow"
+                    android:textColor="@color/MaterialGrey500" />
+
+                <im.delight.android.webview.AdvancedWebView
+                    android:id="@+id/mWebView"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@color/White"
+                    android:paddingStart="@dimen/margin_15"
+                    android:paddingEnd="@dimen/margin_15"
+                    android:paddingTop="@dimen/margin_10"
+                    android:paddingBottom="@dimen/margin_10"
+                    android:text="@string/service_detail_other"
+                    android:textColor="@color/MaterialGrey500"
+                    android:textSize="@dimen/text_14" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mServiceRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    tool:listitem="@layout/item_service_shop_goods" />
+
+
+                <LinearLayout
+                    android:id="@+id/bt_service_shop_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@color/White"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="@dimen/margin_8"
+                    android:paddingTop="@dimen/margin_10"
+                    android:paddingBottom="@dimen/margin_10"
+                    android:paddingStart="@dimen/margin_15">
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+
+                        <android.support.v7.widget.AppCompatRatingBar
+                            android:id="@+id/mRatingBar"
+                            style="@style/ratingBar_service"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_5"
+                            android:layout_marginTop="@dimen/margin_5"
+                            android:isIndicator="true"
+                            android:numStars="5"
+                            android:stepSize="1" />
+
+                        <TextView
+                            android:id="@+id/tv_service_detail_score"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/margin_5"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:minWidth="@dimen/margin_20"
+                            android:text=""
+                            android:textColor="@color/Orange"
+                            android:textSize="@dimen/text_14"
+                            tool:background="@color/MaterialGrey200" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_service_detail_commentCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@mipmap/icon_main_gray_next"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:gravity="end|center_vertical"
+                        android:text="@string/service_detail_commentCount"
+                        android:textColor="@color/MaterialGrey500"
+                        android:textSize="@dimen/text_14" />
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mCommentRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    tool:listitem="@layout/item_service_comment" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <include layout="@layout/action_bar_custom" />
+</FrameLayout>

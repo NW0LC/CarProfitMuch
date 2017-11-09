@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:id="@+id/blurView"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:realtimeBlurRadius="10dp"
+            app:realtimeOverlayColor="@color/colorPrimary_trans" />
+
+        <LinearLayout
+            android:id="@+id/lay_search"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal">
+
+            <com.flyco.roundview.RoundLinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_width="0dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/margin_15"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                app:rv_backgroundColor="@color/MaterialGrey200"
+                app:rv_cornerRadius="@dimen/margin_5">
+
+                <EditText
+                    android:id="@+id/editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:drawableEnd="@mipmap/icon_search"
+                    android:drawablePadding="@dimen/margin_5"
+                    android:hint="请输入客户名、订单编号"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:paddingEnd="@dimen/margin_5"
+                    android:paddingStart="@dimen/margin_5"
+                    android:text=""
+                    android:textColor="@color/MaterialGrey600"
+                    android:textColorHint="@color/MaterialGrey400"
+                    android:textSize="@dimen/text_14" />
+
+
+            </com.flyco.roundview.RoundLinearLayout>
+
+            <TextView
+                android:id="@+id/bt_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:paddingEnd="@dimen/margin_15"
+                android:paddingStart="@dimen/margin_10"
+                android:text="取消"
+                android:textColor="@color/White"
+                android:textSize="@dimen/text_16" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_0.5"
+        android:background="@color/MaterialGrey200" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/historyLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="@dimen/margin_10"
+                        android:layout_weight="1"
+                        android:text="历史搜索"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/text_14" />
+
+                    <ImageView
+                        android:id="@+id/bt_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/margin_20"
+                        android:layout_marginRight="@dimen/margin_20"
+                        android:padding="@dimen/margin_5"
+                        android:src="@drawable/vector_search_delete" />
+                </LinearLayout>
+
+
+                <com.exz.carprofitmuch.widget.TagFlowLayout
+                    android:id="@+id/mHistoryTagFlow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    app:max_select="1" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

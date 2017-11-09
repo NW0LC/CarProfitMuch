@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        android:orientation="horizontal"
+        android:padding="14dp">
+
+        <ImageView
+            android:id="@+id/img_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/White"
+            android:contentDescription="@string/app_name" />
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:text=""
+                tool:background="@color/MaterialGrey200"
+                android:minWidth="@dimen/margin_60"
+                android:textColor="@color/MaterialGrey600"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginTop="4dp"
+                android:text=""
+                tool:background="@color/MaterialGrey200"
+                android:minWidth="@dimen/margin_90"
+                android:textColor="@color/MaterialGrey600"
+                android:textSize="14sp"/>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp_10"
+            android:alpha="0.8"
+            android:gravity="end"
+            android:text=""
+            tool:background="@color/MaterialGrey200"
+            android:minWidth="@dimen/margin_60"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

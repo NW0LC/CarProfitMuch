@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rv_backgroundColor="@color/White"
+        app:rv_cornerRadius="@dimen/margin_5">
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            app:rv_backgroundColor="@color/colorPrimary"
+            app:rv_cornerRadius_TL="5dp"
+            app:rv_cornerRadius_TR="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:maxWidth="@dimen/margin_250"
+                android:minWidth="@dimen/margin_50"
+                android:text=""
+                android:textColor="@color/White"
+                android:textSize="@dimen/sp_14"
+                tool:background="@color/MaterialGrey200" />
+
+            <TextView
+                android:id="@+id/tv_service_goodsCount"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:background="@color/Orange"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/White"
+                android:textSize="@dimen/sp_12" />
+        </com.flyco.roundview.RoundLinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_15"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_20">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="券码"
+                android:textColor="@color/MaterialGrey500"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/tv_service_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:ellipsize="end"
+                android:lines="1"
+                android:minWidth="@dimen/margin_100"
+                android:text=""
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp_14"
+                tool:background="@color/MaterialGrey200" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_service_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_10"
+            android:ellipsize="end"
+            android:lines="1"
+            android:minWidth="@dimen/margin_100"
+            android:text=""
+            android:textColor="@color/MaterialGrey400"
+            android:textSize="@dimen/sp_12"
+            tool:background="@color/MaterialGrey200" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginEnd="@dimen/margin_15"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_15"
+            android:background="@color/MaterialGrey200" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginEnd="@dimen/margin_15"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_10"
+            android:ellipsize="end"
+            android:lines="1"
+            android:minWidth="@dimen/margin_100"
+            android:text="您可在“订单-未使用订单”中查看"
+            android:textColor="@color/MaterialGrey400"
+            android:textSize="@dimen/sp_12" />
+    </com.flyco.roundview.RoundLinearLayout>
+</android.support.constraint.ConstraintLayout>

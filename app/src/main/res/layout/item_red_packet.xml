@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/icon_goods_detail_red_packet_bg"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.274"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/margin_15"
+            android:paddingRight="@dimen/margin_15">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/CNY"
+                    android:textColor="@color/White"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_redPacket_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:minWidth="@dimen/margin_40"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@color/White"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    tool:background="@color/MaterialGrey200" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/goods_detail_redPacket_type"
+                    android:textColor="@color/White"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_redPacket_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_5"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:singleLine="true"
+                android:text="@string/goods_detail_redPacket_info"
+                android:textColor="@color/White"
+                android:textSize="@dimen/text_12" />
+
+            <TextView
+                android:id="@+id/tv_redPacket_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_3"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:singleLine="true"
+                android:text="@string/goods_detail_coupon_time"
+                android:textColor="@color/White"
+                android:textSize="@dimen/text_12" />
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/yet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/had"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_3"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:singleLine="true"
+                android:text="@string/goods_detail_redPacket_get_yet"
+                android:textColor="@color/White"
+                android:textSize="@dimen/text_12" />
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/button_bg"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_below="@+id/yet"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/margin_10"
+                android:textColor="@color/White"
+                android:textSize="@dimen/text_12"
+                app:rv_backgroundColor="#dd163c"
+                app:rv_cornerRadius="20dp" />
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:layout_alignTop="@+id/button_bg"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="@dimen/margin_3"
+                android:gravity="center"
+                android:text="@string/goods_detail_redPacket_confirm"
+                android:textColor="#fc363b"
+                android:textSize="@dimen/text_10"
+                app:rv_backgroundColor="#f2f2f2"
+                app:rv_cornerRadius="20dp" />
+
+            <TextView
+                android:id="@+id/had"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:singleLine="true"
+                android:text="@string/goods_detail_redPacket_get"
+                android:textColor="@color/White"
+                android:textSize="@dimen/text_12" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/margin_40"
+        android:src="@mipmap/icon_goods_detail_coupon_over" />
+</RelativeLayout>

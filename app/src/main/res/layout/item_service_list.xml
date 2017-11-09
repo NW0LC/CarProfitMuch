@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_90"
+        android:background="@color/White"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/margin_10"
+        android:paddingEnd="@dimen/margin_15"
+        android:paddingStart="@dimen/margin_15"
+        android:paddingTop="@dimen/margin_10">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/img"
+            android:layout_width="@dimen/margin_70"
+            android:layout_height="match_parent"
+            app:placeholderImage="@color/app_bg"
+            app:placeholderImageScaleType="fitCenter"
+            app:roundedCornerRadius="@dimen/margin_8" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin_10"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_service_store_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/MaterialGrey600"
+                android:textSize="@dimen/text_14"
+                tool:background="@color/MaterialGrey200" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.AppCompatRatingBar
+                    android:id="@+id/mRatingBar"
+                    style="@style/ratingBar_service"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:stepSize="1" />
+
+                <TextView
+                    android:id="@+id/tv_service_store_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_5"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:minWidth="@dimen/margin_20"
+                    android:text=""
+                    android:textColor="@color/Orange"
+                    android:textSize="@dimen/text_14"
+                    tool:background="@color/MaterialGrey200" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_service_store_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:minWidth="@dimen/margin_90"
+                    android:text=""
+                    android:textColor="@color/MaterialGrey400"
+                    android:textSize="@dimen/text_12"
+                    tool:background="@color/MaterialGrey200" />
+
+                <TextView
+                    android:id="@+id/tv_service_store_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_5"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:minWidth="@dimen/margin_60"
+                    android:text=""
+                    android:textColor="@color/MaterialGrey400"
+                    android:textSize="@dimen/text_12"
+                    tool:background="@color/MaterialGrey200" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lay_serviceGoods"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_0.5"
+        android:orientation="vertical">
+
+
+
+
+    </LinearLayout>
+    <TextView
+    android:id="@+id/bt_more_serviceGoods"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/White"
+    android:drawableEnd="@mipmap/icon_service_list_more"
+    android:padding="@dimen/margin_10"
+    android:text="查看更多服务"
+    android:textColor="@color/colorPrimary"
+    android:textSize="@dimen/text_14" />
+</LinearLayout>

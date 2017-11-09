@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_0.5"
+        android:background="@color/White"
+        android:paddingBottom="@dimen/margin_10"
+        android:paddingTop="@dimen/margin_10">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_service_goods_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:lines="1"
+                android:minWidth="@dimen/margin_60"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_14"
+                tool:background="@color/MaterialGrey200" />
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tv_service_offerPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_5"
+                android:paddingBottom="@dimen/margin_3"
+                android:paddingEnd="@dimen/margin_5"
+                android:paddingStart="@dimen/margin_5"
+                android:paddingTop="@dimen/margin_3"
+                android:text=""
+                android:textColor="@color/Orange"
+                android:textSize="@dimen/text_12"
+                android:minWidth="@dimen/margin_60"
+                app:rv_cornerRadius="@dimen/margin_3"
+                app:rv_strokeColor="@color/Orange"
+                app:rv_strokeWidth="1dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:orientation="vertical"
+            android:paddingEnd="@dimen/margin_10"
+            android:paddingStart="@dimen/margin_10">
+
+            <TextView
+                android:id="@+id/tv_service_goodsName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:minWidth="@dimen/margin_120"
+                android:textColor="@color/MaterialGrey500"
+                android:textSize="@dimen/text_14"
+                tool:background="@color/MaterialGrey200" />
+
+            <TextView
+                android:id="@+id/tv_service_goodsSoldCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_5"
+                android:ellipsize="end"
+                android:lines="1"
+                android:minWidth="@dimen/margin_90"
+                android:text=""
+                android:textColor="@color/MaterialGrey400"
+                android:textSize="@dimen/text_14"
+                tool:background="@color/MaterialGrey200" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

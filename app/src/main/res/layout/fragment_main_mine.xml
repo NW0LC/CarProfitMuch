@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg">
+
+    <ImageView
+        android:id="@+id/parallax"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="-100dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerCrop"
+        android:src="@color/colorPrimary"
+        app:layout_collapseMode="parallax" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnablePreviewInEditMode="false">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/white" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/bt_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/img_head"
+                        android:layout_width="@dimen/margin_65"
+                        android:layout_height="@dimen/margin_65"
+                        android:layout_marginBottom="24dp"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:placeholderImage="@mipmap/icon_mine_default_head"
+                        app:roundAsCircle="true"
+                        app:roundingBorderWidth="@dimen/margin_0.5"
+                        app:roundingBorderColor="@color/White"
+                        tool:background="@color/MaterialGrey200" />
+
+                    <TextView
+                        android:id="@+id/tv_userName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_8"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:minWidth="@dimen/margin_90"
+                        android:textColor="@color/White"
+                        android:textSize="12sp"
+                        app:layout_constraintLeft_toRightOf="@+id/img_head"
+                        app:layout_constraintTop_toTopOf="@+id/img_head"
+                        tool:background="@color/MaterialGrey200" />
+
+                    <TextView
+                        android:id="@+id/tv_userInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:drawableStart="@mipmap/icon_mine_vip"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:minWidth="@dimen/margin_90"
+                        android:text="标准会员 20179.5.5过期"
+                        android:textColor="@color/White"
+                        android:textSize="12sp"
+                        app:layout_constraintLeft_toRightOf="@+id/img_head"
+                        app:layout_constraintStart_toEndOf="@+id/img_head"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_userName"
+                        tool:background="@color/MaterialGrey200" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:drawableEnd="@drawable/vector_mine_membership_next"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:lines="1"
+                        android:minWidth="@dimen/margin_90"
+                        android:text="管理会员续费"
+                        android:textColor="@color/White"
+                        android:textSize="12sp"
+                        app:layout_constraintLeft_toRightOf="@+id/img_head"
+                        app:layout_constraintStart_toEndOf="@+id/img_head"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_userInfo"
+                        tool:background="@color/MaterialGrey200" />
+                </android.support.constraint.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/app_bg"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/layout_progress_score" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:background="@color/White"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/margin_10"
+                        android:paddingLeft="@dimen/margin_10"
+                        android:paddingRight="@dimen/margin_10"
+                        android:paddingTop="@dimen/margin_10">
+
+                        <TextView
+                            android:id="@+id/bt_order_tab_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:drawablePadding="@dimen/margin_5"
+                            android:drawableTop="@mipmap/icon_mine_order_tab1"
+                            android:gravity="center"
+                            android:text="@string/mine_order_tab1"
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/text_12" />
+
+                        <TextView
+                            android:id="@+id/bt_order_tab_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:drawablePadding="@dimen/margin_5"
+                            android:drawableTop="@mipmap/icon_mine_order_tab2"
+                            android:gravity="center"
+                            android:text="@string/mine_order_tab2"
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/text_12" />
+
+                        <TextView
+                            android:id="@+id/bt_order_tab_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:drawablePadding="@dimen/margin_5"
+                            android:drawableTop="@mipmap/icon_mine_order_tab3"
+                            android:gravity="center"
+                            android:text="@string/mine_order_tab3"
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/text_12" />
+
+                        <TextView
+                            android:id="@+id/bt_order_tab_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:drawablePadding="@dimen/margin_5"
+                            android:drawableTop="@mipmap/icon_mine_order_tab4"
+                            android:gravity="center"
+                            android:text="@string/mine_order_tab4"
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/text_12" />
+
+                        <TextView
+                            android:id="@+id/bt_order_tab_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:drawablePadding="@dimen/margin_5"
+                            android:drawableTop="@mipmap/icon_mine_order_tab5"
+                            android:gravity="center"
+                            android:text="@string/mine_order_tab5"
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/text_12" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/bt_myBalance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:gravity="center_vertical"
+                        android:background="@color/White"
+                        android:paddingBottom="@dimen/margin_8"
+                        android:paddingEnd="@dimen/margin_5"
+                        android:paddingStart="@dimen/margin_15"
+                        android:paddingTop="@dimen/margin_8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/mine_myProperty"
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/sp_14" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="@dimen/margin_3"
+                            android:drawableStart="@mipmap/icon_mine_balance"
+                            android:gravity="center"
+                            android:text="@string/mine_balance"
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/sp_12" />
+
+                        <TextView
+                            android:id="@+id/tv_myBalance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_5"
+                            android:drawableEnd="@mipmap/icon_main_gray_next"
+                            android:drawablePadding="@dimen/margin_3"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:lines="1"
+                            android:text="@string/CNY"
+                            android:textColor="@color/MaterialRed400"
+                            android:textSize="@dimen/sp_12" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_0.5"
+                        android:background="@color/White"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/margin_10"
+                        android:paddingRight="@dimen/margin_10">
+
+                        <LinearLayout
+                            android:id="@+id/bt_tab_card"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_10"
+                            android:layout_marginTop="@dimen/margin_10"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableTop="@mipmap/icon_mine_tab_card"
+                                android:gravity="center_horizontal"
+                                android:text="@string/mine_tab_card"
+                                android:textColor="@color/MaterialGrey600"
+                                android:textSize="@dimen/text_12" />
+
+                            <TextView
+                                android:id="@+id/bt_tab_card_count"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:text="@string/unit_piece"
+                                android:textColor="@color/MaterialGrey600"
+                                android:textSize="@dimen/text_12" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="@dimen/margin_0.5"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/margin_3"
+                            android:layout_marginTop="@dimen/margin_3"
+                            android:background="@color/app_bg" />
+
+                        <LinearLayout
+                            android:id="@+id/bt_tab_coupon"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_10"
+                            android:layout_marginTop="@dimen/margin_10"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableTop="@mipmap/icon_mine_tab_coupon"
+                                android:gravity="center_horizontal"
+                                android:text="@string/mine_tab_coupon"
+                                android:textColor="@color/MaterialGrey600"
+                                android:textSize="@dimen/text_12" />
+
+                            <TextView
+                                android:id="@+id/bt_tab_coupon_count"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:text="@string/unit_piece"
+                                android:textColor="@color/MaterialGrey600"
+                                android:textSize="@dimen/text_12" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="@dimen/margin_0.5"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/margin_3"
+                            android:layout_marginTop="@dimen/margin_3"
+                            android:background="@color/app_bg" />
+
+                        <LinearLayout
+                            android:id="@+id/bt_tab_redPacket"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_10"
+                            android:layout_marginTop="@dimen/margin_10"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableTop="@mipmap/icon_mine_tab_red_packet"
+                                android:gravity="center_horizontal"
+                                android:text="@string/mine_tab_redPacket"
+                                android:textColor="@color/MaterialGrey600"
+                                android:textSize="@dimen/text_12" />
+
+                            <TextView
+                                android:id="@+id/bt_tab_redPacket_count"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:text="@string/unit_individual"
+                                android:textColor="@color/MaterialGrey600"
+                                android:textSize="@dimen/text_12" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="@dimen/margin_0.5"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/margin_3"
+                            android:layout_marginTop="@dimen/margin_3"
+                            android:background="@color/app_bg" />
+
+                        <LinearLayout
+                            android:id="@+id/bt_tab_score"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_10"
+                            android:layout_marginTop="@dimen/margin_10"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableTop="@mipmap/icon_mine_tab_score"
+                                android:gravity="center_horizontal"
+                                android:text="@string/mine_tab_score"
+                                android:textColor="@color/MaterialGrey600"
+                                android:textSize="@dimen/text_12" />
+
+                            <TextView
+                                android:id="@+id/bt_tab_score_count"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:text="@string/unit_individual"
+                                android:textColor="@color/MaterialGrey600"
+                                android:textSize="@dimen/text_12" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:background="@color/White"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/margin_10"
+                        android:paddingRight="@dimen/margin_10">
+
+                        <TextView
+                            android:id="@+id/bt_tab_favoriteGoods"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_15"
+                            android:layout_marginTop="@dimen/margin_15"
+                            android:layout_weight="1"
+                            android:drawableTop="@mipmap/icon_goods_detail_favorite_on"
+                            android:gravity="center_horizontal"
+                            android:text="@string/mine_tab_favoriteGoods"
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/text_12" />
+
+                        <View
+                            android:layout_width="@dimen/margin_0.5"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/margin_3"
+                            android:layout_marginTop="@dimen/margin_3"
+                            android:background="@color/app_bg" />
+
+                        <TextView
+                            android:id="@+id/bt_tab_favoriteShop"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_15"
+                            android:layout_marginTop="@dimen/margin_15"
+                            android:layout_weight="1"
+                            android:drawableTop="@mipmap/icon_mine_tab_favorite_shop"
+                            android:gravity="center_horizontal"
+                            android:text="@string/mine_tab_favoriteShop"
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/text_12" />
+
+                        <View
+                            android:layout_width="@dimen/margin_0.5"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/margin_3"
+                            android:layout_marginTop="@dimen/margin_3"
+                            android:background="@color/app_bg" />
+
+                        <TextView
+                            android:id="@+id/bt_tab_history"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_15"
+                            android:layout_marginTop="@dimen/margin_15"
+                            android:layout_weight="1"
+                            android:drawableTop="@mipmap/icon_mine_tab_history"
+                            android:gravity="center_horizontal"
+                            android:text="@string/mine_tab_history"
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/text_12" />
+
+
+                        <View
+                            android:layout_width="@dimen/margin_0.5"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/margin_3"
+                            android:layout_marginTop="@dimen/margin_3"
+                            android:background="@color/app_bg" />
+
+                        <TextView
+                            android:id="@+id/bt_tab_myComment"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_15"
+                            android:layout_marginTop="@dimen/margin_15"
+                            android:layout_weight="1"
+                            android:drawableTop="@mipmap/icon_mine_tab_my_comment"
+                            android:gravity="center_horizontal"
+                            android:text="@string/mine_tab_myComment"
+                            android:textColor="@color/MaterialGrey600"
+                            android:textSize="@dimen/text_12" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/bt_guarantee_slip"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:background="@color/White"
+                        android:drawableEnd="@mipmap/icon_main_gray_next"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:drawableStart="@mipmap/icon_mine_guarantee_slip"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="@dimen/margin_8"
+                        android:paddingEnd="@dimen/margin_5"
+                        android:paddingStart="@dimen/margin_15"
+                        android:paddingTop="@dimen/margin_8"
+                        android:text="@string/mine_guarantee_slip" />
+
+                    <TextView
+                        android:id="@+id/bt_applyFor_openShop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_40"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:background="@color/White"
+                        android:drawableEnd="@mipmap/icon_main_gray_next"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:drawableStart="@mipmap/icon_mine_open_shop"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="@dimen/margin_8"
+                        android:paddingEnd="@dimen/margin_5"
+                        android:paddingStart="@dimen/margin_15"
+                        android:paddingTop="@dimen/margin_8"
+                        android:text="@string/mine_applyFor_openShop" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <include layout="@layout/action_bar_custom" />
+</FrameLayout>
