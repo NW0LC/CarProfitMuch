@@ -10,7 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.adapter.CouponAdapter
+import com.exz.carprofitmuch.adapter.GoodsCouponAdapter
 import com.exz.carprofitmuch.bean.CouponBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import kotlinx.android.synthetic.main.pop_coupon_or_red_packet.view.*
@@ -21,7 +21,7 @@ class CouponPop(context: Context) : BasePopupWindow(context), View.OnClickListen
 
 
     private lateinit var inflate: View
-    var mAdapter: CouponAdapter<CouponBean> = CouponAdapter()
+    var mAdapter: GoodsCouponAdapter<CouponBean> = GoodsCouponAdapter()
     var data: ArrayList<CouponBean>? = null
         set(value) {
         field=value
