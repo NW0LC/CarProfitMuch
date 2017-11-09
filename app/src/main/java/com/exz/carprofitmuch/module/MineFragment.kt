@@ -15,6 +15,8 @@ import com.exz.carprofitmuch.module.login.LoginActivity
 import com.exz.carprofitmuch.module.mine.AccountBalanceActivity
 import com.exz.carprofitmuch.module.mine.PersonInfoActivity
 import com.exz.carprofitmuch.module.mine.SettingsActivity
+import com.exz.carprofitmuch.module.mine.coupon.CouponActivity
+import com.exz.carprofitmuch.module.mine.redpacket.RedPackageActivity
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -118,6 +120,8 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     override fun initEvent() {
             bt_header.setOnClickListener(this)
             bt_myBalance.setOnClickListener(this)
+            bt_tab_coupon.setOnClickListener(this)
+        bt_tab_redPacket.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -128,7 +132,11 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             bt_myBalance -> {
                 startActivityForResult(Intent(context, AccountBalanceActivity::class.java),100)
             }
-            else -> {
+            bt_tab_coupon -> {//优惠券
+                startActivity(Intent(context, CouponActivity::class.java))
+            }
+            bt_tab_redPacket -> {//红包
+                startActivity(Intent(context, RedPackageActivity::class.java))
             }
         }
     }

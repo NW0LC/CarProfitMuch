@@ -1,6 +1,5 @@
-package com.exz.carprofitmuch.module.main.store.comment
+package com.exz.carprofitmuch.module.mine.coupon
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -8,12 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
-import com.exz.carprofitmuch.DataCtrlClass
+import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.adapter.GoodsCommentAdapter
-import com.exz.carprofitmuch.bean.GoodsCommentBean
-import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity
+import com.exz.carprofitmuch.adapter.CouponAdapter
+import com.exz.carprofitmuch.bean.CouponBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
@@ -27,15 +24,14 @@ import kotlinx.android.synthetic.main.fragment_comment_list.*
 import java.util.*
 
 /**
- * Created by 史忠文
  * on 2017/10/17.
  */
 
-class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
+class CouponListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
-    private lateinit var mAdapter: GoodsCommentAdapter<GoodsCommentBean>
+    private lateinit var mAdapter: CouponAdapter<CouponBean>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_comment_list, container, false)
@@ -60,30 +56,29 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
         return false
     }
 
-    private val arrayList2 = ArrayList<GoodsCommentBean>()
+    private val arrayList2 = ArrayList<CouponBean>()
     private fun initRecycler() {
-        mAdapter = GoodsCommentAdapter()
+        mAdapter = CouponAdapter(arguments.getInt(COMMENT_TYPE))
         val imgs = ArrayList<String>()
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        arrayList2.add(GoodsCommentBean(imgs))
-        arrayList2.add(GoodsCommentBean(imgs))
-        arrayList2.add(GoodsCommentBean(imgs))
-
+        arrayList2.add(CouponBean())
+        arrayList2.add(CouponBean())
+        arrayList2.add(CouponBean())
+        arrayList2.add(CouponBean())
+        arrayList2.add(CouponBean())
+        arrayList2.add(CouponBean())
+        arrayList2.add(CouponBean())
+        arrayList2.add(CouponBean())
+        arrayList2.add(CouponBean())
+        arrayList2.add(CouponBean())
+        arrayList2.add(CouponBean())
+        arrayList2.add(CouponBean())
         mAdapter.setNewData(arrayList2)
 
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
         mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
-        mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
-            override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                startActivity(Intent(context, GoodsShopActivity::class.java))
-            }
-        })
+
         refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
             override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
                 header.visibility = View.VISIBLE
@@ -113,7 +108,7 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
     }
 
     private fun iniData() {
-        DataCtrlClass.goodsCommentData(context, currentPage) {
+        DataCtrlClassXZW.CouponData(context, currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {
@@ -136,9 +131,9 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
 
     companion object {
         private const val COMMENT_TYPE = "type"
-        fun newInstance(position: Int): GoodsCommentListFragment {
+        fun newInstance(position: Int): CouponListFragment {
             val bundle = Bundle()
-            val fragment = GoodsCommentListFragment()
+            val fragment = CouponListFragment()
             bundle.putInt(COMMENT_TYPE, position)
             fragment.arguments = bundle
             return fragment

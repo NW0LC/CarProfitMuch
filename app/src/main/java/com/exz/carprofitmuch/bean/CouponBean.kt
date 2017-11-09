@@ -5,7 +5,7 @@ package com.exz.carprofitmuch.bean
  * on 2017/4/26.
  */
 
-open class CouponBean {
+open class CouponBean (){
     /**
      * couponPrice :
      * couponInfo : 满多少可用

@@ -1,0 +1,8 @@
+<resources>
+    <string name="mine_coupon_class_name">优惠券</string>
+    <string name="mine_coupon_store_name">店铺名称</string>
+    <string name="mine_coupon_limit">满%s元可用,去抢购</string>
+    <string name="mine_coupon_validity_date">有效期:  %s</string>
+    <string name="mine_red_package_all_use">本店铺红包全场通用</string>
+    <string name="mine_comment">评价</string>
+</resources>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_10"
+    android:layout_marginStart="@dimen/dp_10"
+    android:id="@+id/ll_bg"
+    android:layout_marginEnd="@dimen/dp_10"
+    android:background="@mipmap/icon_mine_coupon_bg_on"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_10">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_store_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/mine_coupon_store_name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
+
+
+        <TextView
+            android:id="@+id/tv_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_store_name"
+            android:layout_marginTop="10dp"
+            android:text="@string/mine_coupon_limit"
+            android:textColor="@color/MaterialGrey700"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_below="@id/tv_store_name"
+            android:text="5"
+            android:textColor="@color/Red"
+            android:textSize="30sp" />
+
+        <TextView
+
+            android:id="@+id/tv_cny"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="4dp"
+            android:layout_toStartOf="@id/tv_price"
+            android:text="@string/CNY"
+            android:textColor="@color/Red"
+            android:textSize="@dimen/sp_14" />
+
+        <ImageView
+            android:id="@+id/iv_coupon_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="15dp"
+            android:visibility="invisible"
+            android:layout_toStartOf="@id/tv_cny"
+            android:background="@mipmap/icon_mine_coupon_old" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="5dp"
+        android:background="@color/app_bg"></View>
+
+    <TextView
+        android:id="@+id/tv_validity_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_store_name"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="5dp"
+        android:drawableEnd="@mipmap/icon_main_gray_next"
+        android:text="@string/mine_coupon_validity_date"
+        android:textColor="@color/MaterialGrey500"
+        android:textSize="@dimen/sp_14" />
+
+</LinearLayout>
