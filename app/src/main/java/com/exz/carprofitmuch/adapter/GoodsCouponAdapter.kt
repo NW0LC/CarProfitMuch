@@ -4,12 +4,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.CouponBean
-import kotlinx.android.synthetic.main.item_coupon.view.*
+import kotlinx.android.synthetic.main.item_goods_coupon.view.*
 import kotlinx.android.synthetic.main.item_red_packet.view.*
 import java.util.*
 
 
-class CouponAdapter<T : CouponBean> : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_coupon, ArrayList<T>()) {
+class GoodsCouponAdapter<T : CouponBean> : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_goods_coupon, ArrayList<T>()) {
 
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
