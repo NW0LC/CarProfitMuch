@@ -122,6 +122,8 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         bt_header.setOnClickListener(this)
         bt_myBalance.setOnClickListener(this)
         bt_tab_card.setOnClickListener(this)
+        bt_tab_coupon.setOnClickListener(this)
+        bt_tab_redPacket.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
