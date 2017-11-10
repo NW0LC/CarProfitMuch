@@ -288,16 +288,16 @@ object DataCtrlClass {
     /**
      * 服务评价列表
      * */
-    fun serviceCommentData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<ServiceCommentBean>?) -> Unit) {
+    fun serviceCommentData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<CommentBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params.put("currentPage", currentPage.toString())
         params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<List<ServiceCommentBean>>>(Urls.url)
+        OkGo.post<NetEntity<List<CommentBean>>>(Urls.url)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<List<ServiceCommentBean>>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<List<ServiceCommentBean>>>) {
+                .execute(object : DialogCallback<NetEntity<List<CommentBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<CommentBean>>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
                         } else {
@@ -305,7 +305,7 @@ object DataCtrlClass {
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<List<ServiceCommentBean>>>) {
+                    override fun onError(response: Response<NetEntity<List<CommentBean>>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -316,16 +316,16 @@ object DataCtrlClass {
     /**
      * 商品评价列表
      * */
-    fun goodsCommentData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<GoodsCommentBean>?) -> Unit) {
+    fun goodsCommentData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<CommentBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params.put("currentPage", currentPage.toString())
         params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<List<GoodsCommentBean>>>(Urls.url)
+        OkGo.post<NetEntity<List<CommentBean>>>(Urls.url)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<List<GoodsCommentBean>>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<List<GoodsCommentBean>>>) {
+                .execute(object : DialogCallback<NetEntity<List<CommentBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<CommentBean>>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
                         } else {
@@ -333,7 +333,7 @@ object DataCtrlClass {
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<List<GoodsCommentBean>>>) {
+                    override fun onError(response: Response<NetEntity<List<CommentBean>>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -648,6 +648,58 @@ object DataCtrlClass {
                     }
 
                     override fun onError(response: Response<NetEntity<List<BalanceRecordBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    } /**
+     *  卡券包列表
+     * */
+    fun cardPackageListData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<ServiceOrderBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("currentPage", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        OkGo.post<NetEntity<List<ServiceOrderBean>>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<ServiceOrderBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<ServiceOrderBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<ServiceOrderBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 卡券包列表详情
+     */
+    fun cardPackageDetailData(context: Context,listener: (data: ServiceOrderBean?) -> Unit) {
+        val params = HashMap<String, String>()
+        params.put("id", loginUserId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId , MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<ServiceOrderBean>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<ServiceOrderBean>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<ServiceOrderBean>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<ServiceOrderBean>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }

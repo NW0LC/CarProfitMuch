@@ -12,4 +12,6 @@ open class  ServiceGoodsBean{
     var name="人工手工洗车一次"
     var soldCount="139000"
     var offerPrice="7"
+    var count="139000"
+    var code="100200300"
 }

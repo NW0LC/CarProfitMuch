@@ -1,6 +1,5 @@
 package com.exz.carprofitmuch.module.main.store.comment
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -8,12 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsCommentAdapter
-import com.exz.carprofitmuch.bean.GoodsCommentBean
-import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity
+import com.exz.carprofitmuch.bean.CommentBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
@@ -35,13 +32,12 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
-    private lateinit var mAdapter: GoodsCommentAdapter<GoodsCommentBean>
+    private lateinit var mAdapter: GoodsCommentAdapter<CommentBean>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_comment_list, container, false)
         return rootView
     }
-
     override fun initView() {
         initToolbar()
         initRecycler()
@@ -50,7 +46,6 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
     override fun initEvent() {
 
     }
-
     fun initToolbar(): Boolean {
         //状态栏透明和间距处理
         StatusBarUtil.setPaddingSmart(activity, mRecyclerView)
@@ -59,8 +54,7 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
         SZWUtils.setMargin(header, 55f)
         return false
     }
-
-    private val arrayList2 = ArrayList<GoodsCommentBean>()
+    private val arrayList2= ArrayList<CommentBean>()
     private fun initRecycler() {
         mAdapter = GoodsCommentAdapter()
         val imgs = ArrayList<String>()
@@ -68,9 +62,9 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
         imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
         imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
         imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        arrayList2.add(GoodsCommentBean(imgs))
-        arrayList2.add(GoodsCommentBean(imgs))
-        arrayList2.add(GoodsCommentBean(imgs))
+        arrayList2.add(CommentBean(imgs))
+        arrayList2.add(CommentBean(imgs))
+        arrayList2.add(CommentBean(imgs))
 
         mAdapter.setNewData(arrayList2)
 
@@ -78,20 +72,15 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
         mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
-        mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
-            override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                startActivity(Intent(context, GoodsShopActivity::class.java))
-            }
-        })
+
         refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
             override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
                 header.visibility = View.VISIBLE
             }
 
             override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
-                if (offset == 0)
-                    header.visibility = View.GONE
+                if (offset==0)
+                header.visibility = View.GONE
             }
         })
         refreshLayout.setOnRefreshListener(this)
@@ -112,7 +101,7 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
         iniData()
     }
 
-    private fun iniData() {
+    private fun iniData(){
         DataCtrlClass.goodsCommentData(context, currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
@@ -133,13 +122,12 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
             }
         }
     }
-
     companion object {
-        private const val COMMENT_TYPE = "type"
-        fun newInstance(position: Int): GoodsCommentListFragment {
+        private const val COMMENT_TYPE="type"
+        fun newInstance(position:Int): GoodsCommentListFragment {
             val bundle = Bundle()
             val fragment = GoodsCommentListFragment()
-            bundle.putInt(COMMENT_TYPE, position)
+            bundle.putInt(COMMENT_TYPE,position)
             fragment.arguments = bundle
             return fragment
         }

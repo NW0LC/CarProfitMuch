@@ -84,6 +84,10 @@
         <activity android:name=".module.mine.AccountBalanceWithdrawalActivity"/>
         <!--余额变动记录-->
         <activity android:name=".module.mine.AccountBalanceRecordActivity"/>
+        <!--卡券包-->
+        <activity android:name=".module.mine.CardPackageListActivity"/>
+        <!--卡券包详情-->
+        <activity android:name=".module.mine.CardPackageDetailActivity"/>
 
 
 
