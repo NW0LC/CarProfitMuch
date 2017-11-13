@@ -34,8 +34,6 @@ import com.szw.framelibrary.base.BaseActivity;
 import im.delight.android.webview.AdvancedWebView;
 import im.delight.android.webview.AdvancedWebView.Listener;
 
-import static android.R.attr.id;
-
 public class MyWebActivity extends BaseActivity implements Listener {
     AdvancedWebView mWebView;
     TextView mTitle;
@@ -177,7 +175,7 @@ public class MyWebActivity extends BaseActivity implements Listener {
         this.mWebView.onPause();
     }
 
-    protected void onDestroy() {
+    public void onDestroy() {
         this.mWebView.onDestroy();
         super.onDestroy();
     }

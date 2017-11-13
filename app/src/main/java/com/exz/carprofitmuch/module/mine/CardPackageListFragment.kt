@@ -88,6 +88,10 @@ class CardPackageListFragment : MyBaseFragment(), OnRefreshListener, View.OnClic
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 startActivity(Intent(context,CardPackageDetailActivity::class.java))
             }
+
+            override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+                startActivity(Intent(context,ServiceOrderCommentActivity::class.java))
+            }
         })
     }
 

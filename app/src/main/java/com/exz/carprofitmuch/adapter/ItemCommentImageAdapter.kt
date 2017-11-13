@@ -29,7 +29,7 @@ class ItemCommentImageAdapter : BaseQuickAdapter<String, BaseViewHolder>(R.layou
         }
         layoutParams.bottomMargin = SizeUtils.dp2px(5f)
         itemView.layoutParams = layoutParams
-        itemView.setOnClickListener {
+        itemView.img.setOnClickListener {
             val intent = Intent(mContext, PreviewActivity::class.java)
             intent.putExtra(PREVIEW_INTENT_IMAGES, data as ArrayList<String>)
             intent.putExtra(PREVIEW_INTENT_SHOW_NUM, true)

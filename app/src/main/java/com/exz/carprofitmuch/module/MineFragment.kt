@@ -45,9 +45,9 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         return rootView
     }
 
-    private var realScore = 1365f
-    private var unlockScore = 2011f
-    private var totalScore = 3865f
+    private var realScore = 700f
+    private var unlockScore = 900f
+    private var totalScore = 3000f
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden)
@@ -148,9 +148,9 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout?) {
-        realScore = 2365f
-        unlockScore = 3011f
-        totalScore = 3865f
+        realScore = 1500f
+        unlockScore = 1500f
+        totalScore = 3000f
         rootView.postDelayed({ SZWUtils.resetProgress(progressBar = progressBar, parentLayout = rootView, realScore = realScore, unlockScore = unlockScore, totalScore = totalScore) {} }, 2000)
         DataCtrlClass.mainStoreData(context) {
             if (it != null) {

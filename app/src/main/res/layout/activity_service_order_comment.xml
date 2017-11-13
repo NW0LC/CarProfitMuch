@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnablePreviewInEditMode="false"
+        app:srlHeaderHeight="150dp"
+        app:srlHeaderMaxDragRate="1">
+
+        <View
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/black" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:paddingTop="?attr/actionBarSize">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/White"
+                    android:padding="@dimen/margin_15">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/img"
+                        android:layout_width="@dimen/margin_65"
+                        android:layout_height="@dimen/margin_65"
+                        tool:background="@color/MaterialGrey200" />
+
+                    <TextView
+                        android:id="@+id/tv_service_goodsName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_15"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        android:minWidth="@dimen/margin_90"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_14"
+                        tool:background="@color/MaterialGrey200" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    android:background="@color/White"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/margin_10">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/service_order_comment_score"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_14" />
+
+                    <android.support.v7.widget.AppCompatRatingBar
+                        android:id="@+id/mRatingBar"
+                        style="@style/ratingBar_service"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_5"
+                        android:layout_marginTop="@dimen/margin_5"
+                        android:numStars="5"
+                        android:rating="5"
+                        android:stepSize="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    android:background="@color/White"
+                    android:orientation="vertical">
+
+                    <com.flyco.roundview.RoundLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_10"
+                        android:orientation="vertical"
+                        app:rv_strokeColor="@color/app_bg"
+                        app:rv_strokeWidth="1dp">
+
+                        <EditText
+                            android:id="@+id/ed_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:text=""
+                            android:gravity="start"
+                            android:hint="@string/service_order_comment_hint_content"
+                            android:labelFor="@+id/ed_content"
+                            android:minHeight="60dp"
+                            android:paddingBottom="@dimen/margin_10"
+                            android:paddingEnd="@dimen/margin_5"
+                            android:paddingStart="@dimen/margin_5"
+                            android:paddingTop="@dimen/margin_10"
+                            android:textColor="@color/MaterialGrey500"
+                            android:textColorHint="@color/MaterialGrey400"
+                            android:textSize="@dimen/sp_12" />
+
+                        <TextView
+                            android:id="@+id/ed_content_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginBottom="@dimen/margin_10"
+                            android:layout_marginEnd="@dimen/margin_10"
+                            android:text="@string/service_order_comment_content_count"
+                            android:textColor="@color/MaterialGrey400"
+                            android:textSize="@dimen/sp_12" />
+                    </com.flyco.roundview.RoundLinearLayout>
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mPhotoRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/White"
+                    android:paddingBottom="@dimen/margin_15"
+                    android:paddingEnd="@dimen/margin_15"
+                    android:paddingStart="@dimen/margin_15"
+                    tool:listitem="@layout/item_image" />
+            </LinearLayout>
+
+
+        </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <include layout="@layout/action_bar_custom" />
+</FrameLayout>

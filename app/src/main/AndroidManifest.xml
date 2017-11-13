@@ -88,6 +88,8 @@
         <activity android:name=".module.mine.CardPackageListActivity"/>
         <!--卡券包详情-->
         <activity android:name=".module.mine.CardPackageDetailActivity"/>
+        <!--服务订单评价-->
+        <activity android:name=".module.mine.ServiceOrderCommentActivity"/>
 
 
 
