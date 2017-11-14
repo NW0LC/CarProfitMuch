@@ -124,6 +124,9 @@ object SZWUtils {
     private var tagThread = Thread {}
     private var secondThread = Thread {}
     fun resetProgress(progressBar: ProgressBar, parentLayout: View, realScore: Float = SZWUtils.realScore, unlockScore: Float = SZWUtils.unlockScore, totalScore: Float = SZWUtils.totalScore, animatorSpeed: Long = SZWUtils.animatorSpeed, secondAnimatorSpeed: Long = SZWUtils.secondAnimatorSpeed, delayMillis: Long = SZWUtils.delayMillis, reset: Boolean = false, onFinishListener: () -> Unit) {
+        if (tagThread.isAlive)
+            return
+
         if (reset) {
             runOnUiThread {
                 if (originalX != 0f)
@@ -210,6 +213,30 @@ object SZWUtils {
             lp.height += SizeUtils.dp2px(size)
         }
         view.setPadding(view.paddingLeft, view.paddingTop + SizeUtils.dp2px(size), view.paddingRight, view.paddingBottom)
+
+    }
+    /**
+     * 减少固定外边距
+     */
+    fun minusMargin(view: View, size: Float) {
+        val lp = view.layoutParams
+        if (lp is ViewGroup.MarginLayoutParams) {
+            lp.topMargin -= SizeUtils.dp2px(size)
+        }
+
+        view.layoutParams = lp
+
+    }
+
+    /**
+     * 减少固定内边距
+     */
+    fun minusPaddingSmart(view: View, size: Float) {
+        val lp = view.layoutParams
+        if (lp != null && lp.height > 0) {
+            lp.height -= SizeUtils.dp2px(size)
+        }
+        view.setPadding(view.paddingLeft, view.paddingTop - SizeUtils.dp2px(size), view.paddingRight, view.paddingBottom)
 
     }
 

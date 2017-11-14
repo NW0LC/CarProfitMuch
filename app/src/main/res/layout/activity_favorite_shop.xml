@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:animateLayoutChanges="true"
+    android:background="@color/app_bg">
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnablePreviewInEditMode="false">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:id="@+id/header"
+            android:visibility="gone"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/black"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mRecyclerView"
+            android:overScrollMode="never"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="?attr/actionBarSize"
+            android:paddingBottom="?attr/actionBarSize"
+            tool:listitem="@layout/item_favorite_goods">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <include layout="@layout/action_bar_custom" />
+    <LinearLayout
+        android:id="@+id/lay_bottom"
+        android:visibility="gone"
+        android:layout_gravity="bottom"
+        android:background="@color/White"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <CheckBox
+            android:id="@+id/cb_check"
+            android:layout_marginStart="@dimen/margin_10"
+            android:padding="@dimen/margin_10"
+            android:checked="false"
+            android:button="@drawable/selector_service_pay"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/sp_14"
+            android:text="@string/favorite_selectAll"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/bt_delete"
+            android:gravity="center"
+            android:background="@color/colorPrimary"
+            android:checked="false"
+            android:button="@drawable/selector_service_pay"
+            android:textColor="@color/White"
+            android:textSize="@dimen/sp_14"
+            android:text="@string/favorite_goods_delete"
+            android:layout_width="90dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</FrameLayout>

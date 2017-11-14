@@ -38,6 +38,9 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
     private lateinit var mNewAdapter: GoodsShopAdapter<GoodsBean>
     private lateinit var mHotAdapter: GoodsShopAdapter<GoodsBean>
     private lateinit var goodsShopClassifyPop: GoodsShopClassifyPop
+
+    override fun setInflateId(): Int = R.layout.activity_goods_shop
+
     override fun initToolbar(): Boolean {
         toolbar.setContentInsetsAbsolute(0, 0)
         //状态栏透明和间距处理
@@ -62,7 +65,6 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
         return false
     }
 
-    override fun setInflateId(): Int = R.layout.activity_goods_shop
 
     override fun init() {
         goodsShopClassifyPop = GoodsShopClassifyPop(this)
@@ -195,5 +197,8 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
 //                mNewAdapter.setNewData(it)
             }
         }
+    }
+    companion object {
+        val GoodsShop_Intent_ShopId="GoodsShop_Intent_ShopId"
     }
 }

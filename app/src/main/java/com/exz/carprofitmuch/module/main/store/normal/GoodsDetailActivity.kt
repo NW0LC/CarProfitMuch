@@ -236,4 +236,7 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
             }
         }
     }
+    companion object {
+        val GoodsDetail_Intent_GoodsId="GoodsDetail_Intent_GoodsId"
+    }
 }

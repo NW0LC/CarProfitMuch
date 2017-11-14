@@ -1,4 +1,4 @@
-package com.exz.carprofitmuch.module.main
+package com.exz.carprofitmuch.module.mine
 
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -6,8 +6,8 @@ import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.adapter.RedPacketAdapter
-import com.exz.carprofitmuch.bean.CouponBean
+import com.exz.carprofitmuch.adapter.FootprintAdapter
+import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
@@ -24,14 +24,14 @@ import kotlinx.android.synthetic.main.activity_ads.*
  * Created by 史忠文
  * on 2017/10/17.
  */
-@Deprecated("instead by giftPage")
-class RedPacketActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+
+class FootprintActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
-    private lateinit var mAdapter: RedPacketAdapter<CouponBean>
+    private lateinit var mAdapter: FootprintAdapter<GoodsBean>
     override fun initToolbar(): Boolean {
-        mTitle.text = getString(R.string.red_packet_name)
+        mTitle.text = getString(R.string.footprint_name)
         //状态栏透明和间距处理
         StatusBarUtil.immersive(this)
         StatusBarUtil.setPaddingSmart(this, toolbar)
@@ -55,16 +55,16 @@ class RedPacketActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.Re
     }
 
     private fun initRecycler() {
-        mAdapter = RedPacketAdapter()
-        val coupons = ArrayList<CouponBean>()
-        coupons.add(CouponBean())
-        coupons.add(CouponBean())
-        coupons.add(CouponBean())
-        coupons.add(CouponBean())
-        coupons.add(CouponBean())
-        coupons.add(CouponBean())
-        coupons.add(CouponBean())
-        coupons.add(CouponBean())
+        mAdapter = FootprintAdapter()
+        val coupons = ArrayList<GoodsBean>()
+        coupons.add(GoodsBean())
+        coupons.add(GoodsBean())
+        coupons.add(GoodsBean())
+        coupons.add(GoodsBean())
+        coupons.add(GoodsBean())
+        coupons.add(GoodsBean())
+        coupons.add(GoodsBean())
+        coupons.add(GoodsBean())
 
         mAdapter.setNewData(coupons)
         mAdapter.bindToRecyclerView(mRecyclerView)
@@ -96,7 +96,7 @@ class RedPacketActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.Re
     }
 
     private fun iniData() {
-        DataCtrlClass.mainRedPacketData(this, currentPage) {
+        DataCtrlClass.footprintData(this, currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

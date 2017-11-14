@@ -90,6 +90,12 @@
         <activity android:name=".module.mine.CardPackageDetailActivity"/>
         <!--服务订单评价-->
         <activity android:name=".module.mine.ServiceOrderCommentActivity"/>
+        <!--商品收藏-->
+        <activity android:name=".module.mine.favorite.FavoriteGoodsActivity"/>
+        <!--商铺收藏-->
+        <activity android:name=".module.mine.favorite.FavoriteShopActivity"/>
+        <!--我的足迹-->
+        <activity android:name=".module.mine.FootprintActivity"/>
 
 
 

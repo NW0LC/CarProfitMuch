@@ -22,6 +22,21 @@ import kotlinx.android.synthetic.main.dialog_score_success.view.*
 object DialogUtils{
     private lateinit var dialog: ICommonDialog
     /**
+     * 清除提醒
+     */
+    fun delete(context: Context, listener: () -> Unit) {
+        dialog = CommonDialogFactory.createDialogByType(context, DialogUtil.DIALOG_TYPE_103)
+        dialog.setTitleText("删除")
+        dialog.setContentText("确定删除？")
+        dialog.setCancelBtn("取消") { dialog.dismiss() }
+        dialog.setOkBtn("确定") {
+            dialog.dismiss()
+            listener.invoke()
+        }
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.show()
+    }
+    /**
      * 清除搜索记录
      */
     fun deleteSearch(context: Context, listener: View.OnClickListener) {

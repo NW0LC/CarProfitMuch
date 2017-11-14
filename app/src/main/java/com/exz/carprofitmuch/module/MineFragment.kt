@@ -17,6 +17,8 @@ import com.exz.carprofitmuch.module.mine.CardPackageListActivity
 import com.exz.carprofitmuch.module.mine.PersonInfoActivity
 import com.exz.carprofitmuch.module.mine.SettingsActivity
 import com.exz.carprofitmuch.module.mine.coupon.CouponActivity
+import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity
+import com.exz.carprofitmuch.module.mine.favorite.FavoriteShopActivity
 import com.exz.carprofitmuch.module.mine.redpacket.RedPackageActivity
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
@@ -48,12 +50,13 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     private var realScore = 700f
     private var unlockScore = 900f
     private var totalScore = 3000f
+
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        if (!hidden)
+        if (!hidden) {
             SZWUtils.resetProgress(progressBar = progressBar, parentLayout = rootView, realScore = realScore, unlockScore = unlockScore, totalScore = totalScore) {}
+        }
     }
-
     override fun initView() {
         initBar()
         refreshLayout.setOnRefreshListener(this)
@@ -124,14 +127,16 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         bt_tab_card.setOnClickListener(this)
         bt_tab_coupon.setOnClickListener(this)
         bt_tab_redPacket.setOnClickListener(this)
+        bt_tab_favoriteGoods.setOnClickListener(this)
+        bt_tab_favoriteShop.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when (p0) {
-            bt_header -> {
+            bt_header -> {// 个人资料
                 startActivityForResult(Intent(context, PersonInfoActivity::class.java), 100)
             }
-            bt_myBalance -> {
+            bt_myBalance -> { //账户余额
                 startActivityForResult(Intent(context, AccountBalanceActivity::class.java), 100)
             }
             bt_tab_coupon -> {//优惠券
@@ -140,8 +145,14 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             bt_tab_redPacket -> {//红包
                 startActivity(Intent(context, RedPackageActivity::class.java))
             }
-            bt_tab_card -> {
+            bt_tab_card -> {//卡券包
                 startActivityForResult(Intent(context, CardPackageListActivity::class.java), 100)
+            }
+            bt_tab_favoriteGoods -> {//商品收藏
+                startActivityForResult(Intent(context, FavoriteGoodsActivity::class.java), 100)
+            }
+            bt_tab_favoriteShop-> {//商铺收藏
+                startActivityForResult(Intent(context, FavoriteShopActivity::class.java), 100)
             }
 
         }

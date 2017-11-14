@@ -706,4 +706,159 @@ object DataCtrlClass {
 
                 })
     }
+    /**
+     * 商品收藏与取消收藏操作
+     * @param context                上下文
+     * @param isCollection           1：未收藏，2：已收藏  （给你啥就把状态变成啥）
+     * @param listener 是否删除成功
+     * @param goodsEntities          实体
+     */
+    fun favoriteGoodsIsCollection(context: Context, isCollection: String, goodsEntities: Array<GoodsBean>, listener: (goodsEntities:Array<GoodsBean>?) -> Unit) {
+        val params = HashMap<String, String>()
+        var goodsIds = ""
+        for (goodsEntity in goodsEntities) {
+            goodsIds += goodsEntity.id + ","
+        }
+        params.put("userId", MyApplication.loginUserId)
+        val subGoodsIds = goodsIds.substring(0, goodsIds.length - 1)
+        params.put("goodsIds", subGoodsIds)
+        params.put("isCollection", isCollection)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(subGoodsIds , MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(goodsEntities)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<String>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 商铺收藏与取消收藏操作
+     * @param context                上下文
+     * @param isCollection           1：未收藏，2：已收藏  （给你啥就把状态变成啥）
+     * @param listener 是否删除成功
+     * @param goodsEntities          实体
+     */
+    fun favoriteShopIsCollection(context: Context, isCollection: String, goodsEntities: Array<GoodsShopBean>, listener: (goodsEntities:Array<GoodsShopBean>?) -> Unit) {
+        val params = HashMap<String, String>()
+        var goodsIds = ""
+        for (goodsEntity in goodsEntities) {
+            goodsIds += goodsEntity.id + ","
+        }
+        params.put("userId", MyApplication.loginUserId)
+        val subGoodsIds = goodsIds.substring(0, goodsIds.length - 1)
+        params.put("goodsIds", subGoodsIds)
+        params.put("isCollection", isCollection)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(subGoodsIds , MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(goodsEntities)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<String>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 商品收藏列表
+     * */
+    fun favoriteGoodsListData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("currentPage", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        OkGo.post<NetEntity<List<GoodsBean>>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<GoodsBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<GoodsBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<GoodsBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 商铺收藏列表
+     * */
+    fun favoriteShopListData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<GoodsShopBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("currentPage", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        OkGo.post<NetEntity<List<GoodsShopBean>>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<GoodsShopBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<GoodsShopBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<GoodsShopBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+    *我 的足迹
+    * */
+    fun footprintData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("currentPage", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        OkGo.post<NetEntity<List<GoodsBean>>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<GoodsBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<GoodsBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<GoodsBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
 }

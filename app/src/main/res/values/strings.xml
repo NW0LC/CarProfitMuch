@@ -217,4 +217,24 @@
     <string name="service_order_comment_score">服务评分</string>
     <string name="service_order_comment_hint_content">填写详细评价内容</string>
     <string name="service_order_comment_content_count">你还可以输入%s个字符</string>
+    <string name="favorite_goods_name">收藏商品</string>
+    <string name="favorite_shop_name">店铺收藏</string>
+    <string name="favorite_goods_edit">编辑</string>
+    <string name="favorite_goods_confirm">完成</string>
+    <string name="favorite_goods_delete">删除</string>
+    <string name="favorite_selectAll">全选</string>
+    <string name="footprint_name">我的足迹</string>
+    <string name="mouth_now">本月</string>
+    <string name="mouth_0">一月</string>
+    <string name="mouth_1">二月</string>
+    <string name="mouth_2">三月</string>
+    <string name="mouth_3">四月</string>
+    <string name="mouth_4">五月</string>
+    <string name="mouth_5">六月</string>
+    <string name="mouth_6">七月</string>
+    <string name="mouth_7">八月</string>
+    <string name="mouth_8">九月</string>
+    <string name="mouth_9">十月</string>
+    <string name="mouth_10">十一月</string>
+    <string name="mouth_11">十二月</string>
 </resources>
