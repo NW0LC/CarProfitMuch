@@ -13,6 +13,8 @@ import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.module.login.LoginActivity
 import com.exz.carprofitmuch.module.mine.*
+import com.exz.carprofitmuch.module.mine.comment.MyCommentActivity
+import com.exz.carprofitmuch.module.mine.*
 import com.exz.carprofitmuch.module.mine.coupon.CouponActivity
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteShopActivity
@@ -126,6 +128,8 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         bt_tab_redPacket.setOnClickListener(this)
         bt_tab_favoriteGoods.setOnClickListener(this)
         bt_tab_favoriteShop.setOnClickListener(this)
+        bt_tab_myComment.setOnClickListener(this)
+        bt_tab_score.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -141,6 +145,10 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             }
             bt_tab_redPacket -> {//红包
                 startActivity(Intent(context, RedPackageActivity::class.java))
+            }
+            bt_tab_myComment->{//我的评价
+                startActivity(Intent(context, MyCommentActivity::class.java))
+
             }
             bt_tab_card -> {//卡券包
                 startActivityForResult(Intent(context, CardPackageListActivity::class.java), 100)

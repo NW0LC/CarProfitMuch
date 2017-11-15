@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingTop="?attr/actionBarSize"
-            tool:listitem="@layout/item_service_comment">
+            >
 
         </android.support.v7.widget.RecyclerView>
 

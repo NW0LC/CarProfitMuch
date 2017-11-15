@@ -4,5 +4,12 @@
     <string name="mine_coupon_limit">满%s元可用,去抢购</string>
     <string name="mine_coupon_validity_date">有效期:  %s</string>
     <string name="mine_red_package_all_use">本店铺红包全场通用</string>
-    <string name="mine_comment">评价</string>
+    <string name="mine_my_comment">我的评价</string>
+    <string name="mine_my_comment_date">评价时间 %s</string>
+    <string name="mine_sorce_usable">可用积分</string>
+    <string name="mine_sorce_return">待返还积分</string>
+    <string name="mine_sorce_freeze">冻结积分</string>
+    <string name="mine_sorce_expiration_time">500积分将于2016.12.31过期</string>
+    <string name="mine_sorce_rule">积分规则</string>
+    <string name="mine_sorce_record">积分记录</string>
 </resources>
