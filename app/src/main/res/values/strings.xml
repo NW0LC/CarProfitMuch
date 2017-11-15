@@ -251,4 +251,6 @@
     <string name="order_score_count">共%1$s件商品 积分：%2$s</string>
     <string name="order_score_exchangeDate">兑换时间：%s</string>
     <string name="order_score_service">联系客服</string>
+    <string name="goods_order_unitPrice">单价</string>
+    <string name="goods_order_refund">申请退款</string>
 </resources>

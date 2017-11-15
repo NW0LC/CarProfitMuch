@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingTop="?attr/actionBarSize"
-            tool:listitem="@layout/item_mine_score"/>
+            tool:listitem="@layout/item_order_score"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <include layout="@layout/action_bar_custom" />

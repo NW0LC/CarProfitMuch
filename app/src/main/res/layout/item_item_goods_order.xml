@@ -4,19 +4,17 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/margin_8"
     android:background="@color/app_bg">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/img"
         android:layout_width="@dimen/margin_65"
         android:layout_height="@dimen/margin_65"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
         app:roundedCornerRadius="@dimen/margin_5"
         tool:background="@color/MaterialGrey200" />
 
@@ -25,7 +23,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:maxLines="2"
         android:minWidth="@dimen/margin_90"
@@ -40,18 +37,46 @@
         android:id="@+id/tv_goodsType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="@dimen/margin_8"
         android:ellipsize="end"
-        android:maxLines="2"
+        android:maxLines="1"
         android:minWidth="@dimen/margin_90"
         android:text="@string/goods_order_goodsType"
         android:textColor="@color/MaterialGrey400"
-        android:textSize="@dimen/sp_14"
-        app:layout_constraintBottom_toBottomOf="@+id/img"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toTopOf="@+id/tv_goodsPrice"
         app:layout_constraintStart_toEndOf="@+id/img"
         app:layout_constraintTop_toBottomOf="@+id/tv_goodsName"
+        tool:background="@color/MaterialGrey200" />
+
+    <TextView
+
+        android:id="@+id/tv_goodsPriceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/goods_order_unitPrice"
+        android:textColor="@color/MaterialGrey400"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="@+id/img"
+        app:layout_constraintStart_toEndOf="@+id/img"
+        tool:background="@color/MaterialGrey200" />
+
+    <TextView
+
+        android:id="@+id/tv_goodsPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/CNY"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_goodsPriceText"
+        app:layout_constraintStart_toEndOf="@+id/tv_goodsPriceText"
         tool:background="@color/MaterialGrey200" />
 
     <TextView
@@ -68,4 +93,26 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_goodsType"
         app:layout_constraintEnd_toEndOf="parent"
         tool:background="@color/MaterialGrey200" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/bt_refund"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:minWidth="@dimen/margin_60"
+        android:paddingBottom="@dimen/margin_5"
+        android:paddingEnd="@dimen/margin_15"
+        android:paddingStart="@dimen/margin_15"
+        android:paddingTop="@dimen/margin_5"
+        android:text="@string/goods_order_refund"
+        android:textColor="@color/MaterialGrey700"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img"
+        app:rv_cornerRadius="@dimen/margin_3"
+        app:rv_strokeColor="@color/MaterialGrey700"
+        app:rv_strokeWidth="1dp" />
 </android.support.constraint.ConstraintLayout>
