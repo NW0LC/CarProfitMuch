@@ -14,7 +14,6 @@ import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.module.login.LoginActivity
 import com.exz.carprofitmuch.module.mine.*
 import com.exz.carprofitmuch.module.mine.comment.MyCommentActivity
-import com.exz.carprofitmuch.module.mine.*
 import com.exz.carprofitmuch.module.mine.coupon.CouponActivity
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteShopActivity
