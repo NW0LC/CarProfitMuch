@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <TextView
+        android:id="@+id/tv_scoreOrderNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        android:ellipsize="end"
+        android:lines="1"
+        android:padding="@dimen/margin_10"
+        android:text="@string/goods_order_orderNum"
+        android:textColor="@color/MaterialGrey400"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/item_item_goods_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_scoreOrderNum" />
+
+    <TextView
+        android:id="@+id/tv_score_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        android:ellipsize="end"
+        android:gravity="end"
+        android:lines="1"
+        android:padding="@dimen/margin_10"
+        android:text="@string/order_score_count"
+        android:textColor="@color/MaterialGrey600"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/margin_0.5"
+        android:id="@+id/lay_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_score_count">
+
+        <TextView
+            android:id="@+id/tv_scoreExchange_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:ellipsize="end"
+            android:lines="1"
+            android:padding="@dimen/margin_10"
+            android:text="@string/order_score_exchangeDate"
+            android:textColor="@color/MaterialGrey400"
+            android:textSize="@dimen/sp_12" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/bt_service"
+            android:layout_marginEnd="@dimen/margin_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minWidth="@dimen/margin_60"
+            android:paddingBottom="@dimen/margin_5"
+            android:paddingEnd="@dimen/margin_15"
+            android:paddingStart="@dimen/margin_15"
+            android:paddingTop="@dimen/margin_5"
+            android:text="@string/order_score_service"
+            android:textColor="@color/MaterialGrey700"
+            android:textSize="@dimen/sp_12"
+            app:rv_cornerRadius="@dimen/margin_3"
+            app:rv_strokeColor="@color/MaterialGrey700"
+            app:rv_strokeWidth="1dp" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

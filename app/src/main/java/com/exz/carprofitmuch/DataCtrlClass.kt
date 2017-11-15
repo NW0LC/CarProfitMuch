@@ -861,4 +861,31 @@ object DataCtrlClass {
 
                 })
     }
+    /**
+     *积分变更记录
+     * */
+    fun mineScoreRecordData(context: Context, currentPage: Int, listener: (scoreRecordBean: List<ScoreRecordBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("currentPage", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        OkGo.post<NetEntity<List<ScoreRecordBean>>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<ScoreRecordBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<ScoreRecordBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<ScoreRecordBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
 }

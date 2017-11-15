@@ -33,7 +33,7 @@ class WXPayEntryActivity : Activity(), IWXAPIEventHandler {
         if (DialogUtils.dialog != null) {
             DialogUtils.dialog!!.setOnDismissListener {
                 if ("0" == code) {
-                    // TODO: 2017/1/16 刷新
+                    // 2017/1/16 刷新
                     RxBus.get().post(Constants.BusAction.Pay_Finish, Constants.BusAction.Pay_Finish)
                 }
                 finish()

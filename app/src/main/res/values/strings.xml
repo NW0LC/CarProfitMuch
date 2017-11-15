@@ -224,6 +224,7 @@
     <string name="favorite_goods_delete">删除</string>
     <string name="favorite_selectAll">全选</string>
     <string name="footprint_name">我的足迹</string>
+    <string name="footprint_clear">清空</string>
     <string name="mouth_now">本月</string>
     <string name="mouth_0">一月</string>
     <string name="mouth_1">二月</string>
@@ -237,4 +238,17 @@
     <string name="mouth_9">十月</string>
     <string name="mouth_10">十一月</string>
     <string name="mouth_11">十二月</string>
+    <string name="mine_score_scoreCount">可用积分</string>
+    <string name="mine_score_pendScoreCount">待返还积分</string>
+    <string name="mine_score_frizzScoreCount">冻结积分</string>
+    <string name="mine_score_date">%1$s积分将于%2$s过期</string>
+    <string name="mine_score_rule">积分规则</string>
+    <string name="mine_score_exchangeRecord">兑换记录</string>
+    <string name="mine_score_name">积分</string>
+    <string name="goods_order_goodsType">规格 %s</string>
+    <string name="goods_order_goodsCount">X %s</string>
+    <string name="goods_order_orderNum">订单编号：%s</string>
+    <string name="order_score_count">共%1$s件商品 积分：%2$s</string>
+    <string name="order_score_exchangeDate">兑换时间：%s</string>
+    <string name="order_score_service">联系客服</string>
 </resources>

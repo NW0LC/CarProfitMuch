@@ -96,6 +96,10 @@
         <activity android:name=".module.mine.favorite.FavoriteShopActivity"/>
         <!--我的足迹-->
         <activity android:name=".module.mine.FootprintActivity"/>
+        <!--积分中心-->
+        <activity android:name=".module.mine.ScoreCenterActivity"/>
+        <!--积分兑换记录-->
+        <activity android:name=".module.mine.ScoreExchangeRecordActivity"/>
 
 
 

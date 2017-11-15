@@ -3,13 +3,11 @@ package com.exz.carprofitmuch.module.mine
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.adapter.FootprintAdapter
-import com.exz.carprofitmuch.bean.GoodsBean
-import com.exz.carprofitmuch.utils.DialogUtils
+import com.exz.carprofitmuch.adapter.ScoreRecordAdapter
+import com.exz.carprofitmuch.bean.ScoreRecordBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
@@ -26,36 +24,24 @@ import kotlinx.android.synthetic.main.activity_ads.*
  * Created by 史忠文
  * on 2017/10/17.
  */
-
-class FootprintActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+class ScoreExchangeRecordActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
-    private lateinit var mAdapter: FootprintAdapter<GoodsBean>
+    private lateinit var mAdapter: ScoreRecordAdapter<ScoreRecordBean>
     override fun initToolbar(): Boolean {
-        mTitle.text = getString(R.string.footprint_name)
+        mTitle.text = getString(R.string.mine_score_exchangeRecord)
         //状态栏透明和间距处理
         StatusBarUtil.immersive(this)
         StatusBarUtil.setPaddingSmart(this, toolbar)
         StatusBarUtil.setPaddingSmart(this, mRecyclerView)
         StatusBarUtil.setPaddingSmart(this, blurView)
         StatusBarUtil.setMargin(this, header)
-        SZWUtils.setPaddingSmart(mRecyclerView,10f)
-
-
-        toolbar.inflateMenu(R.menu.menu_footprint)
-        val actionView = toolbar.menu.getItem(0).actionView
-        (actionView as TextView).text=getString(R.string.footprint_clear)
-        actionView.setOnClickListener{
-            //Todo 清空历史记录
-            DialogUtils.delete(mContext){
-
-            }
-        }
+        SZWUtils.setPaddingSmart(mRecyclerView, 10f)
         return false
     }
 
-    override fun setInflateId(): Int= R.layout.activity_red_packet
+    override fun setInflateId(): Int = R.layout.activity_score_center_exchange_record
 
     override fun init() {
         initRecycler()
@@ -68,20 +54,20 @@ class FootprintActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.Re
     }
 
     private fun initRecycler() {
-        mAdapter = FootprintAdapter()
-        val coupons = ArrayList<GoodsBean>()
-        coupons.add(GoodsBean(date = "12.12"))
-        coupons.add(GoodsBean(date = "12.12"))
-        coupons.add(GoodsBean(date = "12.12"))
-        coupons.add(GoodsBean(date = "12.12"))
-        coupons.add(GoodsBean(date = "12.13"))
-        coupons.add(GoodsBean(date = "12.12"))
-        coupons.add(GoodsBean(date = "12.12"))
-        coupons.add(GoodsBean(date = "12.12"))
+        mAdapter = ScoreRecordAdapter()
+        val coupons = ArrayList<ScoreRecordBean>()
+        coupons.add(ScoreRecordBean())
+        coupons.add(ScoreRecordBean())
+        coupons.add(ScoreRecordBean())
+        coupons.add(ScoreRecordBean())
+        coupons.add(ScoreRecordBean())
+        coupons.add(ScoreRecordBean())
+        coupons.add(ScoreRecordBean())
+        coupons.add(ScoreRecordBean())
 
         mAdapter.setNewData(coupons)
         mAdapter.bindToRecyclerView(mRecyclerView)
-        mAdapter.setOnLoadMoreListener(this,mRecyclerView)
+        mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
 
@@ -89,13 +75,15 @@ class FootprintActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.Re
             override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
                 header.visibility = View.VISIBLE
             }
+
             override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
-                if (offset==0)
-                header.visibility = View.GONE
+                if (offset == 0)
+                    header.visibility = View.GONE
             }
         })
         refreshLayout.setOnRefreshListener(this)
     }
+
     override fun onRefresh(refreshLayout: RefreshLayout?) {
         currentPage = 1
         refreshState = Constants.RefreshState.STATE_REFRESH
@@ -109,7 +97,7 @@ class FootprintActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.Re
     }
 
     private fun iniData() {
-        DataCtrlClass.footprintData(this, currentPage) {
+        DataCtrlClass.mineScoreRecordData(this, currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

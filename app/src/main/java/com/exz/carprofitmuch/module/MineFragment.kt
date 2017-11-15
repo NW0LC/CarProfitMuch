@@ -12,10 +12,7 @@ import android.view.ViewGroup
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.module.login.LoginActivity
-import com.exz.carprofitmuch.module.mine.AccountBalanceActivity
-import com.exz.carprofitmuch.module.mine.CardPackageListActivity
-import com.exz.carprofitmuch.module.mine.PersonInfoActivity
-import com.exz.carprofitmuch.module.mine.SettingsActivity
+import com.exz.carprofitmuch.module.mine.*
 import com.exz.carprofitmuch.module.mine.coupon.CouponActivity
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteShopActivity
@@ -153,6 +150,9 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             }
             bt_tab_favoriteShop-> {//商铺收藏
                 startActivityForResult(Intent(context, FavoriteShopActivity::class.java), 100)
+            }
+            bt_tab_score-> {//积分中心
+                startActivityForResult(Intent(context, ScoreCenterActivity::class.java), 100)
             }
 
         }
