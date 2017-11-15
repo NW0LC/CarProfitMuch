@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item_order_score.view.*
 import java.util.*
 
 
-class ScoreExchangeRecordAdapter<T : ScoreOrderBean> : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_order_score, ArrayList<T>()) {
+class ScoreOrderAdapter<T : ScoreOrderBean> : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_order_score, ArrayList<T>()) {
 
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
@@ -18,7 +18,7 @@ class ScoreExchangeRecordAdapter<T : ScoreOrderBean> : BaseQuickAdapter<T, BaseV
         itemView.tv_goodsName.text=item.goods.title
         itemView.tv_goodsType.text=String.format(mContext.getString(R.string.goods_order_goodsType),item.goods.goodsType)
         itemView.tv_goodsCount.text=String.format(mContext.getString(R.string.goods_order_goodsCount),item.goods.goodsCount)
-        itemView.tv_goodsPrice.text=String.format(mContext.getString(R.string.CNY),item.goods.scorePrice)
+        itemView.tv_goodsPrice.text=String.format(mContext.getString(R.string.SCORE),item.goods.scorePrice)
         itemView.tv_score_count.text=String.format(mContext.getString(R.string.order_score_count),item.goods.goodsCount,item.scoreCount)
         itemView.tv_scoreExchange_date.text=String.format(mContext.getString(R.string.order_score_exchangeDate),item.scoreExchangeDate)
 

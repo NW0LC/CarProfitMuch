@@ -1,4 +1,4 @@
-package com.exz.carprofitmuch.module.main.store.score
+package com.exz.carprofitmuch.module.mine
 
 import android.support.v4.content.ContextCompat
 import android.text.SpannableString
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.layout_address.*
  * on 2017/10/17.
  */
 
-class ScoreConfirmActivity : BaseActivity(), OnRefreshListener, View.OnClickListener {
+class ScoreOrderDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListener {
 
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.score_confirm_name)

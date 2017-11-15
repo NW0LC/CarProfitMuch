@@ -1,5 +1,6 @@
 package com.exz.carprofitmuch.module.mine
 
+import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -7,7 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.adapter.ScoreExchangeRecordAdapter
+import com.exz.carprofitmuch.adapter.ScoreOrderAdapter
 import com.exz.carprofitmuch.bean.ScoreOrderBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
@@ -26,11 +27,11 @@ import kotlinx.android.synthetic.main.activity_ads.*
  * Created by 史忠文
  * on 2017/10/17.
  */
-class ScoreExchangeRecordActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+class ScoreOrderListActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
-    private lateinit var mAdapter: ScoreExchangeRecordAdapter<ScoreOrderBean>
+    private lateinit var mAdapter: ScoreOrderAdapter<ScoreOrderBean>
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.mine_score_exchangeRecord)
         //状态栏透明和间距处理
@@ -43,7 +44,7 @@ class ScoreExchangeRecordActivity : BaseActivity(), OnRefreshListener, BaseQuick
         return false
     }
 
-    override fun setInflateId(): Int = R.layout.activity_score_center_exchange_record
+    override fun setInflateId(): Int = R.layout.activity_score_center_order
 
     override fun init() {
         initRefresh()
@@ -71,7 +72,7 @@ class ScoreExchangeRecordActivity : BaseActivity(), OnRefreshListener, BaseQuick
     }
 
     private fun initRecycler() {
-        mAdapter = ScoreExchangeRecordAdapter()
+        mAdapter = ScoreOrderAdapter()
         val scoreOrderBean = ArrayList<ScoreOrderBean>()
         scoreOrderBean.add(ScoreOrderBean())
         scoreOrderBean.add(ScoreOrderBean())
@@ -90,11 +91,11 @@ class ScoreExchangeRecordActivity : BaseActivity(), OnRefreshListener, BaseQuick
 
         mRecyclerView.addOnItemTouchListener(object :OnItemClickListener(){
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-
+                    startActivity(Intent(this@ScoreOrderListActivity,ScoreOrderDetailActivity::class.java))
             }
 
             override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                DialogUtils.Call(this@ScoreExchangeRecordActivity,mAdapter.getItem(position)?.servicePhone?:"")
+                DialogUtils.Call(this@ScoreOrderListActivity,mAdapter.getItem(position)?.servicePhone?:"")
             }
         })
     }

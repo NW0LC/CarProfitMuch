@@ -99,7 +99,9 @@
         <!--积分中心-->
         <activity android:name=".module.mine.ScoreCenterActivity"/>
         <!--积分兑换记录-->
-        <activity android:name=".module.mine.ScoreExchangeRecordActivity"/>
+        <activity android:name=".module.mine.ScoreOrderListActivity"/>
+        <!--积分兑换记录详情-->
+        <activity android:name=".module.mine.ScoreOrderDetailActivity"/>
 
 
 
