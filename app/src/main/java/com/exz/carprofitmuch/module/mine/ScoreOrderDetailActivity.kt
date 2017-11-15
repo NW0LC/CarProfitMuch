@@ -7,13 +7,14 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
-import com.scwang.smartrefresh.layout.api.RefreshLayout
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.szw.framelibrary.base.BaseActivity
+import com.szw.framelibrary.utils.DialogUtils
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
-import kotlinx.android.synthetic.main.activity_score_confirm.*
+import kotlinx.android.synthetic.main.activity_score_order_detail.*
 import kotlinx.android.synthetic.main.layout_address.*
+import org.jetbrains.anko.textView
+import org.jetbrains.anko.verticalLayout
 
 
 /**
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.layout_address.*
  * on 2017/10/17.
  */
 
-class ScoreOrderDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListener {
+class ScoreOrderDetailActivity : BaseActivity(), View.OnClickListener {
 
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.score_confirm_name)
@@ -46,31 +47,35 @@ class ScoreOrderDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
 
 
         initEvent()
-
+        setData()
     }
 
     private fun initEvent() {
         toolbar.setNavigationOnClickListener { finish() }
-        bt_choose_type.setOnClickListener(this)
-        bt_confirm.setOnClickListener(this)
+        bt_service.setOnClickListener(this)
     }
-
+    private fun setData() {
+        DataCtrlClass.scoreOrderDetailData(mContext, intent.getStringExtra(Intent_Score_Order_Id)){
+            lay_time.addView(with(lay_time.context){
+                verticalLayout{
+                    textView ( "订单编号:${it?.goodsNum}"){
+                        textSize = 14f
+                        setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey400))
+                    }
+                    for (dateBean in it?.dates?:ArrayList()) {
+                        textView ( "${dateBean.key}:${dateBean.value}"){
+                            textSize = 14f
+                            setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey400))
+                        }
+                    }
+                }
+            })
+        }
+    }
     override fun onClick(p0: View?) {
-        when (p0) {
-            bt_confirm -> {
-
-            }
-
-        }
+        DialogUtils.Call(this@ScoreOrderDetailActivity,"")
     }
-    override fun onRefresh(refreshLayout: RefreshLayout?) {
-        DataCtrlClass.scoreStoreData(this) {
-            if (it != null) {
-                val scoreConfirmAddressDetail = getString(R.string.score_confirm_address_detail)
-                val msp = SpannableString(scoreConfirmAddressDetail + "更换当前号码将从手机发送一条普通短信进行验证")
-                msp.setSpan(ForegroundColorSpan(ContextCompat.getColor(mContext,R.color.MaterialGrey700)), 0, scoreConfirmAddressDetail.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                tv_address.text = msp
-            }
-        }
+    companion object {
+        val Intent_Score_Order_Id = "Intent_Score_Order_Id"
     }
 }

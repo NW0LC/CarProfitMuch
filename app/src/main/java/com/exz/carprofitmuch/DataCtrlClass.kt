@@ -890,7 +890,7 @@ object DataCtrlClass {
     } /**
      *积分兑换订单列表
      * */
-    fun mineScoreExchangeRecordData(context: Context, currentPage: Int, listener: (scoreRecordBean: List<ScoreOrderBean>?) -> Unit) {
+    fun scoreOrderListData(context: Context, currentPage: Int, listener: (scoreRecordBean: List<ScoreOrderBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params.put("currentPage", currentPage.toString())
@@ -908,6 +908,34 @@ object DataCtrlClass {
                     }
 
                     override fun onError(response: Response<NetEntity<List<ScoreOrderBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+
+    /**
+     * 积分订单详情
+     * */
+    fun scoreOrderDetailData(context: Context,orderId:String, listener: (scoreOrderBean: ScoreOrderBean?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("orderId", orderId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        OkGo.post<NetEntity<ScoreOrderBean>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<ScoreOrderBean>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<ScoreOrderBean>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<ScoreOrderBean>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }

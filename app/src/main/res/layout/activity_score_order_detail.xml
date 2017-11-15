@@ -43,37 +43,82 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_10" />
 
+                <TextView
+                    android:textColor="@color/MaterialGrey400"
+                    android:textSize="@dimen/sp_14"
+                    android:drawableStart="@mipmap/icon_mine_card_package_store"
+                    android:text="@string/score_order_detail_title"
+                    android:layout_gravity="center"
+                    android:drawablePadding="@dimen/margin_5"
+                    android:background="@color/White"
+                    android:padding="@dimen/margin_10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include layout="@layout/item_item_goods_order"/>
                 <LinearLayout
+                    android:padding="@dimen/margin_10"
+                    android:gravity="end"
+                    android:background="@color/White"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:textColor="@color/MaterialGrey400"
+                        android:text="@string/score_order_detail_pay"
+                        android:textColor="@color/MaterialGrey600"
                         android:textSize="@dimen/sp_14"
-                        android:drawableStart="@mipmap/icon_mine_card_package_store"
-                        android:text="@string/score_order_detail_title"
-                        android:layout_gravity="center"
-                        android:drawablePadding="@dimen/margin_5"
-                        android:background="@color/White"
-                        android:padding="@dimen/margin_10"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/tv_totalScorePrice"
+                        android:text="@string/SCORE"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sp_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lay_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    android:padding="@dimen/margin_15"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
                 </LinearLayout>
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <TextView
-        android:id="@+id/bt_confirm"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+    <LinearLayout
         android:layout_gravity="bottom"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:padding="@dimen/margin_15"
-        android:text="@string/score_goods_detail_confirm"
-        android:textColor="@color/White"
-        android:textSize="@dimen/sp_16" />
+        android:layout_marginTop="@dimen/margin_0.5"
+        android:id="@+id/lay_bottom"
+        android:gravity="end|center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/White">
+
+
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/bt_service"
+            android:layout_marginEnd="@dimen/margin_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minWidth="@dimen/margin_60"
+            android:paddingBottom="@dimen/margin_5"
+            android:paddingEnd="@dimen/margin_15"
+            android:paddingStart="@dimen/margin_15"
+            android:paddingTop="@dimen/margin_5"
+            android:text="@string/order_score_service"
+            android:textColor="@color/MaterialGrey700"
+            android:textSize="@dimen/sp_12"
+            app:rv_cornerRadius="@dimen/margin_3"
+            app:rv_strokeColor="@color/MaterialGrey700"
+            app:rv_strokeWidth="1dp" />
+    </LinearLayout>
 
     <include layout="@layout/action_bar_custom" />
 

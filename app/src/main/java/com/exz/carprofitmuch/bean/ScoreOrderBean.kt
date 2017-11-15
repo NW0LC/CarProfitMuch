@@ -9,5 +9,6 @@ open class ScoreOrderBean{
     var scoreCount="1"
     var scoreExchangeDate ="2017.25.26"
     var servicePhone ="2017.25.26"
+    var dates=ArrayList<OrderDateBean>()
     var goods=GoodsBean()
 }

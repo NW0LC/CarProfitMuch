@@ -113,7 +113,7 @@ class ScoreOrderListActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapt
     }
 
     private fun iniData() {
-        DataCtrlClass.mineScoreExchangeRecordData(this, currentPage) {
+        DataCtrlClass.scoreOrderListData(this, currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {
