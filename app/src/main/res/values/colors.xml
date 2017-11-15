@@ -8,5 +8,6 @@
     <color name="color_toolBar">@color/colorPrimary</color>
     <color name="app_bg">#f5f6f8</color>
     <color name="blur_bg_white">#ccffffff</color>
+    <color name="white">#ffffffff</color>
     <color name="black_a7000000">#a7000000</color>
 </resources>

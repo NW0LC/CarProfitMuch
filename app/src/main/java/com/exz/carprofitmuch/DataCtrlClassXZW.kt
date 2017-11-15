@@ -2,6 +2,7 @@ package com.exz.carprofitmuch
 
 import android.content.Context
 import com.blankj.utilcode.util.EncryptUtils
+import com.exz.carprofitmuch.bean.CommentBean
 import com.exz.carprofitmuch.bean.CouponBean
 import com.exz.carprofitmuch.config.Urls
 import com.lzy.okgo.OkGo
@@ -47,6 +48,33 @@ object DataCtrlClassXZW {
     }
     /**
      * 红包列表
+     * */
+    fun MyCommentData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<CommentBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("currentPage", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<List<CommentBean>>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<CommentBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<CommentBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<CommentBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 我的评价列表
      * */
     fun RedPackageData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<CouponBean>?) -> Unit) {
 

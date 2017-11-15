@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_10"
+    android:background="@color/blur_bg_white"
+    android:padding="@dimen/margin_15">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img"
+        android:layout_width="@dimen/margin_90"
+        android:layout_height="@dimen/margin_90"
+        app:roundAsCircle="false"
+        />
+
+    <LinearLayout
+        android:id="@+id/llLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_toEndOf="@id/img"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_userName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            tool:background="@color/MaterialGrey200"
+            android:textSize="@dimen/sp_14" />
+
+
+        <android.support.v7.widget.AppCompatRatingBar
+            android:id="@+id/mRatingBar"
+            style="@style/ratingBar_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_5"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="4" />
+
+        <TextView
+            android:id="@+id/tv_comment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_5"
+            android:maxLines="1"
+
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_comment_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_5"
+            android:maxLines="1"
+            android:text="@string/mine_my_comment_date"
+            android:textColor="@color/MaterialGrey500"
+            android:singleLine="true"
+            android:textSize="@dimen/sp_12" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            tool:listitem="@layout/item_image" />
+    </LinearLayout>
+
+
+</RelativeLayout>
