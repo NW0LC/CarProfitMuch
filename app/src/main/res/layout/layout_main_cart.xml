@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/White"
+    android:id="@+id/lay_main_cart"
+    android:orientation="vertical">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        tools:background="@color/MaterialGrey200"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/goodsName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text=""
+        tools:background="@color/MaterialGrey200"
+        android:textColor="@color/MaterialGrey600"
+        android:textSize="@dimen/text_14"
+        app:layout_constraintLeft_toRightOf="@+id/img"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/goodsChooseClassify"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="@string/goods_order_goodsType"
+        android:textColor="@color/MaterialGrey700"
+        android:textSize="@dimen/text_12"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/img"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goodsName" />
+
+    <TextView
+        android:id="@+id/priceText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/margin_8"
+        android:ellipsize="end"
+        android:text="@string/CNY"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/img"
+        app:layout_constraintTop_toBottomOf="@+id/goodsChooseClassify" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text=""
+        tools:background="@color/MaterialGrey200"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_16"
+        app:layout_constraintBaseline_toBaselineOf="@+id/priceText"
+        app:layout_constraintLeft_toRightOf="@+id/priceText"
+        app:layout_constraintRight_toLeftOf="@+id/countLay" />
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:id="@+id/countLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_price"
+        app:layout_constraintRight_toRightOf="parent"
+        app:rv_cornerRadius="@dimen/margin_3"
+        app:rv_strokeColor="@color/MaterialGrey400"
+        app:rv_strokeWidth="@dimen/margin_0.5">
+
+        <ImageView
+            android:id="@+id/minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/vector_minus"
+            android:contentDescription="@string/app_name" />
+
+        <View
+            android:layout_width="@dimen/margin_0.5"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_5"
+            android:background="@color/MaterialGrey400" />
+
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingBottom="2dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="2dp"
+            android:text="1"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="@dimen/margin_0.5"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_5"
+            android:background="@color/MaterialGrey400" />
+
+        <ImageView
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/vector_add" />
+    </com.flyco.roundview.RoundLinearLayout>
+
+</android.support.constraint.ConstraintLayout>

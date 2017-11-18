@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CarProfitMuch</string>
     <string name="main_store_name">商城</string>
+    <string name="main_cart_name">购物车</string>
     <string name="main_score_store_name">积分商城</string>
     <string name="main_mine_name">个人中心</string>
     <string name="login_hint_phone">请输入手机号</string>
@@ -255,4 +256,8 @@
     <string name="goods_order_refund">申请退款</string>
     <string name="score_order_detail_title">车利多积分商城</string>
     <string name="score_order_detail_pay">实付款\ \ </string>
+    <string name="cart_selectAll">全选</string>
+    <string name="cart_noExpress">不含运费</string>
+    <string name="cart_totalPrice">合计：</string>
+    <string name="cart_confirm">结算(%s)</string>
 </resources>

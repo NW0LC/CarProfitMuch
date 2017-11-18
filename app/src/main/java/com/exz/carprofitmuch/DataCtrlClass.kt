@@ -942,4 +942,31 @@ object DataCtrlClass {
 
                 })
     }
+    /**
+     * 购物车列表
+     * */
+    fun cartListData(context: Context, currentPage: Int, listener: (goodsCarBean: List<GoodsCarBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("currentPage", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        OkGo.post<NetEntity<List<GoodsCarBean>>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<GoodsCarBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<GoodsCarBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<GoodsCarBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
 }

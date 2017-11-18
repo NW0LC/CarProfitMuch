@@ -31,12 +31,10 @@ class ScoreOrderDetailActivity : BaseActivity(), View.OnClickListener {
         StatusBarUtil.setPaddingSmart(this, toolbar)
         StatusBarUtil.setPaddingSmart(this, blurView)
         StatusBarUtil.setPaddingSmart(this, scrollView)
-
-
         return false
     }
 
-    override fun setInflateId(): Int= R.layout.activity_score_confirm
+    override fun setInflateId(): Int= R.layout.activity_score_order_detail
 
     override fun init() {
         val scoreConfirmAddressDetail = getString(R.string.score_confirm_address_detail)
@@ -55,10 +53,10 @@ class ScoreOrderDetailActivity : BaseActivity(), View.OnClickListener {
         bt_service.setOnClickListener(this)
     }
     private fun setData() {
-        DataCtrlClass.scoreOrderDetailData(mContext, intent.getStringExtra(Intent_Score_Order_Id)){
+        DataCtrlClass.scoreOrderDetailData(mContext, intent.getStringExtra(Intent_Score_Order_Id)?:""){
             lay_time.addView(with(lay_time.context){
                 verticalLayout{
-                    textView ( "订单编号:${it?.goodsNum}"){
+                    textView ( "${getString(R.string.goods_order_orderNum)}${it?.goodsNum}"){
                         textSize = 14f
                         setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey400))
                     }
@@ -73,7 +71,7 @@ class ScoreOrderDetailActivity : BaseActivity(), View.OnClickListener {
         }
     }
     override fun onClick(p0: View?) {
-        DialogUtils.Call(this@ScoreOrderDetailActivity,"")
+        DialogUtils.Call(this@ScoreOrderDetailActivity,"13810711666")
     }
     companion object {
         val Intent_Score_Order_Id = "Intent_Score_Order_Id"

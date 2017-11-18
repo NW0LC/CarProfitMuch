@@ -1,5 +1,6 @@
 package com.exz.carprofitmuch.module.mine
 
+import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -10,7 +11,6 @@ import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ScoreRecordAdapter
 import com.exz.carprofitmuch.bean.ScoreRecordBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
-import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
@@ -30,7 +30,7 @@ class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
     private lateinit var mAdapter: ScoreRecordAdapter<ScoreRecordBean>
-    lateinit var header: View
+    lateinit var headerView: View
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.mine_score_name)
         //状态栏透明和间距处理
@@ -39,13 +39,11 @@ class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.
         StatusBarUtil.setPaddingSmart(this, mRecyclerView)
         StatusBarUtil.setPaddingSmart(this, blurView)
         StatusBarUtil.setMargin(this, header)
-        SZWUtils.setPaddingSmart(mRecyclerView, 10f)
-
         toolbar.inflateMenu(R.menu.menu_mine_score)
         val actionView = toolbar.menu.getItem(0).actionView
         (actionView as TextView).text=getString(R.string.mine_score_exchangeRecord)
         actionView.setOnClickListener{
-
+                startActivity(Intent(this,ScoreOrderListActivity::class.java))
         }
         return false
     }
@@ -76,8 +74,8 @@ class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.
 
         mAdapter.setNewData(coupons)
 
-        header = View.inflate(mContext, R.layout.header_score_center, null)
-        mAdapter.addHeaderView(header)
+        headerView = View.inflate(mContext, R.layout.header_score_center, null)
+        mAdapter.addHeaderView(headerView)
         mAdapter.setHeaderAndEmpty(true)
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)

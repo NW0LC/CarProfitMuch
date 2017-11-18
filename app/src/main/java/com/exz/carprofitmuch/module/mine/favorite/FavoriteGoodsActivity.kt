@@ -91,7 +91,7 @@ class FavoriteGoodsActivity : BaseActivity() {
          * @param adapter       适配器
          * @param goodsEntities 移除
          */
-        fun removeItem(adapter: FavoriteGoodsAdapter<out GoodsBean>, goodsEntities: Array<out GoodsBean>?) {
+        fun removeItem(adapter: FavoriteGoodsAdapter<out GoodsBean>, goodsEntities: Array<GoodsBean>?) {
             if (goodsEntities==null) {
                 return
             }
@@ -101,8 +101,11 @@ class FavoriteGoodsActivity : BaseActivity() {
                 for (goodsEntity in goodsEntities) {
                     if (temp.id == goodsEntity.id) {
                         val position = adapter.data.indexOf(temp)
-                        adapter.notifyItemRemoved(position)
                         iterator.remove()
+                        if (goodsEntities.isEmpty())
+                            adapter.notifyDataSetChanged()
+                        else
+                        adapter.notifyItemRemoved(position)
                     }
                 }
 

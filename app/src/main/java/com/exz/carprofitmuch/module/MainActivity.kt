@@ -37,7 +37,7 @@ class MainActivity : BaseActivity() {
         mTitles.indices.mapTo(mTabEntities) { TabEntity(mTitles[it], mIconSelectIds[it], mIconUnSelectIds[it]) }
         mFragments.add(MainFragment.newInstance())
         mFragments.add(StoreFragment.newInstance())
-        mFragments.add(MainFragment.newInstance())
+        mFragments.add(CartFragment.newInstance())
         mFragments.add(MineFragment.newInstance())
         mainTabBar.setTabData(mTabEntities, this, R.id.frameLayout, mFragments)
         mainTabBar.setOnTabSelectListener(object : OnTabSelectListener {
