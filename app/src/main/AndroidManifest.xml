@@ -188,6 +188,19 @@
         <!--我的评价-->
         <activity android:name=".module.mine.comment.MyCommentActivity"/>
 
+        <!--我的订单-->
+        <activity android:name=".module.mine.goodsorder.GoodsOrderActivity"/>
+
+        <!--订单详情-->
+        <activity android:name=".module.mine.goodsorder.GoodsOrderDetailActivity"/>
+
+        <!--商品评价-->
+        <activity android:name=".module.mine.GoodsOrderCommentActivity"/>
+
+        <!--退货退款-->
+        <activity android:name=".module.mine.returngoods.ReturnGoodsActivity"/>
+
+
 
 
 

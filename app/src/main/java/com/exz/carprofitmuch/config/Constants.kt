@@ -9,4 +9,8 @@ object Constants{
      * 收藏编辑回调
      */
     const  val Collection_Edit = "Collection_Edit"
+    /**
+     * 订单评价拍照回调
+     */
+    const  val GoodsOrderComment_Camera = "GoodsOrderComment_Camera"
 }
