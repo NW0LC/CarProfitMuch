@@ -40,6 +40,7 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
     }
     override fun initView() {
         initToolbar()
+        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
     }
 
@@ -73,17 +74,6 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
         mRecyclerView.layoutManager = LinearLayoutManager(context)
         mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
 
-        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
-            override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
-                header.visibility = View.VISIBLE
-            }
-
-            override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
-                if (offset==0)
-                header.visibility = View.GONE
-            }
-        })
-        refreshLayout.setOnRefreshListener(this)
     }
 
     override fun onClick(p0: View?) {

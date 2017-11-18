@@ -137,6 +137,7 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
                     refreshLayout.autoRefresh()
             }
         }
+        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
         initEvent()
     }
@@ -167,17 +168,6 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
         mRecyclerView.isNestedScrollingEnabled = false
         mRecyclerView.isFocusable = false
 
-        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
-            override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
-                header.visibility = View.VISIBLE
-            }
-
-            override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
-                if (offset == 0)
-                    header.visibility = View.GONE
-            }
-        })
-        refreshLayout.setOnRefreshListener(this)
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {

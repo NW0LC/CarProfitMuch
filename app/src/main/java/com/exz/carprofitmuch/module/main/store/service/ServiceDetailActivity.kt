@@ -16,6 +16,7 @@ import com.exz.carprofitmuch.bean.ServiceGoodsBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.module.main.store.comment.ServiceCommentListActivity
 import com.exz.carprofitmuch.utils.RecycleViewDivider
+import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
@@ -51,6 +52,7 @@ class ServiceDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickLis
     override fun setInflateId(): Int= R.layout.activity_service_detail
 
     override fun init() {
+        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
         initHeaderAndFooter()
         initEvent()
@@ -102,16 +104,6 @@ class ServiceDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickLis
         mCommentRecyclerView.isNestedScrollingEnabled = false
         mCommentRecyclerView.isFocusable = false
 
-        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
-            override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
-                header.visibility = View.VISIBLE
-            }
-            override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
-                if (offset==0)
-                header.visibility = View.GONE
-            }
-        })
-        refreshLayout.setOnRefreshListener(this)
 
         mServiceRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {

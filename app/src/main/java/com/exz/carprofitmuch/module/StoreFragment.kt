@@ -20,11 +20,10 @@ import com.exz.carprofitmuch.module.main.store.goodssearch.SearchResultActivity
 import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity
 import com.exz.carprofitmuch.module.main.store.score.ScoreStoreActivity
 import com.exz.carprofitmuch.module.main.store.service.ServiceListActivity
+import com.exz.carprofitmuch.utils.SZWUtils
 import com.facebook.drawee.view.SimpleDraweeView
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.youth.banner.BannerConfig
@@ -51,6 +50,7 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
     }
 
     override fun initView() {
+        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initBar()
         initRecycler()
         initHeaderAndFooter()
@@ -92,17 +92,7 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
         mAdapter.setHeaderAndEmpty(true)
         mAdapter.bindToRecyclerView(mRecyclerView)
         mRecyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
-            override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
-                header.visibility = View.VISIBLE
-            }
 
-            override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
-                if (offset==0)
-                header.visibility = View.GONE
-            }
-        })
-        refreshLayout.setOnRefreshListener(this)
         mRecyclerView.addOnItemTouchListener(object :OnItemClickListener(){
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 startActivity(Intent(context, GoodsDetailActivity::class.java))

@@ -58,6 +58,7 @@ class FootprintActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.Re
     override fun setInflateId(): Int= R.layout.activity_red_packet
 
     override fun init() {
+        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
         initEvent()
     }
@@ -85,16 +86,6 @@ class FootprintActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.Re
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
 
-        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
-            override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
-                header.visibility = View.VISIBLE
-            }
-            override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
-                if (offset==0)
-                header.visibility = View.GONE
-            }
-        })
-        refreshLayout.setOnRefreshListener(this)
     }
     override fun onRefresh(refreshLayout: RefreshLayout?) {
         currentPage = 1

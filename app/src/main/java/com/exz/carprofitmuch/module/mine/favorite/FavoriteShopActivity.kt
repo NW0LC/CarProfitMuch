@@ -17,6 +17,7 @@ import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companio
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type_Edit
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.exz.carprofitmuch.utils.RecycleViewDivider
+import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
@@ -46,6 +47,7 @@ class FavoriteShopActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter
     }
 
     override fun init() {
+        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
         initEvent()
     }
@@ -101,17 +103,6 @@ class FavoriteShopActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(RecycleViewDivider(this, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(this, R.color.app_bg)))
 
-        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
-            override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
-                header.visibility = View.VISIBLE
-            }
-
-            override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
-                if (offset == 0)
-                    header.visibility = View.GONE
-            }
-        })
-        refreshLayout.setOnRefreshListener(this)
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(baseAdapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 when (if (Edit_Type == "-1") Edit_Type_Edit else Edit_Type) {

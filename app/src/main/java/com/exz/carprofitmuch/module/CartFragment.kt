@@ -24,12 +24,11 @@ import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companio
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type_Delete
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type_Edit
 import com.exz.carprofitmuch.utils.DialogUtils
+import com.exz.carprofitmuch.utils.SZWUtils
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.app.MyApplication.Companion.salt
 import com.szw.framelibrary.base.MyBaseFragment
@@ -64,7 +63,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
     override fun initView() {
         initBar()
-        initRefresh()
+        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
     }
 
@@ -81,20 +80,6 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         actionView = toolbar.menu.getItem(0).actionView as TextView
         actionView.text = getString(R.string.favorite_goods_edit)
         actionView.setOnClickListener(this)
-    }
-
-    private fun initRefresh() {
-        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
-            override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
-                header.visibility = View.VISIBLE
-            }
-
-            override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
-                if (offset == 0)
-                    header.visibility = View.GONE
-            }
-        })
-        refreshLayout.setOnRefreshListener(this)
     }
 
     override fun initEvent() {
@@ -121,7 +106,6 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
         mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
-
         mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener() {
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 val goodsCarBean = mAdapter.data[position]
@@ -263,27 +247,30 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                     b = true
                 }
             }
-            goodsCarBean.goods.addAll(goodsBeans)
-
+            if (goodsBeans.size > 0) {
+                val newGoodsCarBean = GoodsCarBean()
+                newGoodsCarBean.goods.addAll(goodsBeans)
+                goodsCarBeans.add(newGoodsCarBean)
+            }
         }
         if (Edit_Type == Edit_Type_Delete) {//删除
             if (b) {
 
                 DialogUtils.delete(context) {
                     goodsCarBeans.forEach {
-//                        deleteCar(context, it.goods) {
-                            removeItem(this, mAdapter, null,it.goods)
-                            if (mAdapter.data.size <= 0) {
-                                onClick(actionView)
-                                checkSelectAll(mAdapter, select_all)
+                        //                        deleteCar(context, it.goods) {
+                        removeItem(this, mAdapter, null, it.goods)
+                        if (mAdapter.data.size <= 0) {
+//                                onClick(actionView)
+                            checkSelectAll(mAdapter, select_all)
 
-                            }
+                        }
 //                        }
                     }
 
                 }
             } else {
-               toast("选择要删除的商品")
+                toast("选择要删除的商品")
             }
         } else {//结算
             if (b) {
@@ -309,7 +296,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         val priceFormat = DecimalFormat("0.00")
         this.price.text = priceFormat.format(price)
         if (Edit_Type != Edit_Type_Delete)//如果是编辑状态就不用改变
-        buyNow.text = String.format(getString(R.string.cart_confirm), selectCount)
+            buyNow.text = String.format(getString(R.string.cart_confirm), selectCount)
         footer_bar.visibility = if (mAdapter.data.size > 0) View.VISIBLE else View.GONE
     }
 
@@ -429,9 +416,10 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 }
                 if (temp.goods.size <= 0) {
                     iterator.remove()
-                    if (adapter.data.size <= 0)
+                    if (adapter.data.size <= 0) {
                         adapter.notifyDataSetChanged()
-                    else
+                        context.onClick(context.actionView)
+                    } else
                         adapter.notifyItemRemoved(parentPosition)
                 }
 

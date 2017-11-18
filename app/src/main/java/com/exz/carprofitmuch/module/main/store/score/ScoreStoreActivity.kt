@@ -12,6 +12,7 @@ import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.ScoreStoreBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.utils.RecycleViewDivider
+import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
@@ -48,7 +49,7 @@ class ScoreStoreActivity : BaseActivity(), OnRefreshListener{
     override fun setInflateId(): Int=R.layout.activity_score_store
 
     override fun init() {
-
+        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
         initHeaderAndFooter()
         initEvent()
@@ -82,16 +83,6 @@ class ScoreStoreActivity : BaseActivity(), OnRefreshListener{
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
 
-        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
-            override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
-                header.visibility = View.VISIBLE
-            }
-            override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
-                if (offset==0)
-                header.visibility = View.GONE
-            }
-        })
-        refreshLayout.setOnRefreshListener(this)
     }
 
     private fun initHeaderAndFooter() {

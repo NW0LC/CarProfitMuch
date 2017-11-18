@@ -76,6 +76,7 @@ class FavoriteGoodsFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdap
 
     override fun initView() {
         initToolbar()
+        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
     }
 
@@ -108,17 +109,6 @@ class FavoriteGoodsFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdap
         mRecyclerView.layoutManager = LinearLayoutManager(context)
         mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
 
-        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
-            override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
-                header.visibility = View.VISIBLE
-            }
-
-            override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
-                if (offset == 0)
-                    header.visibility = View.GONE
-            }
-        })
-        refreshLayout.setOnRefreshListener(this)
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(baseAdapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 when (if (Edit_Type == "-1") Edit_Type_Edit else Edit_Type) {

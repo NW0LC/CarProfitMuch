@@ -11,6 +11,7 @@ import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ScoreRecordAdapter
 import com.exz.carprofitmuch.bean.ScoreRecordBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
+import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
@@ -52,6 +53,7 @@ class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.
 
     override fun init() {
         initRecycler()
+        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initEvent()
     }
 
@@ -82,17 +84,6 @@ class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
 
-        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
-            override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
-                header.visibility = View.VISIBLE
-            }
-
-            override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
-                if (offset == 0)
-                    header.visibility = View.GONE
-            }
-        })
-        refreshLayout.setOnRefreshListener(this)
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout?) {

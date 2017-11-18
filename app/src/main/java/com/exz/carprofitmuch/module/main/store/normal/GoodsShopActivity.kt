@@ -18,10 +18,8 @@ import com.exz.carprofitmuch.bean.GoodsShopClassifyBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.pop.GoodsShopClassifyPop
 import com.exz.carprofitmuch.utils.SZWUtils
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.youth.banner.BannerConfig
@@ -49,17 +47,6 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
         StatusBarUtil.setPaddingSmart(this, scrollView)
         StatusBarUtil.setPaddingSmart(this, blurView)
         StatusBarUtil.setMargin(this, header)
-
-        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
-            override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
-                header.visibility = View.VISIBLE
-            }
-
-            override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
-                if (offset == 0)
-                    header.visibility = View.GONE
-            }
-        })
 
         scrollView.setOnScrollChangeListener(SZWUtils.MyNestedScrollListener(bottom_bar, SizeUtils.dp2px(45f)))
         return false
@@ -96,6 +83,7 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
         mHsp.setSpan(ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.MaterialRed600)), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_hotGoodsList.text = mHsp
 
+        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initBanner()
         initRecycler()
         initEvent()
@@ -152,17 +140,6 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
         mHotRecyclerView.isNestedScrollingEnabled = false
         mHotRecyclerView.isFocusable = false
 
-        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
-            override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
-                header.visibility = View.VISIBLE
-            }
-
-            override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
-                if (offset == 0)
-                    header.visibility = View.GONE
-            }
-        })
-        refreshLayout.setOnRefreshListener(this)
 
         mNewAdapter.onItemClickListener = this
         mHotAdapter.onItemClickListener = this

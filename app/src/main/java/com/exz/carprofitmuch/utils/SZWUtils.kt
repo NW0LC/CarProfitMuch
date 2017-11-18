@@ -23,6 +23,11 @@ import com.exz.carprofitmuch.bean.GenderBean
 import com.exz.carprofitmuch.bean.ServiceListFilterBean
 import com.exz.carprofitmuch.module.login.LoginActivity
 import com.lzy.okgo.utils.HttpUtils.runOnUiThread
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener
+import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.app.MyApplication
 import kotlinx.android.synthetic.main.layout_progress_score.view.*
 import java.text.DecimalFormat
@@ -327,7 +332,7 @@ object SZWUtils {
     }
 
     /**
-     * 底部button布局滑动从底部出现隐藏
+     * 底部button布局滑动从底部,出现or隐藏
      */
     class MyNestedScrollListener(private var bottom_bar: View, private var h: Int) : NestedScrollView.OnScrollChangeListener {
 
@@ -352,5 +357,27 @@ object SZWUtils {
 
         }
 
+    }
+
+    /**
+     * 设置刷新 及控制 刷新头 的显示和隐藏
+     *
+     */
+    fun setRefreshAndHeaderCtrl(listener:OnRefreshListener ,header: ClassicsHeader, refreshLayout: SmartRefreshLayout) {
+
+        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
+            override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
+                if (offset == 0)
+                    header.visibility = View.GONE
+                else
+                    header.visibility = View.VISIBLE
+            }
+
+            override fun onHeaderReleasing(headerView: RefreshHeader?, percent: Float, offset: Int, footerHeight: Int, extendHeight: Int) {
+                if (offset == 0)
+                    header.visibility = View.GONE
+            }
+        })
+        refreshLayout.setOnRefreshListener(listener)
     }
 }
