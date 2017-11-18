@@ -13,6 +13,7 @@
         app:srlEnablePreviewInEditMode="false">
         <View
             android:id="@+id/header"
+            android:visibility="gone"
             android:layout_marginTop="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,7 +28,7 @@
             android:paddingEnd="@dimen/margin_10"
             android:paddingBottom="@dimen/margin_10"
             android:paddingTop="?attr/actionBarSize"
-            tool:listitem="@layout/item_red_packet">
+            tool:listitem="@layout/item_goods_order_comment">
 
         </android.support.v7.widget.RecyclerView>
 

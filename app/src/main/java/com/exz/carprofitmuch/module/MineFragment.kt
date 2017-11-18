@@ -17,7 +17,9 @@ import com.exz.carprofitmuch.module.mine.comment.MyCommentActivity
 import com.exz.carprofitmuch.module.mine.coupon.CouponActivity
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteShopActivity
+import com.exz.carprofitmuch.module.mine.goodsorder.GoodsOrderActivity
 import com.exz.carprofitmuch.module.mine.redpacket.RedPackageActivity
+import com.exz.carprofitmuch.module.mine.returngoods.ReturnGoodsActivity
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -55,6 +57,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             SZWUtils.resetProgress(progressBar = progressBar, parentLayout = rootView, realScore = realScore, unlockScore = unlockScore, totalScore = totalScore) {}
         }
     }
+
     override fun initView() {
         initBar()
         refreshLayout.setOnRefreshListener(this)
@@ -129,6 +132,11 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         bt_tab_favoriteShop.setOnClickListener(this)
         bt_tab_myComment.setOnClickListener(this)
         bt_tab_score.setOnClickListener(this)
+        bt_order_tab_1.setOnClickListener(this)
+        bt_order_tab_2.setOnClickListener(this)
+        bt_order_tab_3.setOnClickListener(this)
+        bt_order_tab_4.setOnClickListener(this)
+        bt_order_tab_5.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -136,6 +144,22 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             bt_header -> {// 个人资料
                 startActivityForResult(Intent(context, PersonInfoActivity::class.java), 100)
             }
+            bt_order_tab_1 -> {//我的订单-待付款
+                startActivity(Intent(context, GoodsOrderActivity::class.java).putExtra("currentTab", 1))
+            }
+            bt_order_tab_2 -> {//我的订单-待收货
+                startActivity(Intent(context, GoodsOrderActivity::class.java).putExtra("currentTab", 2))
+            }
+            bt_order_tab_3 -> {//我的订单-待评价
+                startActivity(Intent(context, GoodsOrderActivity::class.java).putExtra("currentTab", 3))
+            }
+            bt_order_tab_4 -> {//退货退款
+                startActivity(Intent(context, ReturnGoodsActivity::class.java))
+            }
+            bt_order_tab_5 -> {//全部订单
+                startActivity(Intent(context, GoodsOrderActivity::class.java).putExtra("currentTab", 0))
+            }
+
             bt_myBalance -> { //账户余额
                 startActivityForResult(Intent(context, AccountBalanceActivity::class.java), 100)
             }
@@ -145,7 +169,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             bt_tab_redPacket -> {//红包
                 startActivity(Intent(context, RedPackageActivity::class.java))
             }
-            bt_tab_myComment->{//我的评价
+            bt_tab_myComment -> {//我的评价
                 startActivity(Intent(context, MyCommentActivity::class.java))
 
             }
@@ -155,10 +179,10 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             bt_tab_favoriteGoods -> {//商品收藏
                 startActivityForResult(Intent(context, FavoriteGoodsActivity::class.java), 100)
             }
-            bt_tab_favoriteShop-> {//商铺收藏
+            bt_tab_favoriteShop -> {//商铺收藏
                 startActivityForResult(Intent(context, FavoriteShopActivity::class.java), 100)
             }
-            bt_tab_score-> {//积分中心
+            bt_tab_score -> {//积分中心
                 startActivityForResult(Intent(context, ScoreCenterActivity::class.java), 100)
             }
 
