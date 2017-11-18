@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#14c187</color>
-    <color name="colorPrimary_trans">#cc14c187</color>
-    <color name="colorPrimaryDark">#02b377</color>
+    <color name="colorPrimary">#fc8321</color>
+    <color name="colorPrimary_trans">#ccfc8321</color>
+    <color name="colorPrimaryDark">#fc8321</color>
     <color name="colorAccent">#FF4081</color>
     <color name="color_toolBar_title">#ffffff</color>
     <color name="color_toolBar">@color/colorPrimary</color>

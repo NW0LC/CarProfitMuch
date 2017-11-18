@@ -65,6 +65,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         initBar()
         SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
+
     }
 
     private fun initBar() {
@@ -80,6 +81,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         actionView = toolbar.menu.getItem(0).actionView as TextView
         actionView.text = getString(R.string.favorite_goods_edit)
         actionView.setOnClickListener(this)
+        assignPriceAndCount(0.toDouble())
     }
 
     override fun initEvent() {
@@ -114,6 +116,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                     goodsBean.isCheck = goodsCarBean.isCheck
                 }
                 mAdapter.notifyItemChanged(position)
+                setAllPrice()
                 checkSelectAll(mAdapter, select_all)
             }
         })
@@ -261,7 +264,6 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                         //                        deleteCar(context, it.goods) {
                         removeItem(this, mAdapter, null, it.goods)
                         if (mAdapter.data.size <= 0) {
-//                                onClick(actionView)
                             checkSelectAll(mAdapter, select_all)
 
                         }
@@ -293,11 +295,17 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             selectCount++
             (if (it.price.isEmpty()) "0" else it.price).toDouble() * (if (it.goodsCount.isEmpty()) "0" else it.goodsCount).toInt()
         }
+        assignPriceAndCount(price)
+        footer_bar.visibility = if (mAdapter.data.size > 0) View.VISIBLE else View.GONE
+    }
+    /**
+     * 给价格和货物数量赋值
+     */
+    private fun assignPriceAndCount(price:Double) {
         val priceFormat = DecimalFormat("0.00")
         this.price.text = priceFormat.format(price)
         if (Edit_Type != Edit_Type_Delete)//如果是编辑状态就不用改变
             buyNow.text = String.format(getString(R.string.cart_confirm), selectCount)
-        footer_bar.visibility = if (mAdapter.data.size > 0) View.VISIBLE else View.GONE
     }
 
     override fun onDetach() {
