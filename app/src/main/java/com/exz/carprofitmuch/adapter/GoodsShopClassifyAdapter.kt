@@ -33,6 +33,7 @@ class GoodsShopClassifyAdapter<T : GoodsShopClassifyBean>(private val itemClickL
         val adapter= ItemGoodsShopClassifyAdapter<GoodsShopClassifyBean>()
         itemView.mRecyclerView.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
         itemView.mRecyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        itemView.mRecyclerView.isFocusable=false
         adapter.bindToRecyclerView(itemView.mRecyclerView)
         adapter.setNewData(item.list)
         adapter.setOnItemClickListener { _, _, position ->

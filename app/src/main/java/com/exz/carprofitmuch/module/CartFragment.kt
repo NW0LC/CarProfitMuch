@@ -230,6 +230,10 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                     override fun onError(response: Response<NetEntity<String>>) {
                         super.onError(response)
                         listener.invoke(null)
+
+                        goodsEntity.goodsCount = String.format("%s", index)
+                        mAdapter.notifyDataSetChanged()
+                        setAllPrice()
                     }
 
                 })
