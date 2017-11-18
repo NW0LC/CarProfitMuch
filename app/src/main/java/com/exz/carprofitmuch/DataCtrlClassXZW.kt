@@ -106,7 +106,7 @@ object DataCtrlClassXZW {
     }
 
     /**
-     * 我的评价列表
+     * 我的订单列表
      * */
     fun MyOrderData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<MyOrderBean>?) -> Unit) {
 
@@ -251,7 +251,7 @@ object DataCtrlClassXZW {
                 })
     }
     /**
-     * 确认收货
+     * 评价
      * */
     fun ConfirmCommentData(context: Context, orderId: String, listener: (scoreStoreBean: String?) -> Unit) {
 

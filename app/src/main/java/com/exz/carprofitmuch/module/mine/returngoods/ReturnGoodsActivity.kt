@@ -3,7 +3,6 @@ package com.exz.carprofitmuch.module.mine.returngoods
 import android.support.v4.app.Fragment
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.TabEntity
-import com.exz.carprofitmuch.module.mine.comment.MyCommentFragment
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
@@ -40,10 +39,10 @@ class ReturnGoodsActivity : BaseActivity() {
 
     private fun initTabBar() {
         mTitles.indices.mapTo(mTabEntities) { TabEntity(mTitles[it], mIconSelectIds[it], mIconUnSelectIds[it]) }
-        mFragments.add(MyCommentFragment.newInstance(0))
-        mFragments.add(MyCommentFragment.newInstance(1))
-        mFragments.add(MyCommentFragment.newInstance(2))
-        mFragments.add(MyCommentFragment.newInstance(3))
+        mFragments.add(ReturnGoodsFragment.newInstance(0))
+        mFragments.add(ReturnGoodsFragment.newInstance(1))
+        mFragments.add(ReturnGoodsFragment.newInstance(2))
+        mFragments.add(ReturnGoodsFragment.newInstance(3))
         mTabLayout.setTabData(mTabEntities, this, R.id.frameLayout, mFragments)
     }
 

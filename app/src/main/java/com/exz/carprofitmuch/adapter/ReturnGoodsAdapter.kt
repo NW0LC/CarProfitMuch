@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.lay_goods_order_bt.view.*
  *
  */
 
-class GoodsOrderAdapter<T> : BaseQuickAdapter<MyOrderBean, BaseViewHolder>(R.layout.item_my_order, null) {
+class ReturnGoodsAdapter<T> : BaseQuickAdapter<MyOrderBean, BaseViewHolder>(R.layout.item_my_order, null) {
 
     override fun convert(helper: BaseViewHolder, item: MyOrderBean) {
         val mAdapter = ItemGoodsOrderAdapter()
@@ -36,10 +36,9 @@ class GoodsOrderAdapter<T> : BaseQuickAdapter<MyOrderBean, BaseViewHolder>(R.lay
     companion object {
         //    1待付款 2待收货 3待评价 4已结束 5 取消订单
         private fun getState(state: String): String = when (state) {
-            "1" -> "待付款"
-            "2" -> "待收货"
-            "3" -> "待评价"
-            "4" -> "已结束"
+            "1" -> "待处理"
+            "2" -> "处理中"
+            "3" -> "已完成"
             else -> "无此状态"
 
         }
@@ -52,11 +51,10 @@ class GoodsOrderAdapter<T> : BaseQuickAdapter<MyOrderBean, BaseViewHolder>(R.lay
          * [view] view[3] btRight
          */
         fun initStateBtn(state: String, vararg view: TextView) {
-            /**         btLeft    btMid     btRight
-             * 1待付款     【联系商家   取消订单  支付订单】
-             * 2待收货     【联系商家   查看物流  确认收货】
-             * 3待评价     【联系商家   删除订单  评价订单】
-             * 4已结束     【联系商家   删除订单  】
+            /**             btLeft       btMid     btRight
+             * 1待处理     【             联系商家   取消收货】
+             * 2处理中     【                       联系商家】
+             * 3已完成     【                       联系商家】
              * 其他
              */
             view[0].text = getState(state)
@@ -66,24 +64,24 @@ class GoodsOrderAdapter<T> : BaseQuickAdapter<MyOrderBean, BaseViewHolder>(R.lay
             var strRight = ""
             when (state) {
                 "1" -> {  // 【联系商家   取消订单  支付订单】
-                    strLeft = "联系商家"
-                    strMid = "取消订单"
-                    strRight = "支付订单"
+                    strLeft = ""
+                    strMid = "联系商家"
+                    strRight = "取消收货"
                 }
                 "2" -> { //【联系商家   查看物流  确认收货】
-                    strLeft = "联系商家"
-                    strMid = "查看物流"
-                    strRight = "确认收货"
+                    strLeft = ""
+                    strMid = ""
+                    strRight = "联系商家"
+                    view[2].visibility=View.GONE
+                    view[2].setBackgroundResource(R.drawable.mine_my_order_grey)
+
                 }
                 "3" -> {// 【联系商家   删除订单  评价订单】
-                    strLeft = "联系商家"
-                    strMid = "删除订单"
-                    strRight = "评价订单"
-                }
-                "4" -> {// 【联系商家   删除订单  】
-                    view[3].visibility = View.GONE
-                    strLeft = "联系商家"
-                    strMid = "删除订单"
+                    strLeft = ""
+                    strMid = ""
+                    view[2].visibility=View.GONE
+                    strRight = "联系商家"
+                    view[2].setBackgroundResource(R.drawable.mine_my_order_grey)
                 }
 
                 else -> {

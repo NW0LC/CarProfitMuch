@@ -38,7 +38,7 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
     var orderState = "3"
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
-    private lateinit var mAdapter: GoodsOrderAdapter
+    private lateinit var mAdapter: GoodsOrderAdapter<Any?>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_comment_list, container, false)
