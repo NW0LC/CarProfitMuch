@@ -35,7 +35,7 @@ import java.util.*
 class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
 
   private  var orderState = "1"
-    lateinit var adapter: ItemGoodsOrderAdapter
+    lateinit var adapter: ItemGoodsOrderAdapter<GoodsBean>
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.mine_my_order_detail)
         //状态栏透明和间距处理

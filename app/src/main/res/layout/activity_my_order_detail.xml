@@ -56,7 +56,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:drawablePadding="@dimen/margin_5"
-                        android:drawableStart="@mipmap/icon_mine_card_package_store"
+                        android:drawableStart="@mipmap/icon_mine_my_order_store"
 
                         android:text="@string/score_order_detail_title"
                         android:textColor="@color/MaterialGrey400"

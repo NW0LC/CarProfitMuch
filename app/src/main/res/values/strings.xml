@@ -39,6 +39,7 @@
     <string name="main_store_goods_buy">立即购买</string>
     <string name="main_store_service_price">价格:￥</string>
     <string name="CNY">￥</string>
+    <string name="YUAN">元</string>
     <string name="SCORE">积分</string>
     <string name="footer_footer_text">- 车利多为你提供优质服务 -</string>
     <string name="footer_score_store">所有售卖或兑换商品最终解释权归车利多所有</string>
@@ -260,4 +261,13 @@
     <string name="cart_noExpress">不含运费</string>
     <string name="cart_totalPrice">合计：</string>
     <string name="cart_confirm">结算(%s)</string>
+    <string name="goods_confirm_name">确认订单</string>
+    <string name="goods_confirm_totalPrice">合计：</string>
+    <string name="goods_confirm_confirm">提交订单</string>
+    <string name="goods_confirm_sendWay">配送方式</string>
+    <string name="goods_confirm_msg">买家留言：</string>
+    <string name="goods_confirm_hint_msg">选填：对本次交易的说明</string>
+    <string name="goods_confirm_totalCount">共%s件商品 小计：</string>
+    <string name="goods_confirm_coupon">店铺优惠</string>
+    <string name="coupon_toString">省%1$s元：%2$s</string>
 </resources>

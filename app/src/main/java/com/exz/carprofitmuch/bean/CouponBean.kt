@@ -1,5 +1,8 @@
 package com.exz.carprofitmuch.bean
 
+import android.content.Context
+import com.exz.carprofitmuch.R
+
 /**
  * Created by 史忠文
  * on 2017/4/26.
@@ -9,6 +12,7 @@ open class CouponBean (){
     /**
      * couponPrice :
      * couponInfo : 满多少可用
+     * couponFullPrice
      * couponTime : 有效期
      * couponState :
      * couponName :
@@ -21,6 +25,7 @@ open class CouponBean (){
 
     var couponId = ""
     var couponPrice = ""
+    var couponFullPrice = ""
     var couponInfo = "不使用"
     var couponTime = ""
     var couponState: String= ""
@@ -30,4 +35,5 @@ open class CouponBean (){
     var isGet: String= ""
     var typeId: String= ""
     var isSelect = false
+    fun toString(context: Context): String = String.format(context.getString(R.string.coupon_toString),couponPrice,couponName)
 }
