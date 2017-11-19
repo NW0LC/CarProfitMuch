@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
 
                     android:layout_marginTop="@dimen/margin_0.5"
-                    tool:listitem="@layout/item_goods_shop" />
+                    tool:listitem="@layout/item_goods_confirm" />
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
