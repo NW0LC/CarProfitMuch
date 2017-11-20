@@ -26,6 +26,7 @@
         tool:listitem="@layout/item_item_goods_order" />
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/lay_countChange"
         android:layout_width="fill_parent"
         android:layout_height="48dp"

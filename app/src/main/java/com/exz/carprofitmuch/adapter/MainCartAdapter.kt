@@ -35,17 +35,17 @@ class MainCartAdapter<T : GoodsCarBean> (context: CartFragment): BaseQuickAdapte
         mAdapter.setNewData(item.goods)
         mAdapter.setOnItemChildClickListener { _, view, position ->
             val goodsEntity = mAdapter.data[position]
-            val index = Integer.valueOf(if (TextUtils.isEmpty(goodsEntity.goodsCount)) "1" else goodsEntity.goodsCount)
+            val index = (if (TextUtils.isEmpty(goodsEntity.goodsCount)) "1" else goodsEntity.goodsCount).toLong()
             when (view.id) {
                 R.id.radioButton -> {
                     itemSelect(this, mAdapter,cartFragment.select_all,helper.adapterPosition, position)
                     cartFragment.setAllPrice()
                 }
                 R.id.minus -> if (index > 1) {
-                    cartFragment.cartChangeCount(goodsEntity, (index - 1).toLong()){}
+                    cartFragment.cartChangeCount(goodsEntity, (index - 1)){}
                 }
-                R.id.add -> cartFragment.cartChangeCount(goodsEntity, (index + 1).toLong()){}
-                R.id.count -> DialogUtils.changeNum(mContext, index.toLong()){
+                R.id.add -> cartFragment.cartChangeCount(goodsEntity, (index + 1)){}
+                R.id.count -> DialogUtils.changeNum(mContext, index){
                     cartFragment.cartChangeCount(goodsEntity, it){}
                 }
                 R.id.lay_main_cart->{

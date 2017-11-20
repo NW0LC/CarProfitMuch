@@ -1,16 +1,17 @@
 package com.exz.carprofitmuch.bean
 
-import android.content.Context
 import com.exz.carprofitmuch.R
+import com.vilyever.resource.Resource
 
 /**
  * Created by NW0LC
  * on 2017/11/19.
  */
-class ExpressBean{
+class ExpressBean(var expressName: String = "") :KeyAndValueBean() {
+    override fun absKey(): String = expressId
+
+    override fun absValue(): String =expressPrice
     var expressId=""
-    var expressName=""
     var expressPrice=""
-    var isSelect=false
-    fun toString(context: Context): String = expressName+expressPrice+context.getString(R.string.YUAN)
+    override  fun toString(): String = expressName+expressPrice+ Resource.getString(R.string.YUAN)
 }

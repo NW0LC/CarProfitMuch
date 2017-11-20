@@ -1,6 +1,8 @@
 package com.exz.carprofitmuch.adapter
 
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Editable
+import android.text.TextWatcher
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.exz.carprofitmuch.R
@@ -8,9 +10,7 @@ import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.GoodsConfirmSubBean
 import kotlinx.android.synthetic.main.item_goods_confirm.view.*
 import java.text.DecimalFormat
-import java.util.ArrayList
-import android.text.Editable
-import android.text.TextWatcher
+import java.util.*
 
 
 class GoodsConfirmAdapter<T : GoodsConfirmSubBean> : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_goods_confirm, ArrayList<T>()) {
@@ -24,6 +24,10 @@ class GoodsConfirmAdapter<T : GoodsConfirmSubBean> : BaseQuickAdapter<T, BaseVie
         itemView.ed_msg.setText(item.msg)
         itemView.tv_totalCount.text=String.format(mContext.getString(R.string.goods_confirm_totalCount),item.goodsCount)
         itemView.tv_totalPrice.text=String.format("${mContext.getString(R.string.CNY)}%s",item.totalPrice)
+
+
+
+
 
         val mAdapter=ItemGoodsOrderAdapter<GoodsBean>()
         mAdapter.bindToRecyclerView(itemView.mRecyclerView)
