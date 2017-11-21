@@ -15,11 +15,19 @@ class ItemOrderCommentImageAdapter : BaseQuickAdapter<String, BaseViewHolder>(R.
     override fun convert(helper: BaseViewHolder, item: String) {
         val itemView = helper.itemView
         GlideApp.with(mContext).load(item).into(itemView.imgs)
-        itemView.bt_close.visibility=if (helper.adapterPosition==data.size-1) View.GONE else View.VISIBLE
+        itemView.bt_close.visibility = if (helper.adapterPosition == data.size - 1) View.GONE else View.VISIBLE
         helper.addOnClickListener(R.id.bt_close)
         val layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
-        layoutParams.height = (ScreenUtils.getScreenWidth() - SizeUtils.dp2px(30f)) / 5
-        layoutParams.width = (ScreenUtils.getScreenWidth() - SizeUtils.dp2px(30f)) / 5
+        if (item.contains("http://")||item.contains("https://")) {
+            itemView.bt_close.visibility = View.GONE
+            layoutParams.height = (ScreenUtils.getScreenWidth() - SizeUtils.dp2px(30f)) / 4
+            layoutParams.width = (ScreenUtils.getScreenWidth() - SizeUtils.dp2px(30f)) / 4
+        } else {
+            itemView.bt_close.visibility = View.VISIBLE
+            layoutParams.height = (ScreenUtils.getScreenWidth() - SizeUtils.dp2px(30f)) / 5
+            layoutParams.width = (ScreenUtils.getScreenWidth() - SizeUtils.dp2px(30f)) / 5
+        }
+
         itemView.layoutParams = layoutParams
     }
 

@@ -37,6 +37,10 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
         mDivider = a.getDrawable(0);
         a.recycle();
     }
+
+    private String getOrderType(){
+        return "";
+    }
     /**
      * 自定义分割线
      *

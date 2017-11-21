@@ -13,6 +13,7 @@ class ItemGoodsOrderAdapter() : BaseQuickAdapter<GoodsBean, BaseViewHolder>(R.la
 
     override fun convert(helper: BaseViewHolder, item: GoodsBean) {
         var itemView = helper.itemView
+        helper.addOnClickListener(R.id.bt_refund)
 //        itemView.img.setImageURI(item.img)
 //        itemView.tv_goodsName.text=item.title
 //        itemView.tv_goodsType.text=String.format(mContext.getString(R.string.goods_order_goodsType),item.goodsType)

@@ -8,21 +8,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ReturnGoodsAdapter
 import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.MyOrderBean
-import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
+import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.config.Constants
+import com.szw.framelibrary.utils.DialogUtils
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.fragment_comment_list.*
 import java.util.*
@@ -33,7 +35,7 @@ import java.util.*
  */
 
 class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
-
+    var orderState = "3"
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
     private lateinit var mAdapter: ReturnGoodsAdapter<MyOrderBean>
@@ -91,7 +93,49 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                startActivity(Intent(context, GoodsShopActivity::class.java))
+                startActivity(Intent(context, ReturnGoodsDetailActivity::class.java).putExtra("orderType",(adapter!!.data.get(position) as MyOrderBean).orderSate))
+            }
+        })
+
+        mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener() {
+            override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View, position: Int) {
+                /**             btLeft       btMid     btRight
+                 * 1待处理     【             联系商家   取消收货】
+                 * 2处理中     【                       联系商家】
+                 * 3已完成     【                       联系商家】
+                 * 其他
+                 */
+                when (view.id) {
+                    R.id.tv_mid -> {
+                        when (orderState) {
+                            "1" -> {//联系商家
+                                DialogUtils.Call(context as BaseActivity, "110")
+                            }
+                        }
+
+
+                    }
+                    R.id.tv_right -> {
+                        when (orderState) {
+                            "1" -> {//取消收货
+                                DataCtrlClassXZW.CancelOrderDetailData(context, "", {
+                                    if (it != null) {
+                                        iniData()
+                                    }
+                                })
+                            }
+                            "2" -> {//联系商家
+                                DialogUtils.Call(context as BaseActivity, "110")
+                            }
+                            "3"-> {    //联系商家
+                                DialogUtils.Call(context as BaseActivity, "110")
+
+                            }
+
+                        }
+                    }
+                }
+
             }
         })
     }

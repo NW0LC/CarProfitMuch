@@ -200,6 +200,12 @@
         <!--退货退款-->
         <activity android:name=".module.mine.returngoods.ReturnGoodsActivity"/>
 
+        <!--退货退款详情-->
+        <activity android:name=".module.mine.returngoods.ReturnGoodsDetailActivity"/>
+
+        <!--申请退款-->
+        <activity android:name=".module.mine.RefundActivity"/>
+
 
 
 

@@ -7,8 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsOrderAdapter
@@ -34,7 +32,7 @@ import java.util.*
 
 class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
 
-  private  var orderState = "1"
+    private var orderState = "1"
     lateinit var adapter: ItemGoodsOrderAdapter
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.mine_my_order_detail)
@@ -84,13 +82,6 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
         adapter.bindToRecyclerView(mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(mContext)
         mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 15, ContextCompat.getColor(mContext, R.color.app_bg)))
-        mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
-            override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-
-                startActivity(Intent(mContext, GoodsOrderDetailActivity::class.java))
-            }
-
-        })
     }
 
 
