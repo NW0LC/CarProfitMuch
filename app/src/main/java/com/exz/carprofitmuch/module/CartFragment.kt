@@ -20,6 +20,7 @@ import com.exz.carprofitmuch.adapter.ItemMainCartAdapter
 import com.exz.carprofitmuch.adapter.MainCartAdapter
 import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.GoodsCarBean
+import com.exz.carprofitmuch.bean.GoodsCarBean.Companion.TYPE_2
 import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.module.main.store.normal.GoodsConfirmActivity
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type
@@ -65,7 +66,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
     override fun initView() {
         initBar()
-        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
+        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initRecycler()
 
     }
@@ -112,14 +113,16 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
         mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener() {
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-               mRecyclerView.post {  val goodsCarBean = mAdapter.data[position]
-                   goodsCarBean.isCheck = !goodsCarBean.isCheck
-                   for (goodsBean in goodsCarBean.goods) {  //设置某个店铺下的商品选中状态
-                       goodsBean.isCheck = goodsCarBean.isCheck
-                   }
-                   mAdapter.notifyItemChanged(position)
-                   setAllPrice()
-                   checkSelectAll(mAdapter, select_all) }
+                mRecyclerView.post {
+                    val goodsCarBean = mAdapter.data[position]
+                    goodsCarBean.isCheck = !goodsCarBean.isCheck
+                    for (goodsBean in goodsCarBean.goods) {  //设置某个店铺下的商品选中状态
+                        goodsBean.isCheck = goodsCarBean.isCheck
+                    }
+                    mAdapter.notifyItemChanged(position)
+                    setAllPrice()
+                    checkSelectAll(mAdapter, select_all)
+                }
             }
         })
     }
@@ -185,8 +188,26 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {
                     mAdapter.setNewData(it)
+                    if (mAdapter.data.isNotEmpty())
+                        setLoseGoods()
                 } else {
-                    mAdapter.addData(it)
+                    if (it.isNotEmpty()) {
+                        val data = mAdapter.data
+//                        最后一条数据
+                        var goodsCarBean = data.lastOrNull()
+//                        最后一条是否为失效商品，是则取上一条 否 则取最后一条
+                        goodsCarBean = data[if (goodsCarBean?.itemType == TYPE_2) data.lastIndex - 1 else data.lastIndex]
+//                        如果上下匹配，合并到一起
+                        if (it.first().shopId == goodsCarBean.shopId) {
+                            goodsCarBean.goods.addAll(it.first().goods)
+//                          匹配的话移除新增数组的第一条数据
+                            it.removeAt(0)
+                        }
+                        mAdapter.addData(it)
+//                        将所有失效商品取出来建立新集合  删除 每组没商品的空集合 移动至最后一组
+                        setLoseGoods()
+
+                    }
 
                 }
                 if (it.isNotEmpty()) {
@@ -202,6 +223,32 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             }
         }
 
+    }
+
+    /**
+     * 设置过时商品
+     */
+    private fun setLoseGoods() {
+        val goodsCarBeans = mAdapter.data.iterator()
+        val newGoodsCarBean = GoodsCarBean()
+        while (goodsCarBeans.hasNext()) {
+            val goodsCarBean = goodsCarBeans.next()
+            val goodsBeans = goodsCarBean.goods.iterator()
+            while (goodsBeans.hasNext()){
+               val  goodsBean=goodsBeans.next()
+                newGoodsCarBean.goods = if (newGoodsCarBean.goods.isEmpty()) ArrayList() else newGoodsCarBean.goods
+                if (goodsBean.goodsType.toInt()== TYPE_2){
+                    newGoodsCarBean.goods.add(goodsBean)
+                    goodsBeans.remove()
+                }
+            }
+            if (!goodsCarBean.goods.isNotEmpty()) {
+                goodsCarBeans.remove()
+            }
+
+        }
+        mAdapter.data.add(newGoodsCarBean)
+        mAdapter.notifyDataSetChanged()
     }
 
 
@@ -304,10 +351,11 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         assignPriceAndCount(price)
         footer_bar.visibility = if (mAdapter.data.size > 0) View.VISIBLE else View.GONE
     }
+
     /**
      * 给价格和货物数量赋值
      */
-    private fun assignPriceAndCount(price:Double) {
+    private fun assignPriceAndCount(price: Double) {
         val priceFormat = DecimalFormat("0.00")
         this.price.text = priceFormat.format(price)
         if (Edit_Type != Edit_Type_Delete)//如果是编辑状态就不用改变

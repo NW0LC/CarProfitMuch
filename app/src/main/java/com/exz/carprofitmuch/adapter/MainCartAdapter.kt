@@ -3,11 +3,12 @@ package com.exz.carprofitmuch.adapter
 import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
-import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.GoodsCarBean
+import com.exz.carprofitmuch.bean.InformationBean
 import com.exz.carprofitmuch.module.CartFragment
 import com.exz.carprofitmuch.module.CartFragment.Companion.itemSelect
 import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity
@@ -20,8 +21,13 @@ import kotlinx.android.synthetic.main.fragment_main_cart.*
 import kotlinx.android.synthetic.main.item_main_cart.view.*
 import java.util.*
 
-class MainCartAdapter<T : GoodsCarBean> (context: CartFragment): BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_main_cart, ArrayList<T>()) {
+class MainCartAdapter<T : GoodsCarBean> (context: CartFragment): BaseMultiItemQuickAdapter<T, BaseViewHolder>( ArrayList<T>()) {
     private var cartFragment: CartFragment = context
+//    R.layout.item_main_cart
+init {
+    addItemType(InformationBean.TYPE_1, R.layout.item_main_cart)
+//    addItemType(InformationBean.TYPE_2, R.layout.item_main_type_2)
+}
     override fun convert(helper: BaseViewHolder, item: T) {
         helper.addOnClickListener(R.id.cb_goodsShop_name)
         val itemView=helper.itemView
