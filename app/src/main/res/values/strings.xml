@@ -276,4 +276,8 @@
     <string name="goods_confirm_coupon_item">不使用优惠券</string>
     <string name="goods_confirm_express_title">配送方式</string>
     <string name="goods_confirm_express_item">快递 免邮</string>
+    <string name="main_cart_loseGoodsCount">失效宝贝%s件</string>
+    <string name="main_cart_clearGoods">清空失效宝贝</string>
+    <string name="main_cart_lose">失效</string>
+    <string name="main_cart_lose2">宝贝已不能购买</string>
 </resources>

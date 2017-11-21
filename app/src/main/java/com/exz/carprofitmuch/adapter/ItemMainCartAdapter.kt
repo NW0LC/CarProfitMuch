@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.layout_main_cart.view.*
 import java.util.*
 
 
-class ItemMainCartAdapter<T : GoodsBean>(private var context: CartFragment, private var parentAdapter: MainCartAdapter<*>, private var adapterPosition: Int) : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_item_main_cart, ArrayList<T>()) {
+class ItemMainCartAdapter<T : GoodsBean>(private var context: CartFragment, private var parentAdapter: MainCartAdapter<*>) : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_item_main_cart, ArrayList<T>()) {
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView = helper.itemView
         helper.addOnClickListener(R.id.radioButton)
