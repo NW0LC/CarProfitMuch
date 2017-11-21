@@ -1,14 +1,22 @@
 package com.exz.carprofitmuch.bean
 
+import com.exz.carprofitmuch.R
+import com.vilyever.resource.Resource
+
 /**
  * Created by 史忠文
  * on 2017/4/26.
  */
 
-open class CouponBean (){
+open class CouponBean(var couponName: String = "") : KeyAndValueBean() {
+    override fun absKey(): String = couponId
+
+    override fun absValue(): String =couponPrice
+
     /**
      * couponPrice :
      * couponInfo : 满多少可用
+     * couponFullPrice
      * couponTime : 有效期
      * couponState :
      * couponName :
@@ -21,13 +29,13 @@ open class CouponBean (){
 
     var couponId = ""
     var couponPrice = ""
+    var couponFullPrice = ""
     var couponInfo = "不使用"
     var couponTime = ""
     var couponState: String= ""
-    var couponName: String= ""
     var receivedCount: String= ""
     var surplusCount: String= ""
     var isGet: String= ""
     var typeId: String= ""
-    var isSelect = false
+    override fun toString(): String = String.format(Resource.getString(R.string.coupon_toString),couponPrice,couponName)
 }

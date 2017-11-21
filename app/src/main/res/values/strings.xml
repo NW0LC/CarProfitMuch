@@ -39,6 +39,7 @@
     <string name="main_store_goods_buy">立即购买</string>
     <string name="main_store_service_price">价格:￥</string>
     <string name="CNY">￥</string>
+    <string name="YUAN">元</string>
     <string name="SCORE">积分</string>
     <string name="footer_footer_text">- 车利多为你提供优质服务 -</string>
     <string name="footer_score_store">所有售卖或兑换商品最终解释权归车利多所有</string>
@@ -247,7 +248,7 @@
     <string name="mine_score_exchangeRecord">兑换记录</string>
     <string name="mine_score_name">积分</string>
     <string name="goods_order_goodsType">规格 %s</string>
-    <string name="goods_order_goodsCount">X %s</string>
+    <string name="goods_order_goodsCount">× %s</string>
     <string name="goods_order_orderNum">订单编号：%s</string>
     <string name="order_score_count">共%1$s件商品 积分：%2$s</string>
     <string name="order_score_exchangeDate">兑换时间：%s</string>
@@ -260,4 +261,18 @@
     <string name="cart_noExpress">不含运费</string>
     <string name="cart_totalPrice">合计：</string>
     <string name="cart_confirm">结算(%s)</string>
+    <string name="goods_confirm_name">确认订单</string>
+    <string name="goods_confirm_totalPrice">合计：</string>
+    <string name="goods_confirm_confirm">提交订单</string>
+    <string name="goods_confirm_sendWay">配送方式</string>
+    <string name="goods_confirm_msg">买家留言：</string>
+    <string name="goods_confirm_hint_msg">选填：对本次交易的说明</string>
+    <string name="goods_confirm_totalCount">共%s件商品 小计：</string>
+    <string name="goods_confirm_coupon">店铺优惠</string>
+    <string name="coupon_toString">满%1$s减%2$s元</string>
+    <string name="goods_confirm_no_address">您还没有收货地址，点击这里创建</string>
+    <string name="goods_confirm_score">可用%1$s点积分抵：￥%2$s</string>
+    <string name="goods_confirm_coupon_title">店铺优惠券</string>
+    <string name="goods_confirm_coupon_item">不使用优惠券</string>
+    <string name="goods_confirm_express_title">配送方式</string>
 </resources>

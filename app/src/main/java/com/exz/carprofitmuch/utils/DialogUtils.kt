@@ -84,13 +84,16 @@ object DialogUtils{
         dialog.show()
     }
 
-    private var countIndex = 1
+    /**
+     * 数量更改弹窗
+     */
     fun changeNum(context: Context, count: Long, listener: (num: Long) -> Unit) {
         dialog = DialogType104(context)
         val view = View.inflate(context,R.layout.dialog_change_num, null)
+        ViewHolder(view)
         view.count.setText(String.format("%s", count))
         view.count.setSelection(view.count.text.length)
-        countIndex = Integer.valueOf(view.count.text.toString())!!
+        countIndex = view.count.text.toString().toLong()
         dialog.setTitleText("修改数量")
         dialog.setContentView(view)
         dialog.setOkBtn("确定") {
@@ -111,6 +114,23 @@ object DialogUtils{
             true
         }
         dialog.show()
+    }
+    private var countIndex = 1.toLong()
+    internal class ViewHolder(private var view: View) :View.OnClickListener{
+        init {
+            view.count.setSelection(view.count.text.length)
+            view.add.setOnClickListener(this)
+            view.minus.setOnClickListener(this)
+        }
+        override fun onClick(p0: View) {
+            when (p0.id) {
+                R.id.minus -> countIndex = if (countIndex <= 1) 1 else --countIndex
+                R.id.add -> countIndex += 1
+            }
+            view.count.setText(String.format("%s", countIndex))
+            view.count.setSelection(view.count.text.length)
+        }
+
     }
     /***
      *积分支付成功

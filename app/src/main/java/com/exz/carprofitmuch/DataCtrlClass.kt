@@ -4,6 +4,7 @@ import android.content.Context
 import com.blankj.utilcode.util.EncodeUtils
 import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.FileIOUtils
+import com.exz.carprofitmuch.adapter.GoodsConfirmBean
 import com.exz.carprofitmuch.bean.*
 import com.exz.carprofitmuch.config.Urls
 import com.lzy.okgo.OkGo
@@ -963,6 +964,34 @@ object DataCtrlClass {
                     }
 
                     override fun onError(response: Response<NetEntity<List<GoodsCarBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 积分订单详情
+     * */
+    fun goodsConfirmData(context: Context,info:String, listener: (goodsConfirmBean: GoodsConfirmBean?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("info", info)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        OkGo.post<NetEntity<GoodsConfirmBean>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<GoodsConfirmBean>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<GoodsConfirmBean>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<GoodsConfirmBean>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }

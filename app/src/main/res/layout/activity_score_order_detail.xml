@@ -46,7 +46,7 @@
                 <TextView
                     android:textColor="@color/MaterialGrey400"
                     android:textSize="@dimen/sp_14"
-                    android:drawableStart="@mipmap/icon_mine_card_package_store"
+                    android:drawableStart="@mipmap/icon_mine_my_order_store"
                     android:text="@string/score_order_detail_title"
                     android:layout_gravity="center"
                     android:drawablePadding="@dimen/margin_5"

@@ -110,14 +110,14 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
         mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener() {
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                val goodsCarBean = mAdapter.data[position]
-                goodsCarBean.isCheck = !goodsCarBean.isCheck
-                for (goodsBean in goodsCarBean.goods) {  //设置某个店铺下的商品选中状态
-                    goodsBean.isCheck = goodsCarBean.isCheck
-                }
-                mAdapter.notifyItemChanged(position)
-                setAllPrice()
-                checkSelectAll(mAdapter, select_all)
+               mRecyclerView.post {  val goodsCarBean = mAdapter.data[position]
+                   goodsCarBean.isCheck = !goodsCarBean.isCheck
+                   for (goodsBean in goodsCarBean.goods) {  //设置某个店铺下的商品选中状态
+                       goodsBean.isCheck = goodsCarBean.isCheck
+                   }
+                   mAdapter.notifyItemChanged(position)
+                   setAllPrice()
+                   checkSelectAll(mAdapter, select_all) }
             }
         })
     }

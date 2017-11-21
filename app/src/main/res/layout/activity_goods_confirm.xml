@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/app_bg">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnablePreviewInEditMode="false"
+        app:srlHeaderHeight="150dp"
+        app:srlHeaderMaxDragRate="1">
+
+        <View
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/black" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:paddingTop="?attr/actionBarSize"
+            android:paddingBottom="?attr/actionBarSize"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <com.flyco.roundview.RoundLinearLayout
+                    android:id="@+id/lay_noAddress"
+                    android:layout_margin="@dimen/margin_10"
+                    app:rv_backgroundColor="@color/White"
+                    app:rv_cornerRadius="@dimen/margin_3"
+                    android:drawableStart="@mipmap/icon_goods_confirm_address"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_20"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:gravity="center"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/MaterialGrey600"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:drawableStart="@mipmap/icon_goods_confirm_address"
+                        android:text="@string/goods_confirm_no_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </com.flyco.roundview.RoundLinearLayout>
+
+                <include
+                    layout="@layout/layout_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_10" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    tool:listitem="@layout/item_goods_confirm" />
+                <Switch
+                    android:id="@+id/accumulatePoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_20"
+                    android:background="@color/white"
+                    android:padding="@dimen/margin_15"
+                    android:text="@string/goods_confirm_score"
+                    android:textOff=""
+                    android:textOn=""
+                    android:switchMinWidth="20dp"
+                    android:textColor="@color/MaterialGrey600"
+                    android:thumb="@drawable/billing_thumb"
+                    android:track="@drawable/billing_track" />
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <LinearLayout
+        android:gravity="end"
+        android:background="@color/White"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:text="@string/goods_confirm_totalPrice"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/sp_16" />
+        <TextView
+            android:id="@+id/tv_totalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/margin_15"
+            android:text="@string/CNY"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/sp_16" />
+        <TextView
+            android:id="@+id/bt_confirm"
+            android:layout_width="140dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:padding="@dimen/margin_15"
+            android:text="@string/goods_confirm_confirm"
+            android:textColor="@color/White"
+            android:textSize="@dimen/sp_16" />
+    </LinearLayout>
+
+    <include layout="@layout/action_bar_custom" />
+
+
+</FrameLayout>

@@ -4,20 +4,21 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.GoodsBean
+import kotlinx.android.synthetic.main.item_item_goods_order.view.*
 
-/**
- * Created by pc on 2017/11/15.
- */
 
-class ItemGoodsOrderAdapter() : BaseQuickAdapter<GoodsBean, BaseViewHolder>(R.layout.item_item_goods_order, null) {
+class ItemGoodsOrderAdapter<T :GoodsBean>: BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_item_goods_order, null) {
 
-    override fun convert(helper: BaseViewHolder, item: GoodsBean) {
-        var itemView = helper.itemView
+    override fun convert(helper: BaseViewHolder, item: T) {
+        val itemView = helper.itemView
+        itemView.img.setImageURI(item.img)
+        itemView.tv_goodsName.text = item.title
+        itemView.tv_goodsType.text = String.format(mContext.getString(R.string.goods_order_goodsType), item.goodsType)
+        itemView.tv_goodsCount.text = String.format(mContext.getString(R.string.goods_order_goodsCount), item.goodsCount)
+        itemView.tv_goodsPrice.text = String.format(mContext.getString(R.string.CNY), item.price)
         helper.addOnClickListener(R.id.bt_refund)
-//        itemView.img.setImageURI(item.img)
-//        itemView.tv_goodsName.text=item.title
-//        itemView.tv_goodsType.text=String.format(mContext.getString(R.string.goods_order_goodsType),item.goodsType)
-//        itemView.tv_goodsCount.text=String.format(mContext.getString(R.string.goods_order_goodsCount),item.goodsCount)
-//        itemView.tv_goodsPrice.text=String.format(mContext.getString(R.string.CNY),item.price)
     }
 }
+
+
+

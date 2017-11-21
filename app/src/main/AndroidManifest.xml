@@ -102,6 +102,8 @@
         <activity android:name=".module.mine.ScoreOrderListActivity"/>
         <!--积分兑换记录详情-->
         <activity android:name=".module.mine.ScoreOrderDetailActivity"/>
+        <!--一般商品确认订单-->
+        <activity android:name=".module.main.store.normal.GoodsConfirmActivity"/>
 
 
 
