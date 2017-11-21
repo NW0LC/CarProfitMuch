@@ -9,8 +9,8 @@ open class GoodsConfirmSubBean {
     var couponId=""
     var expressId=""
 
-    var goodsShopName=""
-    var goodsCount=""
+    var goodsShopName="鱼干店"
+    var goodsCount="2"
     var isShowExpress=false
     var isShowCoupon=false
     var sendWay=""

@@ -8,7 +8,7 @@ import com.vilyever.resource.Resource
  * on 2017/4/26.
  */
 
-open class CouponBean(var couponName: String = "") : KeyAndValueBean() {
+open class CouponBean(var couponName: String = "", var couponPrice: String = "", private var couponFullPrice: String = "") : KeyAndValueBean() {
     override fun absKey(): String = couponId
 
     override fun absValue(): String =couponPrice
@@ -28,8 +28,6 @@ open class CouponBean(var couponName: String = "") : KeyAndValueBean() {
      */
 
     var couponId = ""
-    var couponPrice = ""
-    var couponFullPrice = ""
     var couponInfo = "不使用"
     var couponTime = ""
     var couponState: String= ""
@@ -37,5 +35,5 @@ open class CouponBean(var couponName: String = "") : KeyAndValueBean() {
     var surplusCount: String= ""
     var isGet: String= ""
     var typeId: String= ""
-    override fun toString(): String = String.format(Resource.getString(R.string.coupon_toString),couponPrice,couponName)
+    override fun toString(): String = couponName+if (couponPrice.isNotEmpty()||couponPrice.toDoubleOrNull()==0.toDouble()){String.format(Resource.getString(R.string.coupon_toString),couponFullPrice,couponPrice)}else ""
 }

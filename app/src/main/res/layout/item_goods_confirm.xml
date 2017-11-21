@@ -105,6 +105,8 @@
             android:drawablePadding="@dimen/margin_5"
             android:gravity="end"
             android:text=""
+            android:lines="1"
+            android:ellipsize="end"
             android:textColor="@color/MaterialGrey600"
             android:textSize="@dimen/sp_14" />
     </LinearLayout>
@@ -135,6 +137,8 @@
             android:drawablePadding="@dimen/margin_5"
             android:gravity="end"
             android:text=""
+            android:lines="1"
+            android:ellipsize="end"
             android:textColor="@color/MaterialGrey600"
             android:textSize="@dimen/sp_14" />
     </LinearLayout>
@@ -164,6 +168,8 @@
             android:drawablePadding="@dimen/margin_5"
             android:hint="@string/goods_confirm_hint_msg"
             android:text=""
+            android:lines="1"
+            android:background="@color/White"
             android:textColor="@color/MaterialGrey600"
             android:textColorHint="@color/MaterialGrey400"
             android:textSize="@dimen/sp_14" />

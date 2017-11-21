@@ -275,4 +275,5 @@
     <string name="goods_confirm_coupon_title">店铺优惠券</string>
     <string name="goods_confirm_coupon_item">不使用优惠券</string>
     <string name="goods_confirm_express_title">配送方式</string>
+    <string name="goods_confirm_express_item">快递 免邮</string>
 </resources>

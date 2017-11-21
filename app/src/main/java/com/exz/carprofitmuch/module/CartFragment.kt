@@ -1,6 +1,7 @@
 package com.exz.carprofitmuch.module
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -20,6 +21,7 @@ import com.exz.carprofitmuch.adapter.MainCartAdapter
 import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.GoodsCarBean
 import com.exz.carprofitmuch.config.Urls
+import com.exz.carprofitmuch.module.main.store.normal.GoodsConfirmActivity
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type_Delete
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type_Edit
@@ -281,9 +283,9 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         } else {//结算
             if (b) {
 
-//                val intent = Intent(getActivity(), BillingInfoActivity::class.java)
+                val intent = Intent(context, GoodsConfirmActivity::class.java)
 //                intent.putExtra(Intent_GoodsCar_GoodsCarId, goodsCarIds.substring(0, goodsCarIds.length - 1))
-//                startActivityForResult(intent, 100)
+                startActivityForResult(intent, 100)
             }
         }
 

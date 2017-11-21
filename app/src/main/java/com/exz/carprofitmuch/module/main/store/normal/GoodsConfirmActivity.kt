@@ -1,18 +1,20 @@
 package com.exz.carprofitmuch.module.main.store.normal
 
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.StaggeredGridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.widget.CompoundButton
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsConfirmAdapter
 import com.exz.carprofitmuch.adapter.GoodsConfirmBean
-import com.exz.carprofitmuch.bean.GoodsConfirmSubBean
+import com.exz.carprofitmuch.adapter.GoodsConfirmScoreBean
+import com.exz.carprofitmuch.bean.*
 import com.exz.carprofitmuch.pop.GoodsConfirmCouponPop
 import com.exz.carprofitmuch.pop.GoodsConfirmExpressPop
 import com.szw.framelibrary.base.BaseActivity
@@ -32,9 +34,14 @@ import java.text.DecimalFormat
  *
  */
 
-class GoodsConfirmActivity : BaseActivity(), View.OnClickListener {
+class GoodsConfirmActivity : BaseActivity(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+    override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+        data.score?.isSelect=p1
+        initData(data)
+    }
+
     lateinit var mAdapter: GoodsConfirmAdapter<GoodsConfirmSubBean>
-    lateinit var data: GoodsConfirmBean
+    var data= GoodsConfirmBean()
     val format = DecimalFormat("0.00")
     lateinit var couponPop: GoodsConfirmCouponPop
     lateinit var expressPop: GoodsConfirmExpressPop
@@ -54,20 +61,35 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener {
     override fun setInflateId(): Int = R.layout.activity_goods_confirm
 
     override fun init() {
-        couponPop = GoodsConfirmCouponPop(this)
-        expressPop = GoodsConfirmExpressPop(this)
-        couponPop.onDismissListener = object : BasePopupWindow.OnDismissListener() {
-            override fun onDismiss() {
-                initData(data)
-                mAdapter.notifyDataSetChanged()
-            }
-        }
+
         initEvent()
         initRecycler()
-
+        initPop()
 
         DataCtrlClass.goodsConfirmData(mContext, "") {
-            if (it != null) {
+            if (it == null) {
+                val it= GoodsConfirmBean()
+                it.address= AddressBean()
+                it.score= GoodsConfirmScoreBean()
+                val arrayList = ArrayList<GoodsConfirmSubBean>()
+                val confirmSubBean = GoodsConfirmSubBean()
+                val goods = ArrayList<GoodsBean>()
+                goods.add(GoodsBean())
+                confirmSubBean.goods= goods
+                val coupons = ArrayList<CouponBean>()
+                coupons.add(CouponBean(couponPrice = "2",couponFullPrice = "2"))
+                confirmSubBean.goodsCoupons= coupons
+                val express = ArrayList<ExpressBean>()
+                express.add(ExpressBean("顺丰","10"))
+                express.add(ExpressBean())
+                confirmSubBean.sendWays= express
+                arrayList.add(confirmSubBean)
+                it.goodsConfirmSubs= arrayList
+
+
+
+
+
                 //设置默认地址
                 val addressBean = it.address
                 if (addressBean != null) {
@@ -90,6 +112,7 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener {
                 accumulatePoints.text = it.score?.toString(this)
                 //默认优惠券选择第一个
                 it.goodsConfirmSubs.filterNot { goodsConfirmSub -> goodsConfirmSub.goodsCoupons.any { it.isCheck } }.forEach { it.goodsCoupons.first().isCheck = true }
+                it.goodsConfirmSubs.filterNot { goodsConfirmSub -> goodsConfirmSub.sendWays.any { it.isCheck } }.forEach { it.sendWays.first().isCheck = true }
 
 //                设置数据
                 this.data = it
@@ -99,12 +122,26 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+    private fun initPop() {
+        couponPop = GoodsConfirmCouponPop(this)
+        expressPop = GoodsConfirmExpressPop(this)
+
+        val popDismiss: BasePopupWindow.OnDismissListener = object : BasePopupWindow.OnDismissListener() {
+            override fun onDismiss() {
+                initData(data)
+                mAdapter.notifyDataSetChanged()
+            }
+        }
+        couponPop.onDismissListener = popDismiss
+        expressPop.onDismissListener = popDismiss
+    }
+
     private fun initRecycler() {
         mAdapter = GoodsConfirmAdapter()
         val arrayList = ArrayList<GoodsConfirmSubBean>()
         mAdapter.setNewData(arrayList)
         mAdapter.bindToRecyclerView(mRecyclerView)
-        mRecyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.isNestedScrollingEnabled = false
         mRecyclerView.isFocusable = false
         mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener() {
@@ -139,6 +176,8 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener {
         lay_noAddress.setOnClickListener(this)
         bt_address.setOnClickListener(this)
         bt_confirm.setOnClickListener(this)
+        accumulatePoints.setOnCheckedChangeListener(this)
+
     }
 
     /**
@@ -152,17 +191,17 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener {
             //计算单组商品总价格
             var itemPrice = item.goods.sumByDouble { it.goodsCount.toDouble() * it.price.toDouble() }
             //除去优惠券金额
-            val couponPrice = item.goodsCoupons.first { it.isCheck }.couponPrice.toDouble()
+            val couponPrice = item.goodsCoupons.first { it.isCheck }.couponPrice.toDoubleOrNull()
             item.coupon = item.goodsCoupons.first { it.isCheck }.toString()
             //是否有可选优惠券
             item.isShowCoupon = item.goodsCoupons.isNotEmpty()
-            itemPrice -= couponPrice
+            itemPrice -= couponPrice?:0.toDouble()
             //加上运费
-            val sendPrice = item.sendWays.first { it.isCheck }.expressPrice.toDouble()
+            val sendPrice = item.sendWays.first { it.isCheck }.expressPrice.toDoubleOrNull()
             item.sendWay = item.sendWays.first { it.isCheck }.toString()
             //是否有配送方式
             item.isShowExpress = item.sendWays.isNotEmpty()
-            itemPrice += sendPrice
+            itemPrice += sendPrice?:0.toDouble()
 
             //避免负数
             itemPrice = if (itemPrice < 0) 0.toDouble() else itemPrice
@@ -176,7 +215,7 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener {
             totalPrice += itemPrice
         }
         //减去积分对应的金额
-        totalPrice -= if (data.score?.isSelect == true) (data.score?.scorePrice ?: "").toDouble() * (data.score?.score ?: "0").toDouble() else 0.toDouble()
+        totalPrice -= if (data.score?.isSelect == true) (data.score?.scorePrice ?: "0").toDouble() else 0.toDouble()
 
         //避免负数
         totalPrice = if (totalPrice < 0) 0.toDouble() else totalPrice
