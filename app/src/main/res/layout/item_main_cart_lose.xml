@@ -49,5 +49,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_0.5"
         app:layout_constraintTop_toBottomOf="@+id/lay_top"
-        tool:listitem="@layout/item_item_main_cart" />
+        tool:listitem="@layout/item_item_main_cart_lose" />
 </android.support.constraint.ConstraintLayout>

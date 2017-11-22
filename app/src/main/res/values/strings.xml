@@ -282,4 +282,22 @@
     <string name="main_cart_clearGoods">清空失效宝贝</string>
     <string name="main_cart_lose">失效</string>
     <string name="main_cart_lose2">宝贝已不能购买</string>
+    <string name="address_choose_name">选择收货地址</string>
+    <string name="address_manager_name">地址管理</string>
+    <string name="address_choose_manager">管理</string>
+    <string name="address_edit_keep">保存</string>
+    <string name="address_choose_default">[默认地址]</string>
+    <string name="address_choose_default2">默认地址</string>
+    <string name="address_choose_setDefault">设为默认</string>
+    <string name="address_choose_delete">删除地址</string>
+    <string name="address_manager_add">新增收货地址</string>
+    <string name="address_userName">收货人</string>
+    <string name="address_userPhone">手机号码</string>
+    <string name="address_area">所在地区</string>
+    <string name="address_area_detail">详细地址</string>
+    <string name="address_hint_userName">请输入收货人姓名</string>
+    <string name="address_hint_userPhone">请输入收货人手机号</string>
+    <string name="address_hint_area">请选择所在地</string>
+    <string name="address_hint_area_detail">请输入详细地址</string>
+    <string name="address_update_name">编辑地址</string>
 </resources>

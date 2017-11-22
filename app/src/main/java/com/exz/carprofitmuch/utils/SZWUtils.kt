@@ -29,7 +29,6 @@ import com.exz.carprofitmuch.module.login.LoginActivity
 import com.lzy.okgo.utils.HttpUtils.runOnUiThread
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshHeader
-import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.app.MyApplication
@@ -192,7 +191,7 @@ object SZWUtils {
                         animatorSet.play(x)
                         animatorSet.duration = 0
                         animatorSet.start()
-                        val decimalFormat = DecimalFormat("0.0")
+                        val  decimalFormat= DecimalFormat("0.0")
                         tagView.bar_tag_text.text = decimalFormat.format((realScore / end) * i)
                     }
                 if (i >= 5)
@@ -231,7 +230,6 @@ object SZWUtils {
         view.setPadding(view.paddingLeft, view.paddingTop + SizeUtils.dp2px(size), view.paddingRight, view.paddingBottom)
 
     }
-
     /**
      * 减少固定外边距
      */
@@ -301,7 +299,6 @@ object SZWUtils {
         filterBeans.add(ServiceListFilterBean("3", "价格由低到高"))
         return filterBeans
     }
-
     /**
      * 获取性别数据
      */
@@ -376,7 +373,7 @@ object SZWUtils {
      * 设置刷新 及控制 刷新头 的显示和隐藏
      *
      */
-    fun setRefreshAndHeaderCtrl(listener: OnRefreshListener, header: ClassicsHeader, refreshLayout: SmartRefreshLayout) {
+    fun setRefreshAndHeaderCtrl(listener:OnRefreshListener ,header: View, refreshLayout: SmartRefreshLayout) {
 
         refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
             override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {

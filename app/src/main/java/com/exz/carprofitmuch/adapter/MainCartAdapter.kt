@@ -8,7 +8,6 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.GoodsCarBean
-import com.exz.carprofitmuch.bean.InformationBean
 import com.exz.carprofitmuch.module.CartFragment
 import com.exz.carprofitmuch.module.CartFragment.Companion.itemSelect
 import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity
@@ -24,7 +23,7 @@ import java.util.*
 
 class MainCartAdapter<T : GoodsCarBean>(context: CartFragment) : BaseMultiItemQuickAdapter<T, BaseViewHolder>(ArrayList<T>()) {
     private var cartFragment: CartFragment = context
-    var animatorEnable = true
+    var animatorEnable = false
     //    R.layout.item_main_cart
     init {
         addItemType(GoodsCarBean.TYPE_1, R.layout.item_main_cart)

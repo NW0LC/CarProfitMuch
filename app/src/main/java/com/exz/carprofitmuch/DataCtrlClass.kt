@@ -998,4 +998,59 @@ object DataCtrlClass {
 
                 })
     }
+    /**
+     *地址选择列表
+     * */
+    fun addressChooseData(context: Context, currentPage: Int, listener: (addressBean: List<AddressBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("currentPage", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        OkGo.post<NetEntity<List<AddressBean>>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<AddressBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<AddressBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<AddressBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 地址编辑，设为默认还是删除
+     * */
+    fun editAddressState(context: Context,info:String, listener: (addressBean: AddressBean?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("info", info)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        OkGo.post<NetEntity<AddressBean>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<AddressBean>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<AddressBean>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<AddressBean>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
 }
