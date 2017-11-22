@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/lay_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_loseGoodsCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/White"
+            android:button="@null"
+            android:ellipsize="end"
+            android:lines="1"
+            android:paddingBottom="@dimen/margin_15"
+            android:paddingEnd="@dimen/margin_10"
+            android:paddingStart="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_15"
+            android:text="@string/main_cart_loseGoodsCount"
+            android:textColor="@color/MaterialGrey600" />
+
+        <TextView
+
+            android:id="@+id/bt_clearGoods"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/White"
+            android:button="@null"
+            android:ellipsize="end"
+            android:lines="1"
+            android:paddingBottom="@dimen/margin_15"
+            android:paddingEnd="@dimen/margin_10"
+            android:paddingStart="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_15"
+            android:text="@string/main_cart_clearGoods"
+            android:textColor="@color/colorPrimary" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mLoseRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_0.5"
+        app:layout_constraintTop_toBottomOf="@+id/lay_top"
+        tool:listitem="@layout/item_item_main_cart" />
+</android.support.constraint.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.exz.carprofitmuch.module
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -19,7 +20,9 @@ import com.exz.carprofitmuch.adapter.ItemMainCartAdapter
 import com.exz.carprofitmuch.adapter.MainCartAdapter
 import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.GoodsCarBean
+import com.exz.carprofitmuch.bean.GoodsCarBean.Companion.TYPE_2
 import com.exz.carprofitmuch.config.Urls
+import com.exz.carprofitmuch.module.main.store.normal.GoodsConfirmActivity
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type_Delete
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type_Edit
@@ -63,7 +66,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
     override fun initView() {
         initBar()
-        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
+        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initRecycler()
 
     }
@@ -110,14 +113,26 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
         mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener() {
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-               mRecyclerView.post {  val goodsCarBean = mAdapter.data[position]
-                   goodsCarBean.isCheck = !goodsCarBean.isCheck
-                   for (goodsBean in goodsCarBean.goods) {  //设置某个店铺下的商品选中状态
-                       goodsBean.isCheck = goodsCarBean.isCheck
-                   }
-                   mAdapter.notifyItemChanged(position)
-                   setAllPrice()
-                   checkSelectAll(mAdapter, select_all) }
+                when (view?.id) {
+                    R.id.bt_clearGoods -> {
+                        //清空失效商品
+                    }
+                    R.id.cb_goodsShop_name -> {
+                        mRecyclerView.post {
+                        val goodsCarBean = mAdapter.data[position]
+                        goodsCarBean.isCheck = !goodsCarBean.isCheck
+                        for (goodsBean in goodsCarBean.goods) {  //设置某个店铺下的商品选中状态
+                            goodsBean.isCheck = goodsCarBean.isCheck
+                        }
+                        mAdapter.notifyItemChanged(position)
+                        setAllPrice()
+                        checkSelectAll(mAdapter, select_all)
+                    }
+                    }
+                    else -> {
+                    }
+                }
+
             }
         })
     }
@@ -126,6 +141,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     override fun onClick(p0: View?) {
         when (p0) {
             select_all -> {//全选
+                mAdapter.animatorEnable = false
                 mAdapter.data
                         .flatMap {
                             it.isCheck = select_all.isChecked
@@ -133,6 +149,9 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                         }
                         .forEach { it.isCheck = select_all.isChecked }
                 mAdapter.notifyDataSetChanged()
+                mRecyclerView.post {
+                    mAdapter.animatorEnable = true
+                }
                 setAllPrice()
             }
             actionView -> {//编辑
@@ -143,6 +162,8 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                         Edit_Type = Edit_Type_Delete
                         buyNow.text = getString(R.string.favorite_goods_delete)
                         refreshLayout.isEnableRefresh = false
+
+                        checkSelectAll(mAdapter, select_all)
                     }
                     Edit_Type_Delete -> {
                         priceLay.visibility = View.VISIBLE
@@ -150,6 +171,8 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                         Edit_Type = Edit_Type_Edit
                         buyNow.text = String.format(getString(R.string.cart_confirm), selectCount)
                         refreshLayout.isEnableRefresh = true
+
+                        checkSelectAll(mAdapter, select_all)
                     }
                 }
                 actionView.isClickable = false
@@ -183,8 +206,26 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {
                     mAdapter.setNewData(it)
+                    if (mAdapter.data.isNotEmpty())
+                        setLoseGoods()
                 } else {
-                    mAdapter.addData(it)
+                    if (it.isNotEmpty()) {
+                        val data = mAdapter.data
+//                        最后一条数据
+                        var goodsCarBean = data.lastOrNull()
+//                        最后一条是否为失效商品，是则取上一条 否 则取最后一条
+                        goodsCarBean = data[if (goodsCarBean?.itemType == TYPE_2) data.lastIndex - 1 else data.lastIndex]
+//                        如果上下匹配，合并到一起
+                        if (it.first().shopId == goodsCarBean.shopId) {
+                            goodsCarBean.goods.addAll(it.first().goods)
+//                          匹配的话移除新增数组的第一条数据
+                            it.removeAt(0)
+                        }
+                        mAdapter.addData(it)
+//                        将所有失效商品取出来建立新集合  删除 每组没商品的空集合 移动至最后一组
+                        setLoseGoods()
+
+                    }
 
                 }
                 if (it.isNotEmpty()) {
@@ -200,6 +241,32 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             }
         }
 
+    }
+
+    /**
+     * 设置过时商品
+     */
+    private fun setLoseGoods() {
+        val goodsCarBeans = mAdapter.data.iterator()
+        val newGoodsCarBean = GoodsCarBean()
+        while (goodsCarBeans.hasNext()) {
+            val goodsCarBean = goodsCarBeans.next()
+            val goodsBeans = goodsCarBean.goods.iterator()
+            while (goodsBeans.hasNext()){
+               val  goodsBean=goodsBeans.next()
+                newGoodsCarBean.goods = if (newGoodsCarBean.goods.isEmpty()) ArrayList() else newGoodsCarBean.goods
+                if (goodsBean.goodsType.toInt()== TYPE_2){
+                    newGoodsCarBean.goods.add(goodsBean)
+                    goodsBeans.remove()
+                }
+            }
+            if (!goodsCarBean.goods.isNotEmpty()) {
+                goodsCarBeans.remove()
+            }
+
+        }
+        mAdapter.data.add(newGoodsCarBean)
+        mAdapter.notifyDataSetChanged()
     }
 
 
@@ -281,9 +348,9 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         } else {//结算
             if (b) {
 
-//                val intent = Intent(getActivity(), BillingInfoActivity::class.java)
+                val intent = Intent(context, GoodsConfirmActivity::class.java)
 //                intent.putExtra(Intent_GoodsCar_GoodsCarId, goodsCarIds.substring(0, goodsCarIds.length - 1))
-//                startActivityForResult(intent, 100)
+                startActivityForResult(intent, 100)
             }
         }
 
@@ -295,17 +362,18 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
      */
     fun setAllPrice() {
         selectCount = 0
-        val price = mAdapter.data.flatMap { it.goods }.filter { it.isCheck }.sumByDouble {
+        val price = mAdapter.data.flatMap { if (it.itemType== TYPE_2) ArrayList()else it.goods }.filter { it.isCheck }.sumByDouble {
             selectCount++
             (if (it.price.isEmpty()) "0" else it.price).toDouble() * (if (it.goodsCount.isEmpty()) "0" else it.goodsCount).toInt()
         }
         assignPriceAndCount(price)
         footer_bar.visibility = if (mAdapter.data.size > 0) View.VISIBLE else View.GONE
     }
+
     /**
      * 给价格和货物数量赋值
      */
-    private fun assignPriceAndCount(price:Double) {
+    private fun assignPriceAndCount(price: Double) {
         val priceFormat = DecimalFormat("0.00")
         this.price.text = priceFormat.format(price)
         if (Edit_Type != Edit_Type_Delete)//如果是编辑状态就不用改变
@@ -329,7 +397,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
          * 单选，是否全选
          *
          */
-        fun itemSelect(mAdapter: MainCartAdapter<*>, subAdapter: ItemMainCartAdapter<*>, selectAll: CheckBox, parentPosition: Int, position: Int) {
+        fun itemSelect(mAdapter: MainCartAdapter<*>, subAdapter: BaseQuickAdapter<GoodsBean,*>, selectAll: CheckBox, parentPosition: Int, position: Int) {
             val goodsCarBean = mAdapter.data[parentPosition]
             val goodsBean = subAdapter.data[position]
             goodsBean.isCheck = !goodsBean.isCheck
@@ -346,7 +414,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
          * @param view 是否全选
          */
         fun checkSelectAll(mAdapter: MainCartAdapter<*>, view: CheckBox) {
-            val b = mAdapter.data.flatMap { it.goods }.none { !it.isCheck }
+            val b = mAdapter.data.flatMap { if (it.itemType== TYPE_2&&Edit_Type == Edit_Type_Edit) ArrayList()else it.goods }.none { !it.isCheck }
             view.isChecked = b
         }
 
@@ -404,7 +472,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
          * @param adapter       适配器
          * @param goodsEntities 移除
          */
-        fun removeItem(context: CartFragment, adapter: MainCartAdapter<out GoodsCarBean>, subAdapter: ItemMainCartAdapter<*>?, goodsEntities: List<GoodsBean>) {
+        fun removeItem(context: CartFragment, adapter: MainCartAdapter<out GoodsCarBean>, subAdapter: BaseQuickAdapter<*,*>?, goodsEntities: List<GoodsBean>) {
             val iterator = adapter.data.iterator()
             while (iterator.hasNext()) {
                 val temp = iterator.next()

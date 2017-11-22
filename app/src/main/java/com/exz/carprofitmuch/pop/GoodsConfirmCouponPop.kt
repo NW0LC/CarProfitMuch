@@ -32,6 +32,7 @@ class GoodsConfirmCouponPop(context: Context) : BasePopupWindow(context), View.O
     }
 
     init {
+        popupWindow.isClippingEnabled = false
         mAdapter.bindToRecyclerView(inflate.mRecyclerView)
         inflate.mRecyclerView.layoutManager = LinearLayoutManager(getContext())
         inflate.mRecyclerView.addItemDecoration(RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(getContext(), R.color.White)))
@@ -42,6 +43,8 @@ class GoodsConfirmCouponPop(context: Context) : BasePopupWindow(context), View.O
                 }
                 mAdapter.data[position].isCheck=true
                 data?.couponId=mAdapter.data[position].couponId
+                mAdapter.notifyDataSetChanged()
+                dismiss()
             }
         })
     }

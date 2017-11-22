@@ -7,9 +7,10 @@ buildscript {
         jcenter()
         maven { url "https://jitpack.io" }
         maven { url "http://objectbox.net/beta-repo/" }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         //数据库
         classpath "io.objectbox:objectbox-gradle-plugin:$objectboxVersion"
 
@@ -26,6 +27,7 @@ allprojects {
         maven { url "https://jitpack.io" }
         maven { url 'https://maven.google.com' }
         maven { url "http://objectbox.net/beta-repo/" }
+        google()
     }
 }
 
