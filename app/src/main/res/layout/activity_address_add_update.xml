@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/app_bg">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnablePreviewInEditMode="false"
+        app:srlHeaderHeight="150dp"
+        app:srlHeaderMaxDragRate="1">
+
+        <View
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/black" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:paddingBottom="?attr/actionBarSize"
+            android:paddingTop="?attr/actionBarSize">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/White"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/margin_15"
+                        android:layout_marginStart="@dimen/margin_15"
+                        android:minEms="4"
+                        android:text="@string/address_userName"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_12" />
+
+                    <EditText
+                        android:id="@+id/ed_userName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="@string/address_hint_userName"
+                        android:minHeight="@dimen/margin_45"
+                        android:paddingEnd="@dimen/margin_15"
+                        android:paddingStart="0dp"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@color/MaterialGrey400"
+                        android:textColorHint="@color/MaterialGrey200"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    android:background="@color/White"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_15"
+                        android:layout_marginStart="@dimen/margin_15"
+                        android:minEms="4"
+                        android:text="@string/address_userPhone"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_12" />
+
+                    <EditText
+                        android:id="@+id/ed_userPhone"
+                        android:inputType="phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="@string/address_hint_userPhone"
+                        android:minHeight="@dimen/margin_45"
+                        android:paddingEnd="@dimen/margin_15"
+                        android:paddingStart="0dp"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@color/MaterialGrey400"
+                        android:textColorHint="@color/MaterialGrey200"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    android:background="@color/White"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_15"
+                        android:layout_marginStart="@dimen/margin_15"
+                        android:minEms="4"
+                        android:text="@string/address_area"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:id="@+id/bt_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:drawableEnd="@mipmap/icon_main_gray_next"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:gravity="center_vertical|end"
+                        android:hint="@string/address_hint_area"
+                        android:singleLine="true"
+                        android:minHeight="@dimen/margin_45"
+                        android:text=""
+                        android:textColor="@color/MaterialGrey400"
+                        android:textColorHint="@color/MaterialGrey200"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    android:background="@color/White"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_15"
+                        android:minEms="4"
+                        android:text="@string/address_area_detail"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_12" />
+
+                    <EditText
+                        android:id="@+id/ed_addressDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_15"
+                        android:background="@null"
+                        android:gravity="start"
+                        android:hint="@string/address_hint_area_detail"
+                        android:minHeight="@dimen/margin_45"
+                        android:paddingBottom="@dimen/margin_15"
+                        android:paddingEnd="@dimen/margin_15"
+                        android:paddingStart="0dp"
+                        android:text=""
+                        android:textColor="@color/MaterialGrey400"
+                        android:textColorHint="@color/MaterialGrey200"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/bt_setDefault"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@color/white"
+                    android:padding="@dimen/margin_15"
+                    android:switchMinWidth="20dp"
+                    android:text="@string/address_choose_setDefault"
+                    android:textColor="@color/MaterialGrey600"
+                    android:textOff=""
+                    android:textOn=""
+                    android:textSize="@dimen/sp_12"
+                    android:thumb="@drawable/billing_thumb"
+                    android:track="@drawable/billing_track" />
+
+                <TextView
+                    android:id="@+id/bt_delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@color/white"
+                    android:padding="@dimen/margin_15"
+                    android:switchMinWidth="20dp"
+                    android:text="@string/address_choose_delete"
+                    android:textColor="@color/colorPrimary"
+                    android:textOff=""
+                    android:textOn=""
+                    android:textSize="@dimen/sp_12"
+                    android:thumb="@drawable/billing_thumb"
+                    android:track="@drawable/billing_track" />
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <include layout="@layout/action_bar_custom" />
+
+
+</FrameLayout>

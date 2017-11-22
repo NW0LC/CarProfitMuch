@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.support.v4.content.ContextCompat
-import android.text.TextUtils
 import android.view.View
 import com.blankj.utilcode.util.SizeUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -14,9 +13,9 @@ import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.module.CartFragment
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity
 import com.exz.carprofitmuch.utils.DialogUtils
+import kotlinx.android.synthetic.main.item_item_item_main_cart_lose.view.*
 import kotlinx.android.synthetic.main.item_item_main_cart.view.*
-import kotlinx.android.synthetic.main.layout_main_cart.view.*
-import java.util.ArrayList
+import java.util.*
 
 class ItemMainCartLoseAdapter<T : GoodsBean>(private var context: CartFragment, private var parentAdapter: MainCartAdapter<*>,private var animatorEnable :Boolean) : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_item_main_cart_lose, ArrayList<T>()) {
 
@@ -24,7 +23,7 @@ class ItemMainCartLoseAdapter<T : GoodsBean>(private var context: CartFragment, 
         val itemView = helper.itemView
         helper.addOnClickListener(R.id.radioButton)
         helper.addOnClickListener(R.id.lay_main_cart)
-        itemView.goodsName.text = item.title
+        itemView.tv_goodsName.text = item.title
         itemView.img.setImageURI(item.img)
 
         itemView.radioButton.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, if (item.isCheck) R.mipmap.icon_service_pay_select_on else R.mipmap.icon_service_pay_select_off), null, null, null)

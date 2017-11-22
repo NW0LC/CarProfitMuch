@@ -1,5 +1,7 @@
 package com.exz.carprofitmuch.module.main.store.normal
 
+import android.app.Activity
+import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.SpannableString
@@ -15,6 +17,8 @@ import com.exz.carprofitmuch.adapter.GoodsConfirmAdapter
 import com.exz.carprofitmuch.adapter.GoodsConfirmBean
 import com.exz.carprofitmuch.adapter.GoodsConfirmScoreBean
 import com.exz.carprofitmuch.bean.*
+import com.exz.carprofitmuch.module.mine.address.AddressAddOrUpdateActivity
+import com.exz.carprofitmuch.module.mine.address.AddressChooseActivity
 import com.exz.carprofitmuch.pop.GoodsConfirmCouponPop
 import com.exz.carprofitmuch.pop.GoodsConfirmExpressPop
 import com.szw.framelibrary.base.BaseActivity
@@ -65,7 +69,10 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener, CompoundButto
         initEvent()
         initRecycler()
         initPop()
+        initData()
 
+    }
+    private fun initData(){
         DataCtrlClass.goodsConfirmData(mContext, "") {
             if (it == null) {
                 val it= GoodsConfirmBean()
@@ -90,23 +97,8 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener, CompoundButto
 
 
 
-                //设置默认地址
-                val addressBean = it.address
-                if (addressBean != null) {
-                    lay_noAddress.visibility = View.GONE
-                    bt_address.visibility = View.VISIBLE
-
-                    tv_userName.text = addressBean.userName
-                    tv_userPhone.text = addressBean.userPhone
-
-                    val scoreConfirmAddressDetail = getString(R.string.score_confirm_address_detail)
-                    val msp = SpannableString(scoreConfirmAddressDetail + addressBean.toString())
-                    msp.setSpan(ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.MaterialGrey700)), 0, scoreConfirmAddressDetail.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    tv_address.text = msp
-                } else {
-                    lay_noAddress.visibility = View.VISIBLE
-                    bt_address.visibility = View.GONE
-                }
+                //设置地址
+                setAddress(it)
                 //设置积分
                 accumulatePoints.visibility = if (it.score != null) View.VISIBLE else View.GONE
                 accumulatePoints.text = it.score?.toString(this)
@@ -119,6 +111,24 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener, CompoundButto
                 initData(data)
                 mAdapter.setNewData(it.goodsConfirmSubs)
             }
+        }
+    }
+    private fun setAddress(it: GoodsConfirmBean) {
+        val addressBean = it.address
+        if (addressBean != null) {
+            lay_noAddress.visibility = View.GONE
+            bt_address.visibility = View.VISIBLE
+
+            tv_userName.text = addressBean.userName
+            tv_userPhone.text = addressBean.userPhone
+
+            val scoreConfirmAddressDetail = getString(R.string.score_confirm_address_detail)
+            val msp = SpannableString(scoreConfirmAddressDetail + addressBean.toString())
+            msp.setSpan(ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.MaterialGrey700)), 0, scoreConfirmAddressDetail.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            tv_address.text = msp
+        } else {
+            lay_noAddress.visibility = View.VISIBLE
+            bt_address.visibility = View.GONE
         }
     }
 
@@ -228,8 +238,31 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener, CompoundButto
 
     override fun onClick(p0: View?) {
         when (p0) {
+            bt_address -> {//地址选择
+                startActivityForResult(Intent(this,AddressChooseActivity::class.java),100)
+            }
+            lay_noAddress -> {//地址选择
+                val intent = Intent(this@GoodsConfirmActivity, AddressAddOrUpdateActivity::class.java)
+                intent.putExtra(AddressAddOrUpdateActivity.Intent_AddressType, AddressAddOrUpdateActivity.address_type_3)
+                startActivityForResult(intent,200)
+            }
             bt_confirm -> {
 
+            }
+
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (Activity.RESULT_OK==resultCode) {
+            when (requestCode) {
+                100 -> {
+                    this.data.address=data?.getSerializableExtra(AddressChooseActivity.Intent_Result_Address) as AddressBean
+                    //设置地址
+                    setAddress(this.data)
+                }
+                200 -> initData()
             }
 
         }

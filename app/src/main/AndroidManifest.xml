@@ -104,6 +104,12 @@
         <activity android:name=".module.mine.ScoreOrderDetailActivity"/>
         <!--一般商品确认订单-->
         <activity android:name=".module.main.store.normal.GoodsConfirmActivity"/>
+        <!--地址选择-->
+        <activity android:name=".module.mine.address.AddressChooseActivity"/>
+        <!--地址管理-->
+        <activity android:name=".module.mine.address.AddressManagerActivity"/>
+        <!--地址新增或更新-->
+        <activity android:name=".module.mine.address.AddressAddOrUpdateActivity"/>
 
 
 

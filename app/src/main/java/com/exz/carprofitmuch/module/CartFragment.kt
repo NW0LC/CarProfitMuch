@@ -16,7 +16,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.adapter.ItemMainCartAdapter
 import com.exz.carprofitmuch.adapter.MainCartAdapter
 import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.GoodsCarBean
@@ -101,12 +100,13 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         element.goods.add(GoodsBean("1", "2", price = "20"))
         element.goods.add(GoodsBean("3", "4", price = "21"))
         element2.goods.add(GoodsBean("5", "6", price = "22"))
-        element2.goods.add(GoodsBean("7", "8", price = "23"))
+        element2.goods.add(GoodsBean("7", "8", price = "23", goodsType = "2"))
 
         arrayList.add(element)
         arrayList.add(element2)
 
         mAdapter.setNewData(arrayList)
+        setLoseGoods()
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -119,15 +119,15 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                     }
                     R.id.cb_goodsShop_name -> {
                         mRecyclerView.post {
-                        val goodsCarBean = mAdapter.data[position]
-                        goodsCarBean.isCheck = !goodsCarBean.isCheck
-                        for (goodsBean in goodsCarBean.goods) {  //设置某个店铺下的商品选中状态
-                            goodsBean.isCheck = goodsCarBean.isCheck
+                            val goodsCarBean = mAdapter.data[position]
+                            goodsCarBean.isCheck = !goodsCarBean.isCheck
+                            for (goodsBean in goodsCarBean.goods) {  //设置某个店铺下的商品选中状态
+                                goodsBean.isCheck = goodsCarBean.isCheck
+                            }
+                            mAdapter.notifyItemChanged(position)
+                            setAllPrice()
+                            checkSelectAll(mAdapter, select_all)
                         }
-                        mAdapter.notifyItemChanged(position)
-                        setAllPrice()
-                        checkSelectAll(mAdapter, select_all)
-                    }
                     }
                     else -> {
                     }
@@ -141,7 +141,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     override fun onClick(p0: View?) {
         when (p0) {
             select_all -> {//全选
-                mAdapter.animatorEnable = false
+
                 mAdapter.data
                         .flatMap {
                             it.isCheck = select_all.isChecked
@@ -149,12 +149,11 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                         }
                         .forEach { it.isCheck = select_all.isChecked }
                 mAdapter.notifyDataSetChanged()
-                mRecyclerView.post {
-                    mAdapter.animatorEnable = true
-                }
+
                 setAllPrice()
             }
             actionView -> {//编辑
+                mAdapter.animatorEnable = true
                 when (if (Edit_Type == "-1") Edit_Type_Edit else Edit_Type) {
                     Edit_Type_Edit -> {
                         priceLay.visibility = View.INVISIBLE
@@ -174,6 +173,10 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
                         checkSelectAll(mAdapter, select_all)
                     }
+                }
+                mAdapter.notifyDataSetChanged()
+                mRecyclerView.post {
+                    mAdapter.animatorEnable = false
                 }
                 actionView.isClickable = false
                 actionView.postDelayed({ actionView.isClickable = true }, 500)
@@ -249,13 +252,14 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     private fun setLoseGoods() {
         val goodsCarBeans = mAdapter.data.iterator()
         val newGoodsCarBean = GoodsCarBean()
+        newGoodsCarBean.type = TYPE_2
         while (goodsCarBeans.hasNext()) {
             val goodsCarBean = goodsCarBeans.next()
             val goodsBeans = goodsCarBean.goods.iterator()
-            while (goodsBeans.hasNext()){
-               val  goodsBean=goodsBeans.next()
+            while (goodsBeans.hasNext()) {
+                val goodsBean = goodsBeans.next()
                 newGoodsCarBean.goods = if (newGoodsCarBean.goods.isEmpty()) ArrayList() else newGoodsCarBean.goods
-                if (goodsBean.goodsType.toInt()== TYPE_2){
+                if (goodsBean.goodsType.toInt() == TYPE_2) {
                     newGoodsCarBean.goods.add(goodsBean)
                     goodsBeans.remove()
                 }
@@ -362,7 +366,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
      */
     fun setAllPrice() {
         selectCount = 0
-        val price = mAdapter.data.flatMap { if (it.itemType== TYPE_2) ArrayList()else it.goods }.filter { it.isCheck }.sumByDouble {
+        val price = mAdapter.data.flatMap { if (it.itemType == TYPE_2) ArrayList() else it.goods }.filter { it.isCheck }.sumByDouble {
             selectCount++
             (if (it.price.isEmpty()) "0" else it.price).toDouble() * (if (it.goodsCount.isEmpty()) "0" else it.goodsCount).toInt()
         }
@@ -397,7 +401,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
          * 单选，是否全选
          *
          */
-        fun itemSelect(mAdapter: MainCartAdapter<*>, subAdapter: BaseQuickAdapter<GoodsBean,*>, selectAll: CheckBox, parentPosition: Int, position: Int) {
+        fun itemSelect(mAdapter: MainCartAdapter<*>, subAdapter: BaseQuickAdapter<GoodsBean, *>, selectAll: CheckBox, parentPosition: Int, position: Int) {
             val goodsCarBean = mAdapter.data[parentPosition]
             val goodsBean = subAdapter.data[position]
             goodsBean.isCheck = !goodsBean.isCheck
@@ -414,7 +418,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
          * @param view 是否全选
          */
         fun checkSelectAll(mAdapter: MainCartAdapter<*>, view: CheckBox) {
-            val b = mAdapter.data.flatMap { if (it.itemType== TYPE_2&&Edit_Type == Edit_Type_Edit) ArrayList()else it.goods }.none { !it.isCheck }
+            val b = mAdapter.data.flatMap { if (it.itemType == TYPE_2 && Edit_Type == Edit_Type_Edit) ArrayList() else it.goods }.none { !it.isCheck }
             view.isChecked = b
         }
 
@@ -472,7 +476,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
          * @param adapter       适配器
          * @param goodsEntities 移除
          */
-        fun removeItem(context: CartFragment, adapter: MainCartAdapter<out GoodsCarBean>, subAdapter: BaseQuickAdapter<*,*>?, goodsEntities: List<GoodsBean>) {
+        fun removeItem(context: CartFragment, adapter: MainCartAdapter<out GoodsCarBean>, subAdapter: BaseQuickAdapter<*, *>?, goodsEntities: List<GoodsBean>) {
             val iterator = adapter.data.iterator()
             while (iterator.hasNext()) {
                 val temp = iterator.next()
