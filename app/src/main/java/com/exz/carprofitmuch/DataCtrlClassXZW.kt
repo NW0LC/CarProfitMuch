@@ -280,6 +280,37 @@ object DataCtrlClassXZW {
                 })
     }
 
+    /**
+     * 提交退款申请
+     * */
+    fun SubmitRefundData(context: Context, orderId: String, s: String, cause: String, issue: String, img: String, listener: (scoreStoreBean: String?) -> Unit) {
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("orderId", orderId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
+
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<String>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+
+
+    }
+
 
 }
 

@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
-            android:paddingBottom="?attr/actionBarSize"
+            android:focusable="false"
             android:paddingTop="?attr/actionBarSize"
 
             >
@@ -98,6 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_10"
                     android:layout_marginStart="@dimen/dp_10"
+                    android:textCursorDrawable="@drawable/color_cursor"
                     android:background="@drawable/mine_refund_price_ed"
                     android:hint="@string/mine_input_return_price"
                     android:padding="@dimen/dp_10"
@@ -123,6 +124,7 @@
                     android:background="@drawable/mine_refund_price_ed"
                     android:hint="@string/mine_input_refund_cause"
                     android:padding="@dimen/dp_10"
+                    android:textCursorDrawable="@drawable/color_cursor"
                     android:textColor="@color/MaterialGrey800"
                     android:textColorHint="@color/MaterialGrey400"
                     android:textSize="@dimen/sp_14" />
@@ -160,6 +162,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/mRecyclerView"
+                    android:layout_marginStart="@dimen/dp_10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -168,5 +171,10 @@
         </android.support.v4.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:id="@+id/back"
+        />
 
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.exz.carprofitmuch.R
+import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.MyOrderBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import kotlinx.android.synthetic.main.item_my_order.view.*
@@ -20,7 +21,7 @@ import kotlinx.android.synthetic.main.lay_goods_order_bt.view.*
 class ReturnGoodsAdapter<T> : BaseQuickAdapter<MyOrderBean, BaseViewHolder>(R.layout.item_my_order, null) {
 
     override fun convert(helper: BaseViewHolder, item: MyOrderBean) {
-        val mAdapter = ItemGoodsOrderAdapter()
+        val mAdapter = ItemGoodsOrderAdapter<GoodsBean>()
         mAdapter.bindToRecyclerView(helper.itemView.mRecyclerView)
         mAdapter.setNewData(item.goodsBeanData)
         helper.itemView.mRecyclerView.isFocusable=false

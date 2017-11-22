@@ -5,14 +5,16 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ItemOrderCommentImageAdapter
 import com.exz.carprofitmuch.module.mine.RefundActivity
-import com.exz.carprofitmuch.utils.SZWUtils
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.DialogUtils
 import com.szw.framelibrary.utils.StatusBarUtil
+import com.szw.framelibrary.view.preview.PreviewActivity
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_retunr_goods_detail.*
 import kotlinx.android.synthetic.main.item_item_goods_order.*
@@ -32,12 +34,12 @@ class ReturnGoodsDetailActivity : BaseActivity(), View.OnClickListener {
     var photos = ArrayList<String>()
     override fun initToolbar(): Boolean {
         //状态栏透明和间距处理
-        mTitle.text = getString(R.string.mine_return_goods_detail)
+        mTitle.text = mContext.getString(R.string.mine_return_goods_detail)
         StatusBarUtil.immersive(this)
         StatusBarUtil.setPaddingSmart(this, toolbar)
         StatusBarUtil.setPaddingSmart(this, blurView)
         StatusBarUtil.setPaddingSmart(this, header)
-        SZWUtils.setPaddingSmart(scrollView, 10f)
+        StatusBarUtil.setPaddingSmart(this,scrollView)
         toolbar.setNavigationOnClickListener { finish() }
         return false
     }
@@ -51,12 +53,9 @@ class ReturnGoodsDetailActivity : BaseActivity(), View.OnClickListener {
         initView()
         initEvent()
         initImgRecycler()
-        initOrderDetail()
 
     }
 
-    private fun initOrderDetail() {
-    }
 
 
     private fun initView() {
@@ -187,5 +186,21 @@ class ReturnGoodsDetailActivity : BaseActivity(), View.OnClickListener {
         mRecyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         mRecyclerView.isNestedScrollingEnabled = false
         mRecyclerView.isFocusable = false
+
+
+        mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
+            override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+                    val intent = Intent(mContext, PreviewActivity::class.java)
+                    val imgs = ArrayList<String>()
+                    imgs.addAll(photos)
+                    imgs.removeAt(imgs.lastIndex)
+                    intent.putExtra(PreviewActivity.PREVIEW_INTENT_IMAGES, imgs)
+                    intent.putExtra(PreviewActivity.PREVIEW_INTENT_SHOW_NUM, true)
+                    intent.putExtra(PreviewActivity.PREVIEW_INTENT_IS_CAN_DELETE, false)
+                    intent.putExtra(PreviewActivity.PREVIEW_INTENT_POSITION, position)
+                    startActivityForResult(intent,100)
+            }
+
+        })
     }
 }
