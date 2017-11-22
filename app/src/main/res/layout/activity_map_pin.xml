@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg">
+
+
+
+    <TextView
+        android:id="@+id/tv_get"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:padding="@dimen/margin_15"
+        android:text="当前半径3km内共有10个商家发布宝藏"
+        android:textColor="@color/MaterialGrey600"
+        android:textSize="14sp" />
+
+
+
+        <com.tencent.tencentmap.mapsdk.map.MapView
+            android:id="@+id/mapview"
+            android:layout_above="@id/tv_get"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    <ImageButton
+        android:id="@+id/btn_show_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/icon_map_loc"
+        android:layout_above="@id/tv_get"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"/>
+
+
+    <include layout="@layout/action_bar_custom" />
+</RelativeLayout>

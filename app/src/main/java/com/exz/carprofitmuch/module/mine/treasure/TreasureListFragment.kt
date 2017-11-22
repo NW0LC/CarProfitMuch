@@ -11,7 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.adapter.MyCommentAdapter
+import com.exz.carprofitmuch.adapter.MyTreasureAdapter
 import com.exz.carprofitmuch.bean.CommentBean
 import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity
 import com.exz.carprofitmuch.utils.RecycleViewDivider
@@ -26,14 +26,14 @@ import java.util.*
 
 /**
  * on 2017/10/17.
- * 评价
+ * 我的宝藏
  */
 
-class MyCommentFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
+class TreasureListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
-    private lateinit var mAdapter: MyCommentAdapter<CommentBean>
+    private lateinit var mAdapter: MyTreasureAdapter<CommentBean>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_comment_list, container, false)
@@ -42,7 +42,7 @@ class MyCommentFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListe
 
     override fun initView() {
         initToolbar()
-        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
+        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initRecycler()
     }
 
@@ -55,13 +55,14 @@ class MyCommentFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListe
         StatusBarUtil.setPaddingSmart(activity, mRecyclerView)
         StatusBarUtil.setMargin(activity, header)
         SZWUtils.setPaddingSmart(mRecyclerView, 55f)
-//        SZWUtils.setMargin(header, 55f)
+        SZWUtils.setMargin(header, 55f)
+        header.visibility = View.VISIBLE
         return false
     }
 
     private val arrayList2 = ArrayList<CommentBean>()
     private fun initRecycler() {
-        mAdapter = MyCommentAdapter()
+        mAdapter = MyTreasureAdapter()
         val imgs = ArrayList<String>()
         imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
         imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
@@ -75,8 +76,7 @@ class MyCommentFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListe
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
-        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
-
+        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 15, ContextCompat.getColor(context, R.color.app_bg)))
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {

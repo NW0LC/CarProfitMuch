@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ItemOrderCommentImageAdapter
+import com.exz.carprofitmuch.module.mine.InputLogisticsActivity
 import com.exz.carprofitmuch.module.mine.RefundActivity
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.DialogUtils
@@ -39,7 +40,7 @@ class ReturnGoodsDetailActivity : BaseActivity(), View.OnClickListener {
         StatusBarUtil.setPaddingSmart(this, toolbar)
         StatusBarUtil.setPaddingSmart(this, blurView)
         StatusBarUtil.setPaddingSmart(this, header)
-        StatusBarUtil.setPaddingSmart(this,scrollView)
+        StatusBarUtil.setPaddingSmart(this, scrollView)
         toolbar.setNavigationOnClickListener { finish() }
         return false
     }
@@ -55,7 +56,6 @@ class ReturnGoodsDetailActivity : BaseActivity(), View.OnClickListener {
         initImgRecycler()
 
     }
-
 
 
     private fun initView() {
@@ -142,9 +142,9 @@ class ReturnGoodsDetailActivity : BaseActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.bt_refund->{//申请退款
+            R.id.bt_refund -> {//申请退款
                 startActivity(Intent(mContext, RefundActivity::class.java))
-        }
+            }
 
 
             R.id.tv_left -> {//联系卖家
@@ -156,6 +156,7 @@ class ReturnGoodsDetailActivity : BaseActivity(), View.OnClickListener {
 
                     }
                     "2", "4", "5" -> {//填写物流
+                        startActivity(Intent(mContext, InputLogisticsActivity::class.java))
                     }
 
                 }
@@ -190,15 +191,15 @@ class ReturnGoodsDetailActivity : BaseActivity(), View.OnClickListener {
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                    val intent = Intent(mContext, PreviewActivity::class.java)
-                    val imgs = ArrayList<String>()
-                    imgs.addAll(photos)
-                    imgs.removeAt(imgs.lastIndex)
-                    intent.putExtra(PreviewActivity.PREVIEW_INTENT_IMAGES, imgs)
-                    intent.putExtra(PreviewActivity.PREVIEW_INTENT_SHOW_NUM, true)
-                    intent.putExtra(PreviewActivity.PREVIEW_INTENT_IS_CAN_DELETE, false)
-                    intent.putExtra(PreviewActivity.PREVIEW_INTENT_POSITION, position)
-                    startActivityForResult(intent,100)
+                val intent = Intent(mContext, PreviewActivity::class.java)
+                val imgs = ArrayList<String>()
+                imgs.addAll(photos)
+                imgs.removeAt(imgs.lastIndex)
+                intent.putExtra(PreviewActivity.PREVIEW_INTENT_IMAGES, imgs)
+                intent.putExtra(PreviewActivity.PREVIEW_INTENT_SHOW_NUM, true)
+                intent.putExtra(PreviewActivity.PREVIEW_INTENT_IS_CAN_DELETE, false)
+                intent.putExtra(PreviewActivity.PREVIEW_INTENT_POSITION, position)
+                startActivityForResult(intent, 100)
             }
 
         })

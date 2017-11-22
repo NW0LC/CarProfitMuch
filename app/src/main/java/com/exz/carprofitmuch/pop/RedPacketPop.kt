@@ -29,6 +29,7 @@ class RedPacketPop(context: Context) : BasePopupWindow(context), View.OnClickLis
     }
 
     init {
+        popupWindow.isClippingEnabled = false
         mAdapter.bindToRecyclerView(inflate.mRecyclerView)
         inflate.mRecyclerView.layoutManager = LinearLayoutManager(getContext())
         inflate.mRecyclerView.addItemDecoration(RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(getContext(), R.color.White)))

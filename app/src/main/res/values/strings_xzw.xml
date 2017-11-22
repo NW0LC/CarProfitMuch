@@ -50,4 +50,16 @@
     <string name="mine_refund_issue">问题描述</string>
     <string name="mine_refund_photo">拍照取证</string>
     <string name="mine_refund_submit">提交申请</string>
+    <string name="mine_input_logistics">填写物流</string>
+    <string name="mine_logistics_company">物流公司</string>
+    <string name="mine_select_logistics_company">请选择物流公司</string>
+    <string name="mine_logistics_num">物流单号</string>
+    <string name="mine_select_logistics_numy">请选择物物流单号</string>
+    <string name="mine_submit_info">提交信息</string>
+    <string name="main_treasure">宝藏领取</string>
+    <string name="main_my_treasure">我的宝藏</string>
+    <string name="main_my_treasure_time">获取时间%s</string>
+    <string name="main_my_treasure_address">领取地址:%s</string>
+    <string name="main_treasure_get">宝藏领取</string>
+    <string name="main_redpacket_get">红包领取</string>
 </resources>

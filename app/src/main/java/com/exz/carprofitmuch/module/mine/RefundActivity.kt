@@ -114,7 +114,6 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
         })
         tv_refund_type.setOnClickListener(this)
         tv_submit.setOnClickListener(this)
-        back.setOnClickListener { finish() }
     }
 
     private fun initCamera() {
@@ -155,7 +154,7 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
                     }
 
                 }
-                DataCtrlClassXZW.SubmitRefundData(mContext, "",price,cause,issue,img, {
+                DataCtrlClassXZW.SubmitRefundData(mContext, "", price, cause, issue, img, {
                     if (it != null) {
                         finish()
                     }

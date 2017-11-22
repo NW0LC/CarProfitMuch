@@ -2,6 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.exz.carprofitmuch">
 
+    <!--腾讯地图 SDK 要求的权限(开始)-->
+    <!--访问网络获取地图服务-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--检查网络可用性-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- 访问WiFi状态 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--需要外部存储写权限用于保存地图缓存-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!--获取 device id 辨别设备-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!--腾讯地图 SDK 要求的权限(结束)-->
+
     <application
         android:name=".app.ToolApplication"
         android:allowBackup="true"
@@ -17,6 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
         <!--主-->
         <activity android:name=".module.MainActivity"/>
@@ -188,7 +202,7 @@
         <activity android:name=".module.mine.redpacket.RedPackageActivity"/>
 
         <!--我的评价-->
-        <activity android:name=".module.mine.comment.MyCommentActivity"/>
+        <activity android:name=".module.mine.comment.TreasureListActivity"/>
 
         <!--我的订单-->
         <activity android:name=".module.mine.goodsorder.GoodsOrderActivity"/>
@@ -207,6 +221,19 @@
 
         <!--申请退款-->
         <activity android:name=".module.mine.RefundActivity"/>
+
+        <!--填写物流-->
+        <activity android:name=".module.mine.InputLogisticsActivity"/>
+
+
+        <!--地图大头针-->
+        <activity android:name=".module.main.map.MapPinActivity"/>
+
+        <!--宝藏领取-->
+        <activity android:name=".module.main.map.MapTreasureActivity"/>
+
+        <!--红包领取-->
+        <activity android:name=".module.main.map.MapRedPacketActivity"/>
 
 
 
@@ -236,6 +263,23 @@
             android:exported="true"
             android:launchMode="singleTop" />
         <!--微信支付  end -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- 如果您腾讯地图key确认无误，却依然授权没有通过，请检查您的key的白名单配置 -->
+        <meta-data
+            android:name="TencentMapSDK"
+            android:value="LEBBZ-2LCWS-3DKOF-63GND-KS6OE-R5FGS"/>
     </application>
 
 </manifest>

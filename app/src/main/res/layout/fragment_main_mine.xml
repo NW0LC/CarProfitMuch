@@ -323,7 +323,7 @@
                             android:background="@color/app_bg" />
 
                         <LinearLayout
-                            android:id="@+id/bt_tab_redPacket"
+                            android:id="@+id/bt_treasure"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/margin_10"
@@ -335,14 +335,14 @@
 
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:drawableTop="@mipmap/icon_mine_tab_red_packet"
+                                android:drawableTop="@mipmap/icon_mine_treasure"
                                 android:gravity="center_horizontal"
-                                android:text="@string/mine_tab_redPacket"
+                                android:text="@string/main_treasure"
                                 android:textColor="@color/MaterialGrey600"
                                 android:textSize="@dimen/text_12" />
 
                             <TextView
-                                android:id="@+id/bt_tab_redPacket_count"
+                                android:id="@+id/bt_tab_treasure_count"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"

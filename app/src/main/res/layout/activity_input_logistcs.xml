@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         android:background="@color/white"
         android:gravity="right">
 
@@ -21,7 +22,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:padding="@dimen/margin_15"
-            android:text="@string/mine_refund_submit"
+            android:text="@string/mine_submit_info"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_14" />
 
@@ -31,12 +32,12 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/llLay"
+        android:layout_below="@id/llLay"
         app:srlEnableHeaderTranslationContent="true"
-        app:srlEnablePreviewInEditMode="false"
-        app:srlHeaderMaxDragRate="1">
+        app:srlEnablePreviewInEditMode="false">
 
-        <View
+
+    <View
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,10 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
-            android:focusable="false"
-            android:paddingTop="?attr/actionBarSize"
-
-            >
+            android:paddingTop="?attr/actionBarSize">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp_10"
-                    android:text="@string/mine_return_Policy"
+                    android:text="@string/mine_logistics_company"
                     android:textColor="@color/MaterialGrey800"
                     android:textSize="@dimen/sp_14" />
 
@@ -72,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_10"
                     android:layout_marginStart="@dimen/dp_10"
-                    android:hint="@string/mine_select_return_Policy"
+                    android:hint="@string/mine_select_logistics_company"
                     android:padding="@dimen/dp_10"
                     android:textColor="@color/MaterialGrey800"
                     android:textColorHint="@color/MaterialGrey400"
@@ -87,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp_10"
-                    android:text="@string/mine_returnd_price"
+                    android:text="@string/mine_logistics_num"
                     android:textColor="@color/MaterialGrey800"
                     android:textSize="@dimen/sp_14" />
 
@@ -99,75 +97,18 @@
                     android:layout_marginStart="@dimen/dp_10"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:background="@drawable/mine_refund_price_ed"
-                    android:hint="@string/mine_input_return_price"
+                    android:hint="@string/mine_select_logistics_numy"
                     android:padding="@dimen/dp_10"
                     android:textColor="@color/MaterialGrey800"
                     android:textColorHint="@color/MaterialGrey400"
                     android:textSize="@dimen/sp_14" />
 
-                <TextView
-                    android:id="@+id/tv_star3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dp_10"
-                    android:text="@string/mine_refund_cause"
-                    android:textColor="@color/MaterialGrey800"
-                    android:textSize="@dimen/sp_14" />
 
-                <com.szw.framelibrary.view.ClearWriteEditText
-                    android:id="@+id/ed_refund_cause"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_10"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:background="@drawable/mine_refund_price_ed"
-                    android:hint="@string/mine_input_refund_cause"
-                    android:padding="@dimen/dp_10"
-                    android:textCursorDrawable="@drawable/color_cursor"
-                    android:textColor="@color/MaterialGrey800"
-                    android:textColorHint="@color/MaterialGrey400"
-                    android:textSize="@dimen/sp_14" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dp_10"
-                    android:text="@string/mine_refund_issue"
-                    android:textColor="@color/MaterialGrey800"
-                    android:textSize="@dimen/sp_14" />
-
-                <com.szw.framelibrary.view.ClearWriteEditText
-                    android:id="@+id/ed_issue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_10"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:background="@drawable/mine_refund_price_ed"
-                    android:gravity="top"
-                    android:hint="@string/mine_input_refund_cause"
-                    android:minHeight="100dp"
-                    android:padding="@dimen/dp_10"
-                    android:textColor="@color/MaterialGrey800"
-                    android:textColorHint="@color/MaterialGrey400"
-                    android:textSize="@dimen/sp_14" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dp_10"
-                    android:text="@string/mine_refund_photo"
-                    android:textColor="@color/MaterialGrey800"
-                    android:textSize="@dimen/sp_14" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/mRecyclerView"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
             </LinearLayout>
 
 
         </android.support.v4.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
     <include layout="@layout/action_bar_custom" />
 </RelativeLayout>

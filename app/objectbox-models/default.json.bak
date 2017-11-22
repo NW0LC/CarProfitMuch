@@ -4,27 +4,27 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:438278745735056862",
-      "lastPropertyId": "3:4277287339226899965",
+      "id": "1:2555812130466767785",
+      "lastPropertyId": "3:3260573507177061405",
       "name": "SearchGoodsBean",
       "properties": [
         {
-          "id": "1:6694325515456351760",
+          "id": "1:3746309744809418950",
           "name": "searchContent"
         },
         {
-          "id": "2:1009354828875026047",
+          "id": "2:4533073230104414808",
           "name": "date"
         },
         {
-          "id": "3:4277287339226899965",
+          "id": "3:3260573507177061405",
           "name": "id"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:438278745735056862",
+  "lastEntityId": "1:2555812130466767785",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

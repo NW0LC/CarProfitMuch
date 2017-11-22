@@ -44,6 +44,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -59,6 +61,8 @@ dependencies {
     compile "io.objectbox:objectbox-android:$objectboxVersion"
     compile "io.objectbox:objectbox-kotlin:$objectboxVersion"
     kapt "io.objectbox:objectbox-processor:$objectboxVersion"
+    //这里没有指定版本号，用户也可以指定 4.0.3.2 之后的地图 sdk 版本号
+//    compile 'com.tencent.map:tencent-map-vector-sdk:+'
 }
 repositories {
     mavenCentral()

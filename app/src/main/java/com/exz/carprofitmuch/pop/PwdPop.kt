@@ -19,6 +19,7 @@ class PwdPop(context: Activity,inputFinish:()->OnPasswordInputFinish) : BasePopu
     lateinit var mPasswordView: PasswordPopView
 
     init {
+        popupWindow.isClippingEnabled = false
         mPasswordView.setInputFinish(inputFinish.invoke())
         mPasswordView.virtualKeyboardView.layoutBack.visibility = View.GONE
         mPasswordView.viewForgetPwd.setOnClickListener {

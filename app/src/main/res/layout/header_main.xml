@@ -22,7 +22,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:background="@color/White"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/margin_10"
@@ -61,6 +61,19 @@
             android:text="@string/main_tab_3"
             android:textColor="@color/MaterialGrey600"
             android:textSize="@dimen/text_12" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingTop="@dimen/margin_10"
+        android:paddingBottom="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_10">
+
         <TextView
             android:layout_weight="1"
             android:id="@+id/bt_tab_4"
@@ -69,6 +82,27 @@
             android:drawableTop="@mipmap/icon_main_tab_4"
             android:gravity="center"
             android:text="@string/main_tab_4"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/text_12" />
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/bt_tab_5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableTop="@mipmap/icon_main_tab_5"
+            android:gravity="center"
+            android:text="@string/main_tab_5"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/text_12" />
+
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/bt_tab_6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableTop="@mipmap/icon_main_tab_6"
+            android:gravity="center"
+            android:text="@string/main_tab_6"
             android:textColor="@color/MaterialGrey600"
             android:textSize="@dimen/text_12" />
 

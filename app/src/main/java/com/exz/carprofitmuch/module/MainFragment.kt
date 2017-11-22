@@ -16,7 +16,7 @@ import com.exz.carprofitmuch.bean.BannersBean
 import com.exz.carprofitmuch.bean.InformationBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.module.main.AdsActivity
-import com.exz.carprofitmuch.module.main.RedPacketActivity
+import com.exz.carprofitmuch.module.main.map.MapPinActivity
 import com.exz.carprofitmuch.widget.MyWebActivity
 import com.facebook.drawee.view.SimpleDraweeView
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -65,6 +65,7 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener {
         headerView.bt_tab_2.setOnClickListener(this)
         headerView.bt_tab_3.setOnClickListener(this)
         headerView.bt_tab_4.setOnClickListener(this)
+        headerView.bt_tab_5.setOnClickListener(this)
         headerView.bt_more_hot_recommend.setOnClickListener(this)
         headerView.bt_hot_lay_0.setOnClickListener(this)
         headerView.bt_hot_lay_1.setOnClickListener(this)
@@ -166,8 +167,13 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener {
             headerView.bt_tab_3 -> {
                 startActivity(Intent(context, AdsActivity::class.java))
             }
-            headerView.bt_tab_4 -> {
-                startActivity(Intent(context, RedPacketActivity::class.java))
+            headerView.bt_tab_4 -> {//宝藏领取
+                startActivity(Intent(context, MapPinActivity::class.java).putExtra("className",context.getString(R.string.main_treasure_get)))
+            }
+            headerView.bt_tab_5 -> {//红包领取
+                startActivity(Intent(context, MapPinActivity::class.java).putExtra("className", context.getString(R.string.main_redpacket_get)))
+            }
+            headerView.bt_tab_6 -> {//商家活动
             }
             headerView.bt_more_hot_recommend -> {
             }
