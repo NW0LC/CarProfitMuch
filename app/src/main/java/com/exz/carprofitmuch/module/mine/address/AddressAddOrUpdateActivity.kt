@@ -6,6 +6,7 @@ import android.widget.CompoundButton
 import android.widget.TextView
 import com.alibaba.fastjson.JSON
 import com.bigkoo.pickerview.OptionsPickerView
+import com.blankj.utilcode.util.KeyboardUtils
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.AddressBean
@@ -39,7 +40,6 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
 
     private var addressType = address_type_3
     override fun initToolbar(): Boolean {
-        addressType = intent.getStringExtra(Intent_AddressType)
         mTitle.text = getString(if (addressType == address_type_3) R.string.address_manager_add else R.string.address_update_name)
         //状态栏透明和间距处理
         StatusBarUtil.immersive(this)
@@ -128,11 +128,16 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
     }
 
     private fun initData() {
-        val data = intent.getSerializableExtra(Intent_AddressData) as AddressBean
-        ed_userName.setText(data.userName)
-        ed_userPhone.setText(data.userPhone)
-        bt_address.text = String.format(data.province + data.city + data.district)
-        ed_addressDetail.setText(data.detail)
+        addressType = intent.getStringExtra(Intent_AddressType)
+        val data = intent.getSerializableExtra(Intent_AddressData)
+        if (data!=null){
+            data as AddressBean
+            ed_userName.setText(data.userName)
+            ed_userPhone.setText(data.userPhone)
+            bt_address.text = String.format(data.province + data.city + data.district)
+            ed_addressDetail.setText(data.detail)
+        }
+
     }
 
     /**
@@ -178,7 +183,13 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
                 }
             }
             bt_address -> {
-
+                KeyboardUtils.hideSoftInput(this)
+                pvOptionsAddress.setPicker(optionsProvinces, optionsCities,optionsCounties,
+                        true)
+                pvOptionsAddress.setSelectOptions(optionsAddress1, optionsAddress2,optionsAddress3)
+                //三级选择器
+                pvOptionsAddress.setCyclic(false)
+                pvOptionsAddress.show()
             }
         }
     }

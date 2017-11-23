@@ -288,7 +288,7 @@
     <string name="address_choose_default2">默认地址</string>
     <string name="address_choose_setDefault">设为默认</string>
     <string name="address_choose_delete">删除地址</string>
-    <string name="address_manager_add">新增收货地址</string>
+    <string name="address_manager_add">新增地址</string>
     <string name="address_userName">收货人</string>
     <string name="address_userPhone">手机号码</string>
     <string name="address_area">所在地区</string>
