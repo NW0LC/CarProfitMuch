@@ -17,6 +17,7 @@
             android:minHeight="150dp" />
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

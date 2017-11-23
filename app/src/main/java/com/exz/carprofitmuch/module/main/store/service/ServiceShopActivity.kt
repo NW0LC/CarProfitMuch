@@ -12,15 +12,15 @@ import com.exz.carprofitmuch.adapter.ServiceCommentAdapter
 import com.exz.carprofitmuch.adapter.ServiceShopGoodsAdapter
 import com.exz.carprofitmuch.bean.BannersBean
 import com.exz.carprofitmuch.bean.CommentBean
+import com.exz.carprofitmuch.bean.CouponBean
 import com.exz.carprofitmuch.bean.ServiceGoodsBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.module.main.store.comment.ServiceCommentListActivity
+import com.exz.carprofitmuch.pop.CouponPop
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.youth.banner.BannerConfig
@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.layout_banner.*
 
 class ServiceShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListener {
 
-
+    private lateinit var couponPop: CouponPop
     private lateinit var mServiceShopGoodsAdapter: ServiceShopGoodsAdapter<ServiceGoodsBean>
     private lateinit var mServiceCommentAdapter: ServiceCommentAdapter<CommentBean>
     override fun initToolbar(): Boolean {
@@ -53,6 +53,13 @@ class ServiceShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
 
     override fun init() {
         SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
+        couponPop = CouponPop(mContext)
+        val coupons = ArrayList<CouponBean>()
+        coupons.add(CouponBean())
+        coupons.add(CouponBean())
+        coupons.add(CouponBean())
+        couponPop.data= coupons
+
         initRecycler()
         initHeaderAndFooter()
         initEvent()
@@ -62,6 +69,7 @@ class ServiceShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
         toolbar.setNavigationOnClickListener { finish() }
         bt_service_goodsMore.setOnClickListener(this)
         bt_service_shop_comment.setOnClickListener(this)
+        bt_coupon.setOnClickListener(this)
     }
     private val arrayList=ArrayList<ServiceGoodsBean>()
     private val arrayList2=ArrayList<CommentBean>()
@@ -140,6 +148,9 @@ class ServiceShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
             }
             bt_service_shop_comment -> {
                startActivity(Intent(this, ServiceCommentListActivity::class.java))
+            }
+            bt_coupon -> {
+                couponPop.showPopupWindow()
             }
             else -> {
             }

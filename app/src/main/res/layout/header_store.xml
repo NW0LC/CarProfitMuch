@@ -104,7 +104,7 @@
             android:layout_marginStart="@dimen/margin_5"
             android:background="@color/White"
             app:layout_column="1"
-            app:layout_columnWeight="0.4"
+            app:layout_columnWeight="1"
             app:layout_rowSpan="2">
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -176,7 +176,7 @@
             android:layout_height="0dp"
             android:background="@color/White"
             app:layout_column="0"
-            app:layout_columnWeight="0.6"
+            app:layout_columnWeight="2"
             app:layout_row="0"
             app:layout_rowWeight="1">
 
@@ -250,7 +250,7 @@
             android:layout_marginTop="@dimen/margin_8"
             android:background="@color/White"
             app:layout_column="0"
-            app:layout_columnWeight="0.6"
+            app:layout_columnWeight="2"
             app:layout_row="1"
             app:layout_rowWeight="1">
 

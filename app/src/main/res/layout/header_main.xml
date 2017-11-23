@@ -117,22 +117,21 @@
         <RelativeLayout
             android:id="@+id/bt_hot_lay_0"
             android:layout_width="0dp"
-            android:layout_height="170dp"
+            android:layout_height="150dp"
             android:background="@color/White"
-            app:layout_columnWeight="0.4"
+            app:layout_columnWeight="0.5"
             app:layout_rowSpan="2">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/img_hot_bg_0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:contentDescription="@string/main_hot_msg"
-                android:minHeight="95dp"
-                android:minWidth="95dp"
-                android:scaleType="fitEnd"
-                tool:background="@color/MaterialGrey200" />
+                android:scaleType="fitXY"
+                android:src="@mipmap/icon_main_store_score_bg_1"
+                tool:background="@color/MaterialGrey100" />
 
             <TextView
                 android:id="@+id/tv_hot_title_0"
@@ -173,21 +172,19 @@
             android:layout_marginStart="@dimen/margin_0.5"
             android:background="@color/White"
             app:layout_column="1"
-            app:layout_columnWeight="0.3"
+            app:layout_columnWeight="0.25"
             app:layout_row="0"
             app:layout_rowWeight="1">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/img_hot_bg_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:contentDescription="@string/main_hot_msg"
-                android:minHeight="45dp"
-                android:minWidth="45dp"
-                android:scaleType="fitEnd"
-                tool:background="@color/MaterialGrey200" />
+                android:scaleType="fitXY"
+                tool:background="@color/MaterialGrey100" />
 
             <TextView
                 android:id="@+id/tv_hot_title_1"
@@ -228,21 +225,19 @@
             android:layout_marginStart="@dimen/margin_0.5"
             android:background="@color/White"
             app:layout_column="2"
-            app:layout_columnWeight="0.3"
+            app:layout_columnWeight="0.25"
             app:layout_row="0"
             app:layout_rowWeight="1">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/img_hot_bg_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:contentDescription="@string/main_hot_msg"
-                android:minHeight="45dp"
-                android:minWidth="45dp"
                 android:scaleType="fitEnd"
-                tool:background="@color/MaterialGrey200" />
+                tool:background="@color/MaterialGrey100" />
 
             <TextView
                 android:id="@+id/tv_hot_title_2"
@@ -284,21 +279,19 @@
             android:layout_marginTop="@dimen/margin_0.5"
             android:background="@color/White"
             app:layout_column="1"
-            app:layout_columnWeight="0.3"
+            app:layout_columnWeight="0.25"
             app:layout_row="1"
             app:layout_rowWeight="1">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/img_hot_bg_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:contentDescription="@string/main_hot_msg"
-                android:minHeight="45dp"
-                android:minWidth="45dp"
                 android:scaleType="fitEnd"
-                tool:background="@color/MaterialGrey200" />
+                tool:background="@color/MaterialGrey100" />
 
             <TextView
                 android:id="@+id/tv_hot_title_3"
@@ -341,21 +334,19 @@
             android:layout_marginTop="@dimen/margin_0.5"
             android:background="@color/White"
             app:layout_column="2"
-            app:layout_columnWeight="0.3"
+            app:layout_columnWeight="0.25"
             app:layout_row="1"
             app:layout_rowWeight="1">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/img_hot_bg_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:contentDescription="@string/main_hot_msg"
-                android:minHeight="45dp"
-                android:minWidth="45dp"
                 android:scaleType="fitEnd"
-                tool:background="@color/MaterialGrey200" />
+                tool:background="@color/MaterialGrey100" />
 
             <TextView
                 android:id="@+id/tv_hot_title_4"

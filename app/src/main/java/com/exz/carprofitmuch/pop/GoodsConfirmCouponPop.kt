@@ -16,8 +16,7 @@ import com.exz.carprofitmuch.utils.RecycleViewDivider
 import kotlinx.android.synthetic.main.pop_coupon_or_red_packet.view.*
 import razerdp.basepopup.BasePopupWindow
 
-class GoodsConfirmCouponPop(context: Context) : BasePopupWindow(context), View.OnClickListener {
-
+class GoodsConfirmCouponPop(context: Context,listener:(couponId:String)->Unit) : BasePopupWindow(context), View.OnClickListener {
 
     private lateinit var inflate: View
     var mAdapter: GoodsConfirmPopAdapter<CouponBean> = GoodsConfirmPopAdapter()
@@ -29,6 +28,15 @@ class GoodsConfirmCouponPop(context: Context) : BasePopupWindow(context), View.O
         field=value
 
         mAdapter.setNewData(value?.goodsCoupons)
+    }
+    var couponData: ArrayList<CouponBean>? = null
+        set(value) {
+            if (value?.last()?.couponName!=context.getString(R.string.goods_confirm_coupon_item)) {
+                value?.add(CouponBean(context.getString(R.string.goods_confirm_coupon_item)))
+            }
+        field=value
+
+        mAdapter.setNewData(value)
     }
 
     init {
@@ -43,6 +51,7 @@ class GoodsConfirmCouponPop(context: Context) : BasePopupWindow(context), View.O
                 }
                 mAdapter.data[position].isCheck=true
                 data?.couponId=mAdapter.data[position].couponId
+                listener.invoke(mAdapter.data[position].couponId)
                 mAdapter.notifyDataSetChanged()
                 dismiss()
             }

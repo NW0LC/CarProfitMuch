@@ -5,8 +5,6 @@ import com.blankj.utilcode.util.EncryptUtils
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.CheckPayBean
 import com.exz.carprofitmuch.module.main.pay.PayActivity
-import com.exz.carprofitmuch.module.main.store.service.PayServiceActivity.Companion.payPrice
-import com.exz.carprofitmuch.module.main.store.service.PayServiceActivity.Companion.paySuccessDate
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.hwangjr.rxbus.annotation.Subscribe
 import com.hwangjr.rxbus.annotation.Tag
@@ -73,8 +71,7 @@ class PayBalanceRechargeActivity : PayActivity(), View.OnClickListener {
 
                     override fun onSuccess(response: Response<NetEntity<CheckPayBean>>) {
                         if (response.body().info?.payState == "3") {
-                            payPrice = response.body().info?.payMoney ?: ""
-                            paySuccessDate = response.body().info?.paySuccessDate ?: ""
+
 //                            val intent = Intent(mContext, PayOrderSuccessActivity::class.java)
 //                            startActivity(intent)
                             finish()

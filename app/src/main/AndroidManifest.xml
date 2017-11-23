@@ -110,6 +110,8 @@
         <activity android:name=".module.mine.address.AddressManagerActivity"/>
         <!--地址新增或更新-->
         <activity android:name=".module.mine.address.AddressAddOrUpdateActivity"/>
+        <!--订单支付方式页面-->
+        <activity android:name=".module.main.pay.PayMethodsActivity"/>
 
 
 

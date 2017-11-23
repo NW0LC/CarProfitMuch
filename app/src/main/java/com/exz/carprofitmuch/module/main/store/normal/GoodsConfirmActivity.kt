@@ -133,7 +133,7 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener, CompoundButto
     }
 
     private fun initPop() {
-        couponPop = GoodsConfirmCouponPop(this)
+        couponPop = GoodsConfirmCouponPop(this){}
         expressPop = GoodsConfirmExpressPop(this)
 
         val popDismiss: BasePopupWindow.OnDismissListener = object : BasePopupWindow.OnDismissListener() {
@@ -231,7 +231,7 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener, CompoundButto
         totalPrice = if (totalPrice < 0) 0.toDouble() else totalPrice
 
         //给总价格赋值
-        tv_totalPrice.text = format.format(totalPrice)
+        tv_totalPrice.text = String.format("${getString(R.string.CNY)}%s",format.format(totalPrice))
 
         return format.format(totalPrice)
     }

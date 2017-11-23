@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.blankj.utilcode.util.ScreenUtils
+import com.blankj.utilcode.util.SizeUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClass
@@ -50,7 +52,7 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
     }
 
     override fun initView() {
-        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
+        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initBar()
         initRecycler()
         initHeaderAndFooter()
@@ -93,7 +95,7 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
         mAdapter.bindToRecyclerView(mRecyclerView)
         mRecyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
-        mRecyclerView.addOnItemTouchListener(object :OnItemClickListener(){
+        mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 startActivity(Intent(context, GoodsDetailActivity::class.java))
             }
@@ -138,14 +140,14 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
             val cardMainStoreScore = View.inflate(context, R.layout.layout_card_main_store_score, null)
             cardMainStoreScore.img_score_bg.setImageURI(card.img)
             cardMainStoreScore.tv_score_name.text = card.title
-            cardMainStoreScore.tv_score_count.text = String.format("${card.price}%s",getString(R.string.SCORE))
+            cardMainStoreScore.tv_score_count.text = String.format("${card.price}%s", getString(R.string.SCORE))
             headerView.lay_type_0.addView(cardMainStoreScore)
             cardMainStoreScore.setOnClickListener {
 
             }
         }
 
-
+        headerView.bt_service_lay_2.layoutParams.height = (ScreenUtils.getScreenWidth() - SizeUtils.dp2px(35f)) / 3 * 2
         hotRecommendViews = ArrayList()
         hotRecommendViews.add(headerView.tv_service_title_0)
         hotRecommendViews.add(headerView.tv_service_info_0)
@@ -188,7 +190,7 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
                 for (i in 0 until it.scoreGoods.size) {
                     (hotRecommendViews[i * 4] as TextView).text = it.serviceBeans[i].title
                     (hotRecommendViews[i * 4 + 1] as TextView).text = it.serviceBeans[i].info
-                    (hotRecommendViews[i * 4 + 2] as TextView).text =String.format("${getString(R.string.main_store_service_price)}%s",it.serviceBeans[i].price)
+                    (hotRecommendViews[i * 4 + 2] as TextView).text = String.format("${getString(R.string.main_store_service_price)}%s", it.serviceBeans[i].price)
                     (hotRecommendViews[i * 4 + 3] as SimpleDraweeView).setImageURI(it.scoreGoods[i].img)
                 }
                 mAdapter.setNewData(it.scoreGoods)

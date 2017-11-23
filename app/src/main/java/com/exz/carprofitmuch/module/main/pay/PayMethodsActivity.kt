@@ -1,4 +1,4 @@
-package com.exz.carprofitmuch.module.main.store.service
+package com.exz.carprofitmuch.module.main.pay
 
 import android.content.Intent
 import android.view.View
@@ -8,8 +8,7 @@ import com.blankj.utilcode.util.EncryptUtils
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.CheckPayBean
 import com.exz.carprofitmuch.bean.MyAccountBean
-import com.exz.carprofitmuch.module.main.pay.PayActivity
-import com.exz.carprofitmuch.module.main.pay.PwdGetCodeActivity
+import com.exz.carprofitmuch.module.main.store.service.ServicePayResultActivity
 import com.exz.carprofitmuch.pop.PwdPop
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.hwangjr.rxbus.annotation.Subscribe
@@ -25,15 +24,14 @@ import com.szw.framelibrary.utils.net.NetEntity
 import com.szw.framelibrary.utils.net.callback.DialogCallback
 import com.szw.framelibrary.view.pwd.widget.OnPasswordInputFinish
 import kotlinx.android.synthetic.main.action_bar_custom.*
-import kotlinx.android.synthetic.main.activity_pay_service.*
+import kotlinx.android.synthetic.main.activity_pay_methods.*
 
 
 /**
  * Created by 史忠文
  * on 2017/8/18.
  */
-@Deprecated("PayMethodsActivity instead of this")
-class PayServiceActivity : PayActivity(), View.OnClickListener {
+class PayMethodsActivity : PayActivity(), View.OnClickListener {
 
     lateinit var pwdPop: PwdPop
     var canBalancePay = false
@@ -45,15 +43,15 @@ class PayServiceActivity : PayActivity(), View.OnClickListener {
         var paySuccessDate = ""
     }
 
-    override fun setInflateId() = R.layout.activity_pay_service
+    override fun setInflateId() = R.layout.activity_pay_methods
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.pay_service_name)
         //状态栏透明和间距处理
         StatusBarUtil.immersive(this)
         StatusBarUtil.setPaddingSmart(this, toolbar)
         StatusBarUtil.setPaddingSmart(this, blurView)
-        StatusBarUtil.setMargin(this, lay_time)
-        toolbar.setNavigationOnClickListener({ DialogUtils.payBack(this@PayServiceActivity) })
+        StatusBarUtil.setMargin(this, tv_orderNum)
+        toolbar.setNavigationOnClickListener({ DialogUtils.payBack(this@PayMethodsActivity) })
         return false
     }
 
@@ -64,15 +62,14 @@ class PayServiceActivity : PayActivity(), View.OnClickListener {
                 pwdPop.dismiss()
             }
         }
-        mTimerView.startTiming(1200)
-        pwdPop.setPrice(String.format("￥%s", OrderPrice))
+        pwdPop.setPrice(String.format("${getString(R.string.CNY)}%s", OrderPrice))
         radioGroup.check(radioGroup.getChildAt(0).id)
         bt_confirm.setOnClickListener(this)
         myBalance()
     }
 
     override fun onClick(p0: View?) {
-        startActivity(Intent(this,ServicePayResultActivity::class.java))
+        startActivity(Intent(this, ServicePayResultActivity::class.java))
         if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(0).id)
             aliPay("", "orderId", "")
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(2).id)
@@ -99,7 +96,7 @@ class PayServiceActivity : PayActivity(), View.OnClickListener {
                     override fun onSuccess(response: Response<NetEntity<MyAccountBean>>) {
                         (radioGroup.getChildAt(4) as RadioButton).text = String.format("%s(￥%s)", resources.getString(R.string.pay_balance), response.body().info?.price)//我的余额
                         canBalancePay = try {
-                            (response.body().info?.price?.toDouble())!! >= OrderPrice.toDouble()
+                            (response.body().info?.price?.toDouble()?:0.toDouble()) >= OrderPrice.toDouble()
                         } catch (e: Exception) {
                             false
                         }
@@ -126,7 +123,7 @@ class PayServiceActivity : PayActivity(), View.OnClickListener {
                     override fun onSuccess(response: Response<NetEntity<String>>) {
                         //                                "data":"能否支付，0未设置 1已设置
                         if ("0" == response.body().info) {
-                            DialogUtils.payNoPwd(this@PayServiceActivity) {
+                            DialogUtils.payNoPwd(this@PayMethodsActivity) {
                                 startActivity(Intent(mContext, PwdGetCodeActivity::class.java))
                             }
                         } else {
@@ -207,7 +204,7 @@ class PayServiceActivity : PayActivity(), View.OnClickListener {
     }
 
     override fun onBackPressed() {
-        DialogUtils.payBack(this@PayServiceActivity)
+        DialogUtils.payBack(this@PayMethodsActivity)
     }
 
 }
