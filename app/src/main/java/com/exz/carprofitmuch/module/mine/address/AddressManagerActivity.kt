@@ -20,7 +20,7 @@ import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
-import kotlinx.android.synthetic.main.activity_address_choose.*
+import kotlinx.android.synthetic.main.activity_address_manager.*
 
 /**
  * Created by 史忠文
@@ -43,7 +43,7 @@ class AddressManagerActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapt
         return false
     }
 
-    override fun setInflateId(): Int= R.layout.activity_address_choose
+    override fun setInflateId(): Int= R.layout.activity_address_manager
 
     override fun init() {
         SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)

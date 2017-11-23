@@ -63,8 +63,8 @@
                         android:paddingStart="0dp"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="@color/MaterialGrey400"
-                        android:textColorHint="@color/MaterialGrey200"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textColorHint="@color/MaterialGrey400"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -98,8 +98,8 @@
                         android:paddingStart="0dp"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="@color/MaterialGrey400"
-                        android:textColorHint="@color/MaterialGrey200"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textColorHint="@color/MaterialGrey400"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -133,8 +133,8 @@
                         android:singleLine="true"
                         android:minHeight="@dimen/margin_45"
                         android:text=""
-                        android:textColor="@color/MaterialGrey400"
-                        android:textColorHint="@color/MaterialGrey200"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textColorHint="@color/MaterialGrey400"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -168,8 +168,8 @@
                         android:paddingEnd="@dimen/margin_15"
                         android:paddingStart="0dp"
                         android:text=""
-                        android:textColor="@color/MaterialGrey400"
-                        android:textColorHint="@color/MaterialGrey200"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textColorHint="@color/MaterialGrey400"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="12sp" />
                 </LinearLayout>

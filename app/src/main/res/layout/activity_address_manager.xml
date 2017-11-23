@@ -23,11 +23,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:paddingBottom="?attr/actionBarSize"
             android:paddingTop="?attr/actionBarSize"
             tool:listitem="@layout/item_address_choose">
 
         </android.support.v7.widget.RecyclerView>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+<TextView
+    android:id="@+id/bt_submit"
+    android:clickable="true"
+    android:textSize="@dimen/sp_14"
+    android:padding="@dimen/margin_15"
+    android:textColor="@color/White"
+    android:background="@color/colorPrimary"
+    android:gravity="center"
+    android:text="@string/address_manager_add"
+    android:layout_gravity="bottom"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true" />
     <include layout="@layout/action_bar_custom"/>
 </FrameLayout>

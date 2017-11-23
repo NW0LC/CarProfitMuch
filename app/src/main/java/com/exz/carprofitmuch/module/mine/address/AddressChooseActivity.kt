@@ -60,7 +60,6 @@ class AddressChooseActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapte
 
     private fun initEvent() {
         toolbar.setNavigationOnClickListener { finish() }
-
     }
 
     private fun initRecycler() {
