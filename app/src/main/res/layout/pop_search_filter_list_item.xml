@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<LinearLayout
+    android:id="@+id/topLay"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/title"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginBottom="@dimen/margin_5"
+        android:layout_marginStart="@dimen/margin_15"
+        android:textColor="@color/MaterialGrey600"
+        android:textSize="@dimen/text_18"
+        android:text="价格区间"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+
+        android:layout_marginStart="@dimen/margin_15"
+        android:textColor="@color/MaterialGrey400"
+        android:textSize="@dimen/text_16"
+        android:text="全部"
+        android:layout_gravity="center_vertical"
+        android:gravity="end|center_vertical"
+        android:drawableEnd="@mipmap/icon_search_triangle_gray_off"
+        android:layout_marginEnd="@dimen/margin_10"
+        android:drawablePadding="@dimen/margin_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/filter" />
+
+</LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mRecyclerView"
+        android:layout_margin="@dimen/margin_15"
+        android:horizontalSpacing="@dimen/margin_10"
+        android:verticalSpacing="@dimen/margin_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

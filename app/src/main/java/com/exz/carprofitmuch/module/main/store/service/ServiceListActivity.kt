@@ -15,10 +15,8 @@ import com.exz.carprofitmuch.pop.ServiceListClassifyPop
 import com.exz.carprofitmuch.pop.ServiceListSortPop
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
@@ -68,7 +66,7 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
             radioButton1.text = title
             SZWUtils.setGreyOrGreen(this, radioButton1, position == 0)
         }
-        sortPop = ServiceListSortPop(this) { title, position ->
+        sortPop = ServiceListSortPop(this) { title, _,position ->
             radioButton2.text = title
             SZWUtils.setGreyOrGreen(this, radioButton2, position == 0)
         }

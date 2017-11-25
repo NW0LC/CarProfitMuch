@@ -1,12 +1,16 @@
 package com.exz.carprofitmuch
 
 import android.content.Context
+import android.text.TextUtils
 import com.blankj.utilcode.util.EncodeUtils
 import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.FileIOUtils
+import com.exz.carprofitmuch.R.id.heightPrice
+import com.exz.carprofitmuch.R.id.lowPrice
 import com.exz.carprofitmuch.adapter.GoodsConfirmBean
 import com.exz.carprofitmuch.bean.*
 import com.exz.carprofitmuch.config.Urls
+import com.exz.carprofitmuch.pop.SearchFilterPop
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.szw.framelibrary.app.MyApplication
@@ -1047,6 +1051,95 @@ object DataCtrlClass {
                     }
 
                     override fun onError(response: Response<NetEntity<AddressBean>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+
+    /**
+     * 搜索结果  --- 筛选菜单数据
+     * */
+    fun searchFilterData(context: Context, listener: (searchFilterEntity: ArrayList<SearchFilterEntity>?) -> Unit) {
+            //        typeId	string	选填	分类id
+//        brandId	string	选填	品牌id
+//        searchContent	string	选填	搜索内容(URL编码)
+        val params = HashMap<String, String>()
+        if (!TextUtils.isEmpty(""))
+            params.put("typeId", "")
+        if (!TextUtils.isEmpty(""))
+            params.put("brandId", "")
+        if (!TextUtils.isEmpty(""))
+            params.put("searchContent", "")
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("SearchGoodsFilter", salt).toLowerCase())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        OkGo.post<NetEntity<ArrayList<SearchFilterEntity>>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<ArrayList<SearchFilterEntity>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<ArrayList<SearchFilterEntity>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<ArrayList<SearchFilterEntity>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+
+    /**
+     *搜索结果  --- 商品列表数据
+     * */
+    fun searchFilterGoodsData(context: Context, currentPage: Int,filterPopWin:SearchFilterPop, listener: (addressBean: List<GoodsBean>?) -> Unit) {
+//        typeId	string	选填	分类id
+//        brandId	string	选填	品牌id
+//        searchContent	string	选填	搜索内容(URL编码)
+//                priceSift	string	选填	价格筛选
+//        otherSift	string	选填	其他筛选
+//        status	string	必填	排序方式(0:综合,1:信用,2:价格降序,3:价格升序,4:销量)
+//        page	string	必填	默认1
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("page", currentPage.toString() + "")
+        if (!TextUtils.isEmpty(""))
+            params.put("typeId", "")
+        if (!TextUtils.isEmpty(""))
+            params.put("brandId", "")
+        if (!TextUtils.isEmpty(""))
+            params.put("searchContent", "")
+        if (!TextUtils.isEmpty(filterPopWin.heightPrice)) {
+            params.put("priceSift", if (TextUtils.isEmpty(filterPopWin.lowPrice)) "0" + "," + heightPrice else lowPrice.toString() + "," + heightPrice)
+        }else if (!TextUtils.isEmpty(filterPopWin.lowPrice)){
+             params.put("priceSift", filterPopWin.lowPrice)
+        }
+
+        params.put("status", "")
+
+
+        if (!TextUtils.isEmpty("")) {
+            params.put("otherSift", "".substring(0, "".length - 1))
+        }
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("SearchGoodsList", salt).toLowerCase())
+        OkGo.post<NetEntity<List<GoodsBean>>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<GoodsBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<GoodsBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<GoodsBean>>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }

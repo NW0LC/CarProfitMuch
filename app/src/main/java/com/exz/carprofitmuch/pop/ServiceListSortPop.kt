@@ -6,13 +6,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.animation.*
 import com.blankj.utilcode.util.ScreenUtils
+import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ServiceListFilterAdapter
 import com.exz.carprofitmuch.bean.ServiceListFilterBean
 import kotlinx.android.synthetic.main.pop_list.view.*
 import razerdp.basepopup.BasePopupWindow
 
-class ServiceListSortPop(context: Activity, listener:(title:String,position:Int)->Unit) : BasePopupWindow(context) {
+class ServiceListSortPop(context: Activity, listener:(title:String,state:String,position:Int)->Unit) : BasePopupWindow(context) {
     companion object {
         var sortId = ""
     }
@@ -31,7 +32,9 @@ class ServiceListSortPop(context: Activity, listener:(title:String,position:Int)
 
         }
     var adapter: ServiceListFilterAdapter<ServiceListFilterBean>
-
+    fun setChildClickListener(childClickListener: OnItemChildClickListener) {
+        popupWindowView.recyclerView.addOnItemTouchListener(childClickListener)
+    }
     init {
         isDismissWhenTouchOuside = true
         popupWindowView.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -43,7 +46,7 @@ class ServiceListSortPop(context: Activity, listener:(title:String,position:Int)
             adapter.data[position].isCheck = true
             adapter.notifyDataSetChanged()
             sortId = adapter.data[position].key
-            listener.invoke(if (position==0) context.getString(R.string.service_list_sort_default) else adapter.data[position].value,position)
+            listener.invoke(if (position==0) context.getString(R.string.service_list_sort_default) else adapter.data[position].value,adapter.data[position].key,position)
             dismiss()
         }
 

@@ -18,7 +18,7 @@ import com.exz.carprofitmuch.bean.BannersBean
 import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.MainStoreScoreCardBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
-import com.exz.carprofitmuch.module.main.store.goodssearch.SearchResultActivity
+import com.exz.carprofitmuch.module.main.store.normal.GoodsClassifyActivity
 import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity
 import com.exz.carprofitmuch.module.main.store.score.ScoreStoreActivity
 import com.exz.carprofitmuch.module.main.store.service.ServiceListActivity
@@ -173,7 +173,8 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
                 startActivity(Intent(context, ServiceListActivity::class.java))
             }
             headerView.bt_type_more_2 -> {
-                startActivity(Intent(context, SearchResultActivity::class.java))
+                startActivity(Intent(context, GoodsClassifyActivity::class.java))
+//                startActivity(Intent(context, SearchResultActivity::class.java))
             }
             headerView.bt_service_lay_0 -> {
             }

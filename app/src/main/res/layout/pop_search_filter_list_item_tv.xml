@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/search_filter_gold_gray"
+    android:gravity="center"
+    android:lines="1"
+    android:ellipsize="end"
+    android:paddingBottom="@dimen/margin_5"
+    android:paddingTop="@dimen/margin_5"
+    android:text="最低价"
+    android:textColor="@color/MaterialGrey600"
+    android:textColorHint="@color/MaterialGrey400"
+    android:textSize="14sp" />
