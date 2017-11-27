@@ -9,6 +9,8 @@ import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.CheckPayBean
 import com.exz.carprofitmuch.bean.MyAccountBean
 import com.exz.carprofitmuch.module.main.store.service.ServicePayResultActivity
+import com.exz.carprofitmuch.module.mine.CardPackageDetailActivity
+import com.exz.carprofitmuch.module.mine.goodsorder.GoodsOrderDetailActivity
 import com.exz.carprofitmuch.pop.PwdPop
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.hwangjr.rxbus.annotation.Subscribe
@@ -35,8 +37,18 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
 
     lateinit var pwdPop: PwdPop
     var canBalancePay = false
+    override fun onDestroy() {
+        super.onDestroy()
+        OrderPrice = ""
+        OrderId = ""
+        payPrice = ""
+        paySuccessDate = ""
+    }
 
     companion object {
+        var Intent_Finish_Type="Intent_Finish_Type"
+        var Intent_Finish_Type_1="ServiceConfirmActivity"
+        var Intent_Finish_Type_2="GoodsConfirmActivity"
         var OrderPrice = ""
         var OrderId = ""
         var payPrice = ""
@@ -158,8 +170,12 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
                             payPrice = response.body().info?.payMoney ?: ""
                             paySuccessDate = response.body().info?.paySuccessDate ?: ""
                         }
-//                        val intent = Intent(mContext, PayOrderSuccessActivity::class.java)
-//                        startActivity(intent)
+                        val intent= if (Intent_Finish_Type== Intent_Finish_Type_1) {
+
+                           Intent(mContext, CardPackageDetailActivity::class.java)
+                        }else
+                            Intent(mContext, GoodsOrderDetailActivity::class.java)
+                        startActivity(intent)
                         RxBus.get().post(Constants.BusAction.Pay_Finish, Constants.BusAction.Pay_Finish)
                         finish()
                     }
@@ -192,8 +208,12 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
                         if (response.body().info?.payState == "3") {
                             payPrice = response.body().info?.payMoney ?: ""
                             paySuccessDate = response.body().info?.paySuccessDate ?: ""
-//                            val intent = Intent(mContext, PayOrderSuccessActivity::class.java)
-//                            startActivity(intent)
+                            val intent= if (Intent_Finish_Type== Intent_Finish_Type_1) {
+
+                                Intent(mContext, CardPackageDetailActivity::class.java)
+                            }else
+                                Intent(mContext, GoodsOrderDetailActivity::class.java)
+                            startActivity(intent)
                             finish()
                         } else {
                             com.szw.framelibrary.utils.DialogUtils.Warning(mContext, getString(R.string.pay_check_failed))

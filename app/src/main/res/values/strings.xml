@@ -41,6 +41,7 @@
     <string name="CNY">￥</string>
     <string name="YUAN">元</string>
     <string name="SCORE">积分</string>
+    <string name="DAY">天</string>
     <string name="footer_footer_text">- 车利多为你提供优质服务 -</string>
     <string name="footer_score_store">所有售卖或兑换商品最终解释权归车利多所有</string>
     <string name="score_goods_detail_goodsName">商品详情</string>
@@ -303,6 +304,13 @@
     <string name="search_filter_hint">请输入内容</string>
     <string name="search_filter_price">价格区间</string>
     <string name="search_filter_sort_sold">销量排序</string>
+    <string name="search_filter_sort_title">筛选</string>
     <string name="search_filter_price_low">最低价</string>
     <string name="search_filter_price_height">最高价</string>
+    <string name="promotion_sort_speed_day">加速天数优先</string>
+    <string name="promotion_sort_distance">距离优先</string>
+    <string name="promotion_name">商家活动</string>
+    <string name="promotion_push_hint">请填写活动简述</string>
+    <string name="promotion_push_name">活动上传</string>
+    <string name="promotion_detail">活动详情</string>
 </resources>

@@ -116,6 +116,12 @@
         <activity android:name=".module.main.store.normal.GoodsClassifyActivity"/>
         <!--商品分类-->
         <activity android:name=".module.main.store.search.SearchFilterActivity"/>
+        <!--商家活动-->
+        <activity android:name=".module.main.promotion.PromotionsActivity"/>
+        <!--商家活动详情页-->
+        <activity android:name=".module.main.promotion.PromotionsDetailActivity"/>
+        <!--提交活动-->
+        <activity android:name=".module.main.promotion.PromotionsPushActivity"/>
 
 
 

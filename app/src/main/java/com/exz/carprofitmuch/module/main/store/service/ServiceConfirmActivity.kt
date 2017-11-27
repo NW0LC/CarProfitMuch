@@ -9,6 +9,8 @@ import com.exz.carprofitmuch.bean.CouponBean
 import com.exz.carprofitmuch.bean.ServiceGoodsBean
 import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity
+import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Intent_Finish_Type
+import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Intent_Finish_Type_1
 import com.exz.carprofitmuch.pop.GoodsConfirmCouponPop
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.lzy.okgo.OkGo
@@ -119,7 +121,9 @@ class ServiceConfirmActivity : BaseActivity(),  View.OnClickListener, CompoundBu
         when (p0) {
             bt_confirm -> {
 //                startActivity(Intent(this, PayServiceActivity::class.java))
-                startActivity(Intent(this, PayMethodsActivity::class.java))
+                val intent = Intent(this, PayMethodsActivity::class.java)
+                intent.putExtra(Intent_Finish_Type, Intent_Finish_Type_1)
+                startActivity(intent)
             }
 
             minus -> if (countIndex > 1) {

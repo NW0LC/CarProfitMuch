@@ -28,7 +28,7 @@
             android:clipToPadding="false"
             android:overScrollMode="never"
             android:paddingTop="?attr/actionBarSize"
-            tool:listitem="@layout/item_main_store_goods">
+            tool:listitem="@layout/item_main_promotions">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -82,43 +82,27 @@
                     android:layout_weight="1"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="@string/search_filter_sort_sold"
+                    android:text="@string/promotion_sort_speed_day"
                     android:textSize="@dimen/sp_14"
                     android:textColor="@color/MaterialGrey600" />
 
-                <!--<View-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="@color/app_bg"/>-->
 
-                <!--<ImageView-->
-                    <!--android:id="@+id/radioButton3"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:padding="@dimen/margin_15"-->
-                    <!--android:gravity="center"-->
-                    <!--android:button="@null"-->
-                    <!--android:src="@drawable/selector_search_column"-->
-                    <!--/>-->
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:background="@color/app_bg"/>
 
-                <com.szw.framelibrary.view.DrawableCenterButton
-                    android:id="@+id/radioButton4"
+                <RadioButton
+                    android:id="@+id/radioButton3"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.8"
+                    android:layout_weight="1"
                     android:button="@null"
-                    android:drawablePadding="@dimen/margin_5"
-                    android:drawableEnd="@drawable/selector_search_filter"
                     android:gravity="center"
-                    android:text="@string/search_filter_sort_title"
+                    android:text="@string/promotion_sort_distance"
                     android:textSize="@dimen/sp_14"
                     android:textColor="@color/MaterialGrey600" />
-
             </RadioGroup>
         </RelativeLayout>
     </LinearLayout>
