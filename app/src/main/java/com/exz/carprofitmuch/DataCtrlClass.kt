@@ -1174,4 +1174,31 @@ object DataCtrlClass {
 
                 })
     }
+    /**
+     *我的活动列表
+     * */
+    fun promotionsPersonalData(context: Context, currentPage: Int, listener: (promotionsBean: List<PromotionsPersonalBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("currentPage", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        OkGo.post<NetEntity<List<PromotionsPersonalBean>>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<PromotionsPersonalBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<PromotionsPersonalBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<PromotionsPersonalBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
 }

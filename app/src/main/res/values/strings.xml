@@ -315,4 +315,9 @@
     <string name="promotion_push_hint">请填写活动简述</string>
     <string name="promotion_push_name">活动上传</string>
     <string name="promotion_detail">活动详情</string>
+    <string name="promotion_personal_name">我的活动</string>
+    <string name="promotion_personal_call">联系商家</string>
+    <string name="promotion_personal_beginTime">开始时间：</string>
+    <string name="promotions_personal_finish">完成奖励：</string>
+    <string name="promotions_personal_speed">积分加速</string>
 </resources>

@@ -138,6 +138,8 @@
         <activity android:name=".module.main.promotion.PromotionsDetailActivity"/>
         <!--提交活动-->
         <activity android:name=".module.main.promotion.PromotionsPushActivity"/>
+        <!--我的活动-->
+        <activity android:name=".module.main.promotion.PromotionsPersonalActivity"/>
 
 
 

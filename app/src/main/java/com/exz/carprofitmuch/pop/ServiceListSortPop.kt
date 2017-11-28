@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.animation.*
 import com.blankj.utilcode.util.ScreenUtils
-import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ServiceListFilterAdapter
 import com.exz.carprofitmuch.bean.ServiceListFilterBean
@@ -32,9 +31,6 @@ class ServiceListSortPop(context: Activity, listener:(title:String,state:String,
 
         }
     var adapter: ServiceListFilterAdapter<ServiceListFilterBean>
-    fun setChildClickListener(childClickListener: OnItemChildClickListener) {
-        popupWindowView.recyclerView.addOnItemTouchListener(childClickListener)
-    }
     init {
         setDismissWhenTouchOutside(true)
         popupWindowView.recyclerView.layoutManager = LinearLayoutManager(context)
