@@ -2,10 +2,7 @@ package com.exz.carprofitmuch
 
 import android.content.Context
 import com.blankj.utilcode.util.EncryptUtils
-import com.exz.carprofitmuch.bean.CommentBean
-import com.exz.carprofitmuch.bean.CouponBean
-import com.exz.carprofitmuch.bean.GoodsOrderDetailEntity
-import com.exz.carprofitmuch.bean.MyOrderBean
+import com.exz.carprofitmuch.bean.*
 import com.exz.carprofitmuch.config.Urls
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
@@ -340,7 +337,64 @@ object DataCtrlClassXZW {
 
 
     }
+    /**
+     * 申请开店信息
+     * */
+    fun OpenInfoData(context: Context, orderId: String,    listener: ( List<OpenShopKeyValueBean>?) -> Unit) {
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("orderId", orderId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<List<OpenShopKeyValueBean>>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<OpenShopKeyValueBean>>>(context) {
 
+                    override fun onSuccess(response: Response<NetEntity<List<OpenShopKeyValueBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<OpenShopKeyValueBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+
+
+    }
+
+    /**
+     *  我的保单
+     * */
+    fun MypolicyData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<MyPolicyBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("currentPage", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<List<MyPolicyBean>>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<MyPolicyBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<MyPolicyBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<MyPolicyBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
 
 }
 

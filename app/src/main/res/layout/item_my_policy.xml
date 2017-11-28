@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/app_bg">
+
+    <LinearLayout
+        android:id="@+id/ll_lay1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_15">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="6dp"
+            android:drawableStart="@mipmap/icon_my_policy_num"
+            android:text="@string/mine_policy_num"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:drawablePadding="6dp"
+            android:text="@string/mine_policy_num"
+            android:textColor="@color/MaterialGrey800"
+            android:textSize="@dimen/sp_14" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_lay2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_lay1"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tv_product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="6dp"
+                android:layout_marginStart="15dp"
+                android:text="@string/mine_product"
+                android:textColor="@color/MaterialGrey600"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+
+                android:layout_toEndOf="@id/tv_product"
+                android:drawablePadding="6dp"
+                android:text="@string/mine_policy_num"
+                android:textColor="@color/MaterialGrey800"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_product"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="6dp"
+                android:drawablePadding="6dp"
+                android:drawableStart="@mipmap/icon_mine_policy_start"
+                android:text="2017.3.12"
+                android:textColor="@color/MaterialGrey600"
+                android:textSize="@dimen/sp_14" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_lay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:drawablePadding="6dp"
+                android:text="@string/mine_policy_num"
+                android:textColor="@color/MaterialGrey600"
+                android:layout_marginEnd="5dp"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_toStartOf="@id/tv_type"
+                android:drawablePadding="6dp"
+                android:text="@string/mine_type"
+                android:textColor="@color/MaterialGrey800"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/tv_type"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="5dp"
+                android:drawablePadding="6dp"
+                android:drawableStart="@mipmap/icon_my_policy_end_time"
+                android:gravity="right"
+                android:text="@string/mine_policy_num"
+                android:textColor="@color/MaterialGrey800"
+                android:textSize="@dimen/sp_14" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_lay2"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_15">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mine_policy_buy_time"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/sp_14"
+
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mine_policy_premium"
+                android:textColor="@color/MaterialGrey600"
+                android:layout_marginEnd="6dp"
+                android:textSize="@dimen/sp_14"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:text="￥2000"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp_14"
+
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="100dp"
+        android:layout_marginTop="20dp"
+        android:background="@mipmap/icon_expired"
+        />
+
+</RelativeLayout>

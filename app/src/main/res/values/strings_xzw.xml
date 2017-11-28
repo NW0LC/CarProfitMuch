@@ -50,6 +50,8 @@
     <string name="mine_refund_issue">问题描述</string>
     <string name="mine_refund_photo">拍照取证</string>
     <string name="mine_refund_submit">提交申请</string>
+    <string name="mine_save_and_modify">保存并修改</string>
+    <string name="mine_warn">*</string>
     <string name="mine_input_logistics">填写物流</string>
     <string name="mine_logistics_company">物流公司</string>
     <string name="mine_select_logistics_company">请选择物流公司</string>
@@ -62,4 +64,14 @@
     <string name="main_my_treasure_address">领取地址:%s</string>
     <string name="main_treasure_get">宝藏领取</string>
     <string name="main_redpacket_get">红包领取</string>
+    <string name="main_open_shop">申请开店</string>
+    <string name="main_open_shop_fee">平台店铺管理年费%s元/年,请通过审核后线下支付</string>
+    <string name="main_open_shop_add_map_marker">添加地图标记</string>
+    <string name="main_open_shop_map_marker">地图标点</string>
+    <string name="mine_my_policy">我的保单</string>
+    <string name="mine_policy_num">保单号</string>
+    <string name="mine_product">产品</string>
+    <string name="mine_type">类型</string>
+    <string name="mine_policy_buy_time">购买时间%s</string>
+    <string name="mine_policy_premium">保费</string>
 </resources>

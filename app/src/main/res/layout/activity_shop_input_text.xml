@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg">
+    <LinearLayout
+        android:id="@+id/ll_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:padding="@dimen/dp_10">
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/tv_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="@string/mine_save_and_modify"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:rv_backgroundColor="@color/colorPrimary"
+            app:rv_cornerRadius="5dp"
+            app:rv_strokeWidth="1dp" />
+
+    </LinearLayout>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_submit"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnablePreviewInEditMode="false"
+        app:srlHeaderHeight="150dp"
+        app:srlHeaderMaxDragRate="1">
+
+        <View
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/black" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:paddingTop="?attr/actionBarSize">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/ed_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/White"
+                    android:drawablePadding="@dimen/margin_5"
+                    android:gravity="top"
+                    android:minHeight="100dp"
+                    android:padding="@dimen/margin_15"
+                    android:text="@string/settings_security"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textColor="@color/MaterialGrey800"
+                    android:textColorHint="@color/MaterialGrey600"
+                    android:textSize="@dimen/sp_14"
+                    />
+                <TextView
+                    android:id="@+id/tv_length"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:textSize="12sp"
+                    android:text="剩余"
+                    android:gravity="right"
+                    android:textColor="@color/MaterialGrey600"
+                    android:background="@color/White"
+                    />
+                <TextView
+                    android:id="@+id/tv_warn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:textSize="12sp"
+                    android:text="@string/mine_warn"
+                    android:textColor="@color/MaterialGrey600"
+                    />
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <include layout="@layout/action_bar_custom" />
+
+
+</RelativeLayout>

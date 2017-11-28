@@ -4,15 +4,17 @@
 
     <!--腾讯地图 SDK 要求的权限(开始)-->
     <!--访问网络获取地图服务-->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <!--检查网络可用性-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- 访问WiFi状态 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!--需要外部存储写权限用于保存地图缓存-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--获取 device id 辨别设备-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--腾讯地图 SDK 要求的权限(结束)-->
 
     <application
@@ -35,35 +37,35 @@
         <!--主-->
         <activity android:name=".module.MainActivity"/>
         <!--登录注册-->
-        <activity android:name=".module.login.LoginActivity"/>
+        <activity android:name=".module.login.LoginActivity" />
         <!--忘记密码-->
-        <activity android:name=".module.mine.ForgetPwdActivity"/>
+        <activity android:name=".module.mine.ForgetPwdActivity" />
         <!--积分商城-->
-        <activity android:name=".module.main.store.score.ScoreStoreActivity"/>
+        <activity android:name=".module.main.store.score.ScoreStoreActivity" />
         <!--积分商品详情-->
-        <activity android:name=".module.main.store.score.ScoreGoodsDetailActivity"/>
+        <activity android:name=".module.main.store.score.ScoreGoodsDetailActivity" />
         <!--积分商品确认兑换-->
-        <activity android:name=".module.main.store.score.ScoreConfirmActivity"/>
+        <activity android:name=".module.main.store.score.ScoreConfirmActivity" />
         <!--服务列表-->
-        <activity android:name=".module.main.store.service.ServiceListActivity"/>
+        <activity android:name=".module.main.store.service.ServiceListActivity" />
         <!--服务店铺-->
-        <activity android:name=".module.main.store.service.ServiceShopActivity"/>
+        <activity android:name=".module.main.store.service.ServiceShopActivity" />
         <!--评价列表-->
-        <activity android:name=".module.main.store.comment.ServiceCommentListActivity"/>
+        <activity android:name=".module.main.store.comment.ServiceCommentListActivity" />
         <!--服务详情-->
-        <activity android:name=".module.main.store.service.ServiceDetailActivity"/>
+        <activity android:name=".module.main.store.service.ServiceDetailActivity" />
         <!--提交服务订单-->
-        <activity android:name=".module.main.store.service.ServiceConfirmActivity"/>
+        <activity android:name=".module.main.store.service.ServiceConfirmActivity" />
         <!--图片预览-->
-        <activity android:name="com.szw.framelibrary.view.preview.PreviewActivity"/>
+        <activity android:name="com.szw.framelibrary.view.preview.PreviewActivity" />
         <!--服务订单支付-->
-        <activity android:name=".module.main.store.service.PayServiceActivity"/>
+        <activity android:name=".module.main.store.service.PayServiceActivity" />
         <!--支付密码 获取验证码-->
-        <activity android:name=".module.main.pay.PwdGetCodeActivity"/>
+        <activity android:name=".module.main.pay.PwdGetCodeActivity" />
         <!--支付密码 设置支付密码-->
-        <activity android:name=".module.main.pay.PwdSetActivity"/>
+        <activity android:name=".module.main.pay.PwdSetActivity" />
         <!--服务支付成功-->
-        <activity android:name=".module.main.store.service.ServicePayResultActivity"/>
+        <activity android:name=".module.main.store.service.ServicePayResultActivity" />
         <!--商品搜索-->
         <activity android:name="com.exz.carprofitmuch.module.main.store.search.SearchGoodsActivity"/>
         <!--商品搜索结果-->
@@ -252,6 +254,39 @@
 
         <!--红包领取-->
         <activity android:name=".module.main.map.MapRedPacketActivity"/>
+
+        <!--申请开店-->
+        <activity android:name=".module.mine.shop.OpenShopActivity" />
+
+        <!--申请开店 文本输入-->
+        <activity android:name=".module.mine.shop.OpenShopInputTextActivity" />
+
+        <!--申请开店 选择-->
+        <activity android:name=".module.mine.shop.OpenShopKeyValueActivity" />
+
+        <!--身份证上传-->
+        <activity
+            android:name=".module.mine.shop.OpenShopCardImgActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
+        <!--营业执证上传-->
+        <activity android:name=".module.mine.shop.OpenShopBusinessImgActivity" />
+
+        <!--地址详情-->
+        <activity android:name=".module.mine.shop.OpenShopAddressActivity" />
+
+        <!--地图标点-->
+        <activity android:name=".module.mine.shop.OpenShopWebViewActivity" />
+
+
+        <!--我的保单-->
+        <activity android:name=".module.mine.MyPolicyActivity" />
+
+
+
+
+
+
 
 
 

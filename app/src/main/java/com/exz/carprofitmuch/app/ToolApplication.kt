@@ -21,6 +21,7 @@ class ToolApplication : MyApplication() {
         init()
         //数据库初始化
         boxStore = MyObjectBox.builder().androidContext(this).build()
+
     }
     companion object {
         fun getAPP(app:Application):ToolApplication = app as ToolApplication

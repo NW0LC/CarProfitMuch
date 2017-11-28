@@ -20,6 +20,7 @@ import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteShopActivity
 import com.exz.carprofitmuch.module.mine.goodsorder.GoodsOrderActivity
 import com.exz.carprofitmuch.module.mine.returngoods.ReturnGoodsActivity
+import com.exz.carprofitmuch.module.mine.shop.OpenShopActivity
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -137,6 +138,8 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         bt_order_tab_3.setOnClickListener(this)
         bt_order_tab_4.setOnClickListener(this)
         bt_order_tab_5.setOnClickListener(this)
+        bt_applyFor_openShop.setOnClickListener(this)
+        bt_guarantee_slip.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -184,6 +187,12 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             }
             bt_tab_score -> {//积分中心
                 startActivityForResult(Intent(context, ScoreCenterActivity::class.java), 100)
+            }
+            bt_applyFor_openShop -> {//申请开店
+                startActivity(Intent(context, OpenShopActivity::class.java))
+            }
+            bt_guarantee_slip -> {//我的保单
+                startActivity(Intent(context, MyPolicyActivity::class.java))
             }
 
         }

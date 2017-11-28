@@ -56,8 +56,8 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:placeholderImage="@mipmap/icon_mine_default_head"
                         app:roundAsCircle="true"
-                        app:roundingBorderWidth="@dimen/margin_0.5"
                         app:roundingBorderColor="@color/White"
+                        app:roundingBorderWidth="@dimen/margin_0.5"
                         tool:background="@color/MaterialGrey200" />
 
                     <TextView
@@ -198,8 +198,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_8"
-                        android:gravity="center_vertical"
                         android:background="@color/White"
+                        android:gravity="center_vertical"
                         android:paddingBottom="@dimen/margin_8"
                         android:paddingEnd="@dimen/margin_5"
                         android:paddingStart="@dimen/margin_15"
