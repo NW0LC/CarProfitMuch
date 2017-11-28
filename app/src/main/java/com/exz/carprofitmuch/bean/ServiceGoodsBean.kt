@@ -1,5 +1,7 @@
 package com.exz.carprofitmuch.bean
 
+import com.exz.carprofitmuch.adapter.GoodsConfirmScoreBean
+
 /**
  * Created by 史忠文
  * on 2017/10/25.
@@ -14,4 +16,7 @@ open class  ServiceGoodsBean{
     var offerPrice="7"
     var count="139000"
     var code="100200300"
+
+    var score: GoodsConfirmScoreBean?=null
+    val coupons:ArrayList<CouponBean>?=null
 }

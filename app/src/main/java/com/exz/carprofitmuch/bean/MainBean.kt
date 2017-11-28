@@ -8,5 +8,5 @@ package com.exz.carprofitmuch.bean
 class MainBean{
     var banners=""
     var infos= ArrayList<InformationBean>()
-    var mainRecommeds= ArrayList<MainRecommedBean>()
+    var mainRecommends= ArrayList<MainRecommendBean>()
 }

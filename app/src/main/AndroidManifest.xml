@@ -65,9 +65,9 @@
         <!--服务支付成功-->
         <activity android:name=".module.main.store.service.ServicePayResultActivity"/>
         <!--商品搜索-->
-        <activity android:name="com.exz.carprofitmuch.module.main.store.goodssearch.SearchGoodsActivity"/>
+        <activity android:name="com.exz.carprofitmuch.module.main.store.search.SearchGoodsActivity"/>
         <!--商品搜索结果-->
-        <activity android:name="com.exz.carprofitmuch.module.main.store.goodssearch.SearchResultActivity"/>
+        <activity android:name="com.exz.carprofitmuch.module.main.store.search.SearchResultActivity"/>
         <!--商品详情-->
         <activity android:name=".module.main.store.normal.GoodsDetailActivity"/>
         <!--商品评价列表-->
@@ -124,6 +124,18 @@
         <activity android:name=".module.mine.address.AddressManagerActivity"/>
         <!--地址新增或更新-->
         <activity android:name=".module.mine.address.AddressAddOrUpdateActivity"/>
+        <!--订单支付方式页面-->
+        <activity android:name=".module.main.pay.PayMethodsActivity"/>
+        <!--商品分类-->
+        <activity android:name=".module.main.store.normal.GoodsClassifyActivity"/>
+        <!--商品分类-->
+        <activity android:name=".module.main.store.search.SearchFilterActivity"/>
+        <!--商家活动-->
+        <activity android:name=".module.main.promotion.PromotionsActivity"/>
+        <!--商家活动详情页-->
+        <activity android:name=".module.main.promotion.PromotionsDetailActivity"/>
+        <!--提交活动-->
+        <activity android:name=".module.main.promotion.PromotionsPushActivity"/>
 
 
 

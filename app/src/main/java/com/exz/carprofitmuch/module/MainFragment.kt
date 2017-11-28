@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.blankj.utilcode.util.ScreenUtils
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.MainAdapter
@@ -139,6 +140,7 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener {
         //banner设置方法全部调用完毕时最后调用
         headerView.banner.start()
 
+        headerView.bt_hot_lay_0.layoutParams.height=ScreenUtils.getScreenWidth()/2
         hotRecommendViews = ArrayList()
         hotRecommendViews.add(headerView.tv_hot_title_0)
         hotRecommendViews.add(headerView.tv_hot_info_0)
@@ -195,11 +197,11 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener {
     override fun onRefresh(refreshLayout: RefreshLayout?) {
         DataCtrlClass.mainData(context) {
             if (it != null) {
-                for (i in 0 until it.mainRecommeds.size) {
-                    (hotRecommendViews[i * 3] as TextView).text = it.mainRecommeds[i].title
-                    (hotRecommendViews[i * 3] as TextView).textColor = Color.parseColor(it.mainRecommeds[i].titleColor)
-                    (hotRecommendViews[i * 3 + 1] as TextView).text = it.mainRecommeds[i].info
-                    (hotRecommendViews[i * 3 + 2] as SimpleDraweeView).setImageURI(it.mainRecommeds[i].img)
+                for (i in 0 until it.mainRecommends.size) {
+                    (hotRecommendViews[i * 3] as TextView).text = it.mainRecommends[i].title
+                    (hotRecommendViews[i * 3] as TextView).textColor = Color.parseColor(it.mainRecommends[i].titleColor)
+                    (hotRecommendViews[i * 3 + 1] as TextView).text = it.mainRecommends[i].info
+                    (hotRecommendViews[i * 3 + 2] as SimpleDraweeView).setImageURI(it.mainRecommends[i].img)
                 }
                 mAdapter.setNewData(it.infos)
             }

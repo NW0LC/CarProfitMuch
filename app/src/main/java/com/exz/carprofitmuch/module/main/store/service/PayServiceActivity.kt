@@ -32,6 +32,7 @@ import kotlinx.android.synthetic.main.activity_pay_service.*
  * Created by 史忠文
  * on 2017/8/18.
  */
+@Deprecated("PayMethodsActivity instead of this")
 class PayServiceActivity : PayActivity(), View.OnClickListener {
 
     lateinit var pwdPop: PwdPop
@@ -96,7 +97,7 @@ class PayServiceActivity : PayActivity(), View.OnClickListener {
                 .execute(object : DialogCallback<NetEntity<MyAccountBean>>(this) {
 
                     override fun onSuccess(response: Response<NetEntity<MyAccountBean>>) {
-                        (radioGroup.getChildAt(4) as RadioButton).text = String.format("%s(￥%s)", resources.getString(R.string.balance_pay), response.body().info?.price)//我的余额
+                        (radioGroup.getChildAt(4) as RadioButton).text = String.format("%s(￥%s)", resources.getString(R.string.pay_balance), response.body().info?.price)//我的余额
                         canBalancePay = try {
                             (response.body().info?.price?.toDouble())!! >= OrderPrice.toDouble()
                         } catch (e: Exception) {

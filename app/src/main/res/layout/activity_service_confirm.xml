@@ -26,6 +26,7 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="?attr/actionBarSize"
             android:overScrollMode="never">
 
             <LinearLayout
@@ -35,10 +36,9 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-
+                    android:layout_marginTop="@dimen/margin_10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_70"
                     android:background="@color/White"
                     android:gravity="center_vertical"
                     android:padding="@dimen/margin_15">
@@ -123,7 +123,37 @@
                         android:src="@mipmap/icon_minus" />
 
                 </RelativeLayout>
+                <LinearLayout
+                    android:id="@+id/bt_coupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    android:background="@color/White"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/goods_confirm_coupon"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:id="@+id/tv_coupon"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableEnd="@mipmap/icon_main_gray_next"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:gravity="end"
+                        android:text=""
+                        android:lines="1"
+                        android:ellipsize="end"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_14" />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -155,29 +185,64 @@
                         android:textSize="@dimen/text_12"
                         tool:background="@color/MaterialGrey200" />
                 </LinearLayout>
-
-                <com.flyco.roundview.RoundTextView
-                    android:id="@+id/bt_confirm"
+                <Switch
+                    android:id="@+id/accumulatePoints"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginEnd="@dimen/margin_15"
-                    android:layout_marginStart="@dimen/margin_15"
-                    android:layout_marginTop="@dimen/margin_160"
-                    android:layout_marginBottom="@dimen/margin_40"
-                    android:gravity="center"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@color/white"
                     android:padding="@dimen/margin_15"
-                    android:text="@string/service_confirm_confirm"
-                    android:textColor="@color/White"
-                    android:textSize="@dimen/sp_16"
-                    app:rv_backgroundColor="@color/colorPrimary"
-                    app:rv_cornerRadius="5dp" />
+                    android:text="@string/goods_confirm_score"
+                    android:textOff=""
+                    android:textOn=""
+                    android:switchMinWidth="20dp"
+                    android:textColor="@color/MaterialGrey600"
+                    android:thumb="@drawable/billing_thumb"
+                    android:track="@drawable/billing_track" />
+
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 
+    <LinearLayout
+        android:gravity="end"
+        android:background="@color/White"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:text="@string/goods_confirm_totalPrice"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/sp_16" />
+        <TextView
+            android:id="@+id/tv_totalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/margin_15"
+            android:text="@string/CNY"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/sp_16" />
+        <TextView
+            android:id="@+id/bt_confirm"
+            android:layout_width="140dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:padding="@dimen/margin_15"
+            android:text="@string/goods_confirm_confirm"
+            android:textColor="@color/White"
+            android:textSize="@dimen/sp_16" />
+    </LinearLayout>
     <include layout="@layout/action_bar_custom" />
 
 

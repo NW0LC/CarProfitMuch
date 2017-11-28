@@ -1,4 +1,4 @@
-package com.exz.carprofitmuch.module.main.store.goodssearch
+package com.exz.carprofitmuch.module.main.store.search
 
 import android.content.Context
 import android.text.TextUtils
@@ -39,7 +39,7 @@ class SearchGoodsActivity : BaseActivity(), View.OnClickListener {
         StatusBarUtil.setPaddingSmart(this, blurView)
 
 
-        editText.postDelayed({val isShowSoft = intent.getBooleanExtra("isShowSoft", false)
+        editText.postDelayed({val isShowSoft = intent.getBooleanExtra(Intent_isShowSoft, false)
             if (isShowSoft) {
                 editText.isFocusable = true
                 editText.isFocusableInTouchMode = true
@@ -170,6 +170,7 @@ class SearchGoodsActivity : BaseActivity(), View.OnClickListener {
 
     companion object {
         val Intent_Search_Content = "Intent_Search_Content"
+        val Intent_isShowSoft = "Intent_isShowSoft"
     }
 
 }

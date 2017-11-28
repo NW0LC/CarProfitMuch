@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/margin_15">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_15"
+            android:text="@string/search_filter_price"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/text_16" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/lowPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_15"
+                android:layout_weight="1"
+                android:background="@drawable/search_filter_gold_gray"
+                android:gravity="center"
+                android:hint="@string/search_filter_price_low"
+                android:inputType="numberDecimal"
+                android:maxLength="5"
+                android:paddingBottom="@dimen/margin_5"
+                android:paddingTop="@dimen/margin_5"
+                android:text=""
+                android:textColorHint="@color/MaterialGrey"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_5"
+                android:background="@color/MaterialGrey" />
+
+            <EditText
+                android:id="@+id/heightPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_15"
+                android:layout_weight="1"
+                android:background="@drawable/search_filter_gold_gray"
+                android:gravity="center"
+                android:hint="@string/search_filter_price_height"
+                android:inputType="numberDecimal"
+                android:maxLength="5"
+                android:paddingBottom="@dimen/margin_5"
+                android:paddingTop="@dimen/margin_5"
+                android:text=""
+                android:textColorHint="@color/MaterialGrey"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

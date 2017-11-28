@@ -77,7 +77,7 @@
                         android:drawablePadding="@dimen/margin_10"
                         android:drawableStart="@mipmap/icon_ali_pay"
                         android:padding="@dimen/margin_15"
-                        android:text="@string/Ali_pay"
+                        android:text="@string/pay_Ali"
                         android:textColor="@color/MaterialGrey600"
                         android:textSize="@dimen/text_14" />
 
@@ -91,7 +91,7 @@
                         android:drawablePadding="@dimen/margin_10"
                         android:drawableStart="@mipmap/icon_weichat"
                         android:padding="@dimen/margin_15"
-                        android:text="@string/we_chat_pay"
+                        android:text="@string/pay_we_chat"
                         android:textColor="@color/MaterialGrey600"
                         android:textSize="@dimen/text_14" />
 

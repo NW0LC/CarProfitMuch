@@ -93,18 +93,13 @@
                             android:textColor="@color/MaterialGrey500"
                             android:textSize="@dimen/sp_14" />
 
-                        <TextView
-                            android:id="@+id/tv_service_code"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <LinearLayout
+                            android:id="@+id/lay_service_code"
+                            android:orientation="vertical"
                             android:layout_marginStart="@dimen/dp_10"
-                            android:ellipsize="end"
-                            android:lines="1"
-                            android:minWidth="@dimen/margin_100"
-                            android:text=""
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/sp_14"
-                            tool:background="@color/MaterialGrey200" />
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                        </LinearLayout>
 
                     </LinearLayout>
 
