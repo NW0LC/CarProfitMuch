@@ -11,6 +11,7 @@ import com.exz.carprofitmuch.bean.User
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.scwang.smartrefresh.layout.util.DensityUtil
+import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.config.Constants.Result.Intent_ClassName
 import com.szw.framelibrary.config.PreferencesService
@@ -36,7 +37,7 @@ internal class LoginActivity : BaseActivity() {
         list.add(LoginFragment.newInstance(viewpager))
         list.add(RegisterFragment.newInstance(viewpager))
         tabs.setViewPager(viewpager, tabTitles, this, list)
-        viewpager.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
+        viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
             }
@@ -81,25 +82,28 @@ internal class LoginActivity : BaseActivity() {
         // 解除注册读取短信Observer
         contentResolver.unregisterContentObserver((list[1] as RegisterFragment).smsContentObserver)
     }
-companion object {
-    private val RESULT_LOGIN_OK=2000
-    val RESULT_LOGIN_CANCELED=3000
 
-    fun loginSuccess(context: Activity,mobile:String ,user:User?){
-        PreferencesService.saveAccount(context, mobile, "")
-        PreferencesService.saveAutoLoginToken(context, user?.autoLoginToken?:"")
-        val intent = context.intent
-        val className = intent.getStringExtra(Intent_ClassName)
-        if (!TextUtils.isEmpty(className)) {
-            intent.setClassName(context, className)
-            context.startActivityForResult(intent,100)
-        }else{
-        context.setResult(RESULT_LOGIN_OK,intent)
-        context.finish()
-        context.overridePendingTransition(R.anim.fade_in, R.anim.slide_out_bottom)
+    companion object {
+        private val RESULT_LOGIN_OK = 2000
+        val RESULT_LOGIN_CANCELED = 3000
+
+        fun loginSuccess(context: Activity, mobile: String,pwd: String, user: User?) {
+            PreferencesService.saveAccount(context, mobile, pwd)
+            MyApplication.user=user
+//            PreferencesService.saveAutoLoginToken(context, user?.autoLoginToken ?: "")
+            val intent = context.intent
+            val className = intent.getStringExtra(Intent_ClassName)
+            if (!TextUtils.isEmpty(className)) {
+                intent.setClassName(context, className)
+                context.startActivityForResult(intent, 100)
+            } else {
+                context.setResult(RESULT_LOGIN_OK, intent)
+                context.finish()
+                context.overridePendingTransition(R.anim.fade_in, R.anim.slide_out_bottom)
+            }
+        }
     }
-    }
-}
+
     override fun onBackPressed() {
         setResult(RESULT_LOGIN_CANCELED)
         finish()
@@ -109,8 +113,8 @@ companion object {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode==100){
-            setResult(RESULT_LOGIN_OK,data)
+        if (requestCode == 100) {
+            setResult(RESULT_LOGIN_OK, data)
             finish()
         }
     }

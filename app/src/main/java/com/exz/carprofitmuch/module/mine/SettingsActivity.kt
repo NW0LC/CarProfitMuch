@@ -53,7 +53,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
                 startActivity(intent)
             }
             bt_exit-> {
-                PreferencesService.saveAutoLoginToken(this,"")
+                PreferencesService.saveAccount(this, PreferencesService.getAccountKey(this)?:"", "")
                 MyApplication.user=null
                 setResult(LoginActivity.RESULT_LOGIN_CANCELED)
                 onBackPressed()

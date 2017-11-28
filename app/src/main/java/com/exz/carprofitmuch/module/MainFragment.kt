@@ -19,6 +19,7 @@ import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.module.main.AdsActivity
 import com.exz.carprofitmuch.module.main.map.MapPinActivity
 import com.exz.carprofitmuch.module.main.promotion.PromotionsActivity
+import com.exz.carprofitmuch.utils.SZWUtils
 import com.exz.carprofitmuch.widget.MyWebActivity
 import com.facebook.drawee.view.SimpleDraweeView
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -27,6 +28,7 @@ import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.youth.banner.BannerConfig
+import com.youth.banner.listener.OnBannerListener
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.header_main.view.*
@@ -37,7 +39,8 @@ import org.jetbrains.anko.textColor
  * on 2017/10/17.
  */
 
-class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener {
+class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, OnBannerListener {
+
 
 
     private var mScrollY = 0
@@ -57,12 +60,7 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener {
     }
 
     override fun initEvent() {
-        headerView.banner.setOnBannerListener {
-            val intent = Intent(context, MyWebActivity::class.java)
-//            intent.putExtra(MyWebActivity.Intent_Title, response.body().info[it].title)
-//            intent.putExtra(MyWebActivity.Intent_Url, response.body().info[it].url)
-            startActivity(intent)
-        }
+        headerView.banner.setOnBannerListener(this)
         headerView.bt_tab_1.setOnClickListener(this)
         headerView.bt_tab_2.setOnClickListener(this)
         headerView.bt_tab_3.setOnClickListener(this)
@@ -123,23 +121,16 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener {
     }
 
     private fun initHeaderAndFooter() {
-        val bannersBean = ArrayList<BannersBean>()
-        bannersBean.add(BannersBean())
-        bannersBean.add(BannersBean())
-        bannersBean.add(BannersBean())
         headerView.banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
         //设置图片加载器
         headerView.banner.setImageLoader(BannerImageLoader())
-        //设置图片集合
-        headerView.banner.setImages(bannersBean)
         //设置自动轮播，默认为true
         headerView.banner.isAutoPlay(true)
         //设置轮播时间
         headerView.banner.setDelayTime(3000)
         //设置指示器位置（当banner模式中有指示器时）
         headerView.banner.setIndicatorGravity(BannerConfig.CENTER)
-        //banner设置方法全部调用完毕时最后调用
-        headerView.banner.start()
+
 
         headerView.bt_hot_lay_0.layoutParams.height=ScreenUtils.getScreenWidth()/2
         hotRecommendViews = ArrayList()
@@ -160,7 +151,12 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener {
         hotRecommendViews.add(headerView.img_hot_bg_4)
 
     }
-
+    override fun OnBannerClick(position: Int) {
+        val intent = Intent(context, MyWebActivity::class.java)
+//            intent.putExtra(MyWebActivity.Intent_Title, response.body().info[it].title)
+//            intent.putExtra(MyWebActivity.Intent_Url, response.body().info[it].url)
+        startActivity(intent)
+    }
     override fun onClick(p0: View?) {
         when (p0) {
             headerView.bt_tab_1 -> {
@@ -171,13 +167,15 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener {
                 startActivity(Intent(context, AdsActivity::class.java))
             }
             headerView.bt_tab_4 -> {//宝藏领取
-                startActivity(Intent(context, MapPinActivity::class.java).putExtra("className",context.getString(R.string.main_treasure_get)))
+                val intent=Intent(context,MapPinActivity::class.java).putExtra("className",context.getString(R.string.main_treasure_get))
+                SZWUtils.checkLogin(this,intent,MapPinActivity::class.java.name)
             }
             headerView.bt_tab_5 -> {//红包领取
-                startActivity(Intent(context, MapPinActivity::class.java).putExtra("className", context.getString(R.string.main_redpacket_get)))
+                val intent = Intent(context, MapPinActivity::class.java).putExtra("className", context.getString(R.string.main_redpacket_get))
+                SZWUtils.checkLogin(this,intent,MapPinActivity::class.java.name)
             }
             headerView.bt_tab_6 -> {//商家活动
-                startActivity(Intent(context, PromotionsActivity::class.java))
+                SZWUtils.checkLogin(this,clazzName=PromotionsActivity::class.java.name)
             }
             headerView.bt_more_hot_recommend -> {
             }
@@ -195,8 +193,17 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener {
             }
         }
     }
-
+    var banners=ArrayList<BannersBean>()
     override fun onRefresh(refreshLayout: RefreshLayout?) {
+        DataCtrlClass.bannerData(context,"1"){
+            if (it!=null){
+                banners= it
+                //设置图片集合
+                headerView.banner.setImages(it)
+                //banner设置方法全部调用完毕时最后调用
+                headerView.banner.start()
+            }
+        }
         DataCtrlClass.mainData(context) {
             if (it != null) {
                 for (i in 0 until it.mainRecommends.size) {

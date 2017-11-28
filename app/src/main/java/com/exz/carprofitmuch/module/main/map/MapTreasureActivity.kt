@@ -113,7 +113,7 @@ class MapTreasureActivity : BaseActivity(), BaseQuickAdapter.RequestLoadMoreList
     }
 
     private fun iniData() {
-        DataCtrlClass.mainAdsData(this, currentPage) {
+        DataCtrlClass.mainAdsData(this, "",currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

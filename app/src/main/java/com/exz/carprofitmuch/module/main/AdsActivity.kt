@@ -1,7 +1,10 @@
 package com.exz.carprofitmuch.module.main
 
+import android.support.constraint.ConstraintLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
+import com.blankj.utilcode.util.SizeUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
@@ -15,6 +18,7 @@ import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_ads.*
+import kotlinx.android.synthetic.main.layout_ads_tab.view.*
 
 /**
  * Created by 史忠文
@@ -26,8 +30,14 @@ class AdsActivity : BaseActivity(), OnRefreshListener , BaseQuickAdapter.Request
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
     private lateinit var mAdapter: AdsAdapter
+    private val mTitles = arrayOf("首页", "消息")
     override fun initToolbar(): Boolean {
-        mTitle.text = getString(R.string.ads_name)
+//        mTitle.text = getString(R.string.ads_name)
+        val tabsLay = View.inflate(mContext, R.layout.layout_ads_tab, null)
+        val params= ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,SizeUtils.dp2px(32f))
+        tabsLay.tab.layoutParams=params
+        tabsLay.tab.setTabData(mTitles)
+        buttonBarLayout.addView( tabsLay,0)
         //状态栏透明和间距处理
         StatusBarUtil.immersive(this)
         StatusBarUtil.setPaddingSmart(this, toolbar)
@@ -81,7 +91,7 @@ class AdsActivity : BaseActivity(), OnRefreshListener , BaseQuickAdapter.Request
     }
 
     private fun iniData() {
-        DataCtrlClass.mainAdsData(this,currentPage) {
+        DataCtrlClass.mainAdsData(this,"0",currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

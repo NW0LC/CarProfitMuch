@@ -19,6 +19,7 @@ import com.szw.framelibrary.app.MyApplication.Companion.salt
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.net.NetEntity
 import com.szw.framelibrary.utils.net.callback.DialogCallback
+import com.szw.framelibrary.utils.net.callback.JsonCallback
 import org.jetbrains.anko.toast
 import java.util.*
 
@@ -30,20 +31,25 @@ import java.util.*
 object DataCtrlClass {
     /**
      * 获取验证码
+     * @param[phone] string	必填	手机号
+     * @param[purpose] string	必填	用途：1注册，2忘记密码，3设置支付密码
      * */
-    fun getSecurityCode(context: Context, mobile: String, attribute: String, listener: (errorMsg: String?) -> Unit) {
+    fun getSecurityCode(context: Context, phone: String, purpose: String, listener: (errorMsg: String?) -> Unit) {
+//        phone	string	必填	手机号
+//        purpose	string	必填	用途：1注册，2忘记密码，3设置支付密码
+//        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("mobile", mobile)
-        params.put("attribute", attribute)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(mobile + MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
+        params.put("phone", phone)
+        params.put("purpose", purpose)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(phone + MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.VerifyCode)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<String>>(context) {
                     override fun onSuccess(response: Response<NetEntity<String>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
-                            listener.invoke(response.body().data)
+                            listener.invoke(response.body().data?:"")
                         } else {
                             listener.invoke(null)
                         }
@@ -61,19 +67,19 @@ object DataCtrlClass {
     /**
      * 登录
      * */
-    fun login(context: Context, mobile: String, pwd: String, listener: (user: User?) -> Unit) {
+    fun login(context: Context, mobile: String, pwd: String, listener: (userId: String?) -> Unit) {
 
         val params = HashMap<String, String>()
         params.put("phone", mobile)
         params.put("pwd", pwd)
-        params.put("loginDeviceType", "0")
+        params.put("deviceType", "1")
 //      params.put("jpushToken", JPushInterface.getRegistrationID(this))
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(mobile, salt).toLowerCase())
-        OkGo.post<NetEntity<User>>(Urls.url)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(mobile+pwd, salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.Login)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<User>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<User>>) {
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
                         } else {
@@ -81,7 +87,37 @@ object DataCtrlClass {
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<User>>) {
+                    override fun onError(response: Response<NetEntity<String>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 登录
+     * */
+    fun loginNoDialog(context: Context, mobile: String, pwd: String,listener: (userId: String?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("phone", mobile)
+        params.put("pwd", pwd)
+        params.put("deviceType", "1")
+//      params.put("jpushToken", JPushInterface.getRegistrationID(this))
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(mobile+pwd, salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.Login)
+                .params(params)
+                .tag(this)
+                .execute(object : JsonCallback<NetEntity<String>>() {
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<String>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -91,22 +127,36 @@ object DataCtrlClass {
 
     /**
      * 注册
+     * @param[phone] string	必填	手机号
+     * @param[code] string	必填	验证码
+     * @param[pwd] string	必填	密码
+     * @param[wechat] string	必填	微信号
+     * @param[invitePhone] string	选填	推荐人手机号
      * */
-    fun register(context: Context, mobile: String, code: String, pwd: String, invitePhone: String, listener: (user: User?) -> Unit) {
+    fun register(context: Context, phone: String, code: String, pwd: String,wechat: String, invitePhone: String, listener: (userId: String?) -> Unit) {
+//        phone	string	必填	手机号
+//        code	string	必填	验证码
+//        pwd	string	必填	密码
+//        wechat	string	必填	微信号
+//        putPhone	string	选填	推荐人手机号
+//        deviceType	string	必填	设备类型：1 Android；2 iOS
+//        jpushToken	string	选填	极光推送令牌
+//        requestCheck	string	必填	验证请求 "手机号+验证码+秘钥"的 MD5加密
 
         val params = HashMap<String, String>()
-        params.put("phone", mobile)
+        params.put("phone", phone)
         params.put("code", code)
         params.put("pwd", pwd)
-        params.put("invitePhone", invitePhone)
-        params.put("loginDeviceType", "0")
+        params.put("wechat", wechat)
+        params.put("putPhone", invitePhone)
+        params.put("deviceType", "1")
 //        params.put("jpushToken", JPushInterface.getRegistrationID(this))
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(mobile + code, salt).toLowerCase())
-        OkGo.post<NetEntity<User>>(Urls.url)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(phone + code, salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.Register)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<User>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<User>>) {
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
                         } else {
@@ -114,7 +164,7 @@ object DataCtrlClass {
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<User>>) {
+                    override fun onError(response: Response<NetEntity<String>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -125,28 +175,31 @@ object DataCtrlClass {
     /**
      * 忘记密码
      * */
-    fun forgetPwd(context: Context, mobile: String, code: String, pwd: String, pwd2: String, listener: (user: User?) -> Unit) {
+    fun forgetPwd(context: Context, mobile: String, code: String, pwd: String, pwd2: String, listener: (user: String?) -> Unit) {
+//        phone	string	必填	手机号
+//        code	string	必填	验证码
+//        pwd	string	必填	密码
+//        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
         params.put("phone", mobile)
         params.put("code", code)
         params.put("pwd", pwd)
-        params.put("pwd2", pwd2)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(mobile + code, salt).toLowerCase())
-        OkGo.post<NetEntity<User>>(Urls.url)
+        OkGo.post<NetEntity<String>>(Urls.ForgetPwd)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<User>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<User>>) {
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
-                            listener.invoke(response.body().data)
+                            listener.invoke(response.body().data?:"")
                         } else {
                             listener.invoke(null)
                         }
                         context.toast(response.body().message)
                     }
 
-                    override fun onError(response: Response<NetEntity<User>>) {
+                    override fun onError(response: Response<NetEntity<String>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -154,6 +207,34 @@ object DataCtrlClass {
                 })
     }
 
+    /**
+     * banner
+     * */
+    fun bannerData(context: Context, type :String,listener: (bannersBean:ArrayList< BannersBean>?) -> Unit) {
+//        type	string	必填	位置
+
+        val params = HashMap<String, String>()
+        params.put("type", type)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        OkGo.post<NetEntity<ArrayList< BannersBean>>>(Urls.HomeBanner)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<ArrayList< BannersBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<ArrayList< BannersBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<ArrayList< BannersBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
     /**
      * 首页数据
      * */
@@ -405,12 +486,16 @@ object DataCtrlClass {
     /**
      * 广告专区
      * */
-    fun mainAdsData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<String>?) -> Unit) {
+    fun mainAdsData(context: Context, isPaid: String,currentPage: Int, listener: (scoreStoreBean: List<String>?) -> Unit) {
+//        isPaid	string	必填	0无偿 1有偿
+//        page	string	必填	分页，从第1页开始，每页20条数据
+//                requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<List<String>>>(Urls.url)
+        params.put("isPaid",isPaid)
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase())
+        OkGo.post<NetEntity<List<String>>>(Urls.AdsList)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<List<String>>>(context) {

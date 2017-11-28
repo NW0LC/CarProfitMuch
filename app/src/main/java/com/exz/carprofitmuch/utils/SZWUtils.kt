@@ -32,6 +32,7 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.app.MyApplication
+import com.szw.framelibrary.config.Constants.Result.Intent_ClassName
 import kotlinx.android.synthetic.main.layout_progress_score.view.*
 import java.text.DecimalFormat
 
@@ -52,6 +53,45 @@ object SZWUtils {
             phoneNum
         else
             phoneNum.substring(0, 3) + "****" + phoneNum.substring(phoneNum.length - 4, phoneNum.length)
+    }
+
+    /**
+     * @param mContext 上下文
+     * @param intent   事件
+     * @return true登录
+     */
+    fun checkLogin(mContext: Fragment, intent: Intent=Intent(), clazzName: String = ""): Boolean {
+        return if (!MyApplication.checkUserLogin()) {
+            val login = Intent(mContext.context, LoginActivity::class.java)
+            login.putExtra(Intent_ClassName, clazzName)
+            login.putExtras(intent)
+            mContext.startActivityForResult(login, 0xc8)
+            mContext.activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.fade_out)
+            false
+        } else {
+            try {
+                mContext.startActivityForResult(intent, 0xc8)
+            } catch (e: Exception) {
+            }
+            true
+        }
+    }
+
+    /**
+     * @param mContext 上下文
+     * @param intent   事件
+     * @return true登录
+     */
+    fun checkLogin(mContext: Activity, intent: Intent, clazzName: String): Boolean {
+        return if (!MyApplication.checkUserLogin()) {
+            val login = Intent(mContext, LoginActivity::class.java)
+            login.putExtra(Intent_ClassName, clazzName)
+            login.putExtras(intent)
+            mContext.startActivityForResult(login, 0xc8)
+            mContext.overridePendingTransition(R.anim.slide_in_bottom, R.anim.fade_out)
+            false
+        } else
+            true
     }
 
     /**
@@ -98,7 +138,7 @@ object SZWUtils {
             true
     }
 
-    fun matcherSearchTitle(textView: TextView,textStart:String,start:Int ,end:Int ,color:Int) {
+    fun matcherSearchTitle(textView: TextView, textStart: String, start: Int, end: Int, color: Int) {
         var builder = SpannableStringBuilder(textStart)
         var span = ForegroundColorSpan(color)
         builder.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -191,7 +231,7 @@ object SZWUtils {
                         animatorSet.play(x)
                         animatorSet.duration = 0
                         animatorSet.start()
-                        val  decimalFormat= DecimalFormat("0.0")
+                        val decimalFormat = DecimalFormat("0.0")
                         tagView.bar_tag_text.text = decimalFormat.format((realScore / end) * i)
                     }
                 if (i >= 5)
@@ -230,6 +270,7 @@ object SZWUtils {
         view.setPadding(view.paddingLeft, view.paddingTop + SizeUtils.dp2px(size), view.paddingRight, view.paddingBottom)
 
     }
+
     /**
      * 减少固定外边距
      */
@@ -299,6 +340,7 @@ object SZWUtils {
         filterBeans.add(ServiceListFilterBean("3", "价格由低到高"))
         return filterBeans
     }
+
     /**
      * 获取性别数据
      */
@@ -373,7 +415,7 @@ object SZWUtils {
      * 设置刷新 及控制 刷新头 的显示和隐藏
      *
      */
-    fun setRefreshAndHeaderCtrl(listener:OnRefreshListener ,header: View, refreshLayout: SmartRefreshLayout) {
+    fun setRefreshAndHeaderCtrl(listener: OnRefreshListener, header: View, refreshLayout: SmartRefreshLayout) {
 
         refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
             override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {

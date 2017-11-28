@@ -87,6 +87,23 @@
         android:textSize="@dimen/text_14" />
 
     <com.szw.framelibrary.view.ClearWriteEditText
+        android:id="@+id/ed_weChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@mipmap/icon_login_edit_text_gray_bg"
+        android:drawablePadding="@dimen/margin_10"
+        android:drawableStart="@mipmap/icon_login_invite_off"
+        android:hint="@string/login_hint_weChat"
+        android:inputType="phone"
+        android:paddingEnd="@dimen/margin_25"
+        android:paddingStart="@dimen/margin_25"
+        android:textColor="@color/MaterialGrey800"
+        android:textColorHint="@color/MaterialGrey400"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:textSize="@dimen/text_14" />
+
+    <com.szw.framelibrary.view.ClearWriteEditText
         android:id="@+id/ed_referrer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

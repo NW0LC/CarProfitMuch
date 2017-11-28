@@ -27,7 +27,7 @@ class ForgetPwdActivity : BaseActivity(), View.OnClickListener {
     private lateinit var countDownTimer: CountDownTimer
     private val time = 120000//倒计时时间
     private val downKey = "F"
-    lateinit var smsContentObserver: SmsContentObserver
+    private lateinit var smsContentObserver: SmsContentObserver
     override fun initToolbar(): Boolean {
         toolbar.setNavigationOnClickListener { finish() }
 
@@ -43,6 +43,7 @@ class ForgetPwdActivity : BaseActivity(), View.OnClickListener {
     override fun setInflateId(): Int = R.layout.activity_forget_pwd
     override fun init() {
         bt_confirm.setOnClickListener(this)
+        bt_code.setOnClickListener(this)
 
 
         smsContentObserver = SZWUtils.registerSMS(mContext, SZWUtils.patternCode(mContext, ed_code,4))
@@ -81,7 +82,23 @@ class ForgetPwdActivity : BaseActivity(), View.OnClickListener {
 
     }
     override fun onClick(p0: View?) {
-        checkRegister()
+        when (p0) {
+            bt_code -> {
+                downTimer(time.toLong())
+                PreferencesService.setDownTimer(this, downKey, System.currentTimeMillis())
+                DataCtrlClass.getSecurityCode(this, ed_phone.text.toString(), "2") {
+                    if (it != null) {
+                        ed_code.setText(it)
+                    } else {
+                        resetTimer(true, java.lang.Long.MIN_VALUE)
+                    }
+                }
+            }
+            else -> {
+                checkRegister()
+            }
+        }
+
     }
     private fun checkRegister() {
         when {

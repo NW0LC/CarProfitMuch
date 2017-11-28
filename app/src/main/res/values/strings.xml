@@ -15,6 +15,7 @@
     <string name="forget_pwd_error_pwd2">请再次输入密码!</string>
     <string name="forget_pwd_pwd_no_equal">两次密码不一致</string>
     <string name="login_hint_referrer">请输入邀请人手机号</string>
+    <string name="login_hint_weChat">请输入微信号</string>
     <string name="login_hint_code">请输入验证码</string>
     <string name="login_text_register">立即注册</string>
     <string name="login_hint_get_code">获取验证码</string>

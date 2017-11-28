@@ -14,7 +14,7 @@ import io.objectbox.BoxStore
 class ToolApplication : MyApplication() {
     lateinit var boxStore: BoxStore//数据库入口
 
-    override fun getSaltStr(): String? = "1234"
+    override fun getSaltStr(): String? = "9E127DFDDA4F0BAB43B3"
 
     override fun onCreate() {
         super.onCreate()

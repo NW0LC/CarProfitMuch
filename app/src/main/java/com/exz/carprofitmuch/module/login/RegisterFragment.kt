@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
+import com.exz.carprofitmuch.bean.User
 import com.exz.carprofitmuch.widget.CustomViewpager
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.config.PreferencesService
@@ -30,7 +31,7 @@ import org.jetbrains.anko.support.v4.toast
 class RegisterFragment : MyBaseFragment(), View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
 
     lateinit var viewpager: CustomViewpager
-    lateinit var countDownTimer: CountDownTimer
+    private lateinit var countDownTimer: CountDownTimer
     private val time = 120000//倒计时时间
     private val downKey = "R"
     lateinit var smsContentObserver: SmsContentObserver
@@ -87,13 +88,17 @@ class RegisterFragment : MyBaseFragment(), View.OnFocusChangeListener, TextWatch
             toast(getString(R.string.login_error_phone))
         } else if (TextUtils.isEmpty(ed_code.text.toString().trim())) {
             ed_code.setShakeAnimation()
+        } else if (TextUtils.isEmpty(ed_weChat.text.toString().trim())) {
+            ed_code.setShakeAnimation()
         } else if (TextUtils.isEmpty(ed_pwd.text.toString().trim())) {
             ed_pwd.setShakeAnimation()
             toast(getString(R.string.login_error_pwd))
         } else{
-            DataCtrlClass.register(context, ed_phone.text.toString(), ed_code.text.toString(), ed_pwd.text.toString(), ed_referrer.text.toString()) {
-                if (it != null) {
-                    LoginActivity.loginSuccess(activity, ed_phone.text.toString(), it)
+            DataCtrlClass.register(context, ed_phone.text.toString(), ed_code.text.toString(), ed_pwd.text.toString(), ed_pwd.text.toString(), ed_referrer.text.toString()) {
+                if (it != null){
+                    ed_phone.postDelayed({
+                        LoginActivity.loginSuccess(activity, ed_phone.text.toString(), ed_pwd.text.toString(), User(it))
+                    },500)
                 }
             }
         }
