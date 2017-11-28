@@ -181,7 +181,6 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
 
     override fun onClick(p0: View) {
         when (p0.id) {
-            R.id.back -> finish()
             R.id.mTitle-> {
                 val intent = Intent()
                 intent.setClass(this@SearchFilterActivity, SearchGoodsActivity::class.java)

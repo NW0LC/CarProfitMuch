@@ -48,7 +48,7 @@ class GoodsShopClassifyPop(context: Activity) : BasePopupWindow(context) {
 
     init {
         initToolBar()
-        isDismissWhenTouchOuside = true
+        setDismissWhenTouchOutside(true)
         popupWindowView.mRecyclerView.layoutManager = LinearLayoutManager(context)
         popupWindowView.mRecyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         mAdapter = GoodsShopClassifyAdapter { position, itemPosition ->

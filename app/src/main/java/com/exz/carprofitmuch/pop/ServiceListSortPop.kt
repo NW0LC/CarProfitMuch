@@ -36,7 +36,7 @@ class ServiceListSortPop(context: Activity, listener:(title:String,state:String,
         popupWindowView.recyclerView.addOnItemTouchListener(childClickListener)
     }
     init {
-        isDismissWhenTouchOuside = true
+        setDismissWhenTouchOutside(true)
         popupWindowView.recyclerView.layoutManager = LinearLayoutManager(context)
         popupWindowView.recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         adapter = ServiceListFilterAdapter()
