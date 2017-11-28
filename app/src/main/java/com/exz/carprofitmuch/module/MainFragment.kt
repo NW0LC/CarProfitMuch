@@ -18,6 +18,7 @@ import com.exz.carprofitmuch.bean.InformationBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.module.main.AdsActivity
 import com.exz.carprofitmuch.module.main.map.MapPinActivity
+import com.exz.carprofitmuch.module.main.promotion.PromotionsActivity
 import com.exz.carprofitmuch.widget.MyWebActivity
 import com.facebook.drawee.view.SimpleDraweeView
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -176,6 +177,7 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener {
                 startActivity(Intent(context, MapPinActivity::class.java).putExtra("className", context.getString(R.string.main_redpacket_get)))
             }
             headerView.bt_tab_6 -> {//商家活动
+                startActivity(Intent(context, PromotionsActivity::class.java))
             }
             headerView.bt_more_hot_recommend -> {
             }

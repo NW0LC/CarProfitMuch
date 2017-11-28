@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.PromotionsPersonalAdapter
@@ -15,8 +16,10 @@ import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
+import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.config.Constants
+import com.szw.framelibrary.utils.DialogUtils
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.fragment_comment_list.*
 import java.util.*
@@ -66,7 +69,11 @@ class PromotionsPersonalFragment : MyBaseFragment(), OnRefreshListener, View.OnC
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
         mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
-
+        mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener(){
+            override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+                DialogUtils.Call(activity as BaseActivity,mAdapter.data[position].phone)
+            }
+        })
     }
 
     override fun onClick(p0: View?) {

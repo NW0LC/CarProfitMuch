@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.module.login.LoginActivity
+import com.exz.carprofitmuch.module.main.promotion.PromotionsPersonalActivity
 import com.exz.carprofitmuch.module.mine.*
 import com.exz.carprofitmuch.module.mine.comment.MyCommentActivity
 import com.exz.carprofitmuch.module.mine.comment.TreasureListActivity
@@ -138,6 +139,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         bt_order_tab_3.setOnClickListener(this)
         bt_order_tab_4.setOnClickListener(this)
         bt_order_tab_5.setOnClickListener(this)
+        bt_promotions.setOnClickListener(this)
         bt_applyFor_openShop.setOnClickListener(this)
         bt_guarantee_slip.setOnClickListener(this)
     }
@@ -190,6 +192,9 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             }
             bt_applyFor_openShop -> {//申请开店
                 startActivity(Intent(context, OpenShopActivity::class.java))
+            }
+            bt_promotions -> {//我的活动
+                startActivity(Intent(context, PromotionsPersonalActivity::class.java))
             }
             bt_guarantee_slip -> {//我的保单
                 startActivity(Intent(context, MyPolicyActivity::class.java))
