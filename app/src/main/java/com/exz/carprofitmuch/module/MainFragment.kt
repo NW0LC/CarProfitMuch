@@ -184,7 +184,8 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 SZWUtils.checkLogin(this, intent, MapPinActivity::class.java.name)
             }
             headerView.bt_tab_6 -> {//商家活动
-                SZWUtils.checkLogin(this, clazzName = PromotionsActivity::class.java.name)
+                val intent = Intent(context, PromotionsActivity::class.java)
+                SZWUtils.checkLogin(this,intent,PromotionsActivity::class.java.name)
             }
             headerView.bt_more_hot_recommend -> {
                 (activity as MainActivity).mainTabBar.currentTab = 1

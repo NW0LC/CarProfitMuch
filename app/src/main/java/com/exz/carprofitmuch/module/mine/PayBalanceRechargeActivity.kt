@@ -46,9 +46,9 @@ class PayBalanceRechargeActivity : PayActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(0).id)
-            aliPay("", "orderId", "")
+            aliPay("", "rechargeId", "")
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(1).id)
-            weChatPay("", "orderId", "")
+            weChatPay("", "rechargeId", "")
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = arrayOf(Tag(Constants.BusAction.Pay_Finish)))
@@ -58,13 +58,13 @@ class PayBalanceRechargeActivity : PayActivity(), View.OnClickListener {
 
     private fun checkPay() {
 
-        if (orderId.isEmpty()) {
+        if (rechargeId.isEmpty()) {
             return
         }
         val map = HashMap<String, String>()
         map.put("userId", MyApplication.loginUserId)
-        map.put("orderId", orderId)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId, MyApplication.salt).toLowerCase())
+        map.put("rechargeId", rechargeId)
+        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + rechargeId, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<CheckPayBean>>("").tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<CheckPayBean>>(this) {

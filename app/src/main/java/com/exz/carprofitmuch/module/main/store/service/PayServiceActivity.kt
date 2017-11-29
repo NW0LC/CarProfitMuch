@@ -74,9 +74,9 @@ class PayServiceActivity : PayActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         startActivity(Intent(this,ServicePayResultActivity::class.java))
         if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(0).id)
-            aliPay("", "orderId", "")
+            aliPay("", "rechargeId", "")
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(2).id)
-            weChatPay("", "orderId", "")
+            weChatPay("", "rechargeId", "")
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(4).id) {
             if (canBalancePay)
                 checkHavePayPwd()
@@ -142,7 +142,7 @@ class PayServiceActivity : PayActivity(), View.OnClickListener {
      */
     private fun balancePay(payPwd: String) {
         //     userId		string		必填		用户Id
-//        orderId		string		必填		订单编号
+//        rechargeId		string		必填		订单编号
 //                paymentPassword		string		必填		支付密码
 //                requestCheck		string		必填		验证请求
 
@@ -150,7 +150,7 @@ class PayServiceActivity : PayActivity(), View.OnClickListener {
         val map = HashMap<String, String>()
         map.put("userId", MyApplication.loginUserId)
         map.put("paymentPassword", payPwd)
-        map.put("orderId", OrderId)
+        map.put("rechargeId", OrderId)
         map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + OrderId, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<CheckPayBean>>("").tag(this)
                 .params(map)
@@ -177,16 +177,16 @@ class PayServiceActivity : PayActivity(), View.OnClickListener {
 
     private fun checkPay() {
         //        userId		String		必填		用户Id
-        //        orderId		String		必填		货源订单id
+        //        rechargeId		String		必填		货源订单id
         //        requestCheck		string		必填		验证请求
 
-        if (orderId.isEmpty()) {
+        if (rechargeId.isEmpty()) {
             return
         }
         val map = HashMap<String, String>()
         map.put("userId", MyApplication.loginUserId)
-        map.put("orderId", orderId)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId, MyApplication.salt).toLowerCase())
+        map.put("rechargeId", rechargeId)
+        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + rechargeId, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<CheckPayBean>>("").tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<CheckPayBean>>(this) {

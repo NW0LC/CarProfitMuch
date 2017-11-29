@@ -32,7 +32,7 @@ abstract class PayActivity : BaseActivity() {
     //    public void PayFinish(String tag) {
     //        finish();
     //    }
-    protected var orderId = ""
+    protected var rechargeId = ""
     private val isWXAppInstalledAndSupported: Boolean
         get() {
             val msgApi = WXAPIFactory.createWXAPI(this, null)
@@ -53,7 +53,7 @@ abstract class PayActivity : BaseActivity() {
                     override fun onSuccess(response: Response<NetEntity<WxBean>>) {
                         if (response.body().info != null) {
 
-                            orderId = response.body().info?.orderId?:""
+                            rechargeId = response.body().info?.orderId?:""
                             val req = PayReq()
                             req.appId = response.body().info?.appId?:""
                             Urls.APP_ID = response.body().info?.appId?:""
@@ -89,7 +89,7 @@ abstract class PayActivity : BaseActivity() {
                     override fun onSuccess(response: Response<NetEntity<AliBean>>) {
 
                         if (response.body().info!= null) {
-                            orderId = response.body().info?.orderId?:""
+                            rechargeId = response.body().info?.orderId?:""
                             pay(response.body().info?.paymentDescription, response.body().info?.sign)
                         }
                     }
@@ -157,7 +157,7 @@ abstract class PayActivity : BaseActivity() {
          * timestamp : 1504147670
          * packageValue : Sign=WXPay
          * sign : 2C9682A48F4B1DFD0660638E7A59A518
-         * orderId : 18311007103108
+         * rechargeId : 18311007103108
          */
 
         var appId: String = ""
@@ -175,7 +175,7 @@ abstract class PayActivity : BaseActivity() {
         /**
          * paymentDescription : 商品相关描述
          * sing : 商品相关描述
-         * orderId : 订单号
+         * rechargeId : 订单号
          */
 
         var paymentDescription: String = ""
