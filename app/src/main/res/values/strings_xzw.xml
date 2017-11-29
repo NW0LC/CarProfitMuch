@@ -70,6 +70,8 @@
     <string name="main_open_shop_map_marker">地图标点</string>
     <string name="mine_my_policy">我的保单</string>
     <string name="mine_policy_num">保单号</string>
+    <string name="home_map_treasure_num">当前半径5km内共有%s个商家发布宝藏</string>
+    <string name="home_map_packet_num">当前半径5km内共有%s个商家发布红包</string>
     <string name="mine_product">产品</string>
     <string name="mine_type">类型</string>
     <string name="mine_policy_buy_time">购买时间%s</string>

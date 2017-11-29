@@ -13,6 +13,7 @@ import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.MyTreasureAdapter
 import com.exz.carprofitmuch.bean.CommentBean
+import com.exz.carprofitmuch.bean.MyTreasureListBean
 import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
@@ -33,7 +34,7 @@ class TreasureListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLi
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
-    private lateinit var mAdapter: MyTreasureAdapter<CommentBean>
+    private lateinit var mAdapter: MyTreasureAdapter<MyTreasureListBean>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_comment_list, container, false)
@@ -63,16 +64,6 @@ class TreasureListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLi
     private val arrayList2 = ArrayList<CommentBean>()
     private fun initRecycler() {
         mAdapter = MyTreasureAdapter()
-        val imgs = ArrayList<String>()
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        arrayList2.add(CommentBean(imgs))
-        arrayList2.add(CommentBean(imgs))
-        arrayList2.add(CommentBean(imgs))
-        mAdapter.setNewData(arrayList2)
-
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -101,7 +92,7 @@ class TreasureListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLi
     }
 
     private fun iniData() {
-        DataCtrlClassXZW.MyCommentData(context, currentPage) {
+        DataCtrlClassXZW.MyTreasure(context, this.arguments.getInt(COMMENT_TYPE,0).toString(),currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

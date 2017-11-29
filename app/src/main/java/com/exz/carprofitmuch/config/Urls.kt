@@ -6,7 +6,9 @@ package com.exz.carprofitmuch.config
  */
 object Urls{
     var APP_ID = ""
-    var url = "http://jingu.xzsem.cn/"
+   var url = "http://jingu.xzsem.cn/"
+
+
 
     /**
      * 获取验证码
@@ -32,4 +34,160 @@ object Urls{
      * 首页banner图
      */
     val AdsList=url+"App/Home/AdsList.aspx"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //==========================================================================================
+
+    /*
+    * 宝藏地图页数据
+    */
+    var MapTreasure = url + "App/Home/MapTreasure.aspx"
+
+    /*
+    * 店铺的宝藏数据
+    */
+    var ShopTreasure = url + "App/Home/ShopTreasure.aspx"
+
+    /*
+    * 领取宝藏
+    */
+    var GetTreasure = url + "App/Home/GetTreasure.aspx"
+
+
+    /*
+    * 红包地图页数据
+    */
+    var MapPacket = url + "App/Home/MapPacket.aspx"
+
+
+    /*
+       * 店铺的红包数据
+       */
+    var ShopPacket = url + "App/Home/ShopPacket.aspx"
+
+    /*
+       * 领取红包
+       */
+    var GetPacket = url + "App/Home/GetPacket.aspx"
+
+
+    /*
+       * 我的宝藏
+       */
+    var MyTreasure = url + "App/UserCenter/MyTreasure.aspx"
+
+    /*
+       * 店铺等级
+       */
+    var ShopLevel = url + "App/Open/ShopLevel.aspx"
+
+    /*
+       * 店铺类目
+       */
+    var ShopCategory = url + "App/Store/ShopCategory.aspx"
+
+    /*
+       * 资料审核结果
+       */
+    var CheckResult = url + "App/Open/CheckResult.aspx"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

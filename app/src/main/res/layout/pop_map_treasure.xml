@@ -36,10 +36,10 @@
                 android:textColor="@color/Red"
                 android:textSize="18sp" />
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="100元洗车抵用券一张+行车记录仪一台"
                 android:textColor="@color/MaterialGrey600"
                 android:layout_marginTop="10dp"
                 android:textSize="14sp" />

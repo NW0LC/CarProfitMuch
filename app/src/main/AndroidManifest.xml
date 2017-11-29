@@ -226,6 +226,9 @@
         <activity android:name=".module.mine.redpacket.RedPackageActivity"/>
 
         <!--我的评价-->
+        <activity android:name=".module.mine.comment.MyCommentActivity"/>
+
+        <!--我的宝藏-->
         <activity android:name=".module.mine.comment.TreasureListActivity"/>
 
         <!--我的订单-->

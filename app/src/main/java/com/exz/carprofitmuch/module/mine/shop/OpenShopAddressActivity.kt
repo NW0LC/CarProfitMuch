@@ -99,22 +99,26 @@ class OpenShopAddressActivity : BaseActivity() {
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (resultCode) {
             Activity.RESULT_OK -> {
+                if(data!=null){
+
+
                 var url = data.getStringExtra("url")
                 try {
-                    var decode = URLDecoder.decode(url, "UTF-8");
-                    var uri = Uri.parse(decode);
-                    var latng = uri.getQueryParameter("latng");//纬度在前，经度在后，以逗号分隔
-                    var split = latng.split(",");
+                    val decode = URLDecoder.decode(url, "UTF-8");
+                    val uri = Uri.parse(decode);
+                    val latng = uri.getQueryParameter("latng");//纬度在前，经度在后，以逗号分隔
+                    val split = latng.split(",");
                     mNewLat = split[0];//纬度
                     mNewLon = split[1];//经度
 //                    var mNewAddress = uri.getQueryParameter("addr");
                     tv_address.text = "已添加"
                 } catch (e: Exception) {
+                }
                 }
             }
         }

@@ -16,7 +16,7 @@ class OpenShopkeyValueAdapter() : BaseQuickAdapter<OpenShopKeyValueBean, BaseVie
 
     override fun convert(helper: BaseViewHolder, item: OpenShopKeyValueBean) {
         val v = helper.itemView
-        v.tv_name.text=item.name //
+        v.tv_name.text=item.title //
         if(item.check){
             v.tv_name.textColor=ContextCompat.getColor(mContext,R.color.colorPrimary)
             v.tv_name.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,ContextCompat.getDrawable(mContext,R.mipmap.icon_mine_open_shop_select),null)

@@ -54,29 +54,31 @@ class OpenShopKeyValueActivity : BaseActivity() {
     private fun initView() {
 //        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         adapter = OpenShopkeyValueAdapter()
-        data.add(OpenShopKeyValueBean("电脑", "1", false))
-        data.add(OpenShopKeyValueBean("数码", "2", false))
-        data.add(OpenShopKeyValueBean("家用电器", "3", false))
-        data.add(OpenShopKeyValueBean("外设", "4", false))
-        data.add(OpenShopKeyValueBean("男装", "5", false))
-        data.add(OpenShopKeyValueBean("运动鞋", "6", false))
-        data.add(OpenShopKeyValueBean("个人护理", "7", false))
-        data.add(OpenShopKeyValueBean("女装女鞋", "8", false))
-        adapter.setNewData(data)
+        if(intent.getStringExtra("className").equals("店铺类型")){
+            data.add(OpenShopKeyValueBean("实体商品类", "1", false))
+            data.add(OpenShopKeyValueBean("虚拟服务类", "2", false))
+            adapter.setNewData(data)
+            var entity = intent.getSerializableExtra("keyValue") as OpenShopKeyValueBean
+            for (bean in adapter.data) {
+                if (entity.title.equals(bean.title)) {
+                    adapter.data.get(adapter.data.indexOf(bean)).check = true
+                    adapter.notifyItemChanged(adapter.data.indexOf(bean))
+                    break
+                }
+            }
+        }else  if(intent.getStringExtra("className").equals("店铺类目")){
+            initShopCategory()
+        }
+
+
         adapter.bindToRecyclerView(mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 1, ContextCompat.getColor(mContext, R.color.app_bg)))
 //        adapter.setOnLoadMoreListener(this, mRecyclerView)
 
-        var entity = intent.getSerializableExtra("keyValue") as OpenShopKeyValueBean
 
-        for (bean in adapter.data) {
-            if (entity.id.equals(bean.id)) {
-                adapter.data.get(adapter.data.indexOf(bean)).check = true
-                adapter.notifyItemChanged(adapter.data.indexOf(bean))
-                break
-            }
-        }
+
+
 
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
@@ -92,6 +94,26 @@ class OpenShopKeyValueActivity : BaseActivity() {
 
     }
 
+    private fun initShopCategory() {
+        DataCtrlClassXZW.ShopCategoryData(mContext,intent.getStringExtra("classMark"),{
+            if(it!=null){
+                adapter.setNewData(it)
+                adapter.loadMoreEnd()
+
+                var entity = intent.getSerializableExtra("keyValue") as OpenShopKeyValueBean
+                for (bean in adapter.data) {
+                    if (entity.title.equals(bean.title)) {
+                        adapter.data.get(adapter.data.indexOf(bean)).check = true
+                        adapter.notifyItemChanged(adapter.data.indexOf(bean))
+                        break
+                    }
+                }
+            }
+
+        })
+
+    }
+
 //    override fun onRefresh(refreshLayout: RefreshLayout?) {
 //        currentPage = 1
 //        refreshState = Constants.RefreshState.STATE_REFRESH
@@ -104,16 +126,4 @@ class OpenShopKeyValueActivity : BaseActivity() {
 //        iniData()
 //    }
 
-                private fun iniData() {
-            DataCtrlClassXZW.OpenInfoData(mContext, "") {
-                refreshLayout?.finishRefresh()
-                if (it != null) {
-                    adapter.setNewData(it)
-                    adapter.loadMoreEnd()
-
-                } else {
-                    adapter.loadMoreFail()
-                }
-            }
-        }
     }

@@ -124,9 +124,9 @@ class MyCommentFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListe
 
     companion object {
         private const val COMMENT_TYPE = "type"
-        fun newInstance(position: Int): TreasureListFragment {
+        fun newInstance(position: Int): MyCommentFragment {
             val bundle = Bundle()
-            val fragment = TreasureListFragment()
+            val fragment = MyCommentFragment()
             bundle.putInt(COMMENT_TYPE, position)
             fragment.arguments = bundle
             return fragment

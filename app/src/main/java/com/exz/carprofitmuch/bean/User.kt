@@ -8,4 +8,5 @@ import com.szw.framelibrary.entities.AbsUser
  */
 class User(override val userId: String = "") : AbsUser() {
     var autoLoginToken=""
+    var openState=""
 }

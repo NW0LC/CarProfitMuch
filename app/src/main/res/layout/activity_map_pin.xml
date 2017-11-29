@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg">
-
-
-
+    <include layout="@layout/action_bar_custom"
+        />
     <TextView
         android:id="@+id/tv_get"
         android:layout_width="match_parent"
@@ -22,12 +21,13 @@
 
 
 
-        <com.tencent.tencentmap.mapsdk.map.MapView
-            android:id="@+id/mapview"
-            android:layout_above="@id/tv_get"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
+    <com.tencent.tencentmap.mapsdk.map.MapView
+        android:id="@+id/mapview"
+        android:layout_above="@id/tv_get"
+        android:layout_below="@id/toolbarLay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <ImageButton
         android:id="@+id/btn_show_location"
         android:layout_width="wrap_content"
@@ -37,6 +37,4 @@
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="20dp"/>
 
-
-    <include layout="@layout/action_bar_custom" />
 </RelativeLayout>
