@@ -24,6 +24,7 @@ import com.exz.carprofitmuch.module.main.HotNewsActivity
 import com.exz.carprofitmuch.module.main.ads.AdsActivity
 import com.exz.carprofitmuch.module.main.map.MapPinActivity
 import com.exz.carprofitmuch.module.main.promotion.PromotionsActivity
+import com.exz.carprofitmuch.service.LocationService
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.exz.carprofitmuch.widget.MyWebActivity
 import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Title
@@ -32,6 +33,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.scwang.smartrefresh.layout.util.DensityUtil
+import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.youth.banner.BannerConfig
@@ -40,6 +42,7 @@ import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.header_main.view.*
+import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.textColor
 
 /**
@@ -74,6 +77,7 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         headerView.bt_tab_3.setOnClickListener(this)
         headerView.bt_tab_4.setOnClickListener(this)
         headerView.bt_tab_5.setOnClickListener(this)
+        headerView.bt_tab_6.setOnClickListener(this)
         headerView.bt_more_hot_recommend.setOnClickListener(this)
         headerView.bt_hot_lay_0.setOnClickListener(this)
         headerView.bt_hot_lay_1.setOnClickListener(this)
@@ -184,8 +188,13 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 SZWUtils.checkLogin(this, intent, MapPinActivity::class.java.name)
             }
             headerView.bt_tab_6 -> {//商家活动
+                if (MainActivity.locationEntity==null) {
+                    toast("定位中，请允许获取定位权限")
+                    (activity as BaseActivity).PermissionLocationWithCheck(Intent(context, LocationService::class.java),true)
+                }else{
                 val intent = Intent(context, PromotionsActivity::class.java)
                 SZWUtils.checkLogin(this,intent,PromotionsActivity::class.java.name)
+            }
             }
             headerView.bt_more_hot_recommend -> {
                 (activity as MainActivity).mainTabBar.currentTab = 1

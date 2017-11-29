@@ -13,4 +13,8 @@ object Constants{
      * 订单评价拍照回调
      */
     const  val GoodsOrderComment_Camera = "GoodsOrderComment_Camera"
+    /**
+     * 定位 接收
+     */
+    const  val Receiver_Location = "Receiver_Location"
 }

@@ -164,7 +164,6 @@ class SearchResultActivity : BaseActivity(), OnRefreshListener, View.OnClickList
     }
 
     override fun onDestroy() {
-        ServiceListSortPop.sortId = ""
         ServiceListClassifyPop.serviceClassifyId = ""
         super.onDestroy()
     }

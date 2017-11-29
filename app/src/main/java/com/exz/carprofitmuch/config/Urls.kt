@@ -32,6 +32,10 @@ object Urls{
      * 首页banner图
      */
     val AdsList=url+"App/Home/AdsList.aspx"
+    /**
+     * 商家活动列表页
+     */
+    val ActivityList=url+"App/Home/ActivityList.aspx"
 
 
 

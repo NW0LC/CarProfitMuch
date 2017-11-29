@@ -11,6 +11,7 @@ import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.PromotionsAdapter
 import com.exz.carprofitmuch.bean.PromotionsBean
+import com.exz.carprofitmuch.module.MainActivity
 import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity
 import com.exz.carprofitmuch.pop.ServiceListSortPop
 import com.exz.carprofitmuch.utils.RecycleViewDivider
@@ -23,7 +24,6 @@ import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_promotion_list.*
 import razerdp.basepopup.BasePopupWindow
-import java.util.*
 
 /**
  * Created by 史忠文
@@ -52,13 +52,14 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
         return false
     }
 
-    override fun setInflateId(): Int = R.layout.activity_promotions_upgrade
+    override fun setInflateId(): Int = R.layout.activity_promotion_list
 
     override fun init() {
         SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
         initFilterPop()
         initEvent()
+        refreshLayout.autoRefresh()
     }
 
     private fun initFilterPop() {
@@ -68,7 +69,7 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
             radioButton2.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
             onRefresh(refreshLayout)
         }
-        val sortData = SZWUtils.getSearchGoodsResultSortData()
+        val sortData = SZWUtils.getPromotionsSortData()
         sortData[0].isCheck=true
         status = sortData[0].key
         sortPop.data = sortData
@@ -89,15 +90,6 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
 
     private fun initRecycler() {
         mAdapter = PromotionsAdapter()
-        val arrayList = ArrayList<PromotionsBean>()
-       arrayList.add(PromotionsBean())
-       arrayList.add(PromotionsBean())
-       arrayList.add(PromotionsBean())
-       arrayList.add(PromotionsBean())
-       arrayList.add(PromotionsBean())
-       arrayList.add(PromotionsBean())
-
-        mAdapter.setNewData(arrayList)
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(mContext)
@@ -106,6 +98,15 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener(){
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
             startActivity(Intent(this@PromotionsActivity, GoodsDetailActivity::class.java))
+            }
+
+            override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+                if (mAdapter.data[position].isJoin+mAdapter.data[position].isJoin=="01") {
+                    if (view?.id==R.id.tv_state) {
+
+                    }
+                }
+
             }
         })
     }
@@ -122,7 +123,7 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
                 }
                 sortPop.adapter.data.firstOrNull()?.isCheck=true
                 sortPop.adapter.notifyDataSetChanged()
-                status = "4"
+                status = "6"
                 onRefresh(refreshLayout)
             }
 
@@ -136,7 +137,7 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
                 }
                 sortPop.adapter.data.firstOrNull()?.isCheck=true
                 sortPop.adapter.notifyDataSetChanged()
-                status = "5"
+                status = "7"
                 onRefresh(refreshLayout)
             }
         }
@@ -155,7 +156,7 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
     }
 
     private fun iniData(){
-        DataCtrlClass.promotionsListData(this, currentPage) {
+        DataCtrlClass.promotionsListData(this, currentPage,status,MainActivity.locationEntity?.longitude?:"",MainActivity.locationEntity?.latitude?:"") {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {
@@ -191,9 +192,4 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
         }
     }
 
-
-    override fun onDestroy() {
-        ServiceListSortPop.sortId = ""
-        super.onDestroy()
-    }
 }

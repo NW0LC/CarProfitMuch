@@ -4,6 +4,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+
     <!--腾讯地图 SDK 要求的权限(开始)-->
     <!--访问网络获取地图服务-->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -337,7 +338,14 @@
 
 
 
-
+        <!--定位服务-->
+        <service android:name=".service.LocationService" />
+        <!--定位广播接收器-->
+        <receiver android:name=".receiver.MyLocationReceiver">
+            <intent-filter>
+                <action android:name="intent_action_location" />
+            </intent-filter>
+        </receiver>
         <!-- 如果您腾讯地图key确认无误，却依然授权没有通过，请检查您的key的白名单配置 -->
         <meta-data
             android:name="TencentMapSDK"

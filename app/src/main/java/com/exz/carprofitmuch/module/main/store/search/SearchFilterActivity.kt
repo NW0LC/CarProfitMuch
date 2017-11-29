@@ -263,9 +263,4 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
         }
     }
 
-
-    override fun onDestroy() {
-        ServiceListSortPop.sortId = ""
-        super.onDestroy()
-    }
 }

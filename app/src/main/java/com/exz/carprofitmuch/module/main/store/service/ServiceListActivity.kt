@@ -165,7 +165,6 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
     }
 
     override fun onDestroy() {
-        ServiceListSortPop.sortId = ""
         ServiceListClassifyPop.serviceClassifyId = ""
         super.onDestroy()
     }

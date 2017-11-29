@@ -51,7 +51,6 @@ import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.config.Constants.Result.Intent_ClassName
 import kotlinx.android.synthetic.main.layout_progress_score.view.*
-import java.io.FileOutputStream
 import java.text.DecimalFormat
 
 /**
@@ -311,6 +310,19 @@ object SZWUtils {
         return filterBeans
     }
 
+    /**
+     * 获取商家活动列表页排序筛选数据
+     * 排序：1默认排序,2报名人数由少到多,3报名人数由到到少,4截止日期由近到远,5截止日期由远到近,6加速天数优先,7距离优先
+     */
+    fun getPromotionsSortData(): ArrayList<ServiceListFilterBean> {
+        val filterBeans = ArrayList<ServiceListFilterBean>()
+        filterBeans.add(ServiceListFilterBean("1", "综合排序"))
+        filterBeans.add(ServiceListFilterBean("2", "报名人数由少到多"))
+        filterBeans.add(ServiceListFilterBean("3", "报名人数由到到少"))
+        filterBeans.add(ServiceListFilterBean("4", "截止日期由近到远"))
+        filterBeans.add(ServiceListFilterBean("5", "截止日期由远到近"))
+        return filterBeans
+    }
     /**
      * 获取商品搜索结果排序筛选数据
      */

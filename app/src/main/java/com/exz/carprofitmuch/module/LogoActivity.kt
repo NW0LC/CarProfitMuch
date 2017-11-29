@@ -9,6 +9,7 @@ import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.User
 import com.exz.carprofitmuch.module.login.LoginActivity
+import com.exz.carprofitmuch.service.LocationService
 import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.config.PreferencesService
@@ -21,6 +22,7 @@ class LogoActivity : BaseActivity() {
     private var type = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        PermissionLocationWithCheck(Intent(this, LocationService::class.java),true)
         val anim = AnimationUtils.loadAnimation(this, R.anim.logo_fade_in)
         anim.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation) {

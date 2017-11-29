@@ -114,7 +114,7 @@ class PromotionsPushActivity : BaseActivity(), View.OnClickListener {
         imagePicker.outPutY = width
     }
 
-    override fun setInflateId(): Int = R.layout.activity_service_order_comment
+    override fun setInflateId(): Int = R.layout.activity_promotions_push
 
 
     override fun onClick(p0: View?) {

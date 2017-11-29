@@ -8,15 +8,18 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.blankj.utilcode.util.SizeUtils
 import com.exz.carprofitmuch.R
+import com.exz.carprofitmuch.bean.LocationBean
 import com.exz.carprofitmuch.bean.TabEntity
+import com.exz.carprofitmuch.config.Constants.Receiver_Location
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
+import com.hwangjr.rxbus.annotation.Subscribe
+import com.hwangjr.rxbus.annotation.Tag
+import com.hwangjr.rxbus.thread.EventThread
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
-
-
 
 
 class MainActivity : BaseActivity() {
@@ -25,6 +28,8 @@ class MainActivity : BaseActivity() {
     private val mIconSelectIds = intArrayOf(R.mipmap.icon_home_on, R.mipmap.icon_store_on, R.mipmap.icon_goods_car_on, R.mipmap.icon_mine_on)
     private val mTabEntities = ArrayList<CustomTabEntity>()
     private val mFragments = ArrayList<Fragment>()
+
+
     override fun initToolbar(): Boolean {
         //状态栏透明和间距处理
         StatusBarUtil.immersive(this)
@@ -77,4 +82,12 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    @Subscribe(thread = EventThread.MAIN_THREAD, tags = arrayOf(Tag(Receiver_Location)))
+    fun location(entity: LocationBean) {
+        locationEntity = entity
+    }
+
+    companion object {
+        var locationEntity: LocationBean? = null
+    }
 }

@@ -1320,12 +1320,22 @@ object DataCtrlClass {
     /**
      *活动列表
      * */
-    fun promotionsListData(context: Context, currentPage: Int, listener: (promotionsBean: List<PromotionsBean>?) -> Unit) {
+    fun promotionsListData(context: Context, currentPage: Int,sequence:String,longitude:String?,latitude:String?, listener: (promotionsBean: List<PromotionsBean>?) -> Unit) {
+//        userId	string	选填	用户id
+//        page	string	必填	分页，从第1页开始，每页10条数据
+//        sequence	string	必填	排序：1默认排序,2报名人数由少到多,3报名人数由到到少,4截止日期由近到远,5截止日期由远到近,6加速天数优先,7距离优先
+//        longitude	string	必填	经度（用户）
+//        latitude	string	必填	纬度（用户）
+//        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<List<PromotionsBean>>>(Urls.url)
+        params.put("userId", MyApplication.loginUserId)
+        params.put("page", currentPage.toString())
+        params.put("sequence", sequence)
+        params.put("longitude", longitude?:"")
+        params.put("latitude",latitude?:"")
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(longitude+latitude, salt).toLowerCase())
+        OkGo.post<NetEntity<List<PromotionsBean>>>(Urls.ActivityList)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<List<PromotionsBean>>>(context) {
