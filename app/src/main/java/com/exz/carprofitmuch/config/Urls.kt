@@ -6,9 +6,7 @@ package com.exz.carprofitmuch.config
  */
 object Urls{
     var APP_ID = ""
-   var url = "http://jingu.xzsem.cn/"
-
-
+    var url = "http://jingu.xzsem.cn/"
 
     /**
      * 获取验证码
@@ -190,4 +188,20 @@ object Urls{
 
 
 
+    /**
+     * 广告点击（已登录的用户调用此接口）
+     */
+    val AdsClick=url+"App/Home/AdsClick.aspx"
+    /**
+     * 热销推荐(返回5条数据)
+     */
+    val HomeRecommend=url+"App/Home/Recommend.aspx"
+    /**
+     * 热点资讯
+     */
+    val HomeHotNews=url+"App/Home/HotNews.aspx"
+    /**
+     * 热点资讯列表
+     */
+    val HomeNewsList=url+"App/Home/NewsList.aspx"
 }

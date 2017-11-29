@@ -17,10 +17,8 @@ import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.module.main.store.comment.ServiceCommentListActivity
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.youth.banner.BannerConfig
@@ -150,5 +148,8 @@ class ServiceDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickLis
 //                mServiceShopGoodsAdapter.setNewData(it)
             }
         }
+    }
+    companion object {
+        val Service_Intent_ServieceId="Service_Intent_ServieceId"
     }
 }

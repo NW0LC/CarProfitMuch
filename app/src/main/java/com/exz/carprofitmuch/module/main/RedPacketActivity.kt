@@ -15,7 +15,7 @@ import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
-import kotlinx.android.synthetic.main.activity_ads.*
+import kotlinx.android.synthetic.main.activity_red_packet.*
 
 /**
  * Created by 史忠文

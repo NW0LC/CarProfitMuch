@@ -83,6 +83,7 @@ object DataCtrlClass {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
                         } else {
+                            context.toast(response.body().message)
                             listener.invoke(null)
                         }
                     }
@@ -97,7 +98,7 @@ object DataCtrlClass {
     /**
      * 登录
      * */
-    fun loginNoDialog(context: Context, mobile: String, pwd: String,listener: (userId: String?) -> Unit) {
+    fun loginNoDialog(mobile: String, pwd: String,listener: (userId: String?) -> Unit) {
 
         val params = HashMap<String, String>()
         params.put("phone", mobile)
@@ -175,7 +176,7 @@ object DataCtrlClass {
     /**
      * 忘记密码
      * */
-    fun forgetPwd(context: Context, mobile: String, code: String, pwd: String, pwd2: String, listener: (user: String?) -> Unit) {
+    fun forgetPwd(context: Context, mobile: String, code: String, pwd: String, listener: (user: String?) -> Unit) {
 //        phone	string	必填	手机号
 //        code	string	必填	验证码
 //        pwd	string	必填	密码
@@ -236,17 +237,17 @@ object DataCtrlClass {
                 })
     }
     /**
-     * 首页数据
+     * 热销推荐
      * */
-    fun mainData(context: Context, listener: (mainBean: MainBean?) -> Unit) {
+    fun mainRecommendData(context: Context, listener: (mainBean: ArrayList<MainRecommendBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<MainBean>>(Urls.url)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("Recommend", salt).toLowerCase())
+        OkGo.post<NetEntity<ArrayList<MainRecommendBean>>>(Urls.HomeRecommend)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<MainBean>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<MainBean>>) {
+                .execute(object : DialogCallback<NetEntity<ArrayList<MainRecommendBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<ArrayList<MainRecommendBean>>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
                         } else {
@@ -254,7 +255,60 @@ object DataCtrlClass {
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<MainBean>>) {
+                    override fun onError(response: Response<NetEntity<ArrayList<MainRecommendBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 热点资讯
+     * */
+    fun mainNewsData(context: Context, listener: (informationBeans: ArrayList<InformationBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("HotNews", salt).toLowerCase())
+        OkGo.post<NetEntity<ArrayList<InformationBean>>>(Urls.HomeHotNews)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<ArrayList<InformationBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<ArrayList<InformationBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<ArrayList<InformationBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 热点资讯列表
+     * */
+    fun mainNewsListData(context: Context,currentPage: Int, listener: (informationBeans: ArrayList<InformationBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase())
+        OkGo.post<NetEntity<ArrayList<InformationBean>>>(Urls.HomeNewsList)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<ArrayList<InformationBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<ArrayList<InformationBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<ArrayList<InformationBean>>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -486,7 +540,7 @@ object DataCtrlClass {
     /**
      * 广告专区
      * */
-    fun mainAdsData(context: Context, isPaid: String,currentPage: Int, listener: (scoreStoreBean: List<String>?) -> Unit) {
+    fun mainAdsData(context: Context, isPaid: String,currentPage: Int, listener: (scoreStoreBean: List<BannersBean>?) -> Unit) {
 //        isPaid	string	必填	0无偿 1有偿
 //        page	string	必填	分页，从第1页开始，每页20条数据
 //                requestCheck	string	必填	验证请求
@@ -495,11 +549,11 @@ object DataCtrlClass {
         params.put("isPaid",isPaid)
         params.put("page", currentPage.toString())
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase())
-        OkGo.post<NetEntity<List<String>>>(Urls.AdsList)
+        OkGo.post<NetEntity<List<BannersBean>>>(Urls.AdsList)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<List<String>>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<List<String>>>) {
+                .execute(object : DialogCallback<NetEntity<List<BannersBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<BannersBean>>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
                         } else {
@@ -507,7 +561,38 @@ object DataCtrlClass {
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<List<String>>>) {
+                    override fun onError(response: Response<NetEntity<List<BannersBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+
+    /**
+     * 广告专区--广告点击（已登录的用户调用此接口）
+     * */
+    fun mainAdsData(adsId: String, listener: (msg:String?) -> Unit) {
+//        userId	string	必填	用户id
+//        adsId	string	必填	广告id
+//        requestCheck	string	必填	验证请求 "用户id+广告id+秘钥"的 MD5加密
+        val params = HashMap<String, String>()
+        params.put("userId",MyApplication.loginUserId)
+        params.put("adsId", adsId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+adsId, salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.AdsClick)
+                .params(params)
+                .tag(this)
+                .execute(object : JsonCallback<NetEntity<String>>() {
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<String>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }

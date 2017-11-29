@@ -163,8 +163,7 @@ class ServiceShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
             }
         }
     }
-
     companion object {
-        val ServiceShop_Intent_ShopId="ServiceShop_Intent_ShopId"
+        val ServiceShop_Intent_ServiceShopId="ServiceShop_Intent_ServiceShopId"
     }
 }

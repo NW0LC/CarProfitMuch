@@ -81,7 +81,7 @@
         <!--商品店铺搜索结果页-->
         <activity android:name=".module.main.store.normal.GoodsShopSearchResultActivity"/>
         <!--广告专区-->
-        <activity android:name=".module.main.AdsActivity"/>
+        <activity android:name=".module.main.ads.AdsActivity"/>
         <!--红包专区-->
         <activity android:name=".module.main.RedPacketActivity"/>
         <!--设置-->
@@ -142,6 +142,8 @@
         <activity android:name=".module.main.promotion.PromotionsPushActivity"/>
         <!--我的活动-->
         <activity android:name=".module.main.promotion.PromotionsPersonalActivity"/>
+        <!--热点资讯-->
+        <activity android:name=".module.main.HotNewsActivity"/>
 
 
 

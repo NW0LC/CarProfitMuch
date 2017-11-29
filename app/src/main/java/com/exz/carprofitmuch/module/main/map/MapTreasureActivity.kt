@@ -14,8 +14,8 @@ import com.exz.carprofitmuch.utils.SZWUtils
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
-import kotlinx.android.synthetic.main.activity_ads.*
 import kotlinx.android.synthetic.main.header_treasure_redpacket.view.*
+import kotlinx.android.synthetic.main.activity_treasure_red_packet.*
 
 /**
  * Created by pc on 2017/11/22.

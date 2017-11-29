@@ -5,8 +5,12 @@ package com.exz.carprofitmuch.bean
  * on 2017/10/19.
  */
 
-class BannersBean{
+class BannersBean: AbsMark() {
+    override fun getMarkId()=mark
+    override fun getAdUri()= adUrl
+    override fun getAdsID()=adsId
     /**
+     *        "adsId":"1",
      *        "mark":"1",
      *        "id":"1",
      *        "imgUrl":"http://123.png",
@@ -14,6 +18,7 @@ class BannersBean{
      *
      */
 
+    var adsId: String=""
     var mark: String=""
     var id: String=""
     var imgUrl: String="http://seopic.699pic.com/photo/50055/6756.jpg_wh1200.jpg"

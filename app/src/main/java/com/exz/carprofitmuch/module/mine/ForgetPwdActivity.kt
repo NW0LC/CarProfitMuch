@@ -117,7 +117,7 @@ class ForgetPwdActivity : BaseActivity(), View.OnClickListener {
                 toast(getString(R.string.forget_pwd_error_pwd2))
             }
             TextUtils.isEmpty(ed_pwd.text.toString().trim())!=TextUtils.isEmpty(ed_pwd2.text.toString().trim()) -> toast(getString(R.string.forget_pwd_pwd_no_equal))
-            else -> DataCtrlClass.forgetPwd(mContext, ed_phone.text.toString(), ed_code.text.toString(), ed_pwd.text.toString(), ed_pwd2.text.toString()) {
+            else -> DataCtrlClass.forgetPwd(mContext, ed_phone.text.toString(), ed_code.text.toString(), ed_pwd.text.toString()) {
                 if (it != null) {
                    finish()
                 }
