@@ -12,4 +12,9 @@ open class CommentBean(var imgs: ArrayList<String> = ArrayList()) {
     var content="复仇者连门吱吱喳喳韩正放大放大阿凡达发法国人个人规划复仇者连门吱吱喳喳韩正放大放大阿凡达发法国人个人规划复仇者连门吱吱喳喳韩正放大放大阿凡达发法国人个人规划复仇者连门吱吱喳喳韩正放大放大阿凡达发法国人个人规划"
     var time="9月29日"
     var type="颜色红色 规格50ml"
+
+
+
+
+
 }

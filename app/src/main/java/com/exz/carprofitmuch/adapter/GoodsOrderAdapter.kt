@@ -23,24 +23,26 @@ class GoodsOrderAdapter<T> : BaseQuickAdapter<MyOrderBean, BaseViewHolder>(R.lay
     override fun convert(helper: BaseViewHolder, item: MyOrderBean) {
         val mAdapter = ItemGoodsOrderAdapter<GoodsBean>()
         mAdapter.bindToRecyclerView(helper.itemView.mRecyclerView)
-        mAdapter.setNewData(item.goodsBeanData)
-        helper.itemView.mRecyclerView.isFocusable=false
+        mAdapter.setNewData(item.goodsInfo)
+        helper.itemView.mRecyclerView.isFocusable = false
         helper.itemView.mRecyclerView.layoutManager = LinearLayoutManager(mContext)
         helper.itemView.mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
         helper.addOnClickListener(R.id.tv_mid)
         helper.addOnClickListener(R.id.tv_right)
-        initStateBtn(item.orderSate, helper.itemView.tv_my_order, TextView(mContext), helper.itemView.tv_mid, helper.itemView.tv_right)
-
-
+        initStateBtn(item.orderState, helper.itemView.tv_my_order, TextView(mContext), helper.itemView.tv_mid, helper.itemView.tv_right)
+        helper.itemView.tv_shop_name.text = item.shopName
+        helper.itemView.tv_num_goods.text = String.format(mContext.getString(R.string.mine_my_order_num_goods), item.goodsInfo.size)
+        helper.itemView.tv_refund.text = String.format(mContext.getString(R.string.mine_my_order_actual_payment), item.actualMoney)
     }
 
     companion object {
         //    1待付款 2待收货 3待评价 4已结束 5 取消订单
         private fun getState(state: String): String = when (state) {
             "1" -> "待付款"
-            "2" -> "待收货"
-            "3" -> "待评价"
-            "4" -> "已结束"
+            "2" -> "待发货"
+            "3" -> "待收货"
+            "4" -> "待评价"
+            "5" -> "已完成"
             else -> "无此状态"
 
         }
@@ -55,9 +57,10 @@ class GoodsOrderAdapter<T> : BaseQuickAdapter<MyOrderBean, BaseViewHolder>(R.lay
         fun initStateBtn(state: String, vararg view: TextView) {
             /**         btLeft    btMid     btRight
              * 1待付款     【联系商家   取消订单  支付订单】
-             * 2待收货     【联系商家   查看物流  确认收货】
-             * 3待评价     【联系商家   删除订单  评价订单】
-             * 4已结束     【联系商家   删除订单  】
+             * 2待发货     【         联系商家  申请退款】
+             * 3待收货     【联系商家   查看物流  确认收货】
+             * 4待评价     【联系商家   删除订单  评价订单】
+             * 5已结束     【联系商家   删除订单  】
              * 其他
              */
             view[0].text = getState(state)
@@ -71,17 +74,22 @@ class GoodsOrderAdapter<T> : BaseQuickAdapter<MyOrderBean, BaseViewHolder>(R.lay
                     strMid = "取消订单"
                     strRight = "支付订单"
                 }
-                "2" -> { //【联系商家   查看物流  确认收货】
+                "1" -> {  // 【联系商家   联系商家  申请退款】
+                    strLeft = ""
+                    strMid = "联系商家"
+                    strRight = "申请退款"
+                }
+                "3" -> { //【联系商家   查看物流  确认收货】
                     strLeft = "联系商家"
                     strMid = "查看物流"
                     strRight = "确认收货"
                 }
-                "3" -> {// 【联系商家   删除订单  评价订单】
+                "4" -> {// 【联系商家   删除订单  评价订单】
                     strLeft = "联系商家"
                     strMid = "删除订单"
                     strRight = "评价订单"
                 }
-                "4" -> {// 【联系商家   删除订单  】
+                "5" -> {// 【联系商家   删除订单  】
                     view[3].visibility = View.GONE
                     strLeft = "联系商家"
                     strMid = "删除订单"

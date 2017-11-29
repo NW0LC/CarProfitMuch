@@ -1,51 +1,108 @@
 package com.exz.carprofitmuch.module.mine.comment
 
-import android.support.v4.app.Fragment
+import android.content.Intent
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
+import android.view.View
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.bean.TabEntity
-import com.flyco.tablayout.listener.CustomTabEntity
+import com.exz.carprofitmuch.adapter.MyCommentAdapter
+import com.exz.carprofitmuch.bean.MyCommentBean
+import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity
+import com.exz.carprofitmuch.utils.SZWUtils
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.szw.framelibrary.base.BaseActivity
+import com.szw.framelibrary.utils.RecycleViewDivider
 import com.szw.framelibrary.utils.StatusBarUtil
-import kotlinx.android.synthetic.main.action_bar_tv.*
+import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_comment_list.*
-import java.util.*
 
 /**
  * Created by pc on 2017/11/9.
  * 我的评价
  */
 
-class MyCommentActivity : BaseActivity() {
-    private val mTitles = arrayOf("实物商品", "虚拟服务")
-    private val mIconUnSelectIds = intArrayOf(R.mipmap.icon_home_off, R.mipmap.icon_store_off, R.mipmap.icon_goods_car_off, R.mipmap.icon_mine_off)
-    private val mIconSelectIds = intArrayOf(R.mipmap.icon_home_on, R.mipmap.icon_store_on, R.mipmap.icon_goods_car_on, R.mipmap.icon_mine_on)
-    private val mTabEntities = ArrayList<CustomTabEntity>()
-    private val mFragments = ArrayList<Fragment>()
+class MyCommentActivity : BaseActivity(), BaseQuickAdapter.RequestLoadMoreListener, OnRefreshListener {
+
+    private var refreshState = com.szw.framelibrary.config.Constants.RefreshState.STATE_REFRESH
+    private var currentPage = 1
+    private lateinit var mAdapter: MyCommentAdapter<MyCommentBean>
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.mine_my_comment)
         //状态栏透明和间距处理
         StatusBarUtil.immersive(this)
         StatusBarUtil.setPaddingSmart(this, toolbar)
+        StatusBarUtil.setPaddingSmart(this, mRecyclerView)
         StatusBarUtil.setPaddingSmart(this, blurView)
+        StatusBarUtil.setMargin(this, header)
+        SZWUtils.setPaddingSmart(mRecyclerView,10f)
         return false
     }
 
     override fun setInflateId(): Int = R.layout.activity_comment_list
 
     override fun init() {
-        initTabBar()
+        initRecycler()
         initEvent()
-    }
-
-    private fun initTabBar() {
-        mTitles.indices.mapTo(mTabEntities) { TabEntity(mTitles[it], mIconSelectIds[it], mIconUnSelectIds[it]) }
-        mFragments.add(MyCommentFragment.newInstance(0))
-        mFragments.add(MyCommentFragment.newInstance(1))
-        mTabLayout.setTabData(mTabEntities, this, R.id.frameLayout, mFragments)
     }
 
 
     private fun initEvent() {
         toolbar.setNavigationOnClickListener { finish() }
     }
+
+    private fun initRecycler() {
+        mAdapter = MyCommentAdapter()
+        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
+        mAdapter.bindToRecyclerView(mRecyclerView)
+        mAdapter.setOnLoadMoreListener(this, mRecyclerView)
+        mRecyclerView.layoutManager = LinearLayoutManager(mContext)
+        mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
+
+        mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
+            override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+                startActivity(Intent(mContext, GoodsShopActivity::class.java))
+            }
+        })
+        onRefresh(refreshLayout)
+    }
+
+
+    override fun onRefresh(refreshLayout: RefreshLayout?) {
+        currentPage = 1
+        refreshState = com.szw.framelibrary.config.Constants.RefreshState.STATE_REFRESH
+        iniData()
+
+    }
+
+    override fun onLoadMoreRequested() {
+        refreshState = com.szw.framelibrary.config.Constants.RefreshState.STATE_LOAD_MORE
+        iniData()
+    }
+
+    private fun iniData() {
+        DataCtrlClassXZW.MyCommentListData(mContext, currentPage) {
+            refreshLayout?.finishRefresh()
+            if (it != null) {
+                if (refreshState == com.szw.framelibrary.config.Constants.RefreshState.STATE_REFRESH) {
+                    mAdapter.setNewData(it)
+                } else {
+                    mAdapter.addData(it)
+
+                }
+                if (it.isNotEmpty()) {
+                    mAdapter.loadMoreComplete()
+                    currentPage++
+                } else {
+                    mAdapter.loadMoreEnd()
+                }
+            } else {
+                mAdapter.loadMoreFail()
+            }
+        }
+    }
+
 }

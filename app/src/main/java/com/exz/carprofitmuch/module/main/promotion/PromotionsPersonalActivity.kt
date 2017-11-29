@@ -7,7 +7,7 @@ import com.flyco.tablayout.listener.CustomTabEntity
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
-import kotlinx.android.synthetic.main.activity_comment_list.*
+import kotlinx.android.synthetic.main.activity_coupon_list.*
 import java.util.*
 
 /**
@@ -15,9 +15,9 @@ import java.util.*
  * on 2017/10/17.
  */
 
-class PromotionsPersonalActivity : BaseActivity(){
+class PromotionsPersonalActivity : BaseActivity() {
 
-    private val mTitles = arrayOf("未开始", "已开始", "审核中", "已通过","未通过")
+    private val mTitles = arrayOf("未开始", "已开始", "审核中", "已通过", "未通过")
     private val mIconUnSelectIds = intArrayOf(R.mipmap.icon_home_off, R.mipmap.icon_store_off, R.mipmap.icon_goods_car_off, R.mipmap.icon_mine_off, R.mipmap.icon_mine_off)
     private val mIconSelectIds = intArrayOf(R.mipmap.icon_home_on, R.mipmap.icon_store_on, R.mipmap.icon_goods_car_on, R.mipmap.icon_mine_on, R.mipmap.icon_mine_on)
     private val mTabEntities = ArrayList<CustomTabEntity>()
@@ -31,7 +31,7 @@ class PromotionsPersonalActivity : BaseActivity(){
         return false
     }
 
-    override fun setInflateId(): Int = R.layout.activity_comment_list
+    override fun setInflateId(): Int = R.layout.activity_coupon_list
 
     override fun init() {
         initTabBar()

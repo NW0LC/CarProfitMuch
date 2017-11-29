@@ -12,7 +12,7 @@ import com.exz.carprofitmuch.bean.MapPinBean
 import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity
 import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity.Companion.GoodsShop_Intent_ShopId
 import com.exz.carprofitmuch.module.main.store.service.ServiceShopActivity
-import com.exz.carprofitmuch.module.main.store.service.ServiceShopActivity.Companion.ServiceShop_Intent_ShopId
+import com.exz.carprofitmuch.module.main.store.service.ServiceShopActivity.Companion.ServiceShop_Intent_ServiceShopId
 import kotlinx.android.synthetic.main.pop_map_treasure.view.*
 import razerdp.basepopup.BasePopupWindow
 
@@ -33,7 +33,7 @@ class MapTreasurePop(context: Context) : BasePopupWindow(context) {
             if (entity!!.classMark.equals("1")) {
                 context.startActivity(Intent(context, GoodsShopActivity::class.java).putExtra(GoodsShop_Intent_ShopId, entity!!.id))
             } else {
-                context.startActivity(Intent(context, ServiceShopActivity::class.java).putExtra(ServiceShop_Intent_ShopId, entity!!.id))
+                context.startActivity(Intent(context, ServiceShopActivity::class.java).putExtra(ServiceShop_Intent_ServiceShopId, entity!!.id))
             }
             dismiss()
         }

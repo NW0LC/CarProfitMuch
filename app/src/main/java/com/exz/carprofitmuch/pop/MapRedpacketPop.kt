@@ -30,7 +30,7 @@ class MapRedpacketPop(context: Context) : BasePopupWindow(context) {
             if (entity!!.classMark.equals("1")) {
                 context.startActivity(Intent(context, GoodsShopActivity::class.java).putExtra(GoodsShopActivity.GoodsShop_Intent_ShopId, entity!!.id))
             } else {
-                context.startActivity(Intent(context, ServiceShopActivity::class.java).putExtra(ServiceShopActivity.ServiceShop_Intent_ShopId, entity!!.id))
+                context.startActivity(Intent(context, ServiceShopActivity::class.java).putExtra(ServiceShopActivity.ServiceShop_Intent_ServiceShopId, entity!!.id))
             }
             dismiss()
         }

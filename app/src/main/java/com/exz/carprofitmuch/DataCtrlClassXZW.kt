@@ -1,6 +1,7 @@
 package com.exz.carprofitmuch
 
 import android.content.Context
+import android.text.TextUtils
 import com.blankj.utilcode.util.EncryptUtils
 import com.exz.carprofitmuch.bean.*
 import com.exz.carprofitmuch.config.Urls
@@ -22,24 +23,27 @@ object DataCtrlClassXZW {
     /**
      * 优惠券列表
      * */
-    fun CouponData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<CouponBean>?) -> Unit) {
+    fun CouponData(context: Context, state:String,currentPage: Int, listener: (scoreStoreBean: List<MyCouponBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<List<CouponBean>>>(Urls.url)
+        params.put("userId",MyApplication.loginUserId)
+        params.put("state",state)
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<List<MyCouponBean>>>(Urls.MyCoupon)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<List<CouponBean>>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<List<CouponBean>>>) {
+                .execute(object : DialogCallback<NetEntity<List<MyCouponBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<MyCouponBean>>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<List<CouponBean>>>) {
+                    override fun onError(response: Response<NetEntity<List<MyCouponBean>>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -50,24 +54,25 @@ object DataCtrlClassXZW {
     /**
      * 红包列表
      * */
-    fun MyCommentData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<CommentBean>?) -> Unit) {
+    fun MyCommentData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<MyCommentBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params.put("currentPage", currentPage.toString())
         params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<List<CommentBean>>>(Urls.url)
+        OkGo.post<NetEntity<List<MyCommentBean>>>(Urls.url)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<List<CommentBean>>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<List<CommentBean>>>) {
+                .execute(object : DialogCallback<NetEntity<List<MyCommentBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<MyCommentBean>>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<List<CommentBean>>>) {
+                    override fun onError(response: Response<NetEntity<List<MyCommentBean>>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -92,6 +97,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -106,12 +112,14 @@ object DataCtrlClassXZW {
     /**
      * 我的订单列表
      * */
-    fun MyOrderData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<MyOrderBean>?) -> Unit) {
+    fun MyOrderData(context: Context,orderState:String ,currentPage: Int, listener: (scoreStoreBean: List<MyOrderBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<List<MyOrderBean>>>(Urls.url)
+        params.put("userId",MyApplication.loginUserId)
+        params.put("orderState",orderState)
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<List<MyOrderBean>>>(Urls.OrderList)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<List<MyOrderBean>>>(context) {
@@ -120,6 +128,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -148,6 +157,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -178,6 +188,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -208,6 +219,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -238,6 +250,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -268,6 +281,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -297,6 +311,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -328,6 +343,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -359,6 +375,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -389,6 +406,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -421,6 +439,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -449,6 +468,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -511,6 +531,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -575,6 +596,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -604,6 +626,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -632,6 +655,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -649,7 +673,7 @@ object DataCtrlClassXZW {
     fun CheckResultData(context: Context, listener: (scoreStoreBean: CheckResultBean?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId",MyApplication.loginUserId)
+        params.put("userId", MyApplication.loginUserId)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<CheckResultBean>>(Urls.CheckResult)
                 .params(params)
@@ -661,6 +685,7 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -671,7 +696,6 @@ object DataCtrlClassXZW {
 
                 })
     }
-
 
 
     /**
@@ -693,26 +717,27 @@ object DataCtrlClassXZW {
      * idName	string	必填	身份证上的姓名
      * businessImg	string	必填	营业执照（base64)
      * */
-    fun ConfirmInfoData(context: Context, classMark:String,levelId:String,name:String ,categoryId:String,districtId:String,detail:String,longitude:String,
-                        latitude:String,contact:String,idFrontImg:String,idBackImg:String,idNum:String,idName:String,businessImg:String,
+    fun ConfirmInfoData(context: Context, classMark: String, levelId: String, name: String, categoryId: String, districtId: String, detail: String, longitude: String,
+                        latitude: String, contact: String, idFrontImg: String, idBackImg: String, idNum: String, idName: String, businessImg: String, url: String,
                         listener: (scoreStoreBean: String?) -> Unit) {
         val params = HashMap<String, String>()
-        params.put("userId",MyApplication.loginUserId)
-        params.put("classMark",classMark)
-        params.put("levelId",levelId)
-        params.put("name",name)
-        params.put("categoryId",categoryId)
-        params.put("detail",detail)
-        params.put("longitude",longitude)
-        params.put("latitude",latitude)
-        params.put("contact",contact)
-        params.put("idFrontImg",idFrontImg)
-        params.put("idBackImg",idBackImg)
-        params.put("idNum",idNum)
-        params.put("idName",idName)
-        params.put("businessImg",businessImg)
+        if (!TextUtils.isEmpty(MyApplication.loginUserId)) params.put("userId", MyApplication.loginUserId)
+        if (!TextUtils.isEmpty(classMark)) params.put("classMark", classMark)
+        if (!TextUtils.isEmpty(levelId)) params.put("levelId", levelId)
+        if (!TextUtils.isEmpty(name)) params.put("name", name)
+        if (!TextUtils.isEmpty(categoryId)) params.put("categoryId", categoryId)
+        if (!TextUtils.isEmpty(districtId)) params.put("districtId", districtId)
+        if (!TextUtils.isEmpty(detail)) params.put("detail", detail)
+        if (!TextUtils.isEmpty(longitude)) params.put("longitude", longitude)
+        if (!TextUtils.isEmpty(latitude)) params.put("latitude", latitude)
+        if (!TextUtils.isEmpty(contact)) params.put("contact", contact)
+        if (!TextUtils.isEmpty(idFrontImg)) params.put("idFrontImg", idFrontImg)
+        if (!TextUtils.isEmpty(idBackImg)) params.put("idBackImg", idBackImg)
+        if (!TextUtils.isEmpty(idNum)) params.put("idNum", idNum)
+        if (!TextUtils.isEmpty(idName)) params.put("idName", idName)
+        if (!TextUtils.isEmpty(businessImg)) params.put("businessImg", businessImg)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
+        OkGo.post<NetEntity<String>>(url)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<String>>(context) {
@@ -733,6 +758,38 @@ object DataCtrlClassXZW {
 
                 })
     }
+
+
+    /**
+     * 我的评价
+     * */
+    fun MyCommentListData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<MyCommentBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<List<MyCommentBean>>>(Urls.MyCommentList)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<MyCommentBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<MyCommentBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                            context.toast(response.body().message)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<MyCommentBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+
 
 
 }

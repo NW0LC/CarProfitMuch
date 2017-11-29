@@ -8,7 +8,7 @@ import com.flyco.tablayout.listener.CustomTabEntity
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
-import kotlinx.android.synthetic.main.activity_comment_list.*
+import kotlinx.android.synthetic.main.activity_coupon_list.*
 import java.util.*
 
 /**
@@ -30,7 +30,7 @@ class CouponActivity : BaseActivity() {
         return false
     }
 
-    override fun setInflateId(): Int = R.layout.activity_comment_list
+    override fun setInflateId(): Int = R.layout.activity_coupon_list
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

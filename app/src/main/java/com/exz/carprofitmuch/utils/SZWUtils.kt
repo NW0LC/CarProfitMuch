@@ -4,6 +4,8 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
@@ -11,6 +13,7 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +51,7 @@ import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.config.Constants.Result.Intent_ClassName
 import kotlinx.android.synthetic.main.layout_progress_score.view.*
+import java.io.FileOutputStream
 import java.text.DecimalFormat
 
 /**
@@ -74,7 +78,7 @@ object SZWUtils {
      * @param intent   事件
      * @return true登录
      */
-    fun checkLogin(mContext: Fragment, intent: Intent=Intent(), clazzName: String = ""): Boolean {
+    fun checkLogin(mContext: Fragment, intent: Intent = Intent(), clazzName: String = ""): Boolean {
         return if (!MyApplication.checkUserLogin()) {
             val login = Intent(mContext.context, LoginActivity::class.java)
             if (clazzName.isNotEmpty()) {
@@ -100,6 +104,27 @@ object SZWUtils {
         builder.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         textView.setText(builder)
     }
+
+    /**
+     * string base64
+     *  base64 转bitmap
+     */
+    fun stringtoBitmap(string: String): Bitmap? {
+        //将字符串转换成Bitmap类型
+        var bitmap: Bitmap? = null
+        try {
+            val bitmapArray: ByteArray
+            bitmapArray = Base64.decode(string, Base64.DEFAULT)
+            bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.size)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return bitmap
+    }
+
+
+
 
 
     /**

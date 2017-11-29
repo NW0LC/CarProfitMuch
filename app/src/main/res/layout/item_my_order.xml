@@ -13,12 +13,12 @@
         android:padding="@dimen/margin_15">
 
         <TextView
+            android:id="@+id/tv_shop_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="@dimen/dp_10"
             android:drawableStart="@mipmap/icon_mine_my_order_store"
-            android:text="蔚蓝海外汽车专用品专营店"
             android:textColor="@color/MaterialGrey600"
             android:textSize="@dimen/sp_14" />
 

@@ -11,4 +11,9 @@ class OpenShopCardImgBean : Serializable {
     var cardBackImg:String=""
     var cardName:String=""
     var cardNum:String=""
+
+    var cardImgCheck:String=""
+    var cardBackImgCheck:String=""
+    var cardNameCheck:String=""
+    var cardNumCheck:String=""
 }

@@ -10,7 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.CouponAdapter
-import com.exz.carprofitmuch.bean.CouponBean
+import com.exz.carprofitmuch.bean.MyCouponBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -19,7 +19,6 @@ import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.fragment_comment_list.*
-import java.util.*
 
 /**
  * on 2017/10/17.
@@ -29,7 +28,7 @@ class CouponListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
-    private lateinit var mAdapter: CouponAdapter<CouponBean>
+    private lateinit var mAdapter: CouponAdapter<MyCouponBean>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_comment_list, container, false)
@@ -56,23 +55,8 @@ class CouponListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
         return false
     }
 
-    private val arrayList2 = ArrayList<CouponBean>()
     private fun initRecycler() {
-        mAdapter = CouponAdapter(arguments.getInt(COMMENT_TYPE))
-        val imgs = ArrayList<String>()
-        arrayList2.add(CouponBean())
-        arrayList2.add(CouponBean())
-        arrayList2.add(CouponBean())
-        arrayList2.add(CouponBean())
-        arrayList2.add(CouponBean())
-        arrayList2.add(CouponBean())
-        arrayList2.add(CouponBean())
-        arrayList2.add(CouponBean())
-        arrayList2.add(CouponBean())
-        arrayList2.add(CouponBean())
-        arrayList2.add(CouponBean())
-        arrayList2.add(CouponBean())
-        mAdapter.setNewData(arrayList2)
+        mAdapter = CouponAdapter()
 
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
@@ -97,7 +81,7 @@ class CouponListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
     }
 
     private fun iniData() {
-        DataCtrlClassXZW.CouponData(context, currentPage) {
+        DataCtrlClassXZW.CouponData(context, arguments.getInt(COMMENT_TYPE,0).toString(),currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

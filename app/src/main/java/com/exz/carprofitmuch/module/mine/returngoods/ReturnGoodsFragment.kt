@@ -69,9 +69,9 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
         mAdapter = ReturnGoodsAdapter()
         val imgs = ArrayList<GoodsBean>()
         imgs.add(GoodsBean())
-        arrayList2.add(MyOrderBean("1", imgs))
-        arrayList2.add(MyOrderBean("2", imgs))
-        arrayList2.add(MyOrderBean("3", imgs))
+        arrayList2.add(MyOrderBean())
+        arrayList2.add(MyOrderBean())
+        arrayList2.add(MyOrderBean())
         mAdapter.setNewData(arrayList2)
 
         mAdapter.bindToRecyclerView(mRecyclerView)
@@ -93,7 +93,7 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                startActivity(Intent(context, ReturnGoodsDetailActivity::class.java).putExtra("orderType",(adapter!!.data.get(position) as MyOrderBean).orderSate))
+                startActivity(Intent(context, ReturnGoodsDetailActivity::class.java).putExtra("orderType", (adapter!!.data.get(position) as MyOrderBean).orderState))
             }
         })
 
@@ -127,7 +127,7 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
                             "2" -> {//联系商家
                                 DialogUtils.Call(context as BaseActivity, "110")
                             }
-                            "3"-> {    //联系商家
+                            "3" -> {    //联系商家
                                 DialogUtils.Call(context as BaseActivity, "110")
 
                             }
@@ -156,7 +156,7 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
     }
 
     private fun iniData() {
-        DataCtrlClassXZW.MyOrderData(context, currentPage) {
+        DataCtrlClassXZW.MyOrderData(context,arguments.getInt(COMMENT_TYPE).toString(), currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

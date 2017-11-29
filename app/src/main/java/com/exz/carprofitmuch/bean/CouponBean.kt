@@ -36,4 +36,8 @@ open class CouponBean(var couponName: String = "", var couponPrice: String = "",
     var isGet: String= ""
     var typeId: String= ""
     override fun toString(): String = couponName+if (couponPrice.isNotEmpty()||couponPrice.toDoubleOrNull()==0.toDouble()){String.format(Resource.getString(R.string.coupon_toString),couponFullPrice,couponPrice)}else ""
+
+
+
+
 }

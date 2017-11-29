@@ -13,21 +13,18 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsOrderAdapter
-import com.exz.carprofitmuch.bean.GoodsBean
-import com.exz.carprofitmuch.bean.MyOrderBean
 import com.exz.carprofitmuch.module.mine.GoodsOrderCommentActivity
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.exz.carprofitmuch.widget.MyWebActivity
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
+import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.config.Constants
+import com.szw.framelibrary.utils.DialogUtils
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.fragment_comment_list.*
-import java.util.*
 
 /**
  * on 2017/10/17.
@@ -47,7 +44,7 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
 
     override fun initView() {
         initToolbar()
-        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
+        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initRecycler()
     }
 
@@ -64,16 +61,8 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
         return false
     }
 
-    private val arrayList2 = ArrayList<MyOrderBean>()
-    private val arrayList2Item = ArrayList<GoodsBean>()
     private fun initRecycler() {
-        arrayList2Item.add(GoodsBean())
-        arrayList2.add(MyOrderBean("1", arrayList2Item))
-        arrayList2.add(MyOrderBean("2", arrayList2Item))
-        arrayList2.add(MyOrderBean("3", arrayList2Item))
-        arrayList2.add(MyOrderBean("4", arrayList2Item))
         mAdapter = GoodsOrderAdapter()
-        mAdapter.setNewData(arrayList2)
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -88,12 +77,13 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
 
         })
         mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener() {
-            override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View, position: Int) {
+            override fun onSimpleItemChildClick(a: BaseQuickAdapter<*, *>?, view: View, position: Int) {
                 /**         btLeft    btMid     btRight
                  * 1待付款     【联系商家   取消订单  支付订单】
-                 * 2待收货     【联系商家   查看物流  确认收货】
-                 * 3待评价     【联系商家   删除订单  评价订单】
-                 * 4已结束     【联系商家   删除订单  】
+                 * 2待发货     【         联系商家  申请退款】
+                 * 3待收货     【联系商家   查看物流  确认收货】
+                 * 4待评价     【联系商家   删除订单  评价订单】
+                 * 5已结束     【联系商家   删除订单  】
                  * 其他
                  */
                 when (view.id) {
@@ -106,10 +96,13 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
                                     }
                                 })
                             }
-                            "2" -> {//查看物流
+                            "2" -> {//联系卖家
+                                DialogUtils.Call(context as BaseActivity, mAdapter.data.get(position).shopPhone)
+                            }
+                            "3" -> {//查看物流
                                 startActivity(Intent(context, MyWebActivity::class.java).putExtra(MyWebActivity.Intent_Url, "http://www.baidu.com").putExtra(MyWebActivity.Intent_Title, "http://www.baidu.com"))
                             }
-                            "3", "4" -> {    //删除订单
+                            "4", "5" -> {    //删除订单
                                 DataCtrlClassXZW.DeleteOrderDetailData(context, "", {
                                     if (it != null) {
                                         onRefresh(refreshLayout)
@@ -126,14 +119,17 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
                             "1" -> {//支付订单
 //                        startActivity(Intent(mContext,MyWebActivity::class.java).putExtra("orderId","1"))
                             }
-                            "2" -> {//确认收货
+                            "2"->{//申请退款
+
+                            }
+                            "3" -> {//确认收货
                                 DataCtrlClassXZW.ConfirmOrderDetailData(context, "", {
                                     if (it != null) {
                                         onRefresh(refreshLayout)
                                     }
                                 })
                             }
-                            "3", "4" -> {    //评价订单
+                            "4", "5" -> {    //评价订单
                                 startActivity(Intent(context, GoodsOrderCommentActivity::class.java))
 
                             }
@@ -144,6 +140,8 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
 
             }
         })
+
+        onRefresh(refreshLayout)
     }
 
     override fun onClick(p0: View?) {
@@ -162,7 +160,7 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
     }
 
     private fun iniData() {
-        DataCtrlClassXZW.MyOrderData(context, currentPage) {
+        DataCtrlClassXZW.MyOrderData(context, arguments.get(COMMENT_TYPE).toString(), currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

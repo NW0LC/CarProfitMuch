@@ -23,13 +23,13 @@ class ReturnGoodsAdapter<T> : BaseQuickAdapter<MyOrderBean, BaseViewHolder>(R.la
     override fun convert(helper: BaseViewHolder, item: MyOrderBean) {
         val mAdapter = ItemGoodsOrderAdapter<GoodsBean>()
         mAdapter.bindToRecyclerView(helper.itemView.mRecyclerView)
-        mAdapter.setNewData(item.goodsBeanData)
+        mAdapter.setNewData(item.goodsInfo)
         helper.itemView.mRecyclerView.isFocusable=false
         helper.itemView.mRecyclerView.layoutManager = LinearLayoutManager(mContext)
         helper.itemView.mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
         helper.addOnClickListener(R.id.tv_mid)
         helper.addOnClickListener(R.id.tv_right)
-        initStateBtn(item.orderSate, helper.itemView.tv_my_order, TextView(mContext), helper.itemView.tv_mid, helper.itemView.tv_right)
+        initStateBtn(item.orderState, helper.itemView.tv_my_order, TextView(mContext), helper.itemView.tv_mid, helper.itemView.tv_right)
 
 
     }

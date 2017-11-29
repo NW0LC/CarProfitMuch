@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.module.login.LoginActivity
+import com.exz.carprofitmuch.module.login.LoginActivity.Companion.RESULT_LOGIN_CANCELED
 import com.exz.carprofitmuch.module.main.promotion.PromotionsPersonalActivity
 import com.exz.carprofitmuch.module.mine.*
 import com.exz.carprofitmuch.module.mine.comment.MyCommentActivity
@@ -28,6 +29,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.scwang.smartrefresh.layout.util.DensityUtil
+import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
@@ -169,6 +171,10 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 startActivityForResult(Intent(context, AccountBalanceActivity::class.java), 100)
             }
             bt_tab_coupon -> {//优惠券
+                if(!MyApplication.checkUserLogin()){
+                    startActivityForResult(Intent(context,LoginActivity::class.java),RESULT_LOGIN_CANCELED)
+                    return
+                }
                 startActivity(Intent(context, CouponActivity::class.java))
             }
             bt_treasure -> {//红包
@@ -191,6 +197,10 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 startActivityForResult(Intent(context, ScoreCenterActivity::class.java), 100)
             }
             bt_applyFor_openShop -> {//申请开店
+                if(!MyApplication.checkUserLogin()){
+                    startActivityForResult(Intent(context,LoginActivity::class.java),RESULT_LOGIN_CANCELED)
+                    return
+                }
                 startActivity(Intent(context, OpenShopActivity::class.java))
             }
             bt_promotions -> {//我的活动

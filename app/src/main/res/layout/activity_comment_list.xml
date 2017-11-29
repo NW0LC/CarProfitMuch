@@ -1,45 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools"
     android:background="@color/app_bg">
-
-    <FrameLayout
-        android:id="@+id/frameLayout"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <include layout="@layout/action_bar_custom" />
-
-        <RelativeLayout
+        android:layout_height="match_parent"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnablePreviewInEditMode="false">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:id="@+id/header"
+            android:visibility="gone"
+            android:layout_marginTop="?attr/actionBarSize"
             android:layout_width="match_parent"
-            android:layout_height="55dp">
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/black"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mRecyclerView"
+            android:overScrollMode="never"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="?attr/actionBarSize"
+            >
 
-            <com.github.mmin18.widget.RealtimeBlurView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:realtimeBlurRadius="10dp"
-                app:realtimeOverlayColor="@color/blur_bg_white" />
+        </android.support.v7.widget.RecyclerView>
 
-            <com.flyco.tablayout.CommonTabLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tl="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/mTabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tl:tl_iconVisible="false"
-                tl:tl_textSelectColor="@color/colorPrimary"
-                tl:tl_textUnselectColor="@color/MaterialGrey400"
-                tl:tl_textsize="14sp"
-                tl:tl_indicator_color="@color/colorPrimary"
-                tl:tl_underline_color="@color/app_bg"
-                tl:tl_underline_height="1dp" />
-        </RelativeLayout>
-    </LinearLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <include layout="@layout/action_bar_custom"></include>
 </FrameLayout>

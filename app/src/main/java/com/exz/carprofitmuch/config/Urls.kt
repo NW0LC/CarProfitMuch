@@ -151,7 +151,34 @@ object Urls{
     /*
        * 资料审核结果
        */
+    var ConfirmInfo = url + "App/Open/ConfirmInfo.aspx"
+
+
+    /*
+       * 资料审核结果
+       */
     var CheckResult = url + "App/Open/CheckResult.aspx"
+
+    /*
+       * 修改申请资料
+       */
+    var ModifyInfo = url + "App/Open/ModifyInfo.aspx"
+
+
+    /*
+       * 我的优惠券
+       */
+    var MyCoupon = url + "App/UserCenter/MyCoupon.aspx"
+
+     /*
+        * 我的评价
+        */
+     var MyCommentList = url + "App/UserCenter/MyCommentList.aspx"
+
+     /*
+        * 订单列表-实物类
+        */
+     var OrderList = url + "App/Order/Reality/OrderList.aspx"
 
 
 

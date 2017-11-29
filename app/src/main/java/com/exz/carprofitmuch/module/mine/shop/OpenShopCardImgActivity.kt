@@ -57,8 +57,8 @@ class OpenShopCardImgActivity : BaseActivity(), View.OnClickListener {
     private fun initView() {
 
         entity=intent.getSerializableExtra("cardImg") as OpenShopCardImgBean
-        if(!TextUtils.isEmpty(entity.cardImg)) car_img.setImageURI(entity.cardImg)
-        if(!TextUtils.isEmpty(entity.cardBackImg)) car_back_img.setImageURI(entity.cardBackImg)
+        if(!TextUtils.isEmpty(entity.cardImg)) car_img.setImageURI("file://"+entity.cardImg)
+        if(!TextUtils.isEmpty(entity.cardBackImg)) car_back_img.setImageURI("file://"+entity.cardBackImg)
         ed_car_name.setText(entity.cardName)
         ed_card_num.setText(entity.cardNum)
         car_img.setOnClickListener(this)
@@ -127,7 +127,7 @@ class OpenShopCardImgActivity : BaseActivity(), View.OnClickListener {
         imagePicker.isSaveRectangle = true
         //圖片緩存
         imagePicker.imageLoader = GlideImageLoader()
-        imagePicker.isMultiMode = true//多选
+        imagePicker.isMultiMode = false//多选
         //矩形尺寸
         imagePicker.style = CropImageView.Style.RECTANGLE
         val width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300f, resources.displayMetrics).toInt()
@@ -144,11 +144,10 @@ class OpenShopCardImgActivity : BaseActivity(), View.OnClickListener {
             val images = data?.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS) as ArrayList<*>
             if (imgType.equals("1")) {
                 car_img.setImageURI("file://" + (images.get(0) as ImageItem).path)
-                entity.cardImg = "file://" + (images.get(0) as ImageItem).path
-//                entity.cardImg = EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream((images[0] as ImageItem).path))
+                entity.cardImg =  (images.get(0) as ImageItem).path
             } else if (imgType.equals("2")) {
-                car_back_img.setImageURI("file://" + (images.get(0) as ImageItem).path)
-                entity.cardBackImg ="file://" + (images.get(0) as ImageItem).path
+                car_back_img.setImageURI("file://" +  (images.get(0) as ImageItem).path)
+                entity.cardBackImg = (images.get(0) as ImageItem).path
             }
         }
     }

@@ -8,7 +8,7 @@ import com.flyco.tablayout.listener.CustomTabEntity
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
-import kotlinx.android.synthetic.main.activity_comment_list.*
+import kotlinx.android.synthetic.main.activity_goods_order_list.*
 import java.util.*
 
 /**
@@ -17,9 +17,9 @@ import java.util.*
  */
 
 class GoodsOrderActivity : BaseActivity() {
-    private val mTitles = arrayOf("全部", "待付款", "待收货","待评价","已结束")
-    private val mIconUnSelectIds = intArrayOf(R.mipmap.icon_home_off, R.mipmap.icon_store_off, R.mipmap.icon_goods_car_off, R.mipmap.icon_mine_off,R.mipmap.icon_mine_on)
-    private val mIconSelectIds = intArrayOf(R.mipmap.icon_home_on, R.mipmap.icon_store_on, R.mipmap.icon_goods_car_on, R.mipmap.icon_mine_on,R.mipmap.icon_mine_on)
+    private val mTitles = arrayOf("全部", "待付款","待发货", "待收货","待评价","已完成")
+    private val mIconUnSelectIds = intArrayOf(R.mipmap.icon_home_off, R.mipmap.icon_store_off, R.mipmap.icon_goods_car_off, R.mipmap.icon_mine_off,R.mipmap.icon_mine_on,R.mipmap.icon_mine_on)
+    private val mIconSelectIds = intArrayOf(R.mipmap.icon_home_on, R.mipmap.icon_store_on, R.mipmap.icon_goods_car_on, R.mipmap.icon_mine_on,R.mipmap.icon_mine_on,R.mipmap.icon_mine_on)
     private val mTabEntities = ArrayList<CustomTabEntity>()
     private val mFragments = ArrayList<Fragment>()
     override fun initToolbar(): Boolean {
@@ -31,7 +31,7 @@ class GoodsOrderActivity : BaseActivity() {
         return false
     }
 
-    override fun setInflateId(): Int = R.layout.activity_comment_list
+    override fun setInflateId(): Int = R.layout.activity_goods_order_list
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +47,7 @@ class GoodsOrderActivity : BaseActivity() {
         mFragments.add(GoodsOrderFragment.newInstance(2))
         mFragments.add(GoodsOrderFragment.newInstance(3))
         mFragments.add(GoodsOrderFragment.newInstance(4))
+        mFragments.add(GoodsOrderFragment.newInstance(5))
         mTabLayout.setTabData(mTabEntities, this, R.id.frameLayout, mFragments)
         if(intent.hasExtra("currentTab"))mTabLayout.currentTab=intent.getIntExtra("currentTab",0)
     }

@@ -19,16 +19,16 @@ class OpenShopAdapter : BaseQuickAdapter<OpenShopListBean, BaseViewHolder>(R.lay
         v.tv_key.text = item.k
         v.tv_value.text = item.v
         when (item.state) {
-            "1" -> {//未填写 灰色
+            "1" -> {//未提交 未填写 灰色
                 v.tv_value.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey400))
             }
-            "2"->{//已填写 黑色
+            "2"->{//未提交 已填写 黑色
                 v.tv_value.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey800))
             }
-            "3" -> { //审核被拒 红色
+            "3" -> { //已提交 审核被拒 红色
                 v.tv_value.setTextColor(ContextCompat.getColor(mContext, R.color.Red))
             }
-            "4" ->{//审核被拒 已修改 黑色
+            "4" ->{//已提交 已填写 已修改 黑色
                 v.tv_value.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey800))
             }
         }

@@ -21,4 +21,25 @@ open class GoodsBean(var id: String = "", var getGoodsCarId: String = "0", var d
     var goodsClassifyPool=ArrayList<GoodsClassifyPoolBean>()
 
 
+    /**
+     * goodsId : 商品id
+     * payMark : 1
+     * goodsName : 商品名称
+     * imgUrl : 商品图片
+     * goodsPrice : 100
+     * count : 2
+     * skuid : 规格id
+     * goodsType : 规格内容
+     */
+
+    private var goodsId: String = ""
+    private var payMark: String = ""
+    private var goodsName: String = ""
+    private var imgUrl: String = ""
+    private var goodsPrice: String = ""
+    private var count: String = ""
+    private var skuid: String = ""
+
+
+
 }

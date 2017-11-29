@@ -16,6 +16,7 @@ import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.OpenShopAdapter
 import com.exz.carprofitmuch.bean.*
+import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.szw.framelibrary.base.BaseActivity
@@ -68,6 +69,7 @@ class OpenShopActivity : BaseActivity() {
     private var idNum = ""//身份证号
     private var idName = ""//身份证上的姓名
     private var businessImg = ""//营业执照（base64)
+    private var url = ""
 
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.main_open_shop)
@@ -98,6 +100,77 @@ class OpenShopActivity : BaseActivity() {
 
         DataCtrlClassXZW.CheckResultData(mContext, {
             if (it != null) {
+                for (bean in adapter.data) {
+                    when (bean.k) {
+                        "店铺类型" -> {
+                            classMark=if(it.classMark.value.equals("实体商品类")) "1" else "2"
+                            adapter.data.get(adapter.data.indexOf(bean)).v= it.classMark.value
+                            // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
+                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.classMark.check.equals("0")) "3" else "4"
+                        }
+                        "店铺等级" -> {
+                            adapter.data.get(adapter.data.indexOf(bean)).v= it.level.value
+                            // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
+                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.level.check.equals("0")) "3" else "4"
+                        }
+                        "店铺名称" -> {
+                            adapter.data.get(adapter.data.indexOf(bean)).v= it.name.value
+                            // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
+                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.name.check.equals("0")) "3" else "4"
+                        }
+                        "店铺类目" -> {
+                            adapter.data.get(adapter.data.indexOf(bean)).v= it.category.value
+                            // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
+                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.category.check.equals("0")) "3" else "4"
+                        }
+                        "所在地" -> {
+                            adapter.data.get(adapter.data.indexOf(bean)).v= it.district.value
+                            // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
+                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.district.check.equals("0")) "3" else "4"
+                        }
+                        "详细地址" -> {
+                            adapter.data.get(adapter.data.indexOf(bean)).v= "已填写"
+                            // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
+                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.detail.check.equals("0")) "3" else "4"
+                            locationBean=OpenShopLocationBean(it.longitude.check,it.latitude.check,it.detail.check)
+                            if(it.detail.check.equals("0")||it.latitude.check.equals("0")||it.longitude.check.equals("0")){
+                                adapter.data.get(adapter.data.indexOf(bean)).state="3"
+                            }else{
+                                adapter.data.get(adapter.data.indexOf(bean)).state="4"
+                            }
+
+                        }
+                        "联系人" -> {
+                            adapter.data.get(adapter.data.indexOf(bean)).v= it.contact.value
+                            // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
+                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.contact.check.equals("0")) "3" else "4"
+                        }
+                        "身份证正反面照片" -> {
+                            cardImg= OpenShopCardImgBean()
+                            cardImg.cardImg=it.idFrontImg.value
+                            cardImg.cardBackImg=it.idBackImg.value
+                            cardImg.cardNum=it.idNum.value
+                            cardImg.cardName=it.idName.value
+
+                            cardImg.cardImgCheck=it.idFrontImg.check
+                            cardImg.cardBackImgCheck=it.idBackImg.check
+                            cardImg.cardNumCheck=it.idNum.check
+                            cardImg.cardNameCheck=it.idName.check
+                            if(it.idFrontImg.check.equals("0")||it.idBackImg.check.equals("0")||it.idNum.check.equals("0")||it.idName.check.equals("0")){
+                                adapter.data.get(adapter.data.indexOf(bean)).state="3"
+                            }else{
+                                adapter.data.get(adapter.data.indexOf(bean)).state="4"
+                            }
+                            adapter.data.get(adapter.data.indexOf(bean)).v= "已填写"
+                        }
+                        "营业执照照片" -> {
+                            adapter.data.get(adapter.data.indexOf(bean)).v= it.businessImg.value
+                            // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
+                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.businessImg.check.equals("0")) "3" else "4"
+
+                        }
+                    }
+                }
 
             }
 
@@ -106,41 +179,48 @@ class OpenShopActivity : BaseActivity() {
 
     private fun initEvent() {
         tv_submit.setOnClickListener {
-            for (bean in adapter.data) {
-                if (bean.v.equals("请选择") || bean.v.equals("请填写") || bean.v.equals("未填写")) {
-                    mContext.toast(bean.v + bean.k)
-                    return@setOnClickListener
-                }
-            }
 
             if (openState.equals("3")) {
-                /**
-                 * 提交申请资料
-                 * classMark	string	必填	店铺类型：1实体商品类 2虚拟服务类
-                 * levelId	string	必填	店铺等级id
-                 * name	string	必填	店铺名称
-                 * categoryId	string	必填	店铺类目id。【商城】sheet【店铺类目】接口
-                 * districtId	string	必填	区id
-                 * detail	string	必填	详细地址
-                 * longitude	string	必填	经度（用户）
-                 * latitude	string	必填	纬度（用户）
-                 * contact	string	必填	联系人
-                 * idFrontImg	string	必填	身份证正面照（base64)
-                 * idBackImg	string	必填	身份证反面照（base64)
-                 * idNum	string	必填	身份证号
-                 * idName	string	必填	身份证上的姓名
-                 * businessImg	string	必填	营业执照（base64)
-                 * */
-                DataCtrlClassXZW.ConfirmInfoData(mContext, classMark, levelId, name, categoryId, districtId, detail, longitude, latitude, contact, idFrontImg, idBackImg, idNum, idName, businessImg, {
-                    if (it != null) {
-                        finish()
+                for (bean in adapter.data) {
+                    if (bean.v.equals("请选择") || bean.v.equals("请填写") || bean.v.equals("未填写")) {
+                        mContext.toast(bean.v + bean.k)
+                        return@setOnClickListener
                     }
-
-                })
+                }
+                url= Urls.ConfirmInfo
             } else {
-
+                url= Urls.ModifyInfo
+                for (bean in adapter.data) {
+                    if (bean.state.equals("3")) {
+                        mContext.toast("请修改" + bean.k)
+                        return@setOnClickListener
+                    }
+                }
             }
+            /**
+             * 提交申请资料
+             * classMark	string	必填	店铺类型：1实体商品类 2虚拟服务类
+             * levelId	string	必填	店铺等级id
+             * name	string	必填	店铺名称
+             * categoryId	string	必填	店铺类目id。【商城】sheet【店铺类目】接口
+             * districtId	string	必填	区id
+             * detail	string	必填	详细地址
+             * longitude	string	必填	经度（用户）
+             * latitude	string	必填	纬度（用户）
+             * contact	string	必填	联系人
+             * idFrontImg	string	必填	身份证正面照（base64)
+             * idBackImg	string	必填	身份证反面照（base64)
+             * idNum	string	必填	身份证号
+             * idName	string	必填	身份证上的姓名
+             * businessImg	string	必填	营业执照（base64)
+             * */
+            DataCtrlClassXZW.ConfirmInfoData(mContext, classMark, levelId, name, categoryId, districtId, detail, longitude, latitude, contact,  EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(idFrontImg)),
+                    EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(idBackImg)), idNum, idName,  EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(businessImg)),url , {
+                if (it != null) {
+                    finish()
+                }
 
+            })
 
         }
 
@@ -281,7 +361,7 @@ class OpenShopActivity : BaseActivity() {
             adapter.data.get(position).id = ShopLevel.get(options1).levelId
             adapter.notifyItemChanged(position)
             levelId = ShopLevel.get(options1).levelId
-            footerView.tv_fee.text = ShopLevel.get(position).fee
+            footerView.tv_fee.text =String.format(mContext.getString(R.string.main_open_shop_fee), ShopLevel.get(position).fee)
         }
         initShopLevel()
 
@@ -381,6 +461,10 @@ class OpenShopActivity : BaseActivity() {
                         if (data != null) {
                             classMark = (data.getSerializableExtra("keyValue") as OpenShopKeyValueBean).id
                             textChanger("1", data)
+                            adapter.data.get(1).k=""
+                            adapter.data.get(3).k=""
+                            adapter.notifyItemChanged(1)
+                            adapter.notifyItemChanged(3)
                             initShopLevel()
                         }
                     }
@@ -419,8 +503,8 @@ class OpenShopActivity : BaseActivity() {
                     "身份证正反面照片" -> {
                         if (data != null) {
                             textChanger("3", data)
-                            idFrontImg = EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream((data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardImg))
-                            idBackImg = EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream((data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardBackImg))
+                            idFrontImg = (data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardImg
+                            idBackImg =(data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardBackImg
                             idNum = (data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardNum
                             idName = (data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardName
                         }

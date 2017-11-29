@@ -7,7 +7,7 @@ import com.flyco.tablayout.listener.CustomTabEntity
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_tv.*
-import kotlinx.android.synthetic.main.activity_comment_list.*
+import kotlinx.android.synthetic.main.activity_coupon_list.*
 import java.util.*
 
 /**

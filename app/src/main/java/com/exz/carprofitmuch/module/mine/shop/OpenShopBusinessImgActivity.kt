@@ -51,7 +51,7 @@ class OpenShopBusinessImgActivity : BaseActivity(), View.OnClickListener {
 
     private fun initView() {
 
-        img = intent.getStringExtra("img")
+        if(intent.hasExtra("img"))img ="file://"+ intent.getStringExtra("img")
         if (!TextUtils.isEmpty(img)) iv_img.setImageURI(img)
         iv_img.setOnClickListener(this)
         tv_submit.setOnClickListener(this)
@@ -88,7 +88,7 @@ class OpenShopBusinessImgActivity : BaseActivity(), View.OnClickListener {
         //是否裁剪
         imagePicker.isCrop = true
         //是否按矩形区域保存裁剪图片
-        imagePicker.isSaveRectangle = true
+        imagePicker.isSaveRectangle = false
         //圖片緩存
         imagePicker.imageLoader = GlideImageLoader()
         imagePicker.isMultiMode = true//多选
@@ -107,7 +107,7 @@ class OpenShopBusinessImgActivity : BaseActivity(), View.OnClickListener {
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) { //图片选择
             val images = data?.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS) as ArrayList<*>
             iv_img.setImageURI("file://" + (images.get(0) as ImageItem).path)
-            img = "file://" + (images.get(0) as ImageItem).path
+            img =(images.get(0) as ImageItem).path
         }
     }
 
