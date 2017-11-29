@@ -10,17 +10,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.blankj.utilcode.util.ScreenUtils
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.MainAdapter
 import com.exz.carprofitmuch.bean.BannersBean
 import com.exz.carprofitmuch.bean.InformationBean
+import com.exz.carprofitmuch.bean.InformationBean.Companion.TYPE_1
+import com.exz.carprofitmuch.bean.MainRecommendBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
-import com.exz.carprofitmuch.module.main.AdsActivity
+import com.exz.carprofitmuch.module.main.HotNewsActivity
+import com.exz.carprofitmuch.module.main.ads.AdsActivity
 import com.exz.carprofitmuch.module.main.map.MapPinActivity
 import com.exz.carprofitmuch.module.main.promotion.PromotionsActivity
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.exz.carprofitmuch.widget.MyWebActivity
+import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Title
+import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Url
 import com.facebook.drawee.view.SimpleDraweeView
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
@@ -30,6 +37,7 @@ import com.szw.framelibrary.utils.StatusBarUtil
 import com.youth.banner.BannerConfig
 import com.youth.banner.listener.OnBannerListener
 import kotlinx.android.synthetic.main.action_bar_custom.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.header_main.view.*
 import org.jetbrains.anko.textColor
@@ -40,7 +48,6 @@ import org.jetbrains.anko.textColor
  */
 
 class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, OnBannerListener {
-
 
 
     private var mScrollY = 0
@@ -57,6 +64,7 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         initBar()
         initRecycler()
         initHeaderAndFooter()
+        refreshLayout.autoRefresh()
     }
 
     override fun initEvent() {
@@ -78,15 +86,6 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
     private fun initRecycler() {
         mAdapter = MainAdapter()
-        val arrayList = ArrayList<InformationBean>()
-        arrayList.add(InformationBean(1))
-        arrayList.add(InformationBean(2))
-        arrayList.add(InformationBean(1))
-        arrayList.add(InformationBean(2))
-        arrayList.add(InformationBean(1))
-        arrayList.add(InformationBean(2))
-        arrayList.add(InformationBean(1))
-        mAdapter.setNewData(arrayList)
         headerView = View.inflate(context, R.layout.header_main, null)
         footerView = View.inflate(context, R.layout.footer_main, null)
         mAdapter.addHeaderView(headerView)
@@ -94,6 +93,7 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         mAdapter.setHeaderAndEmpty(true)
         mAdapter.bindToRecyclerView(mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
+
         mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             private val h = DensityUtil.dp2px(170f)
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -107,6 +107,15 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             }
         })
         refreshLayout.setOnRefreshListener(this)
+
+        mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
+            override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+                val intent = Intent(context, MyWebActivity::class.java)
+                intent.putExtra(Intent_Url, mAdapter.data[position].url)
+                intent.putExtra(Intent_Title, "")
+                startActivity(intent)
+            }
+        })
     }
 
     private fun initBar() {
@@ -132,7 +141,7 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         headerView.banner.setIndicatorGravity(BannerConfig.CENTER)
 
 
-        headerView.bt_hot_lay_0.layoutParams.height=ScreenUtils.getScreenWidth()/2
+        headerView.bt_hot_lay_0.layoutParams.height = ScreenUtils.getScreenWidth() / 2
         hotRecommendViews = ArrayList()
         hotRecommendViews.add(headerView.tv_hot_title_0)
         hotRecommendViews.add(headerView.tv_hot_info_0)
@@ -151,12 +160,12 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         hotRecommendViews.add(headerView.img_hot_bg_4)
 
     }
+
     override fun OnBannerClick(position: Int) {
-        val intent = Intent(context, MyWebActivity::class.java)
-//            intent.putExtra(MyWebActivity.Intent_Title, response.body().info[it].title)
-//            intent.putExtra(MyWebActivity.Intent_Url, response.body().info[it].url)
-        startActivity(intent)
+        if (SZWUtils.checkLogin(this@MainFragment) && SZWUtils.getIntent(context, banners[position]) != null)
+            startActivity(SZWUtils.getIntent(context, banners[position]))
     }
+
     override fun onClick(p0: View?) {
         when (p0) {
             headerView.bt_tab_1 -> {
@@ -167,52 +176,73 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 startActivity(Intent(context, AdsActivity::class.java))
             }
             headerView.bt_tab_4 -> {//宝藏领取
-                val intent=Intent(context,MapPinActivity::class.java).putExtra("className",context.getString(R.string.main_treasure_get))
-                SZWUtils.checkLogin(this,intent,MapPinActivity::class.java.name)
+                val intent = Intent(context, MapPinActivity::class.java).putExtra("className", context.getString(R.string.main_treasure_get))
+                SZWUtils.checkLogin(this, intent, MapPinActivity::class.java.name)
             }
             headerView.bt_tab_5 -> {//红包领取
                 val intent = Intent(context, MapPinActivity::class.java).putExtra("className", context.getString(R.string.main_redpacket_get))
-                SZWUtils.checkLogin(this,intent,MapPinActivity::class.java.name)
+                SZWUtils.checkLogin(this, intent, MapPinActivity::class.java.name)
             }
             headerView.bt_tab_6 -> {//商家活动
-                SZWUtils.checkLogin(this,clazzName=PromotionsActivity::class.java.name)
+                SZWUtils.checkLogin(this, clazzName = PromotionsActivity::class.java.name)
             }
             headerView.bt_more_hot_recommend -> {
+                (activity as MainActivity).mainTabBar.currentTab = 1
             }
             headerView.bt_hot_lay_0 -> {
+                if (recommends.isNotEmpty() && SZWUtils.getIntent(context, recommends[0]) != null)
+                    startActivity(SZWUtils.getIntent(context, recommends[0]))
             }
             headerView.bt_hot_lay_1 -> {
+                if (recommends.isNotEmpty() && SZWUtils.getIntent(context, recommends[1]) != null)
+                    startActivity(SZWUtils.getIntent(context, recommends[1]))
             }
             headerView.bt_hot_lay_2 -> {
+                if (recommends.isNotEmpty() && SZWUtils.getIntent(context, recommends[2]) != null)
+                    startActivity(SZWUtils.getIntent(context, recommends[2]))
             }
             headerView.bt_hot_lay_3 -> {
+                if (recommends.isNotEmpty() && SZWUtils.getIntent(context, recommends[3]) != null)
+                    startActivity(SZWUtils.getIntent(context, recommends[3]))
             }
             headerView.bt_hot_lay_4 -> {
+                if (recommends.isNotEmpty() && SZWUtils.getIntent(context, recommends[4]) != null)
+                    startActivity(SZWUtils.getIntent(context, recommends[4]))
             }
             headerView.bt_more_hot_info -> {
+                startActivity(Intent(context, HotNewsActivity::class.java))
             }
         }
     }
-    var banners=ArrayList<BannersBean>()
+
+    private var banners = ArrayList<BannersBean>()
+    private var recommends = ArrayList<MainRecommendBean>()
     override fun onRefresh(refreshLayout: RefreshLayout?) {
-        DataCtrlClass.bannerData(context,"1"){
-            if (it!=null){
-                banners= it
+        DataCtrlClass.bannerData(context, "1") {
+            refreshLayout?.finishRefresh()
+            if (it != null) {
+                banners = it
                 //设置图片集合
                 headerView.banner.setImages(it)
                 //banner设置方法全部调用完毕时最后调用
                 headerView.banner.start()
             }
         }
-        DataCtrlClass.mainData(context) {
+        DataCtrlClass.mainRecommendData(context) {
             if (it != null) {
-                for (i in 0 until it.mainRecommends.size) {
-                    (hotRecommendViews[i * 3] as TextView).text = it.mainRecommends[i].title
-                    (hotRecommendViews[i * 3] as TextView).textColor = Color.parseColor(it.mainRecommends[i].titleColor)
-                    (hotRecommendViews[i * 3 + 1] as TextView).text = it.mainRecommends[i].info
-                    (hotRecommendViews[i * 3 + 2] as SimpleDraweeView).setImageURI(it.mainRecommends[i].img)
+                recommends = it
+                for (i in 0 until it.size) {
+                    (hotRecommendViews[i * 3] as TextView).text = it[i].title
+                    (hotRecommendViews[i * 3] as TextView).textColor = Color.parseColor(it[i].titleColor)
+                    (hotRecommendViews[i * 3 + 1] as TextView).text = it[i].info
+                    (hotRecommendViews[i * 3 + 2] as SimpleDraweeView).setImageURI(it[i].imgUrl)
                 }
-                mAdapter.setNewData(it.infos)
+            }
+        }
+        DataCtrlClass.mainNewsData(context) {
+            if (it != null) {
+                (0..it.size).filter { it % 4 == 0 }.forEach { i -> it[i].type = TYPE_1 }
+                mAdapter.setNewData(it)
             }
         }
     }

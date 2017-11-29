@@ -4,7 +4,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
-import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.RedPacketTreasureAdapter
 import com.exz.carprofitmuch.bean.CouponBean
@@ -16,7 +15,7 @@ import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
-import kotlinx.android.synthetic.main.activity_ads.*
+import kotlinx.android.synthetic.main.activity_treasure_red_packet.*
 import kotlinx.android.synthetic.main.header_treasure_redpacket.view.*
 
 /**
@@ -113,25 +112,25 @@ class MapTreasureActivity : BaseActivity(), BaseQuickAdapter.RequestLoadMoreList
     }
 
     private fun iniData() {
-        DataCtrlClass.mainAdsData(this, "",currentPage) {
-            refreshLayout?.finishRefresh()
-            if (it != null) {
-                if (refreshState == Constants.RefreshState.STATE_REFRESH) {
-                    mAdapter.setNewData(it)
-                } else {
-                    mAdapter.addData(it)
-
-                }
-                if (it.isNotEmpty()) {
-                    mAdapter.loadMoreComplete()
-                    currentPage++
-                } else {
-                    mAdapter.loadMoreEnd()
-                }
-            } else {
-                mAdapter.loadMoreFail()
-            }
-        }
+//        DataCtrlClass.mainAdsData(this, "",currentPage) {
+//            refreshLayout?.finishRefresh()
+//            if (it != null) {
+//                if (refreshState == Constants.RefreshState.STATE_REFRESH) {
+//                    mAdapter.setNewData(it)
+//                } else {
+//                    mAdapter.addData(it)
+//
+//                }
+//                if (it.isNotEmpty()) {
+//                    mAdapter.loadMoreComplete()
+//                    currentPage++
+//                } else {
+//                    mAdapter.loadMoreEnd()
+//                }
+//            } else {
+//                mAdapter.loadMoreFail()
+//            }
+//        }
 
     }
 }

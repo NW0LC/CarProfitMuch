@@ -167,4 +167,7 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
             }
         }
     }
+    companion object {
+        val ScoreGoods_Intent_ScoreGoodsId="ScoreGoods_Intent_ScoreGoodsId"
+    }
 }

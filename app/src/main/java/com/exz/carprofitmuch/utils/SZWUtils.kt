@@ -2,7 +2,6 @@ package com.exz.carprofitmuch.utils
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v4.app.Fragment
@@ -21,11 +20,26 @@ import android.widget.RadioButton
 import android.widget.TextView
 import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.SizeUtils
+import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.R.id.progressBar
+import com.exz.carprofitmuch.bean.AbsMark
 import com.exz.carprofitmuch.bean.GenderBean
 import com.exz.carprofitmuch.bean.ServiceListFilterBean
 import com.exz.carprofitmuch.module.login.LoginActivity
+import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity
+import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity.Companion.GoodsDetail_Intent_GoodsId
+import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity
+import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity.Companion.GoodsShop_Intent_ShopId
+import com.exz.carprofitmuch.module.main.store.score.ScoreGoodsDetailActivity
+import com.exz.carprofitmuch.module.main.store.score.ScoreGoodsDetailActivity.Companion.ScoreGoods_Intent_ScoreGoodsId
+import com.exz.carprofitmuch.module.main.store.service.ServiceDetailActivity
+import com.exz.carprofitmuch.module.main.store.service.ServiceDetailActivity.Companion.Service_Intent_ServieceId
+import com.exz.carprofitmuch.module.main.store.service.ServiceShopActivity
+import com.exz.carprofitmuch.module.main.store.service.ServiceShopActivity.Companion.ServiceShop_Intent_ServiceShopId
+import com.exz.carprofitmuch.widget.MyWebActivity
+import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Title
+import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Url
 import com.lzy.okgo.utils.HttpUtils.runOnUiThread
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshHeader
@@ -63,7 +77,9 @@ object SZWUtils {
     fun checkLogin(mContext: Fragment, intent: Intent=Intent(), clazzName: String = ""): Boolean {
         return if (!MyApplication.checkUserLogin()) {
             val login = Intent(mContext.context, LoginActivity::class.java)
-            login.putExtra(Intent_ClassName, clazzName)
+            if (clazzName.isNotEmpty()) {
+                login.putExtra(Intent_ClassName, clazzName)
+            }
             login.putExtras(intent)
             mContext.startActivityForResult(login, 0xc8)
             mContext.activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.fade_out)
@@ -77,66 +93,6 @@ object SZWUtils {
         }
     }
 
-    /**
-     * @param mContext 上下文
-     * @param intent   事件
-     * @return true登录
-     */
-    fun checkLogin(mContext: Activity, intent: Intent, clazzName: String): Boolean {
-        return if (!MyApplication.checkUserLogin()) {
-            val login = Intent(mContext, LoginActivity::class.java)
-            login.putExtra(Intent_ClassName, clazzName)
-            login.putExtras(intent)
-            mContext.startActivityForResult(login, 0xc8)
-            mContext.overridePendingTransition(R.anim.slide_in_bottom, R.anim.fade_out)
-            false
-        } else
-            true
-    }
-
-    /**
-     * @param mContext 上下文
-     * @param intent   事件
-     * @return true登录
-     */
-    fun checkLogin(mContext: Activity, intent: Intent): Boolean {
-        return if (!MyApplication.checkUserLogin()) {
-            val login = Intent(mContext, LoginActivity::class.java)
-            login.putExtras(intent)
-            mContext.startActivityForResult(login, 0xc8)
-            mContext.overridePendingTransition(R.anim.slide_in_bottom, R.anim.fade_out)
-            false
-        } else
-            true
-    }
-
-    /**
-     * @param mContext 上下文
-     * @return true登录
-     */
-    fun checkLogin(mContext: Activity): Boolean {
-        return if (!MyApplication.checkUserLogin()) {
-            val login = Intent(mContext, LoginActivity::class.java)
-            mContext.startActivityForResult(login, 0xc8)
-            mContext.overridePendingTransition(R.anim.slide_in_bottom, R.anim.fade_out)
-            false
-        } else
-            true
-    }
-
-    /**
-     * @param mContext 上下文
-     * @return true登录
-     */
-    fun checkLogin(mContext: Fragment): Boolean {
-        return if (!MyApplication.checkUserLogin()) {
-            val login = Intent(mContext.context, LoginActivity::class.java)
-            mContext.startActivityForResult(login, 0xc8)
-            mContext.activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.fade_out)
-            false
-        } else
-            true
-    }
 
     fun matcherSearchTitle(textView: TextView, textStart: String, start: Int, end: Int, color: Int) {
         var builder = SpannableStringBuilder(textStart)
@@ -431,5 +387,53 @@ object SZWUtils {
             }
         })
         refreshLayout.setOnRefreshListener(listener)
+    }
+
+
+    /**
+     * Banner  和广告的跳转 意图
+     */
+    fun <T:AbsMark>getIntent(context: Context, item: T): Intent? {
+//            1虚拟类商品 2金钱实物类商品 3积分实物类商品 4虚拟类店铺 5实物类店铺 6网页
+        var intent: Intent?=null
+        when (item.getMarkId()) {
+            "1" -> {
+                intent = Intent()
+                intent.setClass(context, ServiceDetailActivity::class.java)
+                intent.putExtra(Service_Intent_ServieceId, item.getMarkId())
+            }
+            "2" -> {
+                intent = Intent()
+                intent.setClass(context, GoodsDetailActivity::class.java)
+                intent.putExtra(GoodsDetail_Intent_GoodsId, item.getMarkId())
+            }
+            "3" -> {
+                intent = Intent()
+                intent.setClass(context, ScoreGoodsDetailActivity::class.java)
+                intent.putExtra(ScoreGoods_Intent_ScoreGoodsId, item.getMarkId())
+            }
+            "4" -> {
+                intent = Intent()
+                intent.setClass(context, ServiceShopActivity::class.java)
+                intent.putExtra(ServiceShop_Intent_ServiceShopId, item.getMarkId())
+            }
+            "5" -> {
+                intent = Intent()
+                intent.setClass(context, GoodsShopActivity::class.java)
+                intent.putExtra(GoodsShop_Intent_ShopId, item.getMarkId())
+            }
+            "6" -> {
+                intent = Intent()
+                intent.setClass(context, MyWebActivity::class.java)
+                intent.putExtra(Intent_Url, item.getAdUri())
+                intent.putExtra(Intent_Title,"")
+            }
+            else -> {
+
+            }
+        }
+        if (item.getAdsID().isNotEmpty())
+            DataCtrlClass.mainAdsData(item.getAdsID()){}
+        return intent
     }
 }
