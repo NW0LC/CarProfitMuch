@@ -1,23 +1,19 @@
 package com.exz.carprofitmuch.module.main.store.score
 
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
+import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.adapter.ScoreStoreAdapter
+import com.exz.carprofitmuch.adapter.ItemScoreStoreAdapter
 import com.exz.carprofitmuch.bean.BannersBean
 import com.exz.carprofitmuch.bean.GoodsBean
-import com.exz.carprofitmuch.bean.ScoreStoreBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
-import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.base.BaseActivity
+import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.youth.banner.BannerConfig
 import kotlinx.android.synthetic.main.action_bar_custom.*
@@ -29,10 +25,11 @@ import kotlinx.android.synthetic.main.header_store.view.*
  * on 2017/10/17.
  */
 
-class ScoreStoreActivity : BaseActivity(), OnRefreshListener{
-
-
-    private lateinit var mAdapter: ScoreStoreAdapter<ScoreStoreBean>
+class ScoreStoreActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener{
+    private var banners = ArrayList<BannersBean>()
+    private var refreshState = Constants.RefreshState.STATE_REFRESH
+    private var currentPage = 1
+    private lateinit var mAdapter: ItemScoreStoreAdapter<GoodsBean>
     private lateinit var headerView: View
     private lateinit var footerView: View
     override fun initToolbar(): Boolean {
@@ -53,6 +50,7 @@ class ScoreStoreActivity : BaseActivity(), OnRefreshListener{
         initRecycler()
         initHeaderAndFooter()
         initEvent()
+        refreshLayout.autoRefresh()
     }
 
     private fun initEvent() {
@@ -61,55 +59,70 @@ class ScoreStoreActivity : BaseActivity(), OnRefreshListener{
     }
 
     private fun initRecycler() {
-        mAdapter = ScoreStoreAdapter()
-        val arrayList = ArrayList<ScoreStoreBean>()
-        val scoreList = ArrayList<GoodsBean>()
-        scoreList.add(GoodsBean())
-        scoreList.add(GoodsBean())
-        scoreList.add(GoodsBean())
-        scoreList.add(GoodsBean())
-        scoreList.add(GoodsBean())
-        scoreList.add(GoodsBean())
-        arrayList.add(ScoreStoreBean(R.mipmap.icon_score_store_recommend,title="为你推荐",scoreList= scoreList))
-        arrayList.add(ScoreStoreBean(R.mipmap.icon_score_store_division,title="积分推荐",scoreList= scoreList))
-
-        mAdapter.setNewData(arrayList)
+        mAdapter = ItemScoreStoreAdapter()
         headerView = View.inflate(this, R.layout.layout_banner, null)
         footerView = View.inflate(this, R.layout.footer_score_store, null)
         mAdapter.addHeaderView(headerView)
         mAdapter.addFooterView(footerView)
-        mAdapter.setHeaderAndEmpty(true)
         mAdapter.bindToRecyclerView(mRecyclerView)
-        mRecyclerView.layoutManager = LinearLayoutManager(this)
-        mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
+        mAdapter.setOnLoadMoreListener(this,mRecyclerView)
+        mRecyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
     }
 
     private fun initHeaderAndFooter() {
-        val bannersBean = ArrayList<BannersBean>()
-        bannersBean.add(BannersBean())
-        bannersBean.add(BannersBean())
-        bannersBean.add(BannersBean())
         headerView.banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
         //设置图片加载器
         headerView.banner.setImageLoader(BannerImageLoader())
-        //设置图片集合
-        headerView.banner.setImages(bannersBean)
         //设置自动轮播，默认为true
         headerView.banner.isAutoPlay(true)
         //设置轮播时间
         headerView.banner.setDelayTime(3000)
         //设置指示器位置（当banner模式中有指示器时）
         headerView.banner.setIndicatorGravity(BannerConfig.CENTER)
-        //banner设置方法全部调用完毕时最后调用
-        headerView.banner.start()
+
+    }
+    override fun onRefresh(refreshLayout: RefreshLayout?) {
+        currentPage = 1
+        refreshState = Constants.RefreshState.STATE_REFRESH
+        iniData()
 
     }
 
-    override fun onRefresh(refreshLayout: RefreshLayout?) {
-        DataCtrlClass.scoreStoreData(this) {
+
+
+    override fun onLoadMoreRequested() {
+        refreshState = Constants.RefreshState.STATE_LOAD_MORE
+        iniData()
+    }
+    private fun iniData() {
+        DataCtrlClass.bannerData(this, "1") {
+            refreshLayout?.finishRefresh()
             if (it != null) {
-                mAdapter.setNewData(it)
+                banners = it
+                //设置图片集合
+                headerView.banner.setImages(it)
+                //banner设置方法全部调用完毕时最后调用
+                headerView.banner.start()
+            }
+        }
+        DataCtrlClass.scoreStoreData(this,currentPage) {
+            refreshLayout?.finishRefresh()
+            if (it != null) {
+                if (refreshState == Constants.RefreshState.STATE_REFRESH) {
+                    mAdapter.setNewData(it)
+                } else {
+                    mAdapter.addData(it)
+
+                }
+                if (it.isNotEmpty()) {
+                    mAdapter.loadMoreComplete()
+                    currentPage++
+                } else {
+                    mAdapter.loadMoreEnd()
+                }
+            } else {
+                mAdapter.loadMoreFail()
             }
         }
     }

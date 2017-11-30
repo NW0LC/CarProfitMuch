@@ -9,7 +9,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import com.blankj.utilcode.util.SizeUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsShopAdapter
 import com.exz.carprofitmuch.bean.BannersBean
@@ -169,11 +168,11 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout?) {
-        DataCtrlClass.scoreStoreData(this) {
-            if (it != null) {
-//                mNewAdapter.setNewData(it)
-            }
-        }
+//        DataCtrlClass.scoreStoreData(this) {
+//            if (it != null) {
+////                mNewAdapter.setNewData(it)
+//            }
+//        }
     }
     companion object {
         val GoodsShop_Intent_ShopId="GoodsShop_Intent_ShopId"

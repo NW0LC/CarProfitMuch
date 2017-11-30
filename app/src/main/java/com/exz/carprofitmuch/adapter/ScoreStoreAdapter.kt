@@ -9,7 +9,7 @@ import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.ScoreStoreBean
 import kotlinx.android.synthetic.main.item_score_store.view.*
 import java.util.*
-
+@Deprecated("deprecated")
 class ScoreStoreAdapter<T : ScoreStoreBean> : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_score_store, ArrayList<T>()) {
 
     override fun convert(helper: BaseViewHolder, item: T) {

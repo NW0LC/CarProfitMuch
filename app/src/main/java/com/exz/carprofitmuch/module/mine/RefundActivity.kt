@@ -189,7 +189,7 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
                 mPickerView.setCyclic(false)
                 mPickerView.show()
             }
-            R.id.ed_refund_cause -> {
+            R.id.tv_refund_cause -> {
                 mPickerType = "2"
                 mPickerView.setPicker(reasonStr)
                 mPickerView.setCyclic(false)

@@ -41,7 +41,8 @@ import kotlinx.android.synthetic.main.layout_card_main_store_score.view.*
 
 class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener {
 
-
+    private var banners = ArrayList<BannersBean>()
+    private var severModel =ArrayList<MainStoreServiceBean>()
     private lateinit var mAdapter: MainStoreAdapter<GoodsBean>
     private lateinit var headerView: View
     private lateinit var footerView: View
@@ -56,6 +57,7 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
         initBar()
         initRecycler()
         initHeaderAndFooter()
+        refreshLayout.autoRefresh()
     }
 
     override fun initEvent() {
@@ -161,8 +163,7 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
         }
     }
 
-    private var banners = ArrayList<BannersBean>()
-    private var severModel =ArrayList<MainStoreServiceBean>()
+
     override fun onRefresh(refreshLayout: RefreshLayout?) {
         DataCtrlClass.bannerData(context, "1") {
             refreshLayout?.finishRefresh()

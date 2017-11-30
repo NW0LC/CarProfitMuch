@@ -324,8 +324,8 @@ object DataCtrlClass {
     fun mainStoreData(context: Context, listener: (mainStoreBean: MainStoreBean?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<MainStoreBean>>(Urls.url)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("StoreHome", salt).toLowerCase())
+        OkGo.post<NetEntity<MainStoreBean>>(Urls.StoreHome)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<MainStoreBean>>(context) {
@@ -348,15 +348,16 @@ object DataCtrlClass {
     /**
      * 积分商城页
      * */
-    fun scoreStoreData(context: Context, listener: (scoreStoreBean: List<ScoreStoreBean>?) -> Unit) {
+    fun scoreStoreData(context: Context,currentPage:Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<List<ScoreStoreBean>>>(Urls.url)
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("StoreHome", salt).toLowerCase())
+        OkGo.post<NetEntity<List<GoodsBean>>>(Urls.ScoreGoodsList)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<List<ScoreStoreBean>>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<List<ScoreStoreBean>>>) {
+                .execute(object : DialogCallback<NetEntity<List<GoodsBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<GoodsBean>>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
                         } else {
@@ -364,7 +365,7 @@ object DataCtrlClass {
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<List<ScoreStoreBean>>>) {
+                    override fun onError(response: Response<NetEntity<List<GoodsBean>>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }

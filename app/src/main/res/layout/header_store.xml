@@ -116,6 +116,7 @@
                 android:contentDescription="@string/main_hot_msg"
                 android:minHeight="95dp"
                 android:minWidth="95dp"
+                app:actualImageScaleType="fitXY"
                 app:placeholderImageScaleType="centerCrop"
                 app:placeholderImage="@mipmap/icon_main_store_service_bg_3"
                 tool:background="@color/MaterialGrey200" />
@@ -189,6 +190,7 @@
                 android:contentDescription="@string/main_hot_msg"
                 android:minHeight="45dp"
                 android:minWidth="45dp"
+                app:actualImageScaleType="fitXY"
                 app:placeholderImageScaleType="centerCrop"
                 app:placeholderImage="@mipmap/icon_main_store_service_bg_1"
                 tool:background="@color/MaterialGrey200" />
@@ -263,6 +265,7 @@
                 android:contentDescription="@string/main_hot_msg"
                 android:minHeight="45dp"
                 android:minWidth="45dp"
+                app:actualImageScaleType="fitXY"
                 app:placeholderImageScaleType="centerCrop"
                 app:placeholderImage="@mipmap/icon_main_store_service_bg_2"
                 tool:background="@color/MaterialGrey200" />

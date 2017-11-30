@@ -52,6 +52,14 @@ object Urls{
      * 我参加的活动
      */
     val MyActivity=url+"App/UserCenter/MyActivity.aspx"
+    /**
+     * 我参加的活动
+     */
+    val StoreHome=url+"App/Store/Home.aspx"
+    /**
+     * 积分商品列表
+     */
+    val ScoreGoodsList=url+"App/Store/ScoreGoodsList.aspx"
 
 
 

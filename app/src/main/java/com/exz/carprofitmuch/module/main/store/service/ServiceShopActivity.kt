@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
-import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ServiceCommentAdapter
 import com.exz.carprofitmuch.adapter.ServiceShopGoodsAdapter
@@ -157,11 +156,11 @@ class ServiceShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
         }
     }
     override fun onRefresh(refreshLayout: RefreshLayout?) {
-        DataCtrlClass.scoreStoreData(this) {
-            if (it != null) {
-//                mServiceShopGoodsAdapter.setNewData(it)
-            }
-        }
+//        DataCtrlClass.scoreStoreData(this) {
+//            if (it != null) {
+////                mServiceShopGoodsAdapter.setNewData(it)
+//            }
+//        }
     }
     companion object {
         val ServiceShop_Intent_ServiceShopId="ServiceShop_Intent_ServiceShopId"

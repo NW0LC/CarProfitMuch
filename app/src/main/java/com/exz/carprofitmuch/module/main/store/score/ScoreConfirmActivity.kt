@@ -5,7 +5,6 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.View
-import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
@@ -64,13 +63,13 @@ class ScoreConfirmActivity : BaseActivity(), OnRefreshListener, View.OnClickList
         }
     }
     override fun onRefresh(refreshLayout: RefreshLayout?) {
-        DataCtrlClass.scoreStoreData(this) {
-            if (it != null) {
-                val scoreConfirmAddressDetail = getString(R.string.score_confirm_address_detail)
-                val msp = SpannableString(scoreConfirmAddressDetail + "更换当前号码将从手机发送一条普通短信进行验证")
-                msp.setSpan(ForegroundColorSpan(ContextCompat.getColor(mContext,R.color.MaterialGrey700)), 0, scoreConfirmAddressDetail.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                tv_address.text = msp
-            }
-        }
+//        DataCtrlClass.scoreStoreData(this) {
+//            if (it != null) {
+//                val scoreConfirmAddressDetail = getString(R.string.score_confirm_address_detail)
+//                val msp = SpannableString(scoreConfirmAddressDetail + "更换当前号码将从手机发送一条普通短信进行验证")
+//                msp.setSpan(ForegroundColorSpan(ContextCompat.getColor(mContext,R.color.MaterialGrey700)), 0, scoreConfirmAddressDetail.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+//                tv_address.text = msp
+//            }
+//        }
     }
 }
