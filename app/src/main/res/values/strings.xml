@@ -323,4 +323,7 @@
     <string name="promotions_personal_finish">完成奖励：</string>
     <string name="promotions_personal_speed">积分加速</string>
     <string name="main_hot_news_name">热点资讯</string>
+    <string name="promotions_detail_startTime">活动开始时间：%s</string>
+    <string name="promotions_detail_peopleCount">报名人数</string>
+    <string name="promotions_push_confirm">确认上传</string>
 </resources>

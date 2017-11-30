@@ -1,15 +1,18 @@
 package com.exz.carprofitmuch.module.main.promotion
 
+import android.app.Activity
+import android.content.Intent
 import android.view.View
+import com.blankj.utilcode.util.ScreenUtils
+import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.bean.BannersBean
-import com.exz.carprofitmuch.imageloader.BannerImageLoader
+import com.exz.carprofitmuch.adapter.PromotionsAdapter.Companion.setStateColorAndStr
+import com.exz.carprofitmuch.bean.PromotionsBean
+import com.exz.carprofitmuch.module.MainActivity
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
-import com.youth.banner.BannerConfig
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_promotions_detail.*
-import kotlinx.android.synthetic.main.layout_banner.*
 
 /**
  * Created by 史忠文
@@ -17,7 +20,7 @@ import kotlinx.android.synthetic.main.layout_banner.*
  */
 class PromotionsDetailActivity : BaseActivity(), View.OnClickListener {
 
-
+    var promotionsBean: PromotionsBean? = null
     override fun initToolbar(): Boolean {
         toolbar.setNavigationOnClickListener { finish() }
 
@@ -34,39 +37,54 @@ class PromotionsDetailActivity : BaseActivity(), View.OnClickListener {
     override fun setInflateId(): Int = R.layout.activity_promotions_detail
 
     override fun init() {
-        initBanner(null)
+        bottom_bar.visibility = View.GONE
+        img.layoutParams.height = ScreenUtils.getScreenWidth() * 5 / 13
         bt_submit.setOnClickListener(this)
+
     }
 
-    private fun initBanner(bannersBean: ArrayList<BannersBean>?) {
-        val bannersBeans = ArrayList<BannersBean>()
-        if (bannersBean?.isEmpty() == true) {
-            bannersBeans.add(BannersBean())
-            bannersBeans.add(BannersBean())
-            bannersBeans.add(BannersBean())
+    fun iniData() {
+        DataCtrlClass.promotionDetailData(this, intent.getStringExtra(PromotionsDetail_Intent_PromotionId), MainActivity.locationEntity?.longitude, MainActivity.locationEntity?.latitude) {
+            if (it != null) {
+                promotionsBean = it
+                img.setImageURI(it.imgUrl)
+                tv_title.text = it.title
+                tv_time.text = String.format(getString(R.string.promotions_detail_startTime), it.limitDate)
+                tv_speed.text = String.format("%s" + mContext.getString(R.string.DAY), it.dayCount)
+                tv_distance.text = it.distance
+                myWeb.loadUrl(it.contentUrl)
+
+                tv_peopleCount.text = String.format(it.already + "/" + it.total)
+
+                bottom_bar.visibility = View.VISIBLE
+                setStateColorAndStr(mContext, it.isJoin + it.state, view = bt_submit)
+            }
         }
-
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
-        //设置图片加载器
-        banner.setImageLoader(BannerImageLoader())
-        //设置图片集合
-        banner.setImages(bannersBean)
-        //设置自动轮播，默认为true
-        banner.isAutoPlay(true)
-        //设置轮播时间
-        banner.setDelayTime(3000)
-        //设置指示器位置（当banner模式中有指示器时）
-        banner.setIndicatorGravity(BannerConfig.CENTER)
-        //banner设置方法全部调用完毕时最后调用
-        banner.start()
-
     }
 
     override fun onClick(view: View) {
-        when (view) {
-
+        if (promotionsBean != null) {
+            when (promotionsBean?.isJoin + promotionsBean?.state) {
+                "01" -> {
+                    DataCtrlClass.promotionJoin(this@PromotionsDetailActivity, promotionsBean?.id ?: "") { iniData() }
+                }
+                "14" -> {
+                    val intent = Intent(this, PromotionsPushActivity::class.java)
+                    intent.putExtra(PromotionsDetail_Intent_PromotionId,getIntent().getStringExtra(PromotionsDetail_Intent_PromotionId))
+                    startActivityForResult(intent,100)
+                }
+            }
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode== Activity.RESULT_OK) {
+            iniData()
+        }
+    }
+    companion object {
+        val PromotionsDetail_Intent_PromotionId = "PromotionsDetail_Intent_PromotionId"
+    }
 
 }

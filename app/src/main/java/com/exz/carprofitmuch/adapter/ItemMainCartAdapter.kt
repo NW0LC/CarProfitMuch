@@ -26,7 +26,7 @@ class ItemMainCartAdapter<T : GoodsBean>(private var context: CartFragment, priv
         itemView.count.text = if (TextUtils.isEmpty(item.goodsCount)) "1" else if (item.goodsCount.toDouble() == 0.toDouble()) "1" else item.goodsCount
         itemView.goodsChooseClassify.text = item.goodsChooseClassify
         itemView.tv_price.text = item.price
-        itemView.img.setImageURI(item.img)
+        itemView.img.setImageURI(item.imgUrl)
         itemView.radioButton.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, if (item.isCheck) R.mipmap.icon_service_pay_select_on else R.mipmap.icon_service_pay_select_off), null, null, null)
         itemView.btnDelete.setOnClickListener {
             DialogUtils.delete(mContext) {

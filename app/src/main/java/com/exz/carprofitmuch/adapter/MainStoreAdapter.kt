@@ -2,6 +2,7 @@ package com.exz.carprofitmuch.adapter
 
 import android.graphics.Paint
 import android.support.v7.widget.RecyclerView
+import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.SizeUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -14,13 +15,14 @@ class MainStoreAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>(R.la
 
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
-        itemView.img.setImageURI(item.img)
-        itemView.tv_title.text=item.title
+        itemView.img.layoutParams.height=(ScreenUtils.getScreenWidth()-SizeUtils.dp2px(5f)/2)
+        itemView.img.setImageURI(item.imgUrl)
+        itemView.tv_title.text=item.goodsName
         itemView.tv_old_price.text= String.format("${mContext.getString(R.string.CNY)}%s",item.oldPrice)
         itemView.tv_old_price.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG //中划线
-        itemView.tv_price.text=String.format("${mContext.getString(R.string.CNY)}%s",item.price)
+        itemView.tv_price.text=String.format("${mContext.getString(R.string.CNY)}%s",item.goodsPrice)
         val layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
-        headerLayoutCount
+
         if (if (headerLayoutCount==0)helper.adapterPosition%2==1 else helper.adapterPosition%2==0) {
             layoutParams.leftMargin=SizeUtils.dp2px(2.5f)
         }else{

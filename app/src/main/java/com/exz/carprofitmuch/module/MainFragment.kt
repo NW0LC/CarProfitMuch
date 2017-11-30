@@ -58,6 +58,8 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     private lateinit var headerView: View
     private lateinit var footerView: View
     private lateinit var hotRecommendViews: MutableList<Any>
+    private var banners = ArrayList<BannersBean>()
+    private var recommends = ArrayList<MainRecommendBean>()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_main, container, false)
         return rootView
@@ -225,8 +227,7 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         }
     }
 
-    private var banners = ArrayList<BannersBean>()
-    private var recommends = ArrayList<MainRecommendBean>()
+
     override fun onRefresh(refreshLayout: RefreshLayout?) {
         DataCtrlClass.bannerData(context, "1") {
             refreshLayout?.finishRefresh()

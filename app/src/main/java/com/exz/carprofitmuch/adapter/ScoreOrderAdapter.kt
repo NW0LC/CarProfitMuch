@@ -14,7 +14,7 @@ class ScoreOrderAdapter<T : ScoreOrderBean> : BaseQuickAdapter<T, BaseViewHolder
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
         itemView.tv_scoreOrderNum.text = item.goodsNum
-        itemView.img.setImageURI(item.goods.img)
+        itemView.img.setImageURI(item.goods.imgUrl)
         itemView.tv_goodsName.text=item.goods.title
         itemView.tv_goodsType.text=String.format(mContext.getString(R.string.goods_order_goodsType),item.goods.goodsType)
         itemView.tv_goodsCount.text=String.format(mContext.getString(R.string.goods_order_goodsCount),item.goods.goodsCount)

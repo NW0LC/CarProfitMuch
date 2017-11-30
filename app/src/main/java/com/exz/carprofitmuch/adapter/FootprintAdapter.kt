@@ -16,7 +16,7 @@ class FootprintAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>(R.la
 
     override fun convert(helper: BaseViewHolder, entity: T) {
         val itemView=helper.itemView
-        itemView.img.setImageURI(entity.img)
+        itemView.img.setImageURI(entity.imgUrl)
         itemView.tv_goodsName.text=entity.title
         itemView.tv_goodsPrice.text =String.format("${mContext.getString(R.string.CNY)}%s",entity.price)
 //        setMouth(mContext,itemView.tv_date,entity.date,if (helper.adapterPosition>0)data[helper.adapterPosition-1].date else "")

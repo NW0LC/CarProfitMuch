@@ -16,7 +16,7 @@ class GoodsShopAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>(R.la
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
         itemView.img.layoutParams.height=(ScreenUtils.getScreenWidth() - SizeUtils.dp2px(5f))/2
-        itemView.img.setImageURI(item.img)
+        itemView.img.setImageURI(item.imgUrl)
         itemView.tv_title.text=item.title
         itemView.tv_price.text=String.format("${mContext.getString(R.string.CNY)}%s",item.price)
         itemView.tv_oldPrice.text= String.format("${mContext.getString(R.string.CNY)}%s",item.oldPrice)

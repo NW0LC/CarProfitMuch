@@ -97,10 +97,10 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
         val element = GoodsCarBean()
         val element2 = GoodsCarBean()
-        element.goods.add(GoodsBean("1", "2", price = "20"))
-        element.goods.add(GoodsBean("3", "4", price = "21"))
-        element2.goods.add(GoodsBean("5", "6", price = "22"))
-        element2.goods.add(GoodsBean("7", "8", price = "23", goodsType = "2"))
+        element.goods.add(GoodsBean("1", "2", goodsPrice = "20"))
+        element.goods.add(GoodsBean("3", "4", goodsPrice= "21"))
+        element2.goods.add(GoodsBean("5", "6",goodsPrice = "22"))
+        element2.goods.add(GoodsBean("7", "8",goodsPrice = "23", goodsType = "2"))
 
         arrayList.add(element)
         arrayList.add(element2)
@@ -450,7 +450,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         private fun addOrDelete(context: Context, type: String, poolId: String, goodsCount: String, goodsEntities: List<GoodsBean>, onDeleteFinishListener: ((goodsEntities: List<GoodsBean>) -> Unit)?) {
             var goodsIds = ""
             for (goodsEntity in goodsEntities) {
-                goodsIds += (if ("0" == type) goodsEntity.getGoodsCarId else goodsEntity.id) + ","
+                goodsIds += (if ("0" == type) goodsEntity.getGoodsCarId else goodsEntity.goodsId) + ","
             }
             val map = HashMap<String, String>()
             map.put("userId", MyApplication.loginUserId)

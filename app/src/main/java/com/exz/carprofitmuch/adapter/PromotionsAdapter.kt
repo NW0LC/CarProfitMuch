@@ -2,6 +2,8 @@ package com.exz.carprofitmuch.adapter
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import com.blankj.utilcode.util.ScreenUtils
+import com.blankj.utilcode.util.SizeUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.exz.carprofitmuch.R
@@ -17,6 +19,7 @@ class PromotionsAdapter<T : PromotionsBean> : BaseQuickAdapter<T, BaseViewHolder
         val itemView = helper.itemView
         helper.addOnClickListener(R.id.tv_state)
         itemView.img.setImageURI(item.imgUrl)
+        itemView.img.layoutParams.height=(ScreenUtils.getScreenWidth()-SizeUtils.dp2px(20f))*5/13
         itemView.tv_title.text = item.title
         itemView.tv_speed.text = String.format("%s" + mContext.getString(R.string.DAY), item.dayCount)
         itemView.tv_distance.text = item.distance

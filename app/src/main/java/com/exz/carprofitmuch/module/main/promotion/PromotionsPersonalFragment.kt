@@ -1,5 +1,6 @@
 package com.exz.carprofitmuch.module.main.promotion
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -12,6 +13,7 @@ import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.PromotionsPersonalAdapter
 import com.exz.carprofitmuch.bean.PromotionsPersonalBean
+import com.exz.carprofitmuch.module.main.promotion.PromotionsDetailActivity.Companion.PromotionsDetail_Intent_PromotionId
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -22,14 +24,13 @@ import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.DialogUtils
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.fragment_comment_list.*
-import java.util.*
 
 /**
  * Created by 史忠文
  * on 2017/10/17.
  */
 
-class PromotionsPersonalFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
+class PromotionsPersonalFragment : MyBaseFragment(), OnRefreshListener,  BaseQuickAdapter.RequestLoadMoreListener {
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
@@ -43,6 +44,7 @@ class PromotionsPersonalFragment : MyBaseFragment(), OnRefreshListener, View.OnC
         initToolbar()
         SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
+        refreshLayout.autoRefresh()
     }
 
     override fun initEvent() {
@@ -56,27 +58,30 @@ class PromotionsPersonalFragment : MyBaseFragment(), OnRefreshListener, View.OnC
         SZWUtils.setMargin(header, 55f)
         return false
     }
-    private val arrayList2= ArrayList<PromotionsPersonalBean>()
     private fun initRecycler() {
         mAdapter = PromotionsPersonalAdapter()
-        arrayList2.add(PromotionsPersonalBean())
-        arrayList2.add(PromotionsPersonalBean())
-        arrayList2.add(PromotionsPersonalBean())
-
-        mAdapter.setNewData(arrayList2)
-
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
         mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
         mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener(){
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                DialogUtils.Call(activity as BaseActivity,mAdapter.data[position].phone)
+                when (view?.id) {
+                    R.id.lay_content -> {
+                        val intent = Intent(context, PromotionsDetailActivity::class.java)
+                        intent.putExtra(PromotionsDetail_Intent_PromotionId,mAdapter.data[position].id)
+                        startActivity(intent)
+                    }
+                    R.id.lay_shop -> {
+
+                    }
+                    R.id.bt_phoneCall -> {DialogUtils.Call(activity as BaseActivity,mAdapter.data[position].shopPhone) }
+                    else -> {
+                    }
+                }
+
             }
         })
-    }
-
-    override fun onClick(p0: View?) {
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout?) {
@@ -92,7 +97,7 @@ class PromotionsPersonalFragment : MyBaseFragment(), OnRefreshListener, View.OnC
     }
 
     private fun iniData(){
-        DataCtrlClass.promotionsPersonalData(context, currentPage) {
+        DataCtrlClass.promotionsPersonalData(context, currentPage,arguments.getString(COMMENT_TYPE)) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {
@@ -114,10 +119,10 @@ class PromotionsPersonalFragment : MyBaseFragment(), OnRefreshListener, View.OnC
     }
     companion object {
         private const val COMMENT_TYPE="type"
-        fun newInstance(position:Int): PromotionsPersonalFragment {
+        fun newInstance(position:String): PromotionsPersonalFragment {
             val bundle = Bundle()
             val fragment = PromotionsPersonalFragment()
-            bundle.putInt(COMMENT_TYPE,position)
+            bundle.putString(COMMENT_TYPE,position)
             fragment.arguments = bundle
             return fragment
         }

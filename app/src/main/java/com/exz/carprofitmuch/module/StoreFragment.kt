@@ -6,7 +6,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.SizeUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -16,10 +15,11 @@ import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.MainStoreAdapter
 import com.exz.carprofitmuch.bean.BannersBean
 import com.exz.carprofitmuch.bean.GoodsBean
-import com.exz.carprofitmuch.bean.MainStoreScoreCardBean
+import com.exz.carprofitmuch.bean.MainStoreServiceBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.module.main.store.normal.GoodsClassifyActivity
 import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity
+import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity.Companion.GoodsDetail_Intent_GoodsId
 import com.exz.carprofitmuch.module.main.store.score.ScoreStoreActivity
 import com.exz.carprofitmuch.module.main.store.service.ServiceListActivity
 import com.exz.carprofitmuch.utils.SZWUtils
@@ -69,24 +69,6 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
 
     private fun initRecycler() {
         mAdapter = MainStoreAdapter()
-        val arrayList = ArrayList<GoodsBean>()
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        mAdapter.setNewData(arrayList)
         headerView = View.inflate(context, R.layout.header_store, null)
         footerView = View.inflate(context, R.layout.footer_main, null)
         mAdapter.addHeaderView(headerView)
@@ -97,7 +79,9 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                startActivity(Intent(context, GoodsDetailActivity::class.java))
+                val intent = Intent(context, GoodsDetailActivity::class.java)
+                intent.putExtra(GoodsDetail_Intent_GoodsId, mAdapter.data[position].goodsId)
+                startActivity(intent)
             }
         })
     }
@@ -114,38 +98,20 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
     }
 
     private fun initHeaderAndFooter() {
-        val bannersBean = ArrayList<BannersBean>()
-        bannersBean.add(BannersBean())
-        bannersBean.add(BannersBean())
-        bannersBean.add(BannersBean())
         headerView.banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
         //设置图片加载器
         headerView.banner.setImageLoader(BannerImageLoader())
-        //设置图片集合
-        headerView.banner.setImages(bannersBean)
         //设置自动轮播，默认为true
         headerView.banner.isAutoPlay(true)
         //设置轮播时间
         headerView.banner.setDelayTime(3000)
         //设置指示器位置（当banner模式中有指示器时）
         headerView.banner.setIndicatorGravity(BannerConfig.CENTER)
-        //banner设置方法全部调用完毕时最后调用
-        headerView.banner.start()
 
-        val cards = ArrayList<MainStoreScoreCardBean>()
-        cards.add(MainStoreScoreCardBean("价值500元加油卡", "5000", "res://${context.packageName}/${R.mipmap.icon_main_store_score_bg_1}"))
-        cards.add(MainStoreScoreCardBean("价值500元加油卡", "5000", "res://${context.packageName}/${R.mipmap.icon_main_store_score_bg_2}"))
-        headerView.lay_type_0.removeAllViews()
-        for (card in cards) {
-            val cardMainStoreScore = View.inflate(context, R.layout.layout_card_main_store_score, null)
-            cardMainStoreScore.img_score_bg.setImageURI(card.img)
-            cardMainStoreScore.tv_score_name.text = card.title
-            cardMainStoreScore.tv_score_count.text = String.format("${card.price}%s", getString(R.string.SCORE))
-            headerView.lay_type_0.addView(cardMainStoreScore)
-            cardMainStoreScore.setOnClickListener {
+//        val cards = ArrayList<MainStoreScoreCardBean>()
+//        cards.add(MainStoreScoreCardBean("价值500元加油卡", "5000", "res://${context.packageName}/${R.mipmap.icon_main_store_score_bg_1}"))
+//        cards.add(MainStoreScoreCardBean("价值500元加油卡", "5000", "res://${context.packageName}/${R.mipmap.icon_main_store_score_bg_2}"))
 
-            }
-        }
 
         headerView.bt_service_lay_2.layoutParams.height = (ScreenUtils.getScreenWidth() - SizeUtils.dp2px(35f)) / 3 * 2
         hotRecommendViews = ArrayList()
@@ -153,14 +119,15 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
         hotRecommendViews.add(headerView.tv_service_info_0)
         hotRecommendViews.add(headerView.tv_service_price_0)
         hotRecommendViews.add(headerView.img_service_bg_0)
-        hotRecommendViews.add(headerView.tv_service_title_1)
-        hotRecommendViews.add(headerView.tv_service_info_1)
-        hotRecommendViews.add(headerView.tv_service_price_1)
-        hotRecommendViews.add(headerView.img_service_bg_1)
         hotRecommendViews.add(headerView.tv_service_title_2)
         hotRecommendViews.add(headerView.tv_service_info_2)
         hotRecommendViews.add(headerView.tv_service_price_2)
         hotRecommendViews.add(headerView.img_service_bg_2)
+        hotRecommendViews.add(headerView.tv_service_title_1)
+        hotRecommendViews.add(headerView.tv_service_info_1)
+        hotRecommendViews.add(headerView.tv_service_price_1)
+        hotRecommendViews.add(headerView.img_service_bg_1)
+
 
     }
 
@@ -177,24 +144,61 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
 //                startActivity(Intent(context, SearchResultActivity::class.java))
             }
             headerView.bt_service_lay_0 -> {
+                if (severModel.isNotEmpty()&&SZWUtils.getMarkIntent(context, severModel[0]) != null) {
+                    startActivity(SZWUtils.getMarkIntent(context, severModel[0]))
+                }
             }
             headerView.bt_service_lay_1 -> {
+                if (severModel.isNotEmpty()&&SZWUtils.getMarkIntent(context, severModel[2]) != null) {
+                    startActivity(SZWUtils.getMarkIntent(context, severModel[2]))
+                }
             }
             headerView.bt_service_lay_2 -> {
+                if (severModel.isNotEmpty()&&SZWUtils.getMarkIntent(context, severModel[1]) != null) {
+                    startActivity(SZWUtils.getMarkIntent(context, severModel[1]))
+                }
             }
         }
     }
 
+    private var banners = ArrayList<BannersBean>()
+    private var severModel =ArrayList<MainStoreServiceBean>()
     override fun onRefresh(refreshLayout: RefreshLayout?) {
+        DataCtrlClass.bannerData(context, "1") {
+            refreshLayout?.finishRefresh()
+            if (it != null) {
+                banners = it
+                //设置图片集合
+                headerView.banner.setImages(it)
+                //banner设置方法全部调用完毕时最后调用
+                headerView.banner.start()
+            }
+        }
         DataCtrlClass.mainStoreData(context) {
             if (it != null) {
-                for (i in 0 until it.scoreGoods.size) {
-                    (hotRecommendViews[i * 4] as TextView).text = it.serviceBeans[i].title
-                    (hotRecommendViews[i * 4 + 1] as TextView).text = it.serviceBeans[i].info
-                    (hotRecommendViews[i * 4 + 2] as TextView).text = String.format("${getString(R.string.main_store_service_price)}%s", it.serviceBeans[i].price)
-                    (hotRecommendViews[i * 4 + 3] as SimpleDraweeView).setImageURI(it.scoreGoods[i].img)
+                headerView.lay_type_0.removeAllViews()
+                for (card in it.scoreModel) {
+                    val cardMainStoreScore = View.inflate(context, R.layout.layout_card_main_store_score, null)
+                    headerView.img_score_bg.layoutParams.height=ScreenUtils.getScreenWidth()/3
+                    cardMainStoreScore.img_score_bg.setImageURI(card.imgUrl)
+//                    cardMainStoreScore.tv_score_name.text = card.title
+//                    cardMainStoreScore.tv_score_count.text = String.format("${card.price}%s", getString(R.string.SCORE))
+                    headerView.lay_type_0.addView(cardMainStoreScore)
+                    cardMainStoreScore.setOnClickListener {
+                        val markIntent = SZWUtils.getMarkIntent(context, card)
+                        if (markIntent != null) {
+                            startActivity(markIntent)
+                        }
+                    }
                 }
-                mAdapter.setNewData(it.scoreGoods)
+                severModel=it.severModel
+                for (i in 0 until it.severModel.size) {
+//                    (hotRecommendViews[i * 4] as TextView).text = it.severModel[i].title
+//                    (hotRecommendViews[i * 4 + 1] as TextView).text = it.serviceBeans[i].info
+//                    (hotRecommendViews[i * 4 + 2] as TextView).text = String.format("${getString(R.string.main_store_service_price)}%s", it.serviceBeans[i].price)
+                    (hotRecommendViews[i * 4 + 3] as SimpleDraweeView).setImageURI(it.severModel[i].imgUrl)
+                }
+                mAdapter.setNewData(it.goodsModel)
             }
             refreshLayout?.finishRefresh()
         }

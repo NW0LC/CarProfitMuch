@@ -473,4 +473,39 @@ object SZWUtils {
             DataCtrlClass.mainAdsData(item.getAdsID()){}
         return intent
     }
+    /**
+     * 商城首页跳转
+     */
+    fun <T:AbsMark>getMarkIntent(context: Context, item: T): Intent? {
+        var intent: Intent?=null
+        when (item.getIdM()+item.getClassM()+item.getPayM()) {
+            "111"->{//积分
+                intent = Intent()
+                intent.setClass(context, ScoreGoodsDetailActivity::class.java)
+                intent.putExtra(ScoreGoods_Intent_ScoreGoodsId, item.getMarkId())
+            }
+            "112"->{//商品
+                intent = Intent()
+                intent.setClass(context, GoodsDetailActivity::class.java)
+                intent.putExtra(GoodsDetail_Intent_GoodsId, item.getMarkId())
+            }
+            "121","122"->{//服务
+                intent = Intent()
+                intent.setClass(context, ServiceDetailActivity::class.java)
+                intent.putExtra(Service_Intent_ServieceId, item.getMarkId())
+            }
+            "211","212"->{//商品店铺
+                intent = Intent()
+                intent.setClass(context, GoodsShopActivity::class.java)
+                intent.putExtra(GoodsShop_Intent_ShopId, item.getMarkId())
+            }
+            "221","222"->{//服务店铺
+                intent = Intent()
+                intent.setClass(context, ServiceShopActivity::class.java)
+                intent.putExtra(ServiceShop_Intent_ServiceShopId, item.getMarkId())
+            }
+
+        }
+        return intent
+    }
 }

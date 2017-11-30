@@ -5,6 +5,7 @@ package com.exz.carprofitmuch.bean
  * on 2017/10/21.
  */
 open class MainStoreBean{
-    var scoreGoods =ArrayList<GoodsBean>()
-    var serviceBeans =ArrayList<MainStoreServiceBean>()
+    var scoreModel =ArrayList<MainStoreServiceBean>()
+    var severModel =ArrayList<MainStoreServiceBean>()
+    var goodsModel =ArrayList<GoodsBean>()
 }

@@ -24,7 +24,7 @@ class ItemMainCartLoseAdapter<T : GoodsBean>(private var context: CartFragment, 
         helper.addOnClickListener(R.id.radioButton)
         helper.addOnClickListener(R.id.lay_main_cart)
         itemView.tv_goodsName.text = item.title
-        itemView.img.setImageURI(item.img)
+        itemView.img.setImageURI(item.imgUrl)
 
         itemView.radioButton.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, if (item.isCheck) R.mipmap.icon_service_pay_select_on else R.mipmap.icon_service_pay_select_off), null, null, null)
 

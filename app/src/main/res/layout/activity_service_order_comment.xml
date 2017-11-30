@@ -107,6 +107,7 @@
                             android:layout_height="wrap_content"
                             android:background="@null"
                             android:text=""
+                            android:maxLength="120"
                             android:gravity="start"
                             android:hint="@string/service_order_comment_hint_content"
                             android:labelFor="@+id/ed_content"

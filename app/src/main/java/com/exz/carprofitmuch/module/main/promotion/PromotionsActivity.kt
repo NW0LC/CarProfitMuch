@@ -12,7 +12,7 @@ import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.PromotionsAdapter
 import com.exz.carprofitmuch.bean.PromotionsBean
 import com.exz.carprofitmuch.module.MainActivity
-import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity
+import com.exz.carprofitmuch.module.main.promotion.PromotionsDetailActivity.Companion.PromotionsDetail_Intent_PromotionId
 import com.exz.carprofitmuch.pop.ServiceListSortPop
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
@@ -39,7 +39,7 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
     private lateinit var mAdapter: PromotionsAdapter<PromotionsBean>
     private lateinit var sortPop: ServiceListSortPop
     override fun initToolbar(): Boolean {
-        mTitle.text =getString(R.string.promotion_name)
+        mTitle.text = getString(R.string.promotion_name)
 
         //状态栏透明和间距处理
         StatusBarUtil.immersive(this)
@@ -55,7 +55,7 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
     override fun setInflateId(): Int = R.layout.activity_promotion_list
 
     override fun init() {
-        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
+        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initRecycler()
         initFilterPop()
         initEvent()
@@ -63,14 +63,14 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
     }
 
     private fun initFilterPop() {
-        sortPop = ServiceListSortPop(this) { title,state, _  ->
+        sortPop = ServiceListSortPop(this) { title, state, _ ->
             status = state
             radioButton1.text = title
             radioButton2.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
             onRefresh(refreshLayout)
         }
         val sortData = SZWUtils.getPromotionsSortData()
-        sortData[0].isCheck=true
+        sortData[0].isCheck = true
         status = sortData[0].key
         sortPop.data = sortData
         setGaryOrOrange(radioButton1, false)
@@ -95,15 +95,17 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
         mRecyclerView.layoutManager = LinearLayoutManager(mContext)
         mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
 
-        mRecyclerView.addOnItemTouchListener(object : OnItemClickListener(){
+        mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-            startActivity(Intent(this@PromotionsActivity, GoodsDetailActivity::class.java))
+                val intent = Intent(this@PromotionsActivity, PromotionsDetailActivity::class.java)
+                intent.putExtra(PromotionsDetail_Intent_PromotionId,mAdapter.data[position].id)
+                startActivity(intent)
             }
 
             override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                if (mAdapter.data[position].isJoin+mAdapter.data[position].isJoin=="01") {
-                    if (view?.id==R.id.tv_state) {
-
+                if (mAdapter.data[position].isJoin + mAdapter.data[position].isJoin == "01") {
+                    if (view?.id == R.id.tv_state) {
+                        DataCtrlClass.promotionJoin(this@PromotionsActivity, mAdapter.data[position].id) {onRefresh(refreshLayout)}
                     }
                 }
 
@@ -116,12 +118,12 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
             R.id.radioButton1 -> sortPop.showPopupWindow(radioGroup)
             R.id.radioButton2 -> {
                 setGaryOrOrange(radioButton1, true)
-                radioButton1.text =getString(R.string.service_list_sort_default)
+                radioButton1.text = getString(R.string.service_list_sort_default)
                 radioButton2.setTextColor(ContextCompat.getColor(this@PromotionsActivity, R.color.colorPrimary))
                 for (valueEntity in sortPop.adapter.data) {
-                    valueEntity.isCheck=false
+                    valueEntity.isCheck = false
                 }
-                sortPop.adapter.data.firstOrNull()?.isCheck=true
+                sortPop.adapter.data.firstOrNull()?.isCheck = true
                 sortPop.adapter.notifyDataSetChanged()
                 status = "6"
                 onRefresh(refreshLayout)
@@ -129,13 +131,13 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
 
             R.id.radioButton3 -> {
                 setGaryOrOrange(radioButton1, true)
-                radioButton1.text =getString(R.string.service_list_sort_default)
+                radioButton1.text = getString(R.string.service_list_sort_default)
                 radioButton2.setTextColor(ContextCompat.getColor(this@PromotionsActivity, R.color.MaterialGrey600))
                 radioButton3.setTextColor(ContextCompat.getColor(this@PromotionsActivity, R.color.colorPrimary))
                 for (valueEntity in sortPop.adapter.data) {
-                    valueEntity.isCheck=false
+                    valueEntity.isCheck = false
                 }
-                sortPop.adapter.data.firstOrNull()?.isCheck=true
+                sortPop.adapter.data.firstOrNull()?.isCheck = true
                 sortPop.adapter.notifyDataSetChanged()
                 status = "7"
                 onRefresh(refreshLayout)
@@ -155,8 +157,8 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
         iniData()
     }
 
-    private fun iniData(){
-        DataCtrlClass.promotionsListData(this, currentPage,status,MainActivity.locationEntity?.longitude?:"",MainActivity.locationEntity?.latitude?:"") {
+    private fun iniData() {
+        DataCtrlClass.promotionsListData(this, currentPage, status, MainActivity.locationEntity?.longitude ?: "", MainActivity.locationEntity?.latitude ?: "") {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

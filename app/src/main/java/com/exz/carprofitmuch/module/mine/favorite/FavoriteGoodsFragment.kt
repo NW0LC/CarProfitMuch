@@ -27,10 +27,8 @@ import com.exz.carprofitmuch.utils.SZWUtils
 import com.hwangjr.rxbus.annotation.Subscribe
 import com.hwangjr.rxbus.annotation.Tag
 import com.hwangjr.rxbus.thread.EventThread
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
@@ -115,7 +113,7 @@ class FavoriteGoodsFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdap
                     Edit_Type_Edit -> {
                         //跳转
                         val intent = Intent(context, GoodsDetailActivity::class.java)
-                        intent.putExtra(GoodsDetail_Intent_GoodsId, mAdapter.data[position].id)
+                        intent.putExtra(GoodsDetail_Intent_GoodsId, mAdapter.data[position].goodsId)
                         startActivity(intent)
                     }
                     Edit_Type_Delete -> {

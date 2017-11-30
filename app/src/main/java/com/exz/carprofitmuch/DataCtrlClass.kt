@@ -5,6 +5,7 @@ import android.text.TextUtils
 import com.blankj.utilcode.util.EncodeUtils
 import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.FileIOUtils
+import com.blankj.utilcode.util.TimeUtils
 import com.exz.carprofitmuch.R.id.heightPrice
 import com.exz.carprofitmuch.R.id.lowPrice
 import com.exz.carprofitmuch.adapter.GoodsConfirmBean
@@ -20,6 +21,7 @@ import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.net.NetEntity
 import com.szw.framelibrary.utils.net.callback.DialogCallback
 import com.szw.framelibrary.utils.net.callback.JsonCallback
+import com.szw.framelibrary.view.CustomProgress
 import org.jetbrains.anko.toast
 import java.util.*
 
@@ -892,7 +894,7 @@ object DataCtrlClass {
         val params = HashMap<String, String>()
         var goodsIds = ""
         for (goodsEntity in goodsEntities) {
-            goodsIds += goodsEntity.id + ","
+            goodsIds += goodsEntity.goodsId + ","
         }
         params.put("userId", MyApplication.loginUserId)
         val subGoodsIds = goodsIds.substring(0, goodsIds.length - 1)
@@ -1355,14 +1357,187 @@ object DataCtrlClass {
                 })
     }
     /**
-     *我的活动列表
+     * 参加商家活动
      * */
-    fun promotionsPersonalData(context: Context, currentPage: Int, listener: (promotionsBean: List<PromotionsPersonalBean>?) -> Unit) {
+    fun promotionJoin(context: Context,activityId:String, listener: (bean: NetEntity<Void>?) -> Unit) {
+//        userId	string	必填	用户id
+//        activityId	string	必填	活动id
+//        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<List<PromotionsPersonalBean>>>(Urls.url)
+        params.put("userId", MyApplication.loginUserId)
+        params.put("activityId", activityId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId+activityId, salt).toLowerCase())
+        OkGo.post<NetEntity<Void>>(Urls.ActivityJoin)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<Void>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<Void>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body())
+                        } else {
+                            listener.invoke(null)
+                        }
+                        context.toast(response.body().message)
+                    }
+
+                    override fun onError(response: Response<NetEntity<Void>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+
+    /**
+     * 商家活动详情
+     * */
+    fun promotionDetailData(context: Context,activityId:String, longitude:String?,latitude:String?,listener: (promotionsBean: PromotionsBean?) -> Unit) {
+//        userId	string	选填	用户id
+//        activityId	string	必填	活动id
+//        longitude	string	必填	经度（用户）
+//        latitude	string	必填	纬度（用户）
+//        requestCheck	string	必填	验证请求
+
+
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("activityId", activityId)
+        params.put("longitude", longitude?:"")
+        params.put("latitude", latitude?:"")
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString( activityId, salt).toLowerCase())
+        OkGo.post<NetEntity<PromotionsBean>>(Urls.ActivityDetial)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<PromotionsBean>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<PromotionsBean>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                        context.toast(response.body().message)
+                    }
+
+                    override fun onError(response: Response<NetEntity<PromotionsBean>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 上传参加的活动图片
+     * */
+    fun promotionPushData(context: Context,activityId:String, content:String,images:List<String>,listener: (bean: NetEntity<Void>?) -> Unit) {
+//        userId	string	必填	用户id
+//        activityId	string	必填	活动id
+//        content	string	必填	内容
+//        image	string	必填	图片
+//        requestCheck	string	必填	验证请求
+        CustomProgress.show(context, "加载中", false, null)
+
+        Thread{
+            pushImgData(images){
+                if (it!=null) {
+                    val params = HashMap<String, String>()
+                    params.put("userId", MyApplication.loginUserId)
+                    params.put("activityId", activityId)
+                    params.put("content", content)
+                    params.put("image", it)
+                    params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId+activityId, salt).toLowerCase())
+                    OkGo.post<NetEntity<Void>>(Urls.UploadActivity)
+                            .params(params)
+                            .tag(this)
+                            .execute(object : DialogCallback<NetEntity<Void>>(context) {
+                                override fun onSuccess(response: Response<NetEntity<Void>>) {
+                                    if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                                        listener.invoke(response.body())
+                                    } else {
+                                        listener.invoke(null)
+                                    }
+                                    context.toast(response.body().message)
+                                }
+
+                                override fun onError(response: Response<NetEntity<Void>>) {
+                                    super.onError(response)
+                                    listener.invoke(null)
+                                }
+
+                            })
+                }
+            }
+        }.start()
+
+
+    }
+
+    /**
+     * 公共方法： 上传图片
+     * */
+    fun pushImgData(images:List<String>,count:Int=0,listener: (imgName: String?) -> Unit){
+//        userId	string	必填	用户id
+//        timeStamp	string	必填	时间戳
+//        imgBase64	string	必填	图片数据(base64)
+//        requestCheck	string	必填	验证请求
+        if (images.isNotEmpty()) {
+            var str=""
+
+            val params = HashMap<String, String>()
+            params.put("userId", MyApplication.loginUserId)
+            val time = TimeUtils.getNowMills().toString()
+            params.put("timeStamp", time)
+            params.put("imgBase64", EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(images[count].replace("file:///",""))))
+            params.put("requestCheck", EncryptUtils.encryptMD5ToString(  MyApplication.loginUserId+time, salt).toLowerCase())
+            OkGo.post<NetEntity<String>>(Urls.UploadImg)
+                    .params(params)
+                    .tag(this)
+                    .execute(object : JsonCallback<NetEntity<String>>() {
+                        override fun onSuccess(response: Response<NetEntity<String>>) {
+                            if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                                str+=response.body().data+","
+
+                                if (count<images.size-1)
+                                    pushImgData(images,count+1){
+                                        str+=it
+                                        listener.invoke(str)
+                                    }
+                                else{
+                                    listener.invoke(str)
+                                }
+                            } else {
+                                listener.invoke(null)
+                            }
+                        }
+
+                        override fun onError(response: Response<NetEntity<String>>) {
+                            super.onError(response)
+                            listener.invoke(null)
+                        }
+
+                    })
+        }else{
+            listener.invoke("")
+        }
+
+    }
+
+
+    /**
+     *我的活动列表
+     * */
+    fun promotionsPersonalData(context: Context, currentPage: Int,state: String, listener: (promotionsBean: List<PromotionsPersonalBean>?) -> Unit) {
+//        userId	string	必填	用户id
+//        page	string	必填	分页，从第1页开始，每页10条数据
+//        state	string	必填	1未开始 2已开始 3审核中 4已通过 5未通过
+//        requestCheck	string	必填	验证请求
+
+        val params = HashMap<String, String>()
+        params.put("userId",  MyApplication.loginUserId)
+        params.put("page",currentPage.toString())
+        params.put("state", state)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        OkGo.post<NetEntity<List<PromotionsPersonalBean>>>(Urls.MyActivity)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<List<PromotionsPersonalBean>>>(context) {

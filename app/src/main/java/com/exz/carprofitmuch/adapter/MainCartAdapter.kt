@@ -63,7 +63,7 @@ class MainCartAdapter<T : GoodsCarBean>(context: CartFragment) : BaseMultiItemQu
                                 Edit_Type_Edit -> {
                                     //跳转
                                     val intent = Intent(mContext, GoodsDetailActivity::class.java)
-                                    intent.putExtra(GoodsDetail_Intent_GoodsId, mAdapter.data[position].id)
+                                    intent.putExtra(GoodsDetail_Intent_GoodsId, mAdapter.data[position].goodsId)
                                     mContext.startActivity(intent)
                                 }
                                 Edit_Type_Delete -> {
@@ -95,7 +95,7 @@ class MainCartAdapter<T : GoodsCarBean>(context: CartFragment) : BaseMultiItemQu
                                 Edit_Type_Edit -> {
                                     //跳转
                                     val intent = Intent(mContext, GoodsDetailActivity::class.java)
-                                    intent.putExtra(GoodsDetail_Intent_GoodsId, mAdapter.data[position].id)
+                                    intent.putExtra(GoodsDetail_Intent_GoodsId, mAdapter.data[position].goodsId)
                                     mContext.startActivity(intent)
                                 }
                                 Edit_Type_Delete -> {

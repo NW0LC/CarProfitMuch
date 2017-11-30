@@ -91,7 +91,7 @@
                 <com.flyco.roundview.RoundTextView
                     android:layout_marginTop="@dimen/margin_40"
                     android:id="@+id/bt_submit"
-                    android:text="确认上传"
+                    android:text="@string/promotions_push_confirm"
                     android:padding="@dimen/margin_15"
                     android:gravity="center"
                     android:layout_marginStart="@dimen/margin_25"

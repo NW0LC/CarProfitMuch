@@ -4,12 +4,16 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ItemOrderCommentImageAdapter
+import com.exz.carprofitmuch.module.main.promotion.PromotionsDetailActivity.Companion.PromotionsDetail_Intent_PromotionId
 import com.lzy.imagepicker.ImagePicker
 import com.lzy.imagepicker.bean.ImageItem
 import com.lzy.imagepicker.ui.ImageGridActivity
@@ -24,7 +28,7 @@ import com.szw.framelibrary.view.preview.PreviewActivity.Companion.PREVIEW_INTEN
 import com.szw.framelibrary.view.preview.PreviewActivity.Companion.PREVIEW_INTENT_RESULT
 import com.szw.framelibrary.view.preview.PreviewActivity.Companion.PREVIEW_INTENT_SHOW_NUM
 import kotlinx.android.synthetic.main.action_bar_custom.*
-import kotlinx.android.synthetic.main.activity_service_order_comment.*
+import kotlinx.android.synthetic.main.activity_promotions_push.*
 
 /**
  * Created by 史忠文
@@ -52,6 +56,8 @@ class PromotionsPushActivity : BaseActivity(), View.OnClickListener {
         initCamera()
         initImgRecycler()
         initEvent()
+
+
     }
 
     private fun initImgRecycler() {
@@ -90,6 +96,20 @@ class PromotionsPushActivity : BaseActivity(), View.OnClickListener {
 
 
     private fun initEvent() {
+        ed_content_count.text = String.format(mContext.getString(R.string.service_order_comment_content_count), 120)
+        bt_submit.setOnClickListener(this)
+        ed_content.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                ed_content_count.text = String.format(mContext.getString(R.string.service_order_comment_content_count), 120 - s.toString().trim().length)
+            }
+        })
     }
 
     private fun initCamera() {
@@ -118,6 +138,15 @@ class PromotionsPushActivity : BaseActivity(), View.OnClickListener {
 
 
     override fun onClick(p0: View?) {
+        val images=ArrayList<String>()
+        images.addAll(photos)
+        images.removeAt(images.lastIndex)
+        DataCtrlClass.promotionPushData(this,intent.getStringExtra(PromotionsDetail_Intent_PromotionId)?:"",ed_content.text.toString(),images){
+                if (it!=null){
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

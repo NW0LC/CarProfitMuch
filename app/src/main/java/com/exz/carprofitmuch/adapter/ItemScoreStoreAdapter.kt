@@ -17,9 +17,9 @@ class ItemScoreStoreAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
         itemView.img.layoutParams.height=(ScreenUtils.getScreenWidth()-SizeUtils.dp2px(5f))/2
-        itemView.img.setImageURI(item.img)
+        itemView.img.setImageURI(item.imgUrl)
         itemView.tv_title.text=item.title
-        itemView.tv_info.text= item.info
+        itemView.tv_info.text= item.subTitle
         itemView.tv_price.text=String.format("%s${mContext.getString(R.string.SCORE)}",item.price)
         val layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
         if (helper.adapterPosition%2==0) {

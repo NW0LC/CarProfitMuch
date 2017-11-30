@@ -40,11 +40,11 @@ class PromotionsPersonalActivity : BaseActivity() {
 
     private fun initTabBar() {
         mTitles.indices.mapTo(mTabEntities) { TabEntity(mTitles[it], mIconSelectIds[it], mIconUnSelectIds[it]) }
-        mFragments.add(PromotionsPersonalFragment.newInstance(0))
-        mFragments.add(PromotionsPersonalFragment.newInstance(1))
-        mFragments.add(PromotionsPersonalFragment.newInstance(2))
-        mFragments.add(PromotionsPersonalFragment.newInstance(3))
-        mFragments.add(PromotionsPersonalFragment.newInstance(4))
+        mFragments.add(PromotionsPersonalFragment.newInstance("1"))
+        mFragments.add(PromotionsPersonalFragment.newInstance("2"))
+        mFragments.add(PromotionsPersonalFragment.newInstance("3"))
+        mFragments.add(PromotionsPersonalFragment.newInstance("4"))
+        mFragments.add(PromotionsPersonalFragment.newInstance("5,6"))
         mTabLayout.setTabData(mTabEntities, this, R.id.frameLayout, mFragments)
     }
 

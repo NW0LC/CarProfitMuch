@@ -99,7 +99,7 @@ class FavoriteGoodsActivity : BaseActivity() {
             while (iterator.hasNext()) {
                 val temp = iterator.next()
                 for (goodsEntity in goodsEntities) {
-                    if (temp.id == goodsEntity.id) {
+                    if (temp.goodsId == goodsEntity.goodsId) {
                         val position = adapter.data.indexOf(temp)
                         iterator.remove()
                         if (goodsEntities.isEmpty())

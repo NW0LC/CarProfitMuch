@@ -14,6 +14,9 @@ open class PromotionsBean{
 //    "state":"1",1可报名 2名额已满 3报名截止 4活动开始 5活动结束
 //                橘黄色   灰色       灰色      绿色      灰色
 //    "isJoin":"1"
+//    "limitDate":"1"
+//    "total":"1"
+//    "already":"1"
 
 
     var id=""
@@ -24,4 +27,7 @@ open class PromotionsBean{
     var distance=""
     var state=""
     var isJoin=""
+    var limitDate=""
+    var total=""
+    var already=""
 }

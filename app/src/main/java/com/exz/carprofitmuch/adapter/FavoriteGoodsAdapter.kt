@@ -24,7 +24,7 @@ class FavoriteGoodsAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>(
     var animatorEnable = true
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView = helper.itemView
-        itemView.img.setImageURI(item.img)
+        itemView.img.setImageURI(item.imgUrl)
         itemView.tv_goodsName.text = item.title
         itemView.tv_goodsPrice.text = item.price
         if ("4" == item.goodsType) {

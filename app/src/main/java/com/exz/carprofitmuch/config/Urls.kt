@@ -36,6 +36,26 @@ object Urls{
      * 商家活动列表页
      */
     val ActivityList=url+"App/Home/ActivityList.aspx"
+    /**
+     * 参加商家活动
+     */
+    val ActivityJoin=url+"App/Home/ActivityJoin.aspx"
+    /**
+     * 商家活动详情
+     */
+    val ActivityDetial=url+"App/Home/ActivityDetial.aspx"
+    /**
+     * 上传参加的活动图片
+     */
+    val UploadActivity=url+"App/UserCenter/UploadActivity.aspx"
+    /**
+     * 上传图片
+     */
+    val UploadImg=url+"App/Tool/UploadImg.aspx"
+    /**
+     * 我参加的活动
+     */
+    val MyActivity=url+"App/UserCenter/MyActivity.aspx"
 
 
 

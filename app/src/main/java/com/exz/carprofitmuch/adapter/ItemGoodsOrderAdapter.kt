@@ -11,7 +11,7 @@ class ItemGoodsOrderAdapter<T :GoodsBean>: BaseQuickAdapter<T, BaseViewHolder>(R
 
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView = helper.itemView
-        itemView.img.setImageURI(item.img)
+        itemView.img.setImageURI(item.imgUrl)
         itemView.tv_goodsName.text = item.title
         helper.addOnClickListener(R.id.bt_refund)
         itemView.tv_goodsName.text=item.title
