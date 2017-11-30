@@ -64,21 +64,20 @@
                     android:textColor="@color/MaterialGrey800"
                     android:textSize="@dimen/sp_14" />
 
-                <com.flyco.roundview.RoundTextView
-                    android:id="@+id/tv_refund_type"
+
+                <com.szw.framelibrary.view.ClearWriteEditText
+                    android:id="@+id/ed_logisticsName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_10"
                     android:layout_marginStart="@dimen/dp_10"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:background="@drawable/mine_refund_price_ed"
                     android:hint="@string/mine_select_logistics_company"
                     android:padding="@dimen/dp_10"
                     android:textColor="@color/MaterialGrey800"
                     android:textColorHint="@color/MaterialGrey400"
-                    android:textSize="@dimen/sp_14"
-                    app:rv_backgroundColor="@color/white"
-                    app:rv_cornerRadius="1dp"
-                    app:rv_strokeColor="@color/MaterialGrey200"
-                    app:rv_strokeWidth="1dp" />
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:id="@+id/tv_star2"
@@ -90,7 +89,7 @@
                     android:textSize="@dimen/sp_14" />
 
                 <com.szw.framelibrary.view.ClearWriteEditText
-                    android:id="@+id/ed_refund_price"
+                    android:id="@+id/ed_logistics_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_10"

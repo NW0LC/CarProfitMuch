@@ -57,7 +57,7 @@
                         android:layout_weight="1"
                         android:drawablePadding="@dimen/margin_5"
                         android:drawableStart="@mipmap/icon_mine_my_order_store"
-
+android:id="@+id/tv_shope_name"
                         android:text="@string/score_order_detail_title"
                         android:textColor="@color/MaterialGrey400"
                         android:textSize="@dimen/sp_14" />

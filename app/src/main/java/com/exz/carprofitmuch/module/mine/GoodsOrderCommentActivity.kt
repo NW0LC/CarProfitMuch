@@ -4,12 +4,16 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import com.alibaba.fastjson.JSON
+import com.blankj.utilcode.util.EncryptUtils
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsOrderCommentAdapter
+import com.exz.carprofitmuch.bean.CommentOrder
 import com.exz.carprofitmuch.bean.GoodsOrderCommentBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
@@ -19,12 +23,15 @@ import com.lzy.imagepicker.ui.ImageGridActivity
 import com.lzy.imagepicker.view.CropImageView
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
+import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.imageloder.GlideImageLoader
 import com.szw.framelibrary.utils.StatusBarUtil
+import com.szw.framelibrary.view.CustomProgress
 import com.szw.framelibrary.view.preview.PreviewActivity
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_oreder_comment_list.*
+import kotlinx.android.synthetic.main.footer_goods_cooment.view.*
 
 /**
  * on 2017/10/18.
@@ -36,6 +43,10 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
     lateinit var mAdapter: GoodsOrderCommentAdapter
     private var position: Int = 0
     private var positionImg: Int = 0
+    private var serveStar: String = ""
+    private var logisticsStar: String = ""
+    private lateinit var mFooterView: View
+    private lateinit var mCustomProgress: CustomProgress
     override fun initToolbar(): Boolean {
         toolbar.setNavigationOnClickListener { finish() }
 
@@ -51,9 +62,33 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
         val actionView = toolbar.menu.getItem(0).actionView
         (actionView as TextView).text = getString(R.string.mine_my_goods_order_comment)
         actionView.setOnClickListener {
-            DataCtrlClassXZW.ConfirmCommentData(mContext, "", {
+            mCustomProgress = CustomProgress.show(mContext, "提交中...", false, null)!!
+            var entity = CommentOrder()
+            entity.userId = MyApplication.loginUserId
+            entity.orderId = orderId
+            entity.shopId = shopId
+            entity.serveStar = serveStar
+            entity.logisticsStar = logisticsStar
+            entity.requestCheck = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId, MyApplication.salt).toLowerCase()
+            var commentInfo = ArrayList<CommentOrder.CommentInfoBean>()
+            for (bean in mAdapter.data) {
+                var info = CommentOrder.CommentInfoBean()
+                info.goodsId = bean.goodsId
+                info.content = bean.content
+                info.goodsStar = bean.score
+                info.skuid = bean.skuid
+                var img = ""
+                for (imgUrl in bean.imgUrls) {
+                    img += imgUrl + ","
+                }
+                info.images = if (!TextUtils.isEmpty(img)) "" else img.substring(0, img.length - 1)
+                commentInfo.add(info)
+            }
 
+
+            DataCtrlClassXZW.ConfirmCommentData(mContext, JSON.toJSONString(entity), {
                 if (it != null) {
+                    mCustomProgress.dismiss()
                     finish()
                 }
             })
@@ -65,23 +100,22 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
         initCamera()
         initImgRecycler()
         initEvent()
+        initData()
     }
 
-    private val arrayList2 = java.util.ArrayList<GoodsOrderCommentBean>()
-    private val arrayList2Item1 = java.util.ArrayList<String>()
-    private val arrayList2Item2 = java.util.ArrayList<String>()
-    private val arrayList2Item3 = java.util.ArrayList<String>()
+    private fun initData() {
+        mAdapter.setNewData(JSON.parseArray(json, GoodsOrderCommentBean::class.java))
+        for (bean in mAdapter.data) {
+            bean.photos.add(0, "res://com.exz.carprofitmuch/" + R.mipmap.icon_take_photo)
+        }
+        mAdapter.loadMoreEnd()
+    }
+
     private fun initImgRecycler() {
-        arrayList2Item1.add(0, "res://com.exz.carprofitmuch/" + R.mipmap.icon_take_photo)
-        arrayList2Item2.add(0, "res://com.exz.carprofitmuch/" + R.mipmap.icon_take_photo)
-        arrayList2Item3.add(0, "res://com.exz.carprofitmuch/" + R.mipmap.icon_take_photo)
-        arrayList2.add(GoodsOrderCommentBean(arrayList2Item1))
-        arrayList2.add(GoodsOrderCommentBean(arrayList2Item2))
-        arrayList2.add(GoodsOrderCommentBean(arrayList2Item3))
         mAdapter = GoodsOrderCommentAdapter()
         mAdapter.bindToRecyclerView(mRecyclerView)
-        mAdapter.setNewData(arrayList2)
-
+        mFooterView = View.inflate(mContext, R.layout.footer_goods_cooment, null)
+        mAdapter.addFooterView(mFooterView)
         refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
             override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
                 header.visibility = View.VISIBLE
@@ -116,6 +150,15 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
 
 
         })
+
+        mFooterView.rb_serveStar.setOnRatingBarChangeListener { ratingBar, fl, b ->
+            serveStar = ratingBar.rating.toString()
+
+        }
+        mFooterView.rb_logisticsStar.setOnRatingBarChangeListener { ratingBar, fl, b ->
+            logisticsStar = ratingBar.rating.toString()
+
+        }
 
 
     }
@@ -157,17 +200,39 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) { //图片选择
             val images = data?.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS) as ArrayList<*>
-
+            mCustomProgress = CustomProgress.show(mContext, "提交中...", false, null)!!
+            var phontList = ArrayList<String>()
             for (image in images) {
-                mAdapter.data.get(position).photos.add(mAdapter.data.get(position).photos.size - 1, "file://" + (image as ImageItem).path)
-
+                mAdapter.data.get(position).photos.add(mAdapter.data.get(position).photos.size - 1, (image as ImageItem).path)
             }
             mAdapter.notifyItemChanged(position)
+            phontList.addAll(mAdapter.data.get(position).photos)
+            phontList.removeAt(0)
+            DataCtrlClassXZW.UploadImgData(position, mAdapter, phontList, mCustomProgress, {})
+
         } else if (Activity.RESULT_OK == resultCode) {
             val photos = mAdapter.data.get(position).photos
+            val imgUrl = mAdapter.data.get(position).imgUrls
             val array = data?.getStringArrayListExtra(PreviewActivity.PREVIEW_INTENT_RESULT)
-            array?.forEach { photos.remove(it) }
+            array?.forEach {
+                var index = photos.indexOf(it) - 1
+                photos.remove(it)
+                imgUrl.removeAt(index)
+            }
             mAdapter.notifyDataSetChanged()
         }
+    }
+
+    override fun onBackPressed() {
+        orderId = ""
+        shopId = ""
+        json = ""
+        super.onBackPressed()
+    }
+
+    companion object {
+        var orderId = ""
+        var shopId = ""
+        var json = ""
     }
 }

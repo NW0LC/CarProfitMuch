@@ -28,7 +28,7 @@
             android:paddingEnd="@dimen/margin_10"
             android:paddingBottom="@dimen/margin_10"
             android:paddingTop="?attr/actionBarSize"
-            tool:listitem="@layout/item_goods_order_comment">
+            >
 
         </android.support.v7.widget.RecyclerView>
 

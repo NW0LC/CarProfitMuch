@@ -37,7 +37,7 @@ class GoodsOrderAdapter<T> : BaseQuickAdapter<MyOrderBean, BaseViewHolder>(R.lay
 
     companion object {
         //    1待付款 2待收货 3待评价 4已结束 5 取消订单
-        private fun getState(state: String): String = when (state) {
+        public fun getState(state: String): String = when (state) {
             "1" -> "待付款"
             "2" -> "待发货"
             "3" -> "待收货"
@@ -59,8 +59,8 @@ class GoodsOrderAdapter<T> : BaseQuickAdapter<MyOrderBean, BaseViewHolder>(R.lay
              * 1待付款     【联系商家   取消订单  支付订单】
              * 2待发货     【         联系商家  申请退款】
              * 3待收货     【联系商家   查看物流  确认收货】
-             * 4待评价     【联系商家   删除订单  评价订单】
-             * 5已结束     【联系商家   删除订单  】
+             * 4待评价     【联系商家   申请退货  评价订单】
+             * 5已结束     【联系商家   申请退货  删除订单】
              * 其他
              */
             view[0].text = getState(state)
@@ -86,13 +86,14 @@ class GoodsOrderAdapter<T> : BaseQuickAdapter<MyOrderBean, BaseViewHolder>(R.lay
                 }
                 "4" -> {// 【联系商家   删除订单  评价订单】
                     strLeft = "联系商家"
-                    strMid = "删除订单"
+                    strMid = "申请退货"
                     strRight = "评价订单"
                 }
                 "5" -> {// 【联系商家   删除订单  】
                     view[3].visibility = View.GONE
                     strLeft = "联系商家"
-                    strMid = "删除订单"
+                    strMid = "申请退货"
+                    strRight = "删除订单"
                 }
 
                 else -> {

@@ -122,4 +122,8 @@ public class MyOrderBean {
         this.goodsInfo = goodsInfo;
     }
 
+
+
+
+
 }

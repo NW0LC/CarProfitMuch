@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:padding="15dp"
+    android:background="@color/White"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+       >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/service_order_comment_score"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/sp_14" />
+
+        <android.support.v7.widget.AppCompatRatingBar
+            android:id="@+id/rb_serveStar"
+            android:focusable="true"
+            style="@style/ratingBar_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_5"
+            android:numStars="5"
+            android:rating="5"
+            android:stepSize="1" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center_vertical"
+       >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="物流评分"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/sp_14" />
+
+        <android.support.v7.widget.AppCompatRatingBar
+            android:id="@+id/rb_logisticsStar"
+            android:focusable="true"
+            style="@style/ratingBar_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_5"
+            android:numStars="5"
+            android:rating="5"
+            android:stepSize="1" />
+
+    </LinearLayout>
+</LinearLayout>

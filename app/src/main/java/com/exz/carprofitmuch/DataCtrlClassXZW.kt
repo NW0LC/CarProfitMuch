@@ -2,7 +2,10 @@ package com.exz.carprofitmuch
 
 import android.content.Context
 import android.text.TextUtils
+import com.blankj.utilcode.util.EncodeUtils
 import com.blankj.utilcode.util.EncryptUtils
+import com.blankj.utilcode.util.FileIOUtils
+import com.exz.carprofitmuch.adapter.GoodsOrderCommentAdapter
 import com.exz.carprofitmuch.bean.*
 import com.exz.carprofitmuch.config.Urls
 import com.lzy.okgo.OkGo
@@ -11,6 +14,8 @@ import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.net.NetEntity
 import com.szw.framelibrary.utils.net.callback.DialogCallback
+import com.szw.framelibrary.utils.net.callback.JsonCallback
+import com.szw.framelibrary.view.CustomProgress
 import org.jetbrains.anko.toast
 import java.util.*
 
@@ -23,11 +28,11 @@ object DataCtrlClassXZW {
     /**
      * 优惠券列表
      * */
-    fun CouponData(context: Context, state:String,currentPage: Int, listener: (scoreStoreBean: List<MyCouponBean>?) -> Unit) {
+    fun CouponData(context: Context, state: String, currentPage: Int, listener: (scoreStoreBean: List<MyCouponBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId",MyApplication.loginUserId)
-        params.put("state",state)
+        params.put("userId", MyApplication.loginUserId)
+        params.put("state", state)
         params.put("page", currentPage.toString())
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<List<MyCouponBean>>>(Urls.MyCoupon)
@@ -112,11 +117,11 @@ object DataCtrlClassXZW {
     /**
      * 我的订单列表
      * */
-    fun MyOrderData(context: Context,orderState:String ,currentPage: Int, listener: (scoreStoreBean: List<MyOrderBean>?) -> Unit) {
+    fun MyOrderData(context: Context, orderState: String, currentPage: Int, listener: (scoreStoreBean: List<MyOrderBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId",MyApplication.loginUserId)
-        params.put("orderState",orderState)
+        params.put("userId", MyApplication.loginUserId)
+        params.put("orderState", orderState)
         params.put("page", currentPage.toString())
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<List<MyOrderBean>>>(Urls.OrderList)
@@ -143,10 +148,12 @@ object DataCtrlClassXZW {
     /**
      * 订单详情
      * */
-    fun OrderDetailData(context: Context, listener: (scoreStoreBean: GoodsOrderDetailEntity?) -> Unit) {
+    fun OrderDetailData(context: Context, orderId: String, listener: (scoreStoreBean: GoodsOrderDetailEntity?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
+        params.put("userId", MyApplication.loginUserId)
+        params.put("orderId", orderId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<GoodsOrderDetailEntity>>(Urls.url)
                 .params(params)
                 .tag(this)
@@ -179,6 +186,38 @@ object DataCtrlClassXZW {
         params.put("orderId", orderId)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<String>>(Urls.url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
+
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                            context.toast(response.body().message)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<String>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+
+    /**
+     *  编辑订单（取消，删除，确认收货）-实物类
+     * */
+    fun EditOrderData(context: Context, orderId: String, editType: String, listener: (scoreStoreBean: String?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("orderId", orderId)
+        params.put("editType", editType) //编辑类型（0：取消  1：删除  2：确认收货）
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId + editType, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.EditOrder)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<String>>(context) {
@@ -265,16 +304,15 @@ object DataCtrlClassXZW {
     /**
      * 评价
      * */
-    fun ConfirmCommentData(context: Context, orderId: String, listener: (scoreStoreBean: String?) -> Unit) {
+    fun ConfirmCommentData(context: Context, commentsInfo: String, listener: (scoreStoreBean: String?) -> Unit) {
 
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
-        params.put("orderId", orderId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
+        params.put("commentsInfo", commentsInfo)
+        OkGo.post<NetEntity<String>>(Urls.CommentOrder)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                .execute(object : JsonCallback<NetEntity<String>>() {
 
                     override fun onSuccess(response: Response<NetEntity<String>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
@@ -296,10 +334,13 @@ object DataCtrlClassXZW {
     /**
      * 提交退款申请
      * */
-    fun SubmitRefundData(context: Context, orderId: String, s: String, cause: String, issue: String, img: String, listener: (scoreStoreBean: String?) -> Unit) {
+    fun SubmitRefundData(context: Context, orderId: String, returnTypeId: String, reasonId: String, remarks:  String, img: String, listener: (scoreStoreBean: String?) -> Unit) {
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
         params.put("orderId", orderId)
+        params.put("returnTypeId", returnTypeId)
+        params.put("reasonId", reasonId)
+        params.put("remarks", remarks)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<String>>(Urls.url)
                 .params(params)
@@ -328,12 +369,14 @@ object DataCtrlClassXZW {
     /**
      * 提交物流信息
      * */
-    fun SubmitLogisticsCompanyData(context: Context, orderId: String, s: String, cause: String, listener: (scoreStoreBean: String?) -> Unit) {
+    fun SubmitLogisticsCompanyData(context: Context, orderId: String, logisticsName: String, logisticsNumber: String, listener: (scoreStoreBean: String?) -> Unit) {
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
         params.put("orderId", orderId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
+        params.put("logisticsName", logisticsName)
+        params.put("logisticsNumber", logisticsNumber)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.WriteLogistics)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<String>>(context) {
@@ -768,7 +811,7 @@ object DataCtrlClassXZW {
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
         params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<List<MyCommentBean>>>(Urls.MyCommentList)
                 .params(params)
                 .tag(this)
@@ -790,6 +833,171 @@ object DataCtrlClassXZW {
                 })
     }
 
+    /**
+     * 上传照片
+     * */
+    fun UploadImgData(position: Int, mAdapter: GoodsOrderCommentAdapter, img: ArrayList<String>,mCustomProgress:CustomProgress, listener: (scoreStoreBean: String?) -> Unit) {
+        var imgUrl= ArrayList<String>()
+        if (img.size > 0) {
+            var timeStamp = System.currentTimeMillis()
+            val params = HashMap<String, String>()
+            params.put("userId", MyApplication.loginUserId)
+            params.put("imgBase64", EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(img.get(0))))
+            params.put("timeStamp", timeStamp.toString())
+            params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + timeStamp.toString(), MyApplication.salt).toLowerCase())
+            OkGo.post<NetEntity<String>>(Urls.UploadImg)
+                    .params(params)
+                    .tag(this)
+                    .execute(object : JsonCallback<NetEntity<String>>() {
+                        override fun onSuccess(response: Response<NetEntity<String>>) {
+                            if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                                imgUrl.add(response.body().data!!)
+                                img.removeAt(0)
+                                if (img.size > 0) {
+                                    UploadImgData(position, mAdapter, img, mCustomProgress,listener)
+                                } else {
+                                    mCustomProgress.dismiss()
+                                    listener.invoke(response.body().data)
+                                    mAdapter.data.get(position).imgUrls=imgUrl
+                                }
+                            } else {
+                                mCustomProgress.dismiss()
+                                listener.invoke(null)
+                            }
+                        }
+
+                        override fun onError(response: Response<NetEntity<String>>) {
+                            super.onError(response)
+                            mCustomProgress.dismiss()
+                            listener.invoke(null)
+                        }
+
+                    })
+        }
+    }
+
+
+    /**
+     *  退货/退款订单列表-实物类
+     * */
+    fun ReturnOrderOrderData(context: Context, orderState: String, currentPage: Int, listener: (scoreStoreBean: List<ReturnGoodsBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("returnOrderState", orderState)
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<List<ReturnGoodsBean>>>(Urls.OrderList)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<ReturnGoodsBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<ReturnGoodsBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                            context.toast(response.body().message)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<ReturnGoodsBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+
+
+    /**
+     *  编辑订单（取消，删除）-实物类
+     * */
+    fun ReturnEditOrderData(context: Context,returnOrderId:String,  editType: String, listener: (scoreStoreBean: String?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("returnOrderId", returnOrderId)
+        params.put("editType", editType) //编辑类型（0：取消  1：删除  ）
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId  + editType, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.EditOrder)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
+
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                            context.toast(response.body().message)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<String>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+
+
+    /**
+     *  退货方式列表-实物类
+     * */
+    fun ReturnGoodsTypeListData(context: Context, listener: (scoreStoreBean: List<ReturnGoodsTypeBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("ReturnTypeList", MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<List<ReturnGoodsTypeBean>>>(Urls. ReturnGoodsTypeList)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<ReturnGoodsTypeBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<ReturnGoodsTypeBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                            context.toast(response.body().message)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<ReturnGoodsTypeBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     *  退货原因列表-实物类
+     * */
+    fun ReturnGoodsReasonListData(context: Context,  goodsId:String, listener: (scoreStoreBean: List<ReturnGoodsReasonBean>?) -> Unit) {
+        val params = HashMap<String, String>()
+        params.put("goodsId", goodsId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(goodsId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<List<ReturnGoodsReasonBean>>>(Urls.ReturnGoodsReasonList)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<ReturnGoodsReasonBean>>>(context) {
+
+                    override fun onSuccess(response: Response<NetEntity<List<ReturnGoodsReasonBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                            context.toast(response.body().message)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<ReturnGoodsReasonBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
 
 
 }

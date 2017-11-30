@@ -49,10 +49,6 @@ object Urls{
      */
     val UploadActivity=url+"App/UserCenter/UploadActivity.aspx"
     /**
-     * 上传图片
-     */
-    val UploadImg=url+"App/Tool/UploadImg.aspx"
-    /**
      * 我参加的活动
      */
     val MyActivity=url+"App/UserCenter/MyActivity.aspx"
@@ -203,6 +199,41 @@ object Urls{
         * 订单列表-实物类
         */
      var OrderList = url + "App/Order/Reality/OrderList.aspx"
+
+
+     /*
+        * 编辑订单（取消，删除，确认收货）-实物类
+        */
+     var EditOrder = url + "App/Order/Reality/EditOrder.aspx"
+
+     /*
+        * 上传图片
+        */
+     var UploadImg = url + "App/Tool/UploadImg.aspx"
+
+
+     /*
+        * 订单评价-实物类
+        */
+     var CommentOrder = url + "App/Order/Reality/CommentOrder.aspx"
+
+
+     /*
+        * 填写物流单号-实物类
+        */
+     var WriteLogistics = url + "App/Order/Reality/ReturnOrder/WriteLogistics.aspx"
+
+
+     /*
+        *  退货方式列表-实物类
+        */
+     var ReturnGoodsTypeList = url + "App/Order/Reality/ReturnOrder/ReturnGoodsTypeList.aspx"
+
+
+     /*
+        *  退货原因列表-实物类
+        */
+     var ReturnGoodsReasonList = url + "App/Order/Reality/ReturnOrder/ReturnGoodsReasonList.aspx"
 
 
 

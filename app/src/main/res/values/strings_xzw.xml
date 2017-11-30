@@ -40,13 +40,13 @@
     <string name="mine_return_goodsbuy_pending">待处理</string>
     <string name="mine_return_goodsbuy_processed">处理中</string>
     <string name="mine_return_goodsbuy_completed">已完成</string>
-    <string name="mine_return_total">申请退款</string>
+    <string name="mine_return_total">申请售后</string>
     <string name="mine_return_Policy">退货方式*</string>
     <string name="mine_select_return_Policy">请选择退货方式</string>
     <string name="mine_returnd_price">退款金额*</string>
     <string name="mine_input_return_price">请输入退款金额,不超过%s元</string>
     <string name="mine_refund_cause">退货原因*</string>
-    <string name="mine_input_refund_cause">请输入退货原因</string>
+    <string name="mine_input_refund_cause">请选择退货原因</string>
     <string name="mine_refund_issue">问题描述</string>
     <string name="mine_refund_photo">拍照取证</string>
     <string name="mine_refund_submit">提交申请</string>

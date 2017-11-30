@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:drawablePadding="@dimen/dp_10"
-        android:text="@string/mine_return_num"
         android:textColor="@color/MaterialGrey600"
         android:textSize="@dimen/sp_14" />
 

@@ -13,8 +13,8 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ReturnGoodsAdapter
-import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.MyOrderBean
+import com.exz.carprofitmuch.module.mine.InputLogisticsActivity
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
@@ -27,7 +27,6 @@ import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.DialogUtils
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.fragment_comment_list.*
-import java.util.*
 
 /**
  * on 2017/10/17.
@@ -35,7 +34,6 @@ import java.util.*
  */
 
 class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
-    var orderState = "3"
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
     private lateinit var mAdapter: ReturnGoodsAdapter<MyOrderBean>
@@ -48,6 +46,7 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
     override fun initView() {
         initToolbar()
         initRecycler()
+        onRefresh(refreshLayout)
     }
 
     override fun initEvent() {
@@ -64,16 +63,8 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
         return false
     }
 
-    private val arrayList2 = ArrayList<MyOrderBean>()
     private fun initRecycler() {
         mAdapter = ReturnGoodsAdapter()
-        val imgs = ArrayList<GoodsBean>()
-        imgs.add(GoodsBean())
-        arrayList2.add(MyOrderBean())
-        arrayList2.add(MyOrderBean())
-        arrayList2.add(MyOrderBean())
-        mAdapter.setNewData(arrayList2)
-
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -99,37 +90,57 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
 
         mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener() {
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View, position: Int) {
-                /**             btLeft       btMid     btRight
-                 * 1待处理     【             联系商家   取消收货】
-                 * 2处理中     【                       联系商家】
-                 * 3已完成     【                       联系商家】
-                 * 其他
-                 */
+                var entity=mAdapter.data.get(position)
                 when (view.id) {
                     R.id.tv_mid -> {
-                        when (orderState) {
+                        when (entity.returnOrderState) {
                             "1" -> {//联系商家
-                                DialogUtils.Call(context as BaseActivity, "110")
+                                DialogUtils.Call(context as BaseActivity, entity.shopPhone)
                             }
-                        }
 
+                            "2"->{
 
-                    }
-                    R.id.tv_right -> {
-                        when (orderState) {
-                            "1" -> {//取消收货
-                                DataCtrlClassXZW.CancelOrderDetailData(context, "", {
+                                when (entity.returnOrderSubState) {
+                                    "1","5" -> {// 平台申诉
+                                    }
+                                    "2" ,"4","6","7"-> {//联系商家
+                                        DialogUtils.Call(context as BaseActivity, entity.shopPhone)
+                                    }
+                                    "3"->{//填写物流
+                                        startActivity(Intent(context,InputLogisticsActivity::class.java).putExtra(InputLogisticsActivity.OrderId,entity.returnOrderId))
+                                    }
+
+                                }
+
+                            }
+                            "3" -> {   //联系商家
+
+                                DialogUtils.Call(context as BaseActivity, entity.shopPhone)
+                                DataCtrlClassXZW.ReturnEditOrderData(context, entity.returnOrderId,"1", {
                                     if (it != null) {
-                                        iniData()
+                                        onRefresh(refreshLayout)
                                     }
                                 })
                             }
-                            "2" -> {//联系商家
-                                DialogUtils.Call(context as BaseActivity, "110")
-                            }
-                            "3" -> {    //联系商家
-                                DialogUtils.Call(context as BaseActivity, "110")
 
+                        }
+                    }
+                    R.id.tv_right -> {
+                        when (entity.returnOrderState) {
+                            "1","2"  -> {//取消收货
+                                DataCtrlClassXZW.ReturnEditOrderData(context, entity.returnOrderId,"0", {
+                                    if (it != null) {
+                                        onRefresh(refreshLayout)
+                                    }
+                                })
+
+                            }
+                            "3" -> {    //删除订单
+                                DataCtrlClassXZW.ReturnEditOrderData(context, entity.returnOrderId,"1", {
+                                    if (it != null) {
+                                        onRefresh(refreshLayout)
+                                    }
+                                })
                             }
 
                         }
@@ -156,7 +167,7 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
     }
 
     private fun iniData() {
-        DataCtrlClassXZW.MyOrderData(context,arguments.getInt(COMMENT_TYPE).toString(), currentPage) {
+        DataCtrlClassXZW.ReturnOrderOrderData(context,arguments.getInt(COMMENT_TYPE).toString(), currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

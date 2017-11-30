@@ -1,5 +1,6 @@
 package com.exz.carprofitmuch.module.mine
 
+import android.text.TextUtils
 import android.view.View
 import com.bigkoo.pickerview.OptionsPickerView
 import com.exz.carprofitmuch.DataCtrlClassXZW
@@ -17,7 +18,6 @@ class InputLogisticsActivity : BaseActivity(), View.OnClickListener {
 
 
     lateinit var mPickerView: OptionsPickerView<String>
-    var returnGoodsType = ArrayList<String>()
     override fun initToolbar(): Boolean {
         mTitle.text = mContext.getString(R.string.mine_input_logistics)
         //状态栏透明和间距处理
@@ -36,7 +36,6 @@ class InputLogisticsActivity : BaseActivity(), View.OnClickListener {
         return R.layout.activity_input_logistcs
     }
 
-
     override fun init() {
         super.init()
         initView()
@@ -44,27 +43,24 @@ class InputLogisticsActivity : BaseActivity(), View.OnClickListener {
 
     private fun initView() {
 
-        returnGoodsType.add("退货")
-        returnGoodsType.add("退款")
-        mPickerView = OptionsPickerView(mContext)
-        mPickerView.setPicker(returnGoodsType)
-        mPickerView.setCyclic(false)
-        mPickerView.setOnoptionsSelectListener(object : OptionsPickerView.OnOptionsSelectListener {
-            override fun onOptionsSelect(options1: Int, option2: Int, options3: Int) {
-                tv_refund_type.setText(returnGoodsType.get(options1))
-            }
-        })
-        tv_refund_type.setOnClickListener(this)
         tv_submit.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.tv_refund_type -> {
-                mPickerView.show()
-            }
             R.id.tv_submit -> {
-                DataCtrlClassXZW.SubmitLogisticsCompanyData(mContext, "", "", "", {
+                var logisticsName = ed_logisticsName.text.toString().trim()
+                if (TextUtils.isEmpty(logisticsName)) {
+                    ed_logisticsName.setShakeAnimation()
+                    return
+                }
+                var logistics_num = ed_logistics_num.text.toString().trim()
+                if (TextUtils.isEmpty(logistics_num)) {
+                    ed_logistics_num.setShakeAnimation()
+                    return
+                }
+
+                DataCtrlClassXZW.SubmitLogisticsCompanyData(mContext, intent.getStringExtra(OrderId), logisticsName, logistics_num, {
 
                     if (it != null) {
                         finish()
@@ -72,5 +68,12 @@ class InputLogisticsActivity : BaseActivity(), View.OnClickListener {
                 })
             }
         }
+
     }
+
+
+    companion object {
+        var OrderId = "OrderId"
+    }
+
 }

@@ -20,7 +20,7 @@ class GoodsOrderCommentAdapter : BaseQuickAdapter<GoodsOrderCommentBean, BaseVie
         v.llImgLay.removeAllViews()
         for (photo in item.photos) {
             val itemView = LayoutInflater.from(mContext).inflate(R.layout.item_comment_order_img, LinearLayout(mContext), false)
-            itemView.imgs.setImageURI(photo)
+            itemView.imgs.setImageURI("file://" +photo)
             itemView.bt_close.visibility = if (item.photos.indexOf(photo) == item.photos.size - 1) View.GONE else View.VISIBLE
             helper.addOnClickListener(R.id.bt_close)
             val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)

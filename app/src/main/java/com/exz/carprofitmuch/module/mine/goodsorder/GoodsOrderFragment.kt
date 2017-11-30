@@ -13,6 +13,10 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsOrderAdapter
+import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity
+import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Intent_Finish_Type_2
+import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Pay_Intent_Finish_Type
+import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Pay_Intent_OrderId
 import com.exz.carprofitmuch.module.mine.GoodsOrderCommentActivity
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
@@ -52,6 +56,11 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        onRefresh(refreshLayout)
+    }
+
     fun initToolbar(): Boolean {
         //状态栏透明和间距处理
         StatusBarUtil.setPaddingSmart(activity, mRecyclerView)
@@ -71,7 +80,7 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-
+                GoodsOrderDetailActivity.orderId = mAdapter.data.get(position).orderId
                 startActivity(Intent(context, GoodsOrderDetailActivity::class.java))
             }
 
@@ -90,9 +99,9 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
                     R.id.tv_mid -> {
                         when (orderState) {
                             "1" -> {//取消订单
-                                DataCtrlClassXZW.CancelOrderDetailData(context, "", {
+                                DataCtrlClassXZW.EditOrderData(context, mAdapter.data.get(position).orderId, "0", {
                                     if (it != null) {
-                                        iniData()
+                                        onRefresh(refreshLayout)
                                     }
                                 })
                             }
@@ -100,10 +109,10 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
                                 DialogUtils.Call(context as BaseActivity, mAdapter.data.get(position).shopPhone)
                             }
                             "3" -> {//查看物流
-                                startActivity(Intent(context, MyWebActivity::class.java).putExtra(MyWebActivity.Intent_Url, "http://www.baidu.com").putExtra(MyWebActivity.Intent_Title, "http://www.baidu.com"))
+                                startActivity(Intent(context, MyWebActivity::class.java).putExtra(MyWebActivity.Intent_Url, "http://m.kuaidi100.com/result.jsp?nu=" + mAdapter.data.get(position).logisticsNum).putExtra(MyWebActivity.Intent_Title, "查看物流"))
                             }
                             "4", "5" -> {    //删除订单
-                                DataCtrlClassXZW.DeleteOrderDetailData(context, "", {
+                                DataCtrlClassXZW.EditOrderData(context, mAdapter.data.get(position).orderId, "1", {
                                     if (it != null) {
                                         onRefresh(refreshLayout)
                                     }
@@ -117,19 +126,21 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
                     R.id.tv_right -> {
                         when (orderState) {
                             "1" -> {//支付订单
-//                        startActivity(Intent(mContext,MyWebActivity::class.java).putExtra("orderId","1"))
+                                startActivity(Intent(context, PayMethodsActivity::class.java).putExtra(Pay_Intent_OrderId, mAdapter.data.get(position).orderId).putExtra(Pay_Intent_Finish_Type, Intent_Finish_Type_2))
                             }
-                            "2"->{//申请退款
+                            "2" -> {//申请退款
 
                             }
                             "3" -> {//确认收货
-                                DataCtrlClassXZW.ConfirmOrderDetailData(context, "", {
+                                DataCtrlClassXZW.ConfirmOrderDetailData(context, "2", {
                                     if (it != null) {
                                         onRefresh(refreshLayout)
                                     }
                                 })
                             }
                             "4", "5" -> {    //评价订单
+                                GoodsOrderCommentActivity.shopId = mAdapter.data.get(position).shopId
+                                GoodsOrderCommentActivity.orderId = mAdapter.data.get(position).orderId
                                 startActivity(Intent(context, GoodsOrderCommentActivity::class.java))
 
                             }
@@ -141,7 +152,6 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
             }
         })
 
-        onRefresh(refreshLayout)
     }
 
     override fun onClick(p0: View?) {
