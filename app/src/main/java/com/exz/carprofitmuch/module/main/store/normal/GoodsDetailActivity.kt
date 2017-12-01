@@ -8,13 +8,19 @@ import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.LinearLayout
 import com.blankj.utilcode.util.ScreenUtils
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsCommentAdapter
-import com.exz.carprofitmuch.bean.*
+import com.exz.carprofitmuch.bean.BannersBean
+import com.exz.carprofitmuch.bean.CommentBean
+import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.module.main.store.comment.GoodsCommentListActivity
+import com.exz.carprofitmuch.module.main.store.comment.GoodsCommentListActivity.Companion.GoodsCommentList_Intent_Id
+import com.exz.carprofitmuch.module.main.store.comment.GoodsCommentListActivity.Companion.GoodsCommentList_Intent_IdMark
+import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity.Companion.GoodsShop_Intent_ShopId
 import com.exz.carprofitmuch.pop.CouponPop
 import com.exz.carprofitmuch.pop.GoodsDetailClassifyPop
 import com.exz.carprofitmuch.pop.RedPacketPop
@@ -27,6 +33,10 @@ import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
+import com.szw.framelibrary.view.preview.PreviewActivity
+import com.szw.framelibrary.view.preview.PreviewActivity.Companion.PREVIEW_INTENT_IMAGES
+import com.szw.framelibrary.view.preview.PreviewActivity.Companion.PREVIEW_INTENT_POSITION
+import com.szw.framelibrary.view.preview.PreviewActivity.Companion.PREVIEW_INTENT_SHOW_NUM
 import com.youth.banner.BannerConfig
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_goods_detail.*
@@ -45,6 +55,8 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
     private lateinit var couponPop: CouponPop
     private lateinit var redPacketPop: RedPacketPop
     private lateinit var mGoodsCommentAdapter: GoodsCommentAdapter<CommentBean>
+
+    private var goodsBean: GoodsBean? = null
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.goods_detail_name)
         toolbar.setNavigationIcon(R.mipmap.icon_goods_detail_back)
@@ -60,7 +72,7 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
 
             override fun onHeaderReleasing(header: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
                 toolbar.alpha = 1 - Math.min(percent, 1f)
-                bottom_bar.visibility= View.VISIBLE
+                bottom_bar.visibility = View.VISIBLE
             }
         })
         scrollView.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
@@ -77,7 +89,7 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
                     mScrollY = if (scrollNewY > h) h else scrollNewY
                     buttonBarLayout.alpha = 1f * mScrollY / h
                     blurView.alpha = 1f * mScrollY / h
-                    toolbar.setNavigationIcon(if (lastScrollY>70)R.mipmap.icon_arrow_white_back else R.mipmap.icon_goods_detail_back)
+                    toolbar.setNavigationIcon(if (lastScrollY > 70) R.mipmap.icon_arrow_white_back else R.mipmap.icon_goods_detail_back)
                 }
                 lastScrollY = scrollNewY
 
@@ -105,57 +117,27 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
 
         return false
     }
-    override fun setInflateId(): Int= R.layout.activity_goods_detail
+
+    override fun setInflateId(): Int = R.layout.activity_goods_detail
 
     override fun init() {
-        classifyPop= GoodsDetailClassifyPop(this) {
-            tv_goodsType.text = it
-        }
-        GoodsDetailClassifyPop.STATE_NORMAL = GoodsDetailClassifyPop.GOODS_STATE_NORMAL
-        couponPop = CouponPop(mContext)
-        redPacketPop = RedPacketPop(mContext)
-        val coupons = ArrayList<CouponBean>()
-        coupons.add(CouponBean())
-        coupons.add(CouponBean())
-        coupons.add(CouponBean())
-        couponPop.data= coupons
-        redPacketPop.data=coupons
-
-        val data = GoodsBean()
-        val goodsSubClassify = ArrayList<GoodsSubClassifyBean>()
-        goodsSubClassify.add(GoodsSubClassifyBean("1", "大"))
-        goodsSubClassify.add(GoodsSubClassifyBean("2", "小"))
-        val goodsSubClassify2 = ArrayList<GoodsSubClassifyBean>()
-        goodsSubClassify2.add(GoodsSubClassifyBean("3", "长"))
-        goodsSubClassify2.add(GoodsSubClassifyBean("4", "短"))
-        data.goodsClassify.add(GoodsClassifyBean("大小", goodsSubClassify))
-        data.goodsClassify.add(GoodsClassifyBean("长短", goodsSubClassify2))
-        data.goodsClassifyPool.add(GoodsClassifyPoolBean("1,3", "2.5", "2", "http"))
-        data.goodsClassifyPool.add(GoodsClassifyPoolBean("1,4", "3.5", "3", "http"))
-        data.goodsClassifyPool.add(GoodsClassifyPoolBean("2,3", "4.5", "4", "http"))
-        data.goodsClassifyPool.add(GoodsClassifyPoolBean("2,4", "5.5", "0", "http"))
-
-        classifyPop.setNewData(data)
+        initPop()
         initBanner()
-        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
+        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initRecycler()
         initEvent()
         mWebView.loadUrl("http://www.baidu.com")
     }
-    private val arrayList2=ArrayList<CommentBean>()
+
+    private fun initPop() {
+        classifyPop = GoodsDetailClassifyPop(this) { tv_goodsType.text = it }
+        GoodsDetailClassifyPop.STATE_NORMAL = GoodsDetailClassifyPop.GOODS_STATE_NORMAL
+        couponPop = CouponPop(mContext)
+        redPacketPop = RedPacketPop(mContext)
+    }
+
     private fun initRecycler() {
         mGoodsCommentAdapter = GoodsCommentAdapter()
-        val imgs = ArrayList<String>()
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        arrayList2.add(CommentBean(imgs))
-        arrayList2.add(CommentBean(imgs))
-        arrayList2.add(CommentBean(imgs))
-
-        mGoodsCommentAdapter.setNewData(arrayList2)
-
         mGoodsCommentAdapter.bindToRecyclerView(mCommentRecyclerView)
         mCommentRecyclerView.layoutManager = LinearLayoutManager(this)
         mCommentRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 1, ContextCompat.getColor(mContext, R.color.app_bg)))
@@ -164,6 +146,7 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
         mCommentRecyclerView.isFocusable = false
 
     }
+
     private fun initEvent() {
         toolbar.setNavigationOnClickListener { finish() }
         bt_choose_type.setOnClickListener(this)
@@ -173,62 +156,152 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
         bt_addCard.setOnClickListener(this)
         bt_confirm.setOnClickListener(this)
         bt_goodsStore.setOnClickListener(this)
+        bt_favorite.setOnClickListener(this)
     }
 
 
     private fun initBanner() {
-        val bannersBean = ArrayList<BannersBean>()
-        bannersBean.add(BannersBean())
-        bannersBean.add(BannersBean())
-        bannersBean.add(BannersBean())
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
         //设置图片加载器
         banner.setImageLoader(BannerImageLoader())
-        //设置图片集合
-        banner.setImages(bannersBean)
         //设置自动轮播，默认为true
         banner.isAutoPlay(true)
         //设置轮播时间
         banner.setDelayTime(3000)
         //设置指示器位置（当banner模式中有指示器时）
         banner.setIndicatorGravity(BannerConfig.CENTER)
-        //banner设置方法全部调用完毕时最后调用
-        banner.start()
-
+        banner.setOnBannerListener {
+            if (goodsBean != null) {
+                val intent = Intent(mContext, PreviewActivity::class.java)
+                intent.putExtra(PREVIEW_INTENT_IMAGES, goodsBean?.mainImgs)
+                intent.putExtra(PREVIEW_INTENT_SHOW_NUM, true)
+                intent.putExtra(PREVIEW_INTENT_POSITION, it)
+                mContext.startActivity(intent)
+            }
+        }
     }
+
     override fun onClick(p0: View?) {
         when (p0) {
             bt_more_goodsComment -> {
-                startActivity(Intent(this, GoodsCommentListActivity::class.java))
+                if (goodsBean!=null) {
+                    val intent = Intent(this, GoodsCommentListActivity::class.java)
+                    intent.putExtra(GoodsCommentList_Intent_Id,goodsBean?.goodsId)
+                    intent.putExtra(GoodsCommentList_Intent_IdMark,"1")
+                    startActivity(intent)
+                }
+
             }
             bt_choose_type -> {
                 classifyPop.showPopupWindow()
             }
             bt_addCard -> {
-                classifyPop.showPopupWindow()
+                if (goodsBean != null) {
+                    if (goodsBean?.isHaveRank == "1") {
+                        classifyPop.showPopupWindow()
+                    } else {
+                        val view = View(this)
+                        view.id = R.id.addCar
+                        classifyPop.onClick(view)
+                    }
+                }
+
             }
             bt_confirm -> {
-                classifyPop.showPopupWindow()
+                if (goodsBean != null) {
+                    if (goodsBean?.isHaveRank == "1") {
+                        classifyPop.showPopupWindow()
+                    } else {
+                        val view = View(this)
+                        view.id = R.id.buy
+                        classifyPop.onClick(view)
+                    }
+                }
             }
-            bt_coupon -> {
-                couponPop.showPopupWindow()
+            bt_coupon -> {  // 领取优惠券
+                DataCtrlClass.couponListData(goodsBean?.shopId ?: "", goodsBean?.goodsId ?: "") {
+                    if (it != null) {
+                        couponPop.data = it
+                        couponPop.showPopupWindow()
+                    }
+                }
             }
             bt_redPacket -> {
                 redPacketPop.showPopupWindow()
             }
-            bt_goodsStore -> {
-                startActivity(Intent(this, GoodsShopActivity::class.java))
+            bt_goodsStore -> {//跳转店铺
+                if (goodsBean != null) {
+                    val intent = Intent(this, GoodsShopActivity::class.java)
+                    intent.putExtra(GoodsShop_Intent_ShopId, goodsBean?.shopId)
+                    startActivity(intent)
+                }
+            }
+            bt_favorite -> {//收藏 操作
+                if (goodsBean != null) {
+                    DataCtrlClass.editFavoriteData(this, goodsBean?.goodsId ?: "", "1",
+                            if (goodsBean?.isCollected == "1") {
+                                goodsBean?.isCollected = "0"
+                                "0"
+                            } else {
+                                goodsBean?.isCollected = "1"
+                                "1"
+                            }) {
+                        bt_favorite.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
+                                ContextCompat.getDrawable(this,
+                                        if (goodsBean?.isCollected == "1")
+                                            R.mipmap.icon_goods_detail_favorite_on
+                                        else R.mipmap.icon_goods_detail_favorite_off), null, null)
+                    }
+                }
             }
 
         }
     }
+
     override fun onRefresh(refreshLayout: RefreshLayout?) {
-        DataCtrlClass.scoreGoodsDetailData(this) {
+        DataCtrlClass.goodsDetailData(this, intent.getStringExtra(GoodsDetail_Intent_GoodsId) ?: "") {
             if (it != null) {
+                goodsBean = it
+                //设置图片集合
+                val banners = ArrayList<BannersBean>()
+                it.mainImgs.mapTo(banners) { BannersBean(it) }
+                banner.setImages(banners)
+                //banner设置方法全部调用完毕时最后调用
+                banner.start()
+
+
+                tv_goodsName.text = it.goodsName
+                tv_goodsPrice.text = String.format(getString(R.string.CNY) + "%s", it.goodsPrice)
+                tv_goodsOldPrice.text = String.format(getString(R.string.goods_detail_oldPrice), it.goodsPrice)
+                tv_goodsExpressPrice.text = String.format(getString(R.string.goods_detail_expressPrice), it.expressPrice)
+                tv_goodsSoldCount.text = String.format(getString(R.string.goods_detail_soldCount), it.saleCount)
+                tv_goodsAddress.text = it.address
+                bt_more_goodsComment.text = String.format(getString(R.string.goods_detail_comment), it.commentCount)
+                mGoodsCommentAdapter.setNewData(it.commentList)
+
+                bt_favorite.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
+                        ContextCompat.getDrawable(this,
+                                if (it.isCollected == "1")
+                                    R.mipmap.icon_goods_detail_favorite_on
+                                else R.mipmap.icon_goods_detail_favorite_off), null, null)
+                bt_coupon.visibility = if (it.isCoupon == "1") View.VISIBLE else View.GONE
+                bt_choose_type.visibility = if (it.isCoupon == "1") View.VISIBLE else View.GONE
+                if (it.isDelete == "1") {
+                    bt_addCard.visibility = View.GONE
+                    val params = bt_confirm.layoutParams as LinearLayout.LayoutParams
+                    params.weight = 6f
+                    bt_confirm.layoutParams = params
+                    bt_confirm.text = getString(R.string.goods_detail_pass)
+                }
+                DataCtrlClass.goodsClassifyData(this, it.goodsId) { spec ->
+                    if (spec != null)
+                        classifyPop.setNewData(spec, it)
+                }
             }
         }
     }
+
     companion object {
-        val GoodsDetail_Intent_GoodsId="GoodsDetail_Intent_GoodsId"
+        val GoodsDetail_Intent_GoodsId = "GoodsDetail_Intent_GoodsId"
     }
 }

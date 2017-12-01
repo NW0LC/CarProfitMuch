@@ -1,6 +1,7 @@
 package com.exz.carprofitmuch.module.main.store.comment
 
 import android.support.v4.app.Fragment
+import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.TabEntity
 import com.flyco.tablayout.listener.CustomTabEntity
@@ -36,19 +37,31 @@ class GoodsCommentListActivity : BaseActivity(){
     override fun init() {
         initTabBar()
         initEvent()
+        DataCtrlClass.commentCountPwd(this,intent.getStringExtra(GoodsCommentList_Intent_Id)?:"",intent.getStringExtra(GoodsCommentList_Intent_IdMark)?:""){
+            if (it!=null){
+                (mTabEntities[0] as TabEntity).title=mTitles[0]+"("+it.total+")"
+                (mTabEntities[1] as TabEntity).title=mTitles[1]+"("+it.hasImg+")"
+                (mTabEntities[2] as TabEntity).title=mTitles[2]+"("+it.lowScore+")"
+            }
+            mTabLayout.setTabData(mTabEntities)
+        }
     }
 
     private fun initTabBar() {
         mTitles.indices.mapTo(mTabEntities) { TabEntity(mTitles[it], mIconSelectIds[it], mIconUnSelectIds[it]) }
-        mFragments.add(GoodsCommentListFragment.newInstance(0))
-        mFragments.add(GoodsCommentListFragment.newInstance(1))
-        mFragments.add(GoodsCommentListFragment.newInstance(2))
-        mFragments.add(GoodsCommentListFragment.newInstance(3))
+        mFragments.add(GoodsCommentListFragment.newInstance(intent.getStringExtra(GoodsCommentList_Intent_Id)?:"",intent.getStringExtra(GoodsCommentList_Intent_IdMark)?:"","0"))
+        mFragments.add(GoodsCommentListFragment.newInstance(intent.getStringExtra(GoodsCommentList_Intent_Id)?:"",intent.getStringExtra(GoodsCommentList_Intent_IdMark)?:"","1"))
+        mFragments.add(GoodsCommentListFragment.newInstance(intent.getStringExtra(GoodsCommentList_Intent_Id)?:"",intent.getStringExtra(GoodsCommentList_Intent_IdMark)?:"","2"))
+        mFragments.add(GoodsCommentListFragment.newInstance(intent.getStringExtra(GoodsCommentList_Intent_Id)?:"",intent.getStringExtra(GoodsCommentList_Intent_IdMark)?:"","3"))
         mTabLayout.setTabData(mTabEntities, this, R.id.frameLayout, mFragments)
     }
 
 
     private fun initEvent() {
         toolbar.setNavigationOnClickListener { finish() }
+    }
+    companion object {
+        val GoodsCommentList_Intent_Id="GoodsCommentList_Intent_Id"
+        val GoodsCommentList_Intent_IdMark="GoodsCommentList_Intent_IdMark"
     }
 }

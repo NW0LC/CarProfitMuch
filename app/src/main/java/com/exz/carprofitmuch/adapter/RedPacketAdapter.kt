@@ -14,9 +14,9 @@ class RedPacketAdapter<T : CouponBean> : BaseQuickAdapter<T, BaseViewHolder>(R.l
 
     override fun convert(helper: BaseViewHolder, entity: T) {
         val itemView=helper.itemView
-        itemView.tv_redPacket_price.text = entity.couponPrice
-        itemView.tv_redPacket_info.text = String.format(mContext.getString(R.string.goods_detail_redPacket_info),entity.couponInfo)
-        itemView.tv_redPacket_time.text =String.format(mContext.getString(R.string.goods_detail_coupon_time),entity.couponTime)
+        itemView.tv_redPacket_price.text = entity.discount
+        itemView.tv_redPacket_info.text = String.format(mContext.getString(R.string.goods_detail_redPacket_info),entity.limitMoney)
+        itemView.tv_redPacket_time.text =String.format(mContext.getString(R.string.goods_detail_coupon_time),entity.beginDate+"-"+entity.invalidDate)
         itemView.had.text = String.format(mContext.getString(R.string.goods_detail_redPacket_get),entity.receivedCount)
         itemView.yet.text = String.format(mContext.getString(R.string.goods_detail_redPacket_get_yet),entity.surplusCount)
         if (entity.isGet == "0") {

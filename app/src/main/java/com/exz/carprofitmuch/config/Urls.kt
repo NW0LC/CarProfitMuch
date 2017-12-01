@@ -60,6 +60,50 @@ object Urls{
      * 积分商品列表
      */
     val ScoreGoodsList=url+"App/Store/ScoreGoodsList.aspx"
+    /**
+     * 一级商品分类
+     */
+    val TypeList=url+"App/Store/Reality/TypeList.aspx"
+    /**
+     * 获取的二级、三级分类
+     */
+    val SubTypeList=url+"App/Store/Reality/SubTypeList.aspx"
+    /**
+     * 筛选列表
+     */
+    val SiftList=url+"App/Store/Reality/SiftList.aspx"
+    /**
+     * 商品列表（不包含积分商品）
+     */
+    val GoodsList=url+"App/Store/Reality/GoodsList.aspx"
+    /**
+     * 商品详情
+     */
+    val GoodsDetail=url+"App/Store/Reality/GoodsDetail.aspx"
+    /**
+     * 优惠劵列表
+     */
+    val CouponList=url+"App/Store/CouponList.aspx"
+    /**
+     * 领取优惠劵
+     */
+    val GetCoupon=url+"App/Store/GetCoupon.aspx"
+    /**
+     * 商品规格
+     */
+    val GoodsRank=url+"App/Store/Reality/GoodsRank.aspx"
+    /**
+     * 【添加/取消】【关注/收藏】
+     */
+    val Attention=url+"App/Store/Attention.aspx"
+    /**
+     * 评价列表
+     */
+    val CommentList=url+"App/Store/CommentList.aspx"
+    /**
+     * 评价统计
+     */
+    val CommentCount=url+"App/Store/CommentCount.aspx"
 
 
 

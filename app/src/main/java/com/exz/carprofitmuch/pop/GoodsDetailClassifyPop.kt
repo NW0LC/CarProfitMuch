@@ -15,6 +15,7 @@ import com.exz.carprofitmuch.adapter.GoodsDetailClassifyAdapter.Companion.GoodsD
 import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.GoodsClassifyBean
 import com.exz.carprofitmuch.bean.GoodsSubClassifyBean
+import com.exz.carprofitmuch.bean.SpecBean
 import com.exz.carprofitmuch.module.main.store.score.ScoreConfirmActivity
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.exz.carprofitmuch.utils.RecycleViewDivider
@@ -23,11 +24,15 @@ import com.hwangjr.rxbus.annotation.Subscribe
 import com.hwangjr.rxbus.annotation.Tag
 import com.hwangjr.rxbus.thread.EventThread
 import com.szw.framelibrary.view.CustomLoadMoreView
+import com.szw.framelibrary.view.preview.PreviewActivity
+import com.szw.framelibrary.view.preview.PreviewActivity.Companion.PREVIEW_INTENT_IMAGES
+import com.szw.framelibrary.view.preview.PreviewActivity.Companion.PREVIEW_INTENT_SHOW_NUM
 import kotlinx.android.synthetic.main.pop_classify.view.*
 import org.jetbrains.anko.toast
 import razerdp.basepopup.BasePopupWindow
 import java.text.DecimalFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by 史忠文
@@ -38,10 +43,11 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
 
 
     var poolId: String = ""
+    var image: String = ""
     var countIndex: Long = 1
     private val decimalFormat: DecimalFormat
     private val adapter: GoodsDetailClassifyAdapter<GoodsClassifyBean>
-    private lateinit var data: GoodsBean
+    private lateinit var data: SpecBean
     private var maxCount: Long = 0
     private lateinit var inflate: View
     private var state = STATE_NORMAL
@@ -70,43 +76,45 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
         inflate.mRecyclerView.addItemDecoration(RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL, 1, ContextCompat.getColor(getContext(), R.color.White)))
     }
 
-    fun setNewData(data: GoodsBean) {
+    fun setNewData(data: SpecBean,goodsBean: GoodsBean) {
         this.data = data
-        adapter.setNewData(data.goodsClassify)
-        if (data.goodsBanner.size > 0)
-            inflate.img.setImageURI(data.goodsBanner[0].imgUrl)
-        inflate.price.text =String.format("${context.getString(R.string.CNY)}%s",data.price)
-        inflate.inventory.text = String.format(context.getString(R.string.classify_pop_inventory), if (TextUtils.isEmpty(data.goodsInventory)) "0" else data.goodsInventory)
-        var chooseStr = if (data.goodsClassify.size < 1) "" else context.getString(R.string.classify_pop_chooseStr_please)
-        for (goodsClassifyBean in data.goodsClassify) {
-            chooseStr += " "+goodsClassifyBean.goodsClassifyName
+        adapter.setNewData(data.rankInfo)
+        if (goodsBean.mainImgs.size > 0) {
+            image = goodsBean.mainImgs[0]
+            inflate.img.setImageURI(image)
         }
-        maxCount = (if (TextUtils.isEmpty(data.goodsInventory)) "0" else data.goodsInventory).toLong()
+        inflate.price.text =String.format("${context.getString(R.string.CNY)}%s",goodsBean.price)
+        inflate.inventory.text = String.format(context.getString(R.string.classify_pop_inventory), if (TextUtils.isEmpty(goodsBean.allStock)) "0" else goodsBean.allStock)
+        var chooseStr = if (data.rankInfo.size < 1) "" else context.getString(R.string.classify_pop_chooseStr_please)
+        for (goodsClassifyBean in data.rankInfo) {
+            chooseStr += " "+goodsClassifyBean.rankName
+        }
+        maxCount = (if (TextUtils.isEmpty(goodsBean.allStock)) "0" else goodsBean.allStock).toLong()
         chooseClassify(chooseStr, 0)
     }
 
     private fun chooseClassify(choose: String?, index: Int?) {
         var chooseStr = if (choose?.isEmpty() != false) context.getString(R.string.classify_pop_chooseStr_default) else choose
-        if (data.goodsClassify.size > 0) {
+        if (data.rankInfo.size > 0) {
             chooseStr = context.getString(R.string.classify_pop_chooseStr)
-            val selectArray = arrayOfNulls<String>(data.goodsClassify.size)
+            val selectArray = arrayOfNulls<String>(data.rankInfo.size)
             Thread {
-                for (indice in data.goodsClassify.indices) {//遍历最外层数组
-                    val goodsSubClassify = data.goodsClassify[indice].goodsSubClassify//子类型数据
+                for (indice in data.rankInfo.indices) {//遍历最外层数组
+                    val goodsSubClassify = data.rankInfo[indice].subRank//子类型数据
                     if (goodsSubClassify.size > 0) {//子类型数据不止一条
                         if (index == null) { //适配器选择设置数据
 
                             for (indie in goodsSubClassify.indices) {//遍历子类型数据
                                 if (goodsSubClassify[indie].goodsSubState == GoodsSubClassifyBean.STATE_1) {// 如果被选中
-                                    chooseStr +=  " "+goodsSubClassify[indie].goodsSubClassifyName  //已选择子类型的名称
-                                    selectArray[indice] = goodsSubClassify[indie].goodsSubClassifyId//已选择子类型的id集合
+                                    chooseStr +=  " "+goodsSubClassify[indie].rankName  //已选择子类型的名称
+                                    selectArray[indice] = goodsSubClassify[indie].rankId//已选择子类型的id集合
                                 }
                             }
 
                         } else {//指定选择设置数据  默认选择每一种的第一个
                             goodsSubClassify[0].goodsSubState = GoodsSubClassifyBean.STATE_1
-                            chooseStr += " "+ goodsSubClassify[0].goodsSubClassifyName
-                            selectArray[indice] = goodsSubClassify[0].goodsSubClassifyId
+                            chooseStr += " "+ goodsSubClassify[0].rankName
+                            selectArray[indice] = goodsSubClassify[0].rankId
 
                         }
                     }
@@ -116,14 +124,16 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
                     //判断两个数组是不是相等，相等就各种赋值
                     inflate.type.text = chooseStr
                     listener.invoke(chooseStr)
-                    for (goodsClassifyPoolBean in data.goodsClassifyPool) {
-                        val poolArray = goodsClassifyPoolBean.poolKey.split(",").toTypedArray()
+                    for (goodsClassifyPoolBean in data.rankComb) {
+                        val poolArray = goodsClassifyPoolBean.skuid.split(",").toTypedArray()
                         Arrays.sort(poolArray)
                         if (Arrays.equals(selectArray, poolArray)) {
-                            poolId = goodsClassifyPoolBean.poolId
-                            inflate.price.text = String.format("${context.getString(R.string.CNY)}%s",goodsClassifyPoolBean.goodsClassifyPrice)
-                            inflate.inventory.text = String.format(context.getString(R.string.classify_pop_inventory), if (TextUtils.isEmpty(goodsClassifyPoolBean.goodsClassifyInventory)) "0" else goodsClassifyPoolBean.goodsClassifyInventory)
-                            maxCount = (if (TextUtils.isEmpty(goodsClassifyPoolBean.goodsClassifyInventory)) "0" else goodsClassifyPoolBean.goodsClassifyInventory).toLong()
+                            poolId = goodsClassifyPoolBean.rankCombId
+                            image = goodsClassifyPoolBean.image
+                            inflate.img.setImageURI(image)
+                            inflate.price.text = String.format("${context.getString(R.string.CNY)}%s",goodsClassifyPoolBean.price)
+                            inflate.inventory.text = String.format(context.getString(R.string.classify_pop_inventory), if (TextUtils.isEmpty(goodsClassifyPoolBean.stock)) "0" else goodsClassifyPoolBean.stock)
+                            maxCount = (if (TextUtils.isEmpty(goodsClassifyPoolBean.stock)) "0" else goodsClassifyPoolBean.stock).toLong()
                             onNum(countIndex)
                         }
                     }
@@ -151,6 +161,7 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
         inflate.minus.setOnClickListener(this)
         inflate.addCar.setOnClickListener(this)
         inflate.buy.setOnClickListener(this)
+        inflate.img.setOnClickListener(this)
         return inflate
     }
 
@@ -251,6 +262,14 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
                         //                    context.startActivity(intent);
                         dismiss()
                     }
+            R.id.img ->{
+                val intent = Intent(context, PreviewActivity::class.java)
+                val images=ArrayList<String>()
+                images.add(image)
+                intent.putExtra(PREVIEW_INTENT_IMAGES, images)
+                intent.putExtra(PREVIEW_INTENT_SHOW_NUM, false)
+                context.startActivity(intent)
+            }
             R.id.bt_close -> dismiss()
         }
     }

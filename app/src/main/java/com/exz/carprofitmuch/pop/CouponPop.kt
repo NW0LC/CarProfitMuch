@@ -70,7 +70,7 @@ class CouponPop(context: Context) : BasePopupWindow(context), View.OnClickListen
     }
     companion object {
         private var canGet = true
-        private fun getCoupon(context: Context, v: View, id: String) {
+        private fun getCoupon(context: Context, v: View,  id: String) {
             //        page	string	必填	分页请求（从第1页开始，每页50条）
             //        requestCheck	string	必填	验证请求
             if (!canGet) {
@@ -78,8 +78,8 @@ class CouponPop(context: Context) : BasePopupWindow(context), View.OnClickListen
             }
             canGet = false
             v.postDelayed({ canGet = true }, 2000)
-            DataCtrlClass.getGoodsCoupon(context){
-                context.toast(it?:"")
+            DataCtrlClass.getGoodsCoupon(context,id){
+                context.toast(it?.message?:"")
             }
         }
     }

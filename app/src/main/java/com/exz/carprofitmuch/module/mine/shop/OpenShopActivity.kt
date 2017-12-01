@@ -293,7 +293,7 @@ class OpenShopActivity : BaseActivity() {
                     }
                     "营业执照照片" -> {
 
-                        startActivityForResult(Intent(mContext, OpenShopBusinessImgActivity::class.java).putExtra("img", businessImg), RESULTCODE_OPEN_SHOP)
+                        startActivityForResult(Intent(mContext, OpenShopBusinessImgActivity::class.java).putExtra("userIcon", businessImg), RESULTCODE_OPEN_SHOP)
                     }
                 }
 
@@ -431,7 +431,7 @@ class OpenShopActivity : BaseActivity() {
                 entity.v = "已填写"
             }
             "4" -> {
-                businessImg = data.getStringExtra("img")
+                businessImg = data.getStringExtra("userIcon")
                 entity.v = "已填写"
             }
             "5" -> {
@@ -512,7 +512,7 @@ class OpenShopActivity : BaseActivity() {
                     "营业执照照片" -> {
                         if (data != null) {
                             textChanger("4", data)
-                            businessImg = data.getStringExtra("img")
+                            businessImg = data.getStringExtra("userIcon")
                         }
                     }
                 }

@@ -15,8 +15,8 @@ import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsConfirmAdapter
 import com.exz.carprofitmuch.adapter.GoodsConfirmBean
-import com.exz.carprofitmuch.adapter.GoodsConfirmScoreBean
-import com.exz.carprofitmuch.bean.*
+import com.exz.carprofitmuch.bean.AddressBean
+import com.exz.carprofitmuch.bean.GoodsConfirmSubBean
 import com.exz.carprofitmuch.module.mine.address.AddressAddOrUpdateActivity
 import com.exz.carprofitmuch.module.mine.address.AddressChooseActivity
 import com.exz.carprofitmuch.pop.GoodsConfirmCouponPop
@@ -74,24 +74,24 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener, CompoundButto
     }
     private fun initData(){
         DataCtrlClass.goodsConfirmData(mContext, "") {
-            if (it == null) {
-                val it= GoodsConfirmBean()
-                it.address= AddressBean()
-                it.score= GoodsConfirmScoreBean()
-                val arrayList = ArrayList<GoodsConfirmSubBean>()
-                val confirmSubBean = GoodsConfirmSubBean()
-                val goods = ArrayList<GoodsBean>()
-                goods.add(GoodsBean())
-                confirmSubBean.goods= goods
-                val coupons = ArrayList<CouponBean>()
-                coupons.add(CouponBean(couponPrice = "2",couponFullPrice = "2"))
-                confirmSubBean.goodsCoupons= coupons
-                val express = ArrayList<ExpressBean>()
-                express.add(ExpressBean("顺丰","10"))
-                express.add(ExpressBean())
-                confirmSubBean.sendWays= express
-                arrayList.add(confirmSubBean)
-                it.goodsConfirmSubs= arrayList
+            if (it != null) {
+//                val it= GoodsConfirmBean()
+//                it.address= AddressBean()
+//                it.score= GoodsConfirmScoreBean()
+//                val arrayList = ArrayList<GoodsConfirmSubBean>()
+//                val confirmSubBean = GoodsConfirmSubBean()
+//                val goods = ArrayList<GoodsBean>()
+//                goods.add(GoodsBean())
+//                confirmSubBean.goods= goods
+//                val coupons = ArrayList<CouponBean>()
+//                coupons.add(CouponBean(couponPrice = "2",couponFullPrice = "2"))
+//                confirmSubBean.goodsCoupons= coupons
+//                val express = ArrayList<ExpressBean>()
+//                express.add(ExpressBean("顺丰","10"))
+//                express.add(ExpressBean())
+//                confirmSubBean.sendWays= express
+//                arrayList.add(confirmSubBean)
+//                it.goodsConfirmSubs= arrayList
 
 
 
@@ -201,7 +201,7 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener, CompoundButto
             //计算单组商品总价格
             var itemPrice = item.goods.sumByDouble { it.goodsCount.toDouble() * it.price.toDouble() }
             //除去优惠券金额
-            val couponPrice = item.goodsCoupons.first { it.isCheck }.couponPrice.toDoubleOrNull()
+            val couponPrice = item.goodsCoupons.first { it.isCheck }.discount.toDoubleOrNull()
             item.coupon = item.goodsCoupons.first { it.isCheck }.toString()
             //是否有可选优惠券
             item.isShowCoupon = item.goodsCoupons.isNotEmpty()

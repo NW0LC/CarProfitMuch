@@ -12,18 +12,18 @@ import java.util.*
 class GoodsCommentAdapter<T : CommentBean> : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_goods_detail_comment, ArrayList<T>()) {
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
-        itemView.img.setImageURI(item.img)
+        itemView.img.setImageURI(item.userIcon)
         itemView.tv_userName.text=item.uerName
         itemView.mRatingBar.rating=item.score.toFloat()
         itemView.tv_comment_content.text=item.content
-        itemView.tv_comment_time.text=item.time
-        itemView.tv_comment_type.text=item.type
-        itemView.mRecyclerView.visibility=if (item.imgs.size>0) View.VISIBLE else View.GONE
+        itemView.tv_comment_time.text=item.commentDate
+        itemView.tv_comment_type.text=item.goodsRank
+        itemView.mRecyclerView.visibility=if (item.images.size>0) View.VISIBLE else View.GONE
         val mAdapter= ItemCommentImageAdapter()
         mAdapter.bindToRecyclerView(itemView.mRecyclerView)
         itemView.mRecyclerView.isFocusable=false
         itemView.mRecyclerView.layoutManager= StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-        mAdapter.setNewData(item.imgs)
+        mAdapter.setNewData(item.images)
     }
 
 }

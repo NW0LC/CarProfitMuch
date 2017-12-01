@@ -1,8 +1,10 @@
 package com.exz.carprofitmuch.module.main.store.normal
+
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.blankj.utilcode.util.EncryptUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.R
@@ -10,9 +12,13 @@ import com.exz.carprofitmuch.adapter.GoodsClassifyOneAdapter
 import com.exz.carprofitmuch.adapter.GoodsClassifyTwoAdapter
 import com.exz.carprofitmuch.bean.GoodsClassifyOneEntities
 import com.exz.carprofitmuch.bean.GoodsClassifyTwoEntities
+import com.exz.carprofitmuch.config.Urls.SubTypeList
+import com.exz.carprofitmuch.config.Urls.TypeList
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
+import com.szw.framelibrary.app.MyApplication.Companion.salt
 import com.szw.framelibrary.base.BaseActivity
+import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.RecycleViewDivider
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.szw.framelibrary.utils.net.NetEntity
@@ -25,11 +31,12 @@ import kotlinx.android.synthetic.main.activity_goods_classify.*
  * Created by 史忠文
  * on 2017/11/24.
  */
-class GoodsClassifyActivity: BaseActivity(){
+class GoodsClassifyActivity : BaseActivity() {
     lateinit var mGoodsClassifyOneAdapter: GoodsClassifyOneAdapter
     lateinit var mGoodsClassifyTwoAdapter: GoodsClassifyTwoAdapter
-    private lateinit var linearLayoutManager:LinearLayoutManager
+    private lateinit var linearLayoutManager: LinearLayoutManager
     override fun initToolbar(): Boolean {
+        toolbar.setNavigationOnClickListener { finish() }
         mTitle.text = getString(R.string.goods_classify_name)
         //状态栏透明和间距处理
         StatusBarUtil.immersive(this)
@@ -38,7 +45,7 @@ class GoodsClassifyActivity: BaseActivity(){
         return false
     }
 
-    override fun setInflateId(): Int=R.layout.activity_goods_classify
+    override fun setInflateId(): Int = R.layout.activity_goods_classify
 
     override fun init() {
         initRecycler()
@@ -62,48 +69,40 @@ class GoodsClassifyActivity: BaseActivity(){
         })
 
         // 2级分类
-        mGoodsClassifyTwoAdapter=GoodsClassifyTwoAdapter()
+        mGoodsClassifyTwoAdapter = GoodsClassifyTwoAdapter()
         mRecyclerViewTwo.layoutManager = LinearLayoutManager(mContext)
-        mRecyclerViewTwo.addItemDecoration( RecycleViewDivider(mContext, LinearLayoutManager.HORIZONTAL, 1, ContextCompat.getColor(mContext, R.color.White)))
+        mRecyclerViewTwo.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.HORIZONTAL, 1, ContextCompat.getColor(mContext, R.color.White)))
         mGoodsClassifyTwoAdapter.bindToRecyclerView(mRecyclerViewTwo)
     }
 
     private fun oneLevel() {
-        val map = HashMap<String, String>()
-        OkGo.post<NetEntity<List<GoodsClassifyOneEntities>>>("http://www.fengwalker.com/App/GoodsType/FirstTypeList.aspx").tag(this)
-                .params(map)
+        val params = HashMap<String, String>()
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString("FirstTypeList", salt).toLowerCase())
+        OkGo.post<NetEntity<List<GoodsClassifyOneEntities>>>(TypeList).tag(this)
+                .params(params)
                 .execute(object : DialogCallback<NetEntity<List<GoodsClassifyOneEntities>>>(this) {
-                    override fun onSuccess(response:Response<NetEntity<List<GoodsClassifyOneEntities>>>) {
-                        mGoodsClassifyOneAdapter.setNewData(response.body()?.info)
-                        if (response.body()?.info?.size?:0 > 0) {
-                            twoLevel(response.body()?.info?.get(0)?.typeId?:"")
+                    override fun onSuccess(response: Response<NetEntity<List<GoodsClassifyOneEntities>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            mGoodsClassifyOneAdapter.setNewData(response.body()?.data)
+                            if (response.body()?.info?.size ?: 0 > 0) {
+                                twoLevel(response.body()?.info?.get(0)?.typeId ?: "")
+                            }
                         }
                     }
                 })
     }
 
     private fun twoLevel(typeId: String) {
-        val map = HashMap<String, String>()
-        map.put("typeId", typeId)
-        OkGo.post<NetEntity<List<GoodsClassifyTwoEntities>>>("http://www.fengwalker.com/App/GoodsType/TypeList.aspx").tag(this)
-                .params(map)
+        val params = HashMap<String, String>()
+        params.put("typeId", typeId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(typeId, salt).toLowerCase())
+        OkGo.post<NetEntity<List<GoodsClassifyTwoEntities>>>(SubTypeList).tag(this)
+                .params(params)
                 .execute(object : DialogCallback<NetEntity<List<GoodsClassifyTwoEntities>>>(this) {
                     override fun onSuccess(response: Response<NetEntity<List<GoodsClassifyTwoEntities>>>) {
-                        val list = ArrayList<GoodsClassifyTwoEntities>()
-                        list.add(GoodsClassifyTwoEntities())
-                        list.add(GoodsClassifyTwoEntities())
-                        list[0].typeName="123"
-                        val arrayList = ArrayList<GoodsClassifyTwoEntities.ThirdTypeEntity>()
-                        val thirdTypeEntity = GoodsClassifyTwoEntities.ThirdTypeEntity()
-                        thirdTypeEntity.typeName="1222"
-                        thirdTypeEntity.imgUrl="https://ss0.baidu.com/73t1bjeh1BF3odCf/it/u=4069632767,1427932965&fm=85&s=75966732255177C24BEFE4C6020070A3"
-                        arrayList.add(thirdTypeEntity)
-                        arrayList.add(thirdTypeEntity)
-                        arrayList.add(thirdTypeEntity)
-                        arrayList.add(thirdTypeEntity)
-                        list[0].thirdType= arrayList
-                        list[1].thirdType= arrayList
-                        mGoodsClassifyTwoAdapter.setNewData(list)
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            mGoodsClassifyTwoAdapter.setNewData(response.body().data)
+                        }
                     }
 
                 })

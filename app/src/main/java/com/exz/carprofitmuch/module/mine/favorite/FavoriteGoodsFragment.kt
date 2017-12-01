@@ -89,19 +89,7 @@ class FavoriteGoodsFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdap
 
     private fun initRecycler() {
         mAdapter = FavoriteGoodsAdapter()
-        val arrayList = ArrayList<GoodsBean>()
-        arrayList.add(GoodsBean("1"))
-        arrayList.add(GoodsBean("2"))
-        arrayList.add(GoodsBean("3"))
-        arrayList.add(GoodsBean("4"))
-        arrayList.add(GoodsBean("5"))
-        arrayList.add(GoodsBean("6"))
-        arrayList.add(GoodsBean("7"))
-        arrayList.add(GoodsBean("8"))
-        arrayList.add(GoodsBean("9"))
-        arrayList.add(GoodsBean("10"))
-        arrayList.add(GoodsBean("11"))
-        mAdapter.addData(arrayList)
+
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)

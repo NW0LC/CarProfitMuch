@@ -8,13 +8,11 @@ import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
-import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.RedPacketAdapter
 import com.exz.carprofitmuch.bean.CouponBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import kotlinx.android.synthetic.main.pop_coupon_or_red_packet.view.*
-import org.jetbrains.anko.toast
 import razerdp.basepopup.BasePopupWindow
 
 class RedPacketPop(context: Context) : BasePopupWindow(context), View.OnClickListener {
@@ -78,9 +76,9 @@ class RedPacketPop(context: Context) : BasePopupWindow(context), View.OnClickLis
             }
             canGet = false
             v.postDelayed({ canGet = true }, 2000)
-            DataCtrlClass.getGoodsCoupon(context) {
-                context.toast(it ?: "")
-            }
+//            DataCtrlClass.getGoodsCoupon(context) {
+//                context.toast(it ?: "")
+//            }
         }
     }
 

@@ -6,9 +6,8 @@ import android.content.Intent
 import android.support.v4.widget.NestedScrollView
 import android.view.View
 import com.blankj.utilcode.util.ScreenUtils
-import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.bean.*
+import com.exz.carprofitmuch.bean.BannersBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.pop.GoodsDetailClassifyPop
 import com.exz.carprofitmuch.pop.GoodsDetailClassifyPop.Companion.SCORE_STATE_NORMAL
@@ -100,21 +99,7 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
             tv_goodsType.text=it
         }
         STATE_NORMAL= SCORE_STATE_NORMAL
-        val data = GoodsBean()
-        val goodsSubClassify = ArrayList<GoodsSubClassifyBean>()
-        goodsSubClassify.add(GoodsSubClassifyBean("1","大"))
-        goodsSubClassify.add(GoodsSubClassifyBean("2","小"))
-        val goodsSubClassify2 = ArrayList<GoodsSubClassifyBean>()
-        goodsSubClassify2.add(GoodsSubClassifyBean("3","长"))
-        goodsSubClassify2.add(GoodsSubClassifyBean("4","短"))
-        data.goodsClassify.add(GoodsClassifyBean("大小", goodsSubClassify))
-        data.goodsClassify.add(GoodsClassifyBean("长短", goodsSubClassify2))
-        data.goodsClassifyPool.add(GoodsClassifyPoolBean("1,3","2.5","2","http"))
-        data.goodsClassifyPool.add(GoodsClassifyPoolBean("1,4","3.5","3","http"))
-        data.goodsClassifyPool.add(GoodsClassifyPoolBean("2,3","4.5","4","http"))
-        data.goodsClassifyPool.add(GoodsClassifyPoolBean("2,4","5.5","0","http"))
 
-        classifyPop.setNewData(data)
         initBanner()
         initEvent()
         mWebView.loadUrl("http://www.baidu.com")
@@ -162,10 +147,10 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
         }
     }
     override fun onRefresh(refreshLayout: RefreshLayout?) {
-        DataCtrlClass.scoreGoodsDetailData(this) {
-            if (it != null) {
-            }
-        }
+//        DataCtrlClass.scoreGoodsDetailData(this) {
+//            if (it != null) {
+//            }
+//        }
     }
     companion object {
         val ScoreGoods_Intent_ScoreGoodsId="ScoreGoods_Intent_ScoreGoodsId"

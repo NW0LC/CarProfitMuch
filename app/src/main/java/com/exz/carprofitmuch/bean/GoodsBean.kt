@@ -4,31 +4,78 @@ package com.exz.carprofitmuch.bean
  * Created by 史忠文
  * on 2017/10/21.
  */
-open class GoodsBean(var goodsId: String = "", var getGoodsCarId: String = "0", var date: String = "12月12", var goodsPrice: String = "25.00", var goodsType: String = "1") {
-//    "goodsId":"1",
-//    "imgUrl":"http://123.png",
-//    "goodsName":"商品名称"
-//    "goodsPrice":"25.00",
-//    "oldPrice":"98.00"
-//    "payMark":"1"
+open class GoodsBean {
+//            "goodsId":"商品id"
+//            "payMark":"1",
+//            "goodsName":"商品名称"
+//            "goodsPrice":"商品价格"(价格区间)
+//            "oldPrice":"商品原价"(价格区间)
+//            "expressPrice":"快递价格"
+//            "saleCount":"销量"
+//            "address":"所在地"
+//            "score":"赠送积分"
+//            "isCoupon":"0"
+//            "isCollected":"0:未关注、1:已关注"
+//            "mainImgs":["banner图地址1","banner图地址",...]
+//            "allStock":"总库存"
+//            "isHaveRank":"0否 1是"
+//            "isDelete":"0"
+//            "commentCount":"评论数量"
+//            "commentList":[{  //最多两条
+//                 "userIcon":"http://123.png"
+//                 "userName":"评论者名称"
+//                 "score":"评分"
+//                 "content":"评论内容"
+//                 "images":["image1","image1",..."],
+//                 "commentDate":"评价时间"
+//                 "goodsRank":"商品规格"
+//            },...]
+//            "shopId":"店铺id"
+//
+//
+//
+//
+//
+//
 
 
+    var imgUrl=""//商品属性
+    var goodsId: String=""  //商品属性
+    var payMark=""//商品属性
+    var goodsName=""//商品属性
+    var goodsPrice: String=""//商品属性
+    var oldPrice=""//商品属性
+    var expressPrice=""//商品属性
+    var saleCount=""//商品属性
+    var address=""//商品属性
+    var score=""//商品属性
+    var isCoupon=""//商品属性
+    var isCollected=""//商品属性
+    var mainImgs=ArrayList<String>()//商品属性
+    var allStock =""//商品属性
+    var isHaveRank =""//商品属性
+    var isDelete =""//商品属性
+    var commentCount =""//商品属性
+    var commentList =ArrayList<CommentBean>()//商品属性
+    var shopId =""//商品属性
 
-    var imgUrl="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3337482453,2397318421&fm=27&gp=0.jpg"
-    var goodsName="吃撑迷你车载垃圾桶汽车"
-    var title="加油卡充值500元"
-    var price="加油卡充值500元"
-    var subTitle="加油卡充值500元"
-    var oldPrice="98.00"
-    var scorePrice="25.00"
-    var goodsInventory="10"
+    var goodsCarId: String=""//商品购物车属性
+    var goodsType: String=""//商品购物车属性
+
+    var scorePrice="25.00"//积分商品属性
     var goodsCount="1"
     var goodsChooseClassify="蓝色 草莓味 500g 饼干"
     var isCheck=false
+
     var goodsCollectionPriceChangeInfo="goodsCollectionPriceChangeInfo"
-    var goodsBanner=ArrayList<BannersBean>()
-    var goodsClassify=ArrayList<GoodsClassifyBean>()
-    var goodsClassifyPool=ArrayList<GoodsClassifyPoolBean>()
+
+
+
+    var title=""//积分商品属性
+    var price=""//积分商品属性
+    var subTitle=""//积分商品属性
+
+    var date: String="" //历史足迹属性
 
 
     /**
@@ -42,7 +89,6 @@ open class GoodsBean(var goodsId: String = "", var getGoodsCarId: String = "0", 
      * goodsType : 规格内容
      */
 
-     var payMark: String = ""
      var count: String = ""
      var skuid: String = ""
 

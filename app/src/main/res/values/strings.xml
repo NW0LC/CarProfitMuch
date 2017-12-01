@@ -118,7 +118,7 @@
     <string name="score_goods_detail_unit">单价：%s个积分</string>
     <string name="goods_detail_oldPrice">价格￥%s</string>
     <string name="goods_detail_expressPrice">快递：%s</string>
-    <string name="goods_detail_soldCount">月销%s笔</string>
+    <string name="goods_detail_soldCount">销量%s笔</string>
     <string name="goods_detail_coupon">领取优惠券</string>
     <string name="goods_detail_redPacket">领取红包</string>
     <string name="goods_detail_comment">宝贝评价(%s)</string>
@@ -128,6 +128,7 @@
     <string name="goods_detail_addCar">加入购物车</string>
     <string name="goods_detail_confirm">立即购买</string>
     <string name="goods_detail_name">商品详情</string>
+    <string name="goods_detail_pass">已下架</string>
     <string name="goods_detail_coupon_info">满%s使用</string>
     <string name="goods_detail_coupon_time">有效期 %s</string>
     <string name="goods_detail_coupon_confirm">立刻领取</string>

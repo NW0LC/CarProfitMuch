@@ -67,17 +67,7 @@ class FootprintActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.Re
 
     private fun initRecycler() {
         mAdapter = FootprintAdapter()
-        val coupons = ArrayList<GoodsBean>()
-        coupons.add(GoodsBean(date = "12.12"))
-        coupons.add(GoodsBean(date = "12.12"))
-        coupons.add(GoodsBean(date = "12.12"))
-        coupons.add(GoodsBean(date = "12.12"))
-        coupons.add(GoodsBean(date = "12.13"))
-        coupons.add(GoodsBean(date = "12.12"))
-        coupons.add(GoodsBean(date = "12.12"))
-        coupons.add(GoodsBean(date = "12.12"))
 
-        mAdapter.setNewData(coupons)
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this,mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(this)

@@ -51,7 +51,7 @@ class OpenShopBusinessImgActivity : BaseActivity(), View.OnClickListener {
 
     private fun initView() {
 
-        if(intent.hasExtra("img"))img ="file://"+ intent.getStringExtra("img")
+        if(intent.hasExtra("userIcon"))img ="file://"+ intent.getStringExtra("userIcon")
         if (!TextUtils.isEmpty(img)) iv_img.setImageURI(img)
         iv_img.setOnClickListener(this)
         tv_submit.setOnClickListener(this)
@@ -72,7 +72,7 @@ class OpenShopBusinessImgActivity : BaseActivity(), View.OnClickListener {
                     mContext.toast("请修改身份证正面!")
                     return
                 }
-                setResult(OpenShopActivity.RESULTCODE_OPEN_SHOP, Intent().putExtra("img",img))
+                setResult(OpenShopActivity.RESULTCODE_OPEN_SHOP, Intent().putExtra("userIcon",img))
                 finish()
             }
 

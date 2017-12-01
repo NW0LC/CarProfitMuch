@@ -93,20 +93,6 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
     private fun initRecycler() {
         mAdapter = MainCartAdapter(this)
-        val arrayList = ArrayList<GoodsCarBean>()
-
-        val element = GoodsCarBean()
-        val element2 = GoodsCarBean()
-        element.goods.add(GoodsBean("1", "2", goodsPrice = "20"))
-        element.goods.add(GoodsBean("3", "4", goodsPrice= "21"))
-        element2.goods.add(GoodsBean("5", "6",goodsPrice = "22"))
-        element2.goods.add(GoodsBean("7", "8",goodsPrice = "23", goodsType = "2"))
-
-        arrayList.add(element)
-        arrayList.add(element2)
-
-        mAdapter.setNewData(arrayList)
-        setLoseGoods()
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -282,7 +268,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
         params.put("goodsCount", String.format("%s", index))
-        params.put("goodsCarId", goodsEntity.getGoodsCarId)
+        params.put("goodsCarId", goodsEntity.goodsCarId)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
         OkGo.post<NetEntity<String>>(Urls.url)
                 .params(params)
@@ -450,7 +436,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         private fun addOrDelete(context: Context, type: String, poolId: String, goodsCount: String, goodsEntities: List<GoodsBean>, onDeleteFinishListener: ((goodsEntities: List<GoodsBean>) -> Unit)?) {
             var goodsIds = ""
             for (goodsEntity in goodsEntities) {
-                goodsIds += (if ("0" == type) goodsEntity.getGoodsCarId else goodsEntity.goodsId) + ","
+                goodsIds += (if ("0" == type) goodsEntity.goodsCarId else goodsEntity.goodsId) + ","
             }
             val map = HashMap<String, String>()
             map.put("userId", MyApplication.loginUserId)
@@ -487,7 +473,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 while (subIterator.hasNext()) {
                     val subTemp = subIterator.next()
                     for (goodsEntity in goodsEntities) {
-                        if (subTemp.getGoodsCarId == goodsEntity.getGoodsCarId) {
+                        if (subTemp.goodsCarId == goodsEntity.goodsCarId) {
                             val position = adapter.data[parentPosition].goods.indexOf(subTemp)
                             subIterator.remove()
                             if (subAdapter == null) {

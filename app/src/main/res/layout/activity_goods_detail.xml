@@ -176,6 +176,7 @@
 
                 <LinearLayout
                     android:id="@+id/bt_redPacket"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="@dimen/margin_0.5"

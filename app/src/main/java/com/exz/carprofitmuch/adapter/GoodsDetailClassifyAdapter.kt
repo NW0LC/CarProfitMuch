@@ -21,12 +21,12 @@ class GoodsDetailClassifyAdapter<T : GoodsClassifyBean> : BaseQuickAdapter<T, Ba
 
     override fun convert(baseViewHolder: BaseViewHolder, entity: T) {
         val itemView = baseViewHolder.itemView
-        itemView.classifyName.text = entity.goodsClassifyName
-        val adapter = object : TagAdapter<GoodsSubClassifyBean>(entity.goodsSubClassify) {
+        itemView.classifyName.text = entity.rankName
+        val adapter = object : TagAdapter<GoodsSubClassifyBean>(entity.subRank) {
 
             override fun getView(parent: FlowLayout, position: Int, classifyBean: GoodsSubClassifyBean): View {
                 val textView = mLayoutInflater.inflate(R.layout.tag_classify, parent, false) as TextView
-                textView.text = classifyBean.goodsSubClassifyName
+                textView.text = classifyBean.rankName
                 when (classifyBean.goodsSubState) {
                 //1 on  2 off 3 pass
                     "1" -> {
@@ -42,16 +42,16 @@ class GoodsDetailClassifyAdapter<T : GoodsClassifyBean> : BaseQuickAdapter<T, Ba
             }
         }
         itemView.tagFlow.adapter = adapter
-        for (i in 0 until entity.goodsSubClassify.size) {
-            if ("1" == entity.goodsSubClassify[i].goodsSubState) {
+        for (i in 0 until entity.subRank.size) {
+            if ("1" == entity.subRank[i].goodsSubState) {
                 adapter.setSelectedList(i)
                 break
             }
         }
         itemView.tagFlow.setOnTagClickListener(TagFlowLayout.OnTagClickListener { _, position, _ ->
             if (itemView.tagFlow.selectedList.size != 0) {
-                entity.goodsSubClassify.filter { "1" == it.goodsSubState }.forEach { it.goodsSubState = "2" }
-                entity.goodsSubClassify[position].goodsSubState = "1"
+                entity.subRank.filter { "1" == it.goodsSubState }.forEach { it.goodsSubState = "2" }
+                entity.subRank[position].goodsSubState = "1"
             } else {
                 notifyDataSetChanged()
                 return@OnTagClickListener false

@@ -22,8 +22,8 @@ class GoodsConfirmCouponPop(context: Context,listener:(couponId:String)->Unit) :
     var mAdapter: GoodsConfirmPopAdapter<CouponBean> = GoodsConfirmPopAdapter()
     var data: GoodsConfirmSubBean? = null
         set(value) {
-            if (value?.goodsCoupons?.last()?.couponName!=context.getString(R.string.goods_confirm_coupon_item)) {
-                value?.goodsCoupons?.add(CouponBean(context.getString(R.string.goods_confirm_coupon_item)))
+            if (value?.goodsCoupons?.last()?.toString()!=context.getString(R.string.goods_confirm_coupon_item)) {
+                value?.goodsCoupons?.add(CouponBean())
             }
         field=value
 
@@ -31,8 +31,8 @@ class GoodsConfirmCouponPop(context: Context,listener:(couponId:String)->Unit) :
     }
     var couponData: ArrayList<CouponBean>? = null
         set(value) {
-            if (value?.last()?.couponName!=context.getString(R.string.goods_confirm_coupon_item)) {
-                value?.add(CouponBean(context.getString(R.string.goods_confirm_coupon_item)))
+            if (value?.last()?.toString()!=context.getString(R.string.goods_confirm_coupon_item)) {
+                value?.add(CouponBean())
             }
         field=value
 

@@ -1,6 +1,6 @@
 package com.exz.carprofitmuch.bean
 
-class GoodsClassifyPoolBean(var poolKey: String = "", var goodsClassifyPrice: String = "", var goodsClassifyInventory: String = "", var goodsSubClassifyUrl: String = "") {
+class GoodsClassifyPoolBean(var rankCombId: String = "", var price: String = "", var stock: String = "", var image: String = "") {
     /**
      * poolId :
      * poolKey :
@@ -8,5 +8,7 @@ class GoodsClassifyPoolBean(var poolKey: String = "", var goodsClassifyPrice: St
      * goodsClassifyPrice : 分类价格
      */
 
-    var poolId: String=""
+    var skuid: String=""
+    var payMark: String=""
+    var goodsType: String=""
 }

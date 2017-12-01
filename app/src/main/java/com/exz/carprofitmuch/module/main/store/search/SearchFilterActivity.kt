@@ -43,7 +43,6 @@ import java.util.*
 class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private var typeId: String=""
-    private var brandId: String=""
     private var searchContent: String=""
     private var status = "0"
     private var otherSift = ""
@@ -88,7 +87,6 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
 
 
         typeId = intent.getStringExtra("typeId")?:""
-        brandId = intent.getStringExtra("brandId")?:""
 
         if (!TextUtils.isEmpty(searchContent)) {
             this.searchContent = URLEncoder.encode(searchContent, "utf-8")
@@ -205,7 +203,7 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
             R.id.radioButton4 -> {
                 filterPopWin.showPopupWindow()
                 if (filterEntities.size==0) {
-                    DataCtrlClass.searchFilterData(mContext){
+                    DataCtrlClass.searchFilterData(mContext,typeId,searchContent){
                         filterEntities = it?: ArrayList()
                         filterPopWin.setData(filterEntities)
                     }
@@ -227,7 +225,7 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
     }
 
     private fun iniData(){
-        DataCtrlClass.searchFilterGoodsData(this, currentPage,filterPopWin) {
+        DataCtrlClass.searchFilterGoodsData(this, currentPage,typeId,searchContent,otherSift,status,filterPopWin) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {
@@ -262,5 +260,6 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
             view.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
         }
     }
+
 
 }

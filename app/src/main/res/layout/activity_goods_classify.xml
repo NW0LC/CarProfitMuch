@@ -11,12 +11,14 @@
         android:orientation="horizontal"
         >
         <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_10"
             android:id="@+id/mRecyclerViewOne"
+            android:clipToPadding="false"
             android:layout_width="90dp"
             android:layout_height="match_parent"/>
         <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_10"
+            android:clipToPadding="false"
             android:id="@+id/mRecyclerViewTwo"
             android:layout_width="match_parent"
             android:background="@color/white"

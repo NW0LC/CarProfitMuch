@@ -13,10 +13,8 @@ import com.exz.carprofitmuch.adapter.GoodsCommentAdapter
 import com.exz.carprofitmuch.bean.CommentBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
@@ -58,17 +56,6 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
     private val arrayList2= ArrayList<CommentBean>()
     private fun initRecycler() {
         mAdapter = GoodsCommentAdapter()
-        val imgs = ArrayList<String>()
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        arrayList2.add(CommentBean(imgs))
-        arrayList2.add(CommentBean(imgs))
-        arrayList2.add(CommentBean(imgs))
-
-        mAdapter.setNewData(arrayList2)
-
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -92,7 +79,7 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
     }
 
     private fun iniData(){
-        DataCtrlClass.goodsCommentData(context, currentPage) {
+        DataCtrlClass.goodsCommentData(context, currentPage,arguments[COMMENT_Id].toString(),arguments[COMMENT_IdMark].toString(),arguments[COMMENT_TYPE].toString()) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {
@@ -114,10 +101,14 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
     }
     companion object {
         private const val COMMENT_TYPE="type"
-        fun newInstance(position:Int): GoodsCommentListFragment {
+        private const val COMMENT_Id="id"
+        private const val COMMENT_IdMark="idMark"
+        fun newInstance(id:String,idMark:String,type:String): GoodsCommentListFragment {
             val bundle = Bundle()
             val fragment = GoodsCommentListFragment()
-            bundle.putInt(COMMENT_TYPE,position)
+            bundle.putString(COMMENT_TYPE,type)
+            bundle.putString(COMMENT_Id,id)
+            bundle.putString(COMMENT_IdMark,idMark)
             fragment.arguments = bundle
             return fragment
         }

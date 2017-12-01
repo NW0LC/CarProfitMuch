@@ -74,14 +74,7 @@ class ServiceDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickLis
         arrayList.add(ServiceGoodsBean())
         arrayList.add(ServiceGoodsBean())
 
-        val imgs = ArrayList<String>()
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        arrayList2.add(CommentBean(imgs))
-        arrayList2.add(CommentBean(imgs))
-        arrayList2.add(CommentBean(imgs))
+
 
         mServiceShopGoodsAdapter.goodsCount=arrayList.size
         mServiceShopGoodsAdapter.setNewData(arrayList)

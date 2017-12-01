@@ -5,13 +5,23 @@ package com.exz.carprofitmuch.bean
  * on 2017/10/26.
  */
 
-open class CommentBean(var imgs: ArrayList<String> = ArrayList()) {
-    var img="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4093981360,3722852820&fm=27&gp=0.jpg"
-    var uerName="我是钢铁侠"
+open class CommentBean {
+
+//    "userIcon":"http://123.png"
+//    "userName":"评论者名称"
+//    "score":"评分"
+//    "content":"评论内容"
+//    "images":["image1","image1",..."],
+//    "commentDate":"评价时间"
+//    "goodsRank":"商品规格"
+
+    var images=ArrayList<String>()
+    var userIcon =""
+    var uerName=""
     var score="5"
-    var content="复仇者连门吱吱喳喳韩正放大放大阿凡达发法国人个人规划复仇者连门吱吱喳喳韩正放大放大阿凡达发法国人个人规划复仇者连门吱吱喳喳韩正放大放大阿凡达发法国人个人规划复仇者连门吱吱喳喳韩正放大放大阿凡达发法国人个人规划"
-    var time="9月29日"
-    var type="颜色红色 规格50ml"
+    var content=""
+    var commentDate =""
+    var goodsRank=""
 
 
 

@@ -70,7 +70,6 @@ class ServiceConfirmActivity : BaseActivity(),  View.OnClickListener, CompoundBu
     }
     private fun initPop() {
         val coupons = ArrayList<CouponBean>()
-        coupons.add(CouponBean(couponPrice = "2",couponFullPrice = "2"))
         couponPop.couponData=coupons
 
 
@@ -93,7 +92,7 @@ class ServiceConfirmActivity : BaseActivity(),  View.OnClickListener, CompoundBu
         //总价格
         var totalPrice =data?.price?.toDouble()?:0.toDouble()
             //除去优惠券金额
-            val couponPrice = data?.coupons?.first { it.isCheck }?.couponPrice?.toDoubleOrNull()
+            val couponPrice = data?.coupons?.first { it.isCheck }?.discount?.toDoubleOrNull()
             tv_coupon.text=data?.coupons?.first { it.isCheck }.toString()
             //是否有可选优惠券
             bt_coupon.visibility=if (data?.coupons?.isNotEmpty()==true) View.VISIBLE else View.GONE

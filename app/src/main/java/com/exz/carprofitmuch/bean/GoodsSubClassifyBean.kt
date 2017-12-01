@@ -7,7 +7,7 @@ class GoodsSubClassifyBean(
          * goodsSubClassifyUrl :
          * goodsSubState : 1 on  2 off 3 pass
          */
-        var goodsSubClassifyId: String = "",var goodsSubClassifyName: String = "") {
+        var rankId: String = "",var rankName: String = "") {
     var goodsSubClassifyUrl=""
     var goodsSubState = STATE_2
     companion object {

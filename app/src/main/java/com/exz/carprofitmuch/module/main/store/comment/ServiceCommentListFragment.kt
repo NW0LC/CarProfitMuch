@@ -13,10 +13,8 @@ import com.exz.carprofitmuch.adapter.ServiceCommentAdapter
 import com.exz.carprofitmuch.bean.CommentBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
@@ -58,17 +56,6 @@ class ServiceCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnC
     private val arrayList2=ArrayList<CommentBean>()
     private fun initRecycler() {
         mAdapter = ServiceCommentAdapter()
-        val imgs = ArrayList<String>()
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        imgs.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1191873587,3864918266&fm=27&gp=0.jpg")
-        arrayList2.add(CommentBean(imgs))
-        arrayList2.add(CommentBean(imgs))
-        arrayList2.add(CommentBean(imgs))
-
-        mAdapter.setNewData(arrayList2)
-
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)

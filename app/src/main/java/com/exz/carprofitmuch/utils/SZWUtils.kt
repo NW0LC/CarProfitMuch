@@ -327,10 +327,12 @@ object SZWUtils {
      * 获取商品搜索结果排序筛选数据
      */
     fun getSearchGoodsResultSortData(): ArrayList<ServiceListFilterBean> {
+//        排序方式(0:综合,1:信用,2:价格降序,3:价格升序,4:销量)
         val filterBeans = ArrayList<ServiceListFilterBean>()
-        filterBeans.add(ServiceListFilterBean("1", "综合排序"))
-        filterBeans.add(ServiceListFilterBean("2", "价格由高到低"))
-        filterBeans.add(ServiceListFilterBean("3", "价格由低到高"))
+        filterBeans.add(ServiceListFilterBean("0", "综合排序"))
+        filterBeans.add(ServiceListFilterBean("1", "信用"))
+        filterBeans.add(ServiceListFilterBean("2", "价格降序"))
+        filterBeans.add(ServiceListFilterBean("3", "价格升序"))
         return filterBeans
     }
 
