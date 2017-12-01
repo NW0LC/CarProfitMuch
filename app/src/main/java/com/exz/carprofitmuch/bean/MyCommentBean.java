@@ -25,6 +25,7 @@ public class MyCommentBean {
     private String score;
     private String content;
     private String date;
+    private String classMark;
     private List<String> images;
 
     public String getGoodsId() {
@@ -81,5 +82,13 @@ public class MyCommentBean {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public String getClassMark() {
+        return classMark;
+    }
+
+    public void setClassMark(String classMark) {
+        this.classMark = classMark;
     }
 }

@@ -103,7 +103,7 @@
                         android:id="@+id/tv_phone"
                         android:textColor="@color/MaterialGrey600"
                         android:textSize="@dimen/sp_12"
-                        tool:background="@color/MaterialGrey200" />
+                         />
 
                 </LinearLayout>
                 <LinearLayout
@@ -123,19 +123,22 @@
                         android:textColor="@color/MaterialGrey600"
                         android:textSize="@dimen/sp_14" />
 
+
                     <TextView
+                        android:id="@+id/tv_nickname"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@color/White"
                         android:gravity="center_vertical|end"
-                        android:minWidth="@dimen/margin_120"
-                        android:paddingEnd="@dimen/margin_35"
+                        android:minWidth="@dimen/margin_60"
+                        android:paddingEnd="@dimen/margin_10"
                         android:paddingStart="0dp"
                         android:text=""
-                        android:id="@+id/tv_nickname"
+                        android:drawableEnd="@mipmap/icon_main_gray_next"
+                        android:drawablePadding="@dimen/margin_5"
                         android:textColor="@color/MaterialGrey600"
-                        android:textSize="@dimen/sp_12"
-                        tool:background="@color/MaterialGrey200" />
+                        android:textSize="@dimen/sp_14"
+                        />
 
                 </LinearLayout>
                 <LinearLayout
@@ -155,19 +158,22 @@
                         android:textColor="@color/MaterialGrey600"
                         android:textSize="@dimen/sp_14" />
 
+
                     <TextView
+                        android:id="@+id/tv_wechat"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@color/White"
                         android:gravity="center_vertical|end"
-                        android:minWidth="@dimen/margin_120"
-                        android:paddingEnd="@dimen/margin_35"
+                        android:minWidth="@dimen/margin_60"
+                        android:paddingEnd="@dimen/margin_10"
                         android:paddingStart="0dp"
                         android:text=""
-                        android:id="@+id/tv_wechat"
+                        android:drawableEnd="@mipmap/icon_main_gray_next"
+                        android:drawablePadding="@dimen/margin_5"
                         android:textColor="@color/MaterialGrey600"
-                        android:textSize="@dimen/sp_12"
-                        tool:background="@color/MaterialGrey200" />
+                        android:textSize="@dimen/sp_14"
+                        />
 
                 </LinearLayout>
                 <LinearLayout
@@ -201,7 +207,7 @@
                         android:drawablePadding="@dimen/margin_5"
                         android:textColor="@color/MaterialGrey600"
                         android:textSize="@dimen/sp_14"
-                        tool:background="@color/MaterialGrey200" />
+                         />
 
                 </LinearLayout>
 

@@ -68,11 +68,16 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         initBar()
         refreshLayout.setOnRefreshListener(this)
 
+
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         if (MyApplication.checkUserLogin()) {
             getUserInfo()
         }
-
-
     }
 
 

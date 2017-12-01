@@ -30,7 +30,7 @@ class ReturnGoodsActivity : BaseActivity() {
         return false
     }
 
-    override fun setInflateId(): Int = R.layout.activity_comment_list
+    override fun setInflateId(): Int = R.layout.activity_coupon_list
 
     override fun init() {
         initTabBar()
