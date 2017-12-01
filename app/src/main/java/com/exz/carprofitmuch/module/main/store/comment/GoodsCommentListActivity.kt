@@ -8,7 +8,7 @@ import com.flyco.tablayout.listener.CustomTabEntity
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
-import kotlinx.android.synthetic.main.activity_coupon_list.*
+import kotlinx.android.synthetic.main.activity_comment_list.*
 import java.util.*
 
 /**
@@ -37,7 +37,7 @@ class GoodsCommentListActivity : BaseActivity(){
     override fun init() {
         initTabBar()
         initEvent()
-        DataCtrlClass.commentCountPwd(this,intent.getStringExtra(GoodsCommentList_Intent_Id)?:"",intent.getStringExtra(GoodsCommentList_Intent_IdMark)?:""){
+        DataCtrlClass.commentCountData(this,intent.getStringExtra(GoodsCommentList_Intent_Id)?:"",intent.getStringExtra(GoodsCommentList_Intent_IdMark)?:""){
             if (it!=null){
                 (mTabEntities[0] as TabEntity).title=mTitles[0]+"("+it.total+")"
                 (mTabEntities[1] as TabEntity).title=mTitles[1]+"("+it.hasImg+")"

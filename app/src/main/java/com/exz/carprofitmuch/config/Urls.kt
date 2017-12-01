@@ -104,6 +104,10 @@ object Urls{
      * 评价统计
      */
     val CommentCount=url+"App/Store/CommentCount.aspx"
+    /**
+     * 店铺主页
+     */
+    val ShopMain=url+"App/Store/Reality/ShopMain.aspx"
 
 
 

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.support.v4.widget.NestedScrollView
 import android.view.View
 import com.blankj.utilcode.util.ScreenUtils
+import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.BannersBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
@@ -147,10 +148,10 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
         }
     }
     override fun onRefresh(refreshLayout: RefreshLayout?) {
-//        DataCtrlClass.scoreGoodsDetailData(this) {
-//            if (it != null) {
-//            }
-//        }
+        DataCtrlClass.scoreGoodsDetailData(this,"") {
+            if (it != null) {
+            }
+        }
     }
     companion object {
         val ScoreGoods_Intent_ScoreGoodsId="ScoreGoods_Intent_ScoreGoodsId"

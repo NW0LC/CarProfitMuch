@@ -64,6 +64,8 @@ class ScoreStoreActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.R
         footerView = View.inflate(this, R.layout.footer_score_store, null)
         mAdapter.addHeaderView(headerView)
         mAdapter.addFooterView(footerView)
+//        mAdapter.emptyView=View(mContext)
+        mAdapter.setHeaderAndEmpty(true)
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this,mRecyclerView)
         mRecyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)

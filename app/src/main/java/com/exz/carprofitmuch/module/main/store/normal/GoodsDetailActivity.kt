@@ -126,6 +126,7 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
         SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initRecycler()
         initEvent()
+        onRefresh(refreshLayout)
         mWebView.loadUrl("http://www.baidu.com")
     }
 
@@ -193,6 +194,7 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
 
             }
             bt_choose_type -> {
+                if (goodsBean != null)
                 classifyPop.showPopupWindow()
             }
             bt_addCard -> {

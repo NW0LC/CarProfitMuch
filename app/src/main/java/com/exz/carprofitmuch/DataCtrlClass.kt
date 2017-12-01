@@ -404,6 +404,36 @@ object DataCtrlClass {
                 })
     }
     /**
+     * 店铺主页
+     * */
+    fun goodsShopData(context: Context,shopId:String, listener: (shopBean: ShopBean?) -> Unit) {
+//       userId	string	选填	用户id
+//       shopId	string	必填	店铺id
+//       requestCheck	string	必填	验证请求
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("shopId", shopId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase())
+        OkGo.post<NetEntity<ShopBean>>(Urls.ShopMain)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<ShopBean>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<ShopBean>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<ShopBean>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
      * 商品详情
      * */
     fun goodsDetailData(context: Context,goodsId:String, listener: (goodsBean: GoodsBean?) -> Unit) {
@@ -588,7 +618,7 @@ object DataCtrlClass {
     /**
      * 评价统计
      */
-    fun commentCountPwd(context: Context,id: String, idMark: String,listener: (data: CommentCountBean?) -> Unit) {
+    fun commentCountData(context: Context, id: String, idMark: String, listener: (data: CommentCountBean?) -> Unit) {
         val params = HashMap<String, String>()
         params.put("id", id)
         params.put("idMark", idMark)
