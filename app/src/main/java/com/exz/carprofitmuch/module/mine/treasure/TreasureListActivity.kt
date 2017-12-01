@@ -17,8 +17,8 @@ import java.util.*
 
 class TreasureListActivity : BaseActivity() {
     private val mTitles = arrayOf("未领取", "已领取")
-    private val mIconUnSelectIds = intArrayOf(R.mipmap.icon_home_off, R.mipmap.icon_store_off, R.mipmap.icon_goods_car_off, R.mipmap.icon_mine_off)
-    private val mIconSelectIds = intArrayOf(R.mipmap.icon_home_on, R.mipmap.icon_store_on, R.mipmap.icon_goods_car_on, R.mipmap.icon_mine_on)
+    private val mIconUnSelectIds = intArrayOf(R.mipmap.icon_home_off, R.mipmap.icon_store_off)
+    private val mIconSelectIds = intArrayOf(R.mipmap.icon_home_on, R.mipmap.icon_store_on)
     private val mTabEntities = ArrayList<CustomTabEntity>()
     private val mFragments = ArrayList<Fragment>()
     override fun initToolbar(): Boolean {
@@ -30,7 +30,7 @@ class TreasureListActivity : BaseActivity() {
         return false
     }
 
-    override fun setInflateId(): Int = R.layout.activity_comment_list
+    override fun setInflateId(): Int = R.layout.activity_coupon_list
 
     override fun init() {
         initTabBar()

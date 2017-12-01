@@ -33,7 +33,7 @@ class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerVi
         toolbar.setNavigationOnClickListener { finish() }
 
         //状态栏透明和间距处理
-        mTitle.text = getString(R.string.settings_name)
+        mTitle.text = getString(R.string.settings_person)
         StatusBarUtil.immersive(this)
         StatusBarUtil.setPaddingSmart(this, toolbar)
         StatusBarUtil.setPaddingSmart(this, header)
@@ -46,6 +46,11 @@ class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerVi
         initGender()
         initCamera()
         initEvent()
+        initUserInfo()
+    }
+
+    private fun initUserInfo() {
+
     }
 
     private fun initGender() {

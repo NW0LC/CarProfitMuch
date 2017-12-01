@@ -129,6 +129,17 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
                                 startActivity(Intent(context, PayMethodsActivity::class.java).putExtra(Pay_Intent_OrderId, mAdapter.data.get(position).orderId).putExtra(Pay_Intent_Finish_Type, Intent_Finish_Type_2))
                             }
                             "2" -> {//申请退款
+                                com.exz.carprofitmuch.utils.DialogUtils.refund(context, mAdapter.data.get(position).orderId, {
+                                    if (it != null) {
+
+                                        DataCtrlClassXZW.ApplyReturnMoney(context, mAdapter.data.get(position).orderId, it, {
+                                            if (it != null) {
+                                                onRefresh(refreshLayout)
+                                            }
+                                        })
+                                    }
+
+                                })
 
                             }
                             "3" -> {//确认收货

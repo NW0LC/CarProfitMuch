@@ -152,7 +152,7 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
                     }
                     "4", "5" -> {    //删除订单
 
-                        startActivity(Intent(this, RefundActivity::class.java).putExtra(RefundActivity.OrderId,entity.orderId))
+                        startActivity(Intent(this, RefundActivity::class.java).putExtra(RefundActivity.OrderId, entity.orderId))
 
 
                     }
@@ -164,8 +164,22 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
             R.id.tv_right -> {
                 when (orderState) {
                     "1" -> {//支付订单
-                        startActivity(Intent(this, PayMethodsActivity::class.java).putExtra(Pay_Intent_OrderId,entity.orderId).putExtra(Pay_Intent_Finish_Type, Intent_Finish_Type_2))
+                        startActivity(Intent(this, PayMethodsActivity::class.java).putExtra(Pay_Intent_OrderId, entity.orderId).putExtra(Pay_Intent_Finish_Type, Intent_Finish_Type_2))
 
+                    }
+
+                    "2" -> {
+                        com.exz.carprofitmuch.utils.DialogUtils.refund(mContext, orderId, {
+                            if (it != null) {
+
+                                DataCtrlClassXZW.ApplyReturnMoney(mContext, orderId, it, {
+                                    if (it != null) {
+                                        finish()
+                                    }
+                                })
+                            }
+
+                        })
                     }
                     "3" -> {//确认收货
                         DataCtrlClassXZW.EditOrderData(mContext, entity.orderId!!, "2", {
@@ -177,11 +191,11 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
                     "4" -> {    //评价订单
                         GoodsOrderCommentActivity.shopId = entity.shopId!!
                         GoodsOrderCommentActivity.orderId = entity.orderId!!
-                        GoodsOrderCommentActivity.json=JSON.toJSONString(entity.goodsInfo)
+                        GoodsOrderCommentActivity.json = JSON.toJSONString(entity.goodsInfo)
                         startActivity(Intent(this, GoodsOrderCommentActivity::class.java))
 
                     }
-                    "5"->{// 删除订单
+                    "5" -> {// 删除订单
                         DataCtrlClassXZW.EditOrderData(mContext, entity.orderId!!, "1", {
                             if (it != null) {
                                 finish()

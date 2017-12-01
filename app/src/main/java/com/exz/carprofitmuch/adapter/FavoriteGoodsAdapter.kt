@@ -25,13 +25,13 @@ class FavoriteGoodsAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>(
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView = helper.itemView
         itemView.img.setImageURI(item.imgUrl)
-        itemView.tv_goodsName.text = item.title
-        itemView.tv_goodsPrice.text = item.price
-        if ("4" == item.goodsType) {
+        itemView.tv_goodsName.text = item.goodsName
+        itemView.tv_goodsPrice.text = item.goodsPrice
+        if ("2" == item.state) {
             itemView.tv_goodsChooseClassify.text = "已失效"
             itemView.tv_goodsChooseClassify.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
         } else {
-            itemView.tv_goodsChooseClassify.text = item.goodsCollectionPriceChangeInfo
+            itemView.tv_goodsChooseClassify.text ="比收藏时降价"+ item.downPrice+"元"
             itemView.tv_goodsChooseClassify.setTextColor(ContextCompat.getColor(mContext, R.color.Red))
         }
 
@@ -59,7 +59,7 @@ class FavoriteGoodsAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>(
         itemView.radioButton.isChecked = item.isCheck
         itemView.btnDelete.setOnClickListener {
             DialogUtils.delete(mContext) {
-                DataCtrlClass.favoriteGoodsIsCollection(mContext, "1", arrayOf(item)) {
+                DataCtrlClass.favoriteGoodsIsCollection(mContext, "1","0", arrayOf(item)) {
                     removeItem(this@FavoriteGoodsAdapter, it)
                 }
             }

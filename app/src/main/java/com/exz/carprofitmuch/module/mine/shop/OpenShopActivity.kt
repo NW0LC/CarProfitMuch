@@ -86,6 +86,7 @@ class OpenShopActivity : BaseActivity() {
         return false
     }
 
+
     override fun setInflateId(): Int = R.layout.activity_open_shop
 
     override fun init() {
@@ -103,70 +104,70 @@ class OpenShopActivity : BaseActivity() {
                 for (bean in adapter.data) {
                     when (bean.k) {
                         "店铺类型" -> {
-                            classMark=if(it.classMark.value.equals("实体商品类")) "1" else "2"
-                            adapter.data.get(adapter.data.indexOf(bean)).v= it.classMark.value
+                            classMark = if (it.classMark.value.equals("实体商品类")) "1" else "2"
+                            adapter.data.get(adapter.data.indexOf(bean)).v = it.classMark.value
                             // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
-                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.classMark.check.equals("0")) "3" else "4"
+                            adapter.data.get(adapter.data.indexOf(bean)).state = if (it.classMark.check.equals("0")) "3" else "4"
                         }
                         "店铺等级" -> {
-                            adapter.data.get(adapter.data.indexOf(bean)).v= it.level.value
+                            adapter.data.get(adapter.data.indexOf(bean)).v = it.level.value
                             // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
-                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.level.check.equals("0")) "3" else "4"
+                            adapter.data.get(adapter.data.indexOf(bean)).state = if (it.level.check.equals("0")) "3" else "4"
                         }
                         "店铺名称" -> {
-                            adapter.data.get(adapter.data.indexOf(bean)).v= it.name.value
+                            adapter.data.get(adapter.data.indexOf(bean)).v = it.name.value
                             // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
-                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.name.check.equals("0")) "3" else "4"
+                            adapter.data.get(adapter.data.indexOf(bean)).state = if (it.name.check.equals("0")) "3" else "4"
                         }
                         "店铺类目" -> {
-                            adapter.data.get(adapter.data.indexOf(bean)).v= it.category.value
+                            adapter.data.get(adapter.data.indexOf(bean)).v = it.category.value
                             // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
-                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.category.check.equals("0")) "3" else "4"
+                            adapter.data.get(adapter.data.indexOf(bean)).state = if (it.category.check.equals("0")) "3" else "4"
                         }
                         "所在地" -> {
-                            adapter.data.get(adapter.data.indexOf(bean)).v= it.district.value
+                            adapter.data.get(adapter.data.indexOf(bean)).v = it.district.value
                             // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
-                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.district.check.equals("0")) "3" else "4"
+                            adapter.data.get(adapter.data.indexOf(bean)).state = if (it.district.check.equals("0")) "3" else "4"
                         }
                         "详细地址" -> {
-                            adapter.data.get(adapter.data.indexOf(bean)).v= "已填写"
+                            adapter.data.get(adapter.data.indexOf(bean)).v = "已填写"
                             // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
-                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.detail.check.equals("0")) "3" else "4"
-                            locationBean=OpenShopLocationBean(it.longitude.check,it.latitude.check,it.detail.check)
-                            if(it.detail.check.equals("0")||it.latitude.check.equals("0")||it.longitude.check.equals("0")){
-                                adapter.data.get(adapter.data.indexOf(bean)).state="3"
-                            }else{
-                                adapter.data.get(adapter.data.indexOf(bean)).state="4"
+                            adapter.data.get(adapter.data.indexOf(bean)).state = if (it.detail.check.equals("0")) "3" else "4"
+                            locationBean = OpenShopLocationBean(it.longitude.check, it.latitude.check, it.detail.check)
+                            if (it.detail.check.equals("0") || it.latitude.check.equals("0") || it.longitude.check.equals("0")) {
+                                adapter.data.get(adapter.data.indexOf(bean)).state = "3"
+                            } else {
+                                adapter.data.get(adapter.data.indexOf(bean)).state = "4"
                             }
 
                         }
                         "联系人" -> {
-                            adapter.data.get(adapter.data.indexOf(bean)).v= it.contact.value
+                            adapter.data.get(adapter.data.indexOf(bean)).v = it.contact.value
                             // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
-                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.contact.check.equals("0")) "3" else "4"
+                            adapter.data.get(adapter.data.indexOf(bean)).state = if (it.contact.check.equals("0")) "3" else "4"
                         }
                         "身份证正反面照片" -> {
-                            cardImg= OpenShopCardImgBean()
-                            cardImg.cardImg=it.idFrontImg.value
-                            cardImg.cardBackImg=it.idBackImg.value
-                            cardImg.cardNum=it.idNum.value
-                            cardImg.cardName=it.idName.value
+                            cardImg = OpenShopCardImgBean()
+                            cardImg.cardImg = it.idFrontImg.value
+                            cardImg.cardBackImg = it.idBackImg.value
+                            cardImg.cardNum = it.idNum.value
+                            cardImg.cardName = it.idName.value
 
-                            cardImg.cardImgCheck=it.idFrontImg.check
-                            cardImg.cardBackImgCheck=it.idBackImg.check
-                            cardImg.cardNumCheck=it.idNum.check
-                            cardImg.cardNameCheck=it.idName.check
-                            if(it.idFrontImg.check.equals("0")||it.idBackImg.check.equals("0")||it.idNum.check.equals("0")||it.idName.check.equals("0")){
-                                adapter.data.get(adapter.data.indexOf(bean)).state="3"
-                            }else{
-                                adapter.data.get(adapter.data.indexOf(bean)).state="4"
+                            cardImg.cardImgCheck = it.idFrontImg.check
+                            cardImg.cardBackImgCheck = it.idBackImg.check
+                            cardImg.cardNumCheck = it.idNum.check
+                            cardImg.cardNameCheck = it.idName.check
+                            if (it.idFrontImg.check.equals("0") || it.idBackImg.check.equals("0") || it.idNum.check.equals("0") || it.idName.check.equals("0")) {
+                                adapter.data.get(adapter.data.indexOf(bean)).state = "3"
+                            } else {
+                                adapter.data.get(adapter.data.indexOf(bean)).state = "4"
                             }
-                            adapter.data.get(adapter.data.indexOf(bean)).v= "已填写"
+                            adapter.data.get(adapter.data.indexOf(bean)).v = "已填写"
                         }
                         "营业执照照片" -> {
-                            adapter.data.get(adapter.data.indexOf(bean)).v= it.businessImg.value
+                            adapter.data.get(adapter.data.indexOf(bean)).v = it.businessImg.value
                             // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
-                            adapter.data.get(adapter.data.indexOf(bean)).state= if(it.businessImg.check.equals("0")) "3" else "4"
+                            adapter.data.get(adapter.data.indexOf(bean)).state = if (it.businessImg.check.equals("0")) "3" else "4"
 
                         }
                     }
@@ -187,9 +188,9 @@ class OpenShopActivity : BaseActivity() {
                         return@setOnClickListener
                     }
                 }
-                url= Urls.ConfirmInfo
+                url = Urls.ConfirmInfo
             } else {
-                url= Urls.ModifyInfo
+                url = Urls.ModifyInfo
                 for (bean in adapter.data) {
                     if (bean.state.equals("3")) {
                         mContext.toast("请修改" + bean.k)
@@ -214,8 +215,8 @@ class OpenShopActivity : BaseActivity() {
              * idName	string	必填	身份证上的姓名
              * businessImg	string	必填	营业执照（base64)
              * */
-            DataCtrlClassXZW.ConfirmInfoData(mContext, classMark, levelId, name, categoryId, districtId, detail, longitude, latitude, contact,  EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(idFrontImg)),
-                    EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(idBackImg)), idNum, idName,  EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(businessImg)),url , {
+            DataCtrlClassXZW.ConfirmInfoData(mContext, classMark, levelId, name, categoryId, districtId, detail, longitude, latitude, contact, EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(idFrontImg)),
+                    EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(idBackImg)), idNum, idName, EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(businessImg)), url, {
                 if (it != null) {
                     finish()
                 }
@@ -361,7 +362,7 @@ class OpenShopActivity : BaseActivity() {
             adapter.data.get(position).id = ShopLevel.get(options1).levelId
             adapter.notifyItemChanged(position)
             levelId = ShopLevel.get(options1).levelId
-            footerView.tv_fee.text =String.format(mContext.getString(R.string.main_open_shop_fee), ShopLevel.get(position).fee)
+            footerView.tv_fee.text = String.format(mContext.getString(R.string.main_open_shop_fee), ShopLevel.get(position).fee)
         }
         initShopLevel()
 
@@ -449,6 +450,7 @@ class OpenShopActivity : BaseActivity() {
 
     companion object {
         var RESULTCODE_OPEN_SHOP = 100
+        var openState = ""//开店状态：0开店审核中 1开店审核通过 2开店审核未通过 3未开店
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -461,8 +463,8 @@ class OpenShopActivity : BaseActivity() {
                         if (data != null) {
                             classMark = (data.getSerializableExtra("keyValue") as OpenShopKeyValueBean).id
                             textChanger("1", data)
-                            adapter.data.get(1).k=""
-                            adapter.data.get(3).k=""
+                            adapter.data.get(1).k = ""
+                            adapter.data.get(3).k = ""
                             adapter.notifyItemChanged(1)
                             adapter.notifyItemChanged(3)
                             initShopLevel()
@@ -504,7 +506,7 @@ class OpenShopActivity : BaseActivity() {
                         if (data != null) {
                             textChanger("3", data)
                             idFrontImg = (data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardImg
-                            idBackImg =(data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardBackImg
+                            idBackImg = (data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardBackImg
                             idNum = (data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardNum
                             idName = (data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardName
                         }

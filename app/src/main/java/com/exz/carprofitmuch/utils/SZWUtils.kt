@@ -133,7 +133,7 @@ object SZWUtils {
      * [originalX] 上方显示的布局的原始x坐标
      * [totalScore] 总积分
      * [unlockScore] 解锁积分
-     * [realScore] 解锁积分
+     * [realScore] 车险获得积分
      * [start] 实际进度开始位置
      * [end] 实际进度结束位置
      * [secondStart] 可行进度开始位置

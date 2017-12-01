@@ -4,6 +4,8 @@ import android.content.Intent
 import android.view.View
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
+import com.exz.carprofitmuch.module.mine.AccountBalanceWithdrawalActivity.Companion.Balance
+import com.exz.carprofitmuch.module.mine.PayBalanceRechargeActivity.Companion.MinRecharge
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
@@ -14,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_account_balance.*
  * on 2017/11/8.
  */
 class AccountBalanceActivity : BaseActivity(), View.OnClickListener {
-
+    var minRecharge = ""
 
     override fun initToolbar(): Boolean {
         toolbar.setNavigationOnClickListener { finish() }
@@ -40,8 +42,8 @@ class AccountBalanceActivity : BaseActivity(), View.OnClickListener {
 
     override fun onClick(view: View) {
         when (view) {
-            bt_recharge_money -> startActivity(Intent(mContext, PayBalanceRechargeActivity::class.java))
-            bt_request_withdrawal -> startActivity(Intent(mContext, AccountBalanceWithdrawalActivity::class.java))
+            bt_recharge_money -> startActivity(Intent(mContext, PayBalanceRechargeActivity::class.java).putExtra(MinRecharge,minRecharge))
+            bt_request_withdrawal -> startActivity(Intent(mContext, AccountBalanceWithdrawalActivity::class.java).putExtra(Balance, tv_balance.text.toString().trim()))
             bt_balance_change -> {
                 startActivity(Intent(this, AccountBalanceRecordActivity::class.java))
             }
@@ -53,7 +55,10 @@ class AccountBalanceActivity : BaseActivity(), View.OnClickListener {
      */
     private fun initBalance() {
         DataCtrlClass.accountBalance(this) {
-                tv_balance.text=it
+            if (it != null) {
+                tv_balance.text = it.balance
+                minRecharge = it.minRecharge
+            }
         }
     }
 

@@ -14,11 +14,11 @@ class ScoreRecordAdapter<T : ScoreRecordBean> : BaseQuickAdapter<T, BaseViewHold
         val itemView=helper.itemView
         itemView.tv_title.text = item.title
         itemView.tv_date.text = item.title
-        if (item.accountsType == "1") {
-            itemView.tv_score.text = String.format("+%s", item.title)
+        if (item.isAdd == "1") {
+            itemView.tv_score.text = String.format("+%s", item.amount)
             itemView.img.setImageResource(R.mipmap.icon_mine_score_expend)
         } else {
-            itemView.tv_score.text = String.format("-%s", item.title)
+            itemView.tv_score.text = String.format("-%s", item.amount)
             itemView.img.setImageResource(R.mipmap.icon_mine_score_income)
         }
     }

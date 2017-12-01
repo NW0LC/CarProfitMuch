@@ -12,6 +12,7 @@ import com.common.controls.dialog.DialogUtil
 import com.common.controls.dialog.ICommonDialog
 import com.exz.carprofitmuch.R
 import kotlinx.android.synthetic.main.dialog_change_num.view.*
+import kotlinx.android.synthetic.main.dialog_refund.view.*
 import kotlinx.android.synthetic.main.dialog_score_failed.view.*
 import kotlinx.android.synthetic.main.dialog_score_success.view.*
 
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.dialog_score_success.view.*
  * Created by 史忠文
  * on 2017/10/24.
  */
-object DialogUtils{
+object DialogUtils {
     private lateinit var dialog: ICommonDialog
     /**
      * 清除提醒
@@ -36,6 +37,7 @@ object DialogUtils{
         dialog.setCanceledOnTouchOutside(true)
         dialog.show()
     }
+
     /**
      * 清除搜索记录
      */
@@ -89,7 +91,7 @@ object DialogUtils{
      */
     fun changeNum(context: Context, count: Long, listener: (num: Long) -> Unit) {
         dialog = DialogType104(context)
-        val view = View.inflate(context,R.layout.dialog_change_num, null)
+        val view = View.inflate(context, R.layout.dialog_change_num, null)
         ViewHolder(view)
         view.count.setText(String.format("%s", count))
         view.count.setSelection(view.count.text.length)
@@ -115,13 +117,42 @@ object DialogUtils{
         }
         dialog.show()
     }
+
+    /**
+     * 退款
+     */
+    fun refund(context: Context, orderNum: String, listener: (num: String) -> Unit) {
+        dialog = DialogType104(context)
+        val view = View.inflate(context, R.layout.dialog_refund, null)
+        dialog.setTitleText("订单编号:" + orderNum)
+        dialog.setContentView(view)
+        dialog.setOkBtn("确定") {
+            val trim = view.ed_content.text.toString().trim()
+            if (!TextUtils.isEmpty(trim)) {
+                listener.invoke(trim)
+            }
+            dialog.dismiss()
+        }
+        dialog.setCancelBtn("取消") {
+            dialog.dismiss()
+        }
+        dialog.setOnShowListener { KeyboardUtils.toggleSoftInput() }
+        (dialog as DialogType104).setOnBeforeDismiss {
+            KeyboardUtils.hideSoftInput(view.ed_content)
+            true
+        }
+        dialog.show()
+    }
+
     private var countIndex = 1.toLong()
-    internal class ViewHolder(private var view: View) :View.OnClickListener{
+
+    internal class ViewHolder(private var view: View) : View.OnClickListener {
         init {
             view.count.setSelection(view.count.text.length)
             view.add.setOnClickListener(this)
             view.minus.setOnClickListener(this)
         }
+
         override fun onClick(p0: View) {
             when (p0.id) {
                 R.id.minus -> countIndex = if (countIndex <= 1) 1 else --countIndex
@@ -132,6 +163,7 @@ object DialogUtils{
         }
 
     }
+
     /***
      *积分支付成功
      */
@@ -150,13 +182,13 @@ object DialogUtils{
     /***
      *积分支付失败
      */
-    fun scorePayFailed(context: Context,reason:String=context.getString(R.string.score_pay_failed_default_reason)) {
+    fun scorePayFailed(context: Context, reason: String = context.getString(R.string.score_pay_failed_default_reason)) {
 
         val inflate = View.inflate(context, R.layout.dialog_score_failed, null)
         val dlg = CoreDialog(context, com.common.alertpop.R.style.dialog, inflate, true)
         dlg.setPosition(Gravity.CENTER, 0, 0)
         dlg.setCanceledOnTouchOutside(true)
-        inflate.tv_score_failed_reason.text=reason
+        inflate.tv_score_failed_reason.text = reason
         inflate.bt_score_failed_close.setOnClickListener {
             dlg.dismiss()
         }

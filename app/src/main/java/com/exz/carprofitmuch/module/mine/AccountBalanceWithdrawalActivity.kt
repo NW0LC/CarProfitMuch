@@ -1,5 +1,6 @@
 package com.exz.carprofitmuch.module.mine
 
+import android.text.TextUtils
 import android.view.View
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
@@ -30,18 +31,54 @@ class AccountBalanceWithdrawalActivity : PayActivity(), View.OnClickListener {
     }
 
     override fun init() {
+        tv_price.text = String.format("%s", intent.getStringExtra(Balance))
         bt_confirm.setOnClickListener(this)
     }
 
+    companion object {
+        var Balance = "balance"
+    }
+
     override fun onClick(p0: View?) {
+        val applyMoney = tv_withdrawal_price.text.toString().trim()
+        if (TextUtils.isEmpty(applyMoney)) {
+            tv_withdrawal_price.setShakeAnimation()
+            return
+        }
+        val bankCardNum = tv_withdrawal_cardNum.text.toString().trim()
+        if (TextUtils.isEmpty(bankCardNum)) {
+            tv_withdrawal_cardNum.setShakeAnimation()
+            return
+        }
+        val bankName = tv_withdrawal_bankName.text.toString().trim()
+        if (TextUtils.isEmpty(bankName)) {
+            tv_withdrawal_bankName.setShakeAnimation()
+            return
+        }
+        val bankAddress = tv_withdrawal_bankAddress.text.toString().trim()
+        if (TextUtils.isEmpty(bankAddress)) {
+            tv_withdrawal_bankAddress.setShakeAnimation()
+            return
+        }
+        val userName = tv_withdrawal_cardUserName.text.toString().trim()
+        if (TextUtils.isEmpty(userName)) {
+            tv_withdrawal_cardUserName.setShakeAnimation()
+            return
+        }
+        val userPhone = tv_withdrawal_cardUserPhone.text.toString().trim()
+        if (TextUtils.isEmpty(userPhone)) {
+            tv_withdrawal_cardUserPhone.setShakeAnimation()
+            return
+        }
+
         DataCtrlClass.requestWithdrawal(this,
-                tv_price.text.toString(),
-                tv_withdrawal_cardNum.text.toString(),
-                tv_withdrawal_bankName.text.toString(),
-                tv_withdrawal_bankAddress.text.toString(),
-                tv_withdrawal_cardUserName.text.toString(),
-                tv_withdrawal_cardUserPhone.text.toString()){
-            if (it!=null) {
+                applyMoney,
+                bankCardNum,
+                bankName,
+                bankAddress,
+                userName,
+                userPhone) {
+            if (it != null) {
                 onBackPressed()
             }
         }

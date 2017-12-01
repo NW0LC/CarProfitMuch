@@ -2,7 +2,6 @@ package com.exz.carprofitmuch.module.mine
 
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
@@ -10,10 +9,8 @@ import com.exz.carprofitmuch.adapter.AccountBalanceRecordAdapter
 import com.exz.carprofitmuch.bean.BalanceRecordBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
@@ -58,21 +55,12 @@ class AccountBalanceRecordActivity : BaseActivity(), OnRefreshListener, BaseQuic
 
     private fun initRecycler() {
         mAdapter = AccountBalanceRecordAdapter()
-        val coupons = ArrayList<BalanceRecordBean>()
-        coupons.add(BalanceRecordBean())
-        coupons.add(BalanceRecordBean())
-        coupons.add(BalanceRecordBean())
-        coupons.add(BalanceRecordBean())
-        coupons.add(BalanceRecordBean())
-        coupons.add(BalanceRecordBean())
-        coupons.add(BalanceRecordBean())
-        coupons.add(BalanceRecordBean())
 
-        mAdapter.setNewData(coupons)
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this,mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
+        onRefresh(refreshLayout)
 
     }
     override fun onRefresh(refreshLayout: RefreshLayout?) {

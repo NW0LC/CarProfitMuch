@@ -1,9 +1,11 @@
 package com.exz.carprofitmuch.module.mine
 
+import android.text.TextUtils
 import android.view.View
 import com.blankj.utilcode.util.EncryptUtils
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.CheckPayBean
+import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.module.main.pay.PayActivity
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.hwangjr.rxbus.annotation.Subscribe
@@ -18,6 +20,7 @@ import com.szw.framelibrary.utils.net.NetEntity
 import com.szw.framelibrary.utils.net.callback.DialogCallback
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_account_balance_recharge.*
+import org.jetbrains.anko.toast
 
 /**
  * Created by 史忠文
@@ -42,13 +45,29 @@ class PayBalanceRechargeActivity : PayActivity(), View.OnClickListener {
     override fun init() {
         radioGroup.check(radioGroup.getChildAt(0).id)
         bt_confirm.setOnClickListener(this)
+        initView()
+    }
+
+    private fun initView() {
+
+        tv_minRecharge.text = String.format(mContext.getString(R.string.mine_recharge), intent.getStringExtra(MinRecharge))
     }
 
     override fun onClick(p0: View?) {
+        var rechargeMoney = ed_rechargeMoney.text.toString().trim()
+        if (TextUtils.isEmpty(rechargeMoney)) {
+            mContext.toast("请输入充值金额,数值为整数")
+            return
+        }
+        if(rechargeMoney.toInt()<intent.getStringExtra(MinRecharge).toFloat()){
+            mContext.toast("最低充值额度"+intent.getStringExtra(MinRecharge))
+            return
+        }
+
         if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(0).id)
-            aliPay("", "rechargeId", "")
+            aliPay(Urls.AliRecharge, "rechargeMoney", rechargeMoney,EncryptUtils.encryptMD5ToString(MyApplication.loginUserId , MyApplication.salt).toLowerCase())
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(1).id)
-            weChatPay("", "rechargeId", "")
+            weChatPay(Urls.WeChatRecharge, "rechargeMoney", rechargeMoney,EncryptUtils.encryptMD5ToString(MyApplication.loginUserId , MyApplication.salt).toLowerCase())
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = arrayOf(Tag(Constants.BusAction.Pay_Finish)))
@@ -65,7 +84,7 @@ class PayBalanceRechargeActivity : PayActivity(), View.OnClickListener {
         map.put("userId", MyApplication.loginUserId)
         map.put("rechargeId", rechargeId)
         map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + rechargeId, MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<CheckPayBean>>("").tag(this)
+        OkGo.post<NetEntity<CheckPayBean>>(Urls.BalanceRechargeCheck).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<CheckPayBean>>(this) {
 
@@ -85,6 +104,10 @@ class PayBalanceRechargeActivity : PayActivity(), View.OnClickListener {
 
     override fun onBackPressed() {
         DialogUtils.payBack(this@PayBalanceRechargeActivity)
+    }
+
+    companion object {
+        var MinRecharge = ""
     }
 
 }

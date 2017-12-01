@@ -18,10 +18,8 @@ import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companio
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
@@ -47,9 +45,10 @@ class FavoriteShopActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter
     }
 
     override fun init() {
-        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
+        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initRecycler()
         initEvent()
+        onRefresh(refreshLayout)
     }
 
     override fun initToolbar(): Boolean {
@@ -85,19 +84,6 @@ class FavoriteShopActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter
 
     private fun initRecycler() {
         mAdapter = FavoriteShopAdapter()
-        val arrayList = ArrayList<GoodsShopBean>()
-        arrayList.add(GoodsShopBean("1"))
-        arrayList.add(GoodsShopBean("2"))
-        arrayList.add(GoodsShopBean("3"))
-        arrayList.add(GoodsShopBean("4"))
-        arrayList.add(GoodsShopBean("5"))
-        arrayList.add(GoodsShopBean("6"))
-        arrayList.add(GoodsShopBean("7"))
-        arrayList.add(GoodsShopBean("8"))
-        arrayList.add(GoodsShopBean("9"))
-        arrayList.add(GoodsShopBean("10"))
-        arrayList.add(GoodsShopBean("11"))
-        mAdapter.addData(arrayList)
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -153,7 +139,8 @@ class FavoriteShopActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter
                 }
                 if (b) {
                     DialogUtils.delete(this) {
-                        DataCtrlClass.favoriteShopIsCollection(this, "1", goodsEntities.toTypedArray()) {
+
+                        DataCtrlClass.favoriteShopIsCollection(mContext, "0", "0", goodsEntities.toTypedArray()) {
                             removeItem(mAdapter, it)
                         }
                     }
@@ -218,8 +205,8 @@ class FavoriteShopActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter
                 for (goodsEntity in goodsEntities) {
                     if (temp.id == goodsEntity.id) {
                         val position = adapter.data.indexOf(temp)
-                        adapter.notifyItemRemoved(position)
                         iterator.remove()
+                        adapter.notifyDataSetChanged()
                     }
                 }
 

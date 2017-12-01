@@ -1,15 +1,14 @@
 package com.exz.carprofitmuch.module.mine
 
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.exz.carprofitmuch.DataCtrlClass
+import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.FootprintAdapter
-import com.exz.carprofitmuch.bean.GoodsBean
+import com.exz.carprofitmuch.bean.FootprintBean
 import com.exz.carprofitmuch.utils.DialogUtils
-import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
@@ -17,7 +16,7 @@ import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
-import kotlinx.android.synthetic.main.activity_red_packet.*
+import kotlinx.android.synthetic.main.activity_footprint.*
 
 /**
  * Created by 史忠文
@@ -28,7 +27,7 @@ class FootprintActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.Re
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
-    private lateinit var mAdapter: FootprintAdapter<GoodsBean>
+    private lateinit var mAdapter: FootprintAdapter<FootprintBean>
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.footprint_name)
         //状态栏透明和间距处理
@@ -37,27 +36,33 @@ class FootprintActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.Re
         StatusBarUtil.setPaddingSmart(this, mRecyclerView)
         StatusBarUtil.setPaddingSmart(this, blurView)
         StatusBarUtil.setMargin(this, header)
-        SZWUtils.setPaddingSmart(mRecyclerView,10f)
+        SZWUtils.setPaddingSmart(mRecyclerView, 10f)
 
 
         toolbar.inflateMenu(R.menu.menu_footprint)
         val actionView = toolbar.menu.getItem(0).actionView
-        (actionView as TextView).text=getString(R.string.footprint_clear)
-        actionView.setOnClickListener{
-            //Todo 清空历史记录
-            DialogUtils.delete(mContext){
+        (actionView as TextView).text = getString(R.string.footprint_clear)
+        actionView.setOnClickListener {
+            DialogUtils.delete(mContext) {
+                DataCtrlClassXZW.ClearFootprintData(mContext, {
+                    if (it != null) {
+                        onRefresh(refreshLayout)
 
+                    }
+                })
             }
         }
         return false
     }
 
-    override fun setInflateId(): Int= R.layout.activity_red_packet
+    override fun setInflateId(): Int = R.layout.activity_footprint
 
     override fun init() {
-        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
+        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initRecycler()
         initEvent()
+
+        onRefresh(refreshLayout)
     }
 
     private fun initEvent() {
@@ -69,11 +74,11 @@ class FootprintActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.Re
         mAdapter = FootprintAdapter()
 
         mAdapter.bindToRecyclerView(mRecyclerView)
-        mAdapter.setOnLoadMoreListener(this,mRecyclerView)
+        mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(this)
-        mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
 
     }
+
     override fun onRefresh(refreshLayout: RefreshLayout?) {
         currentPage = 1
         refreshState = Constants.RefreshState.STATE_REFRESH

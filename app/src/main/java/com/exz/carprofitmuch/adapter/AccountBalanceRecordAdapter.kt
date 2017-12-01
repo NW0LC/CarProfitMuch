@@ -11,12 +11,12 @@ class AccountBalanceRecordAdapter<T : BalanceRecordBean> : BaseQuickAdapter<T, B
 
     override fun convert(helper: BaseViewHolder, entity: T) {
         val itemView=helper.itemView
-        if (entity.isIncrease == "1") { //0 减少  1 增加
+        if (entity.isAdd == "1") { //0 减少  1 增加
             itemView.img_type.setBackgroundResource(R.mipmap.icon_mine_balance_income)
-            itemView.tv_price.text = String.format("+%s", entity.money)
-        } else if (entity.isIncrease == "0") {
+            itemView.tv_price.text = String.format("+%s", entity.amount)
+        } else if (entity.isAdd == "0") {
             itemView.img_type.setBackgroundResource(R.mipmap.icon_mine_balance_expend)
-            itemView.tv_price.text = String.format("-%s", entity.money)
+            itemView.tv_price.text = String.format("-%s", entity.amount)
         }
         itemView.tv_title.text = entity.title
         itemView.tv_date.text = entity.date

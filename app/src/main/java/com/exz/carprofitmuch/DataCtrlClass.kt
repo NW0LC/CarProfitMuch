@@ -919,49 +919,51 @@ object DataCtrlClass {
     /**
      * 我的余额
      */
-    fun accountBalance(context: Context,listener: (data: String?) -> Unit) {
+    fun accountBalance(context: Context, listener: (data: BalanceBean?) -> Unit) {
         val params = HashMap<String, String>()
-        params.put("id", loginUserId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId , MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
+        params.put("userId", loginUserId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<BalanceBean>>(Urls.MyBalance)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<String>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                .execute(object : DialogCallback<NetEntity<BalanceBean>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<BalanceBean>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
-                            listener.invoke(response.body().data?:"0.00")
+                            listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<String>>) {
+                    override fun onError(response: Response<NetEntity<BalanceBean>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
 
                 })
     }
+
     /**
      * 申请提现
      */
-    fun requestWithdrawal(context: Context,price: String,card: String,bankName: String,bankAddress: String,userName: String,userPhone: String,listener: (data: String?) -> Unit) {
+    fun requestWithdrawal(context: Context, price: String, card: String, bankName: String, bankAddress: String, userName: String, userPhone: String, listener: (data: String?) -> Unit) {
         val params = HashMap<String, String>()
-        params.put("price", price)
-        params.put("card", card)
+        params.put("userId", loginUserId)
+        params.put("applyMoney", price)
+        params.put("bankCardNum", card)
         params.put("bankName", bankName)
         params.put("bankAddress", bankAddress)
         params.put("userName", userName)
         params.put("userPhone", userPhone)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId , MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.ApplyWithdraw)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<String>>(context) {
                     override fun onSuccess(response: Response<NetEntity<String>>) {
                         context.toast(response.body().message)
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
-                            listener.invoke(response.body().data?:"")
+                            listener.invoke(response.body().data ?: "")
                         } else {
                             listener.invoke(null)
                         }
@@ -974,15 +976,17 @@ object DataCtrlClass {
 
                 })
     }
+
     /**
      * 余额记录
      * */
     fun balanceRecord(context: Context, currentPage: Int, listener: (scoreStoreBean: List<BalanceRecordBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<List<BalanceRecordBean>>>(Urls.url)
+        params.put("userId", loginUserId)
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId, salt).toLowerCase())
+        OkGo.post<NetEntity<List<BalanceRecordBean>>>(Urls.Record)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<List<BalanceRecordBean>>>(context) {
@@ -1000,7 +1004,9 @@ object DataCtrlClass {
                     }
 
                 })
-    } /**
+    }
+
+    /**
      *  卡券包列表
      * */
     fun cardPackageListData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<ServiceOrderBean>?) -> Unit) {
@@ -1060,7 +1066,7 @@ object DataCtrlClass {
      * @param listener 是否删除成功
      * @param goodsEntities          实体
      */
-    fun favoriteGoodsIsCollection(context: Context, isCollection: String, goodsEntities: Array<GoodsBean>, listener: (goodsEntities:Array<GoodsBean>?) -> Unit) {
+    fun favoriteGoodsIsCollection(context: Context, idMark: String, isCollection: String, goodsEntities: Array<GoodsBean>, listener: (goodsEntities: Array<GoodsBean>?) -> Unit) {
         val params = HashMap<String, String>()
         var goodsIds = ""
         for (goodsEntity in goodsEntities) {
@@ -1068,10 +1074,11 @@ object DataCtrlClass {
         }
         params.put("userId", MyApplication.loginUserId)
         val subGoodsIds = goodsIds.substring(0, goodsIds.length - 1)
-        params.put("goodsIds", subGoodsIds)
-        params.put("isCollection", isCollection)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(subGoodsIds , MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
+        params.put("id", subGoodsIds)
+        params.put("idMark", idMark)//0:店铺，1:商品
+        params.put("type", isCollection) //0:取消，1:添加
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+subGoodsIds, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.Attention)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<String>>(context) {
@@ -1090,6 +1097,9 @@ object DataCtrlClass {
 
                 })
     }
+
+
+
     /**
      * 商铺收藏与取消收藏操作
      * @param context                上下文
@@ -1097,18 +1107,19 @@ object DataCtrlClass {
      * @param listener 是否删除成功
      * @param goodsEntities          实体
      */
-    fun favoriteShopIsCollection(context: Context, isCollection: String, goodsEntities: Array<GoodsShopBean>, listener: (goodsEntities:Array<GoodsShopBean>?) -> Unit) {
+    fun favoriteShopIsCollection(context: Context, idMark: String, isCollection: String, goodsEntities: Array<GoodsShopBean>, listener: (goodsEntities: Array<GoodsShopBean>?) -> Unit) {
         val params = HashMap<String, String>()
         var goodsIds = ""
         for (goodsEntity in goodsEntities) {
-            goodsIds += goodsEntity.id + ","
+            goodsIds += goodsEntity.shopId + ","
         }
         params.put("userId", MyApplication.loginUserId)
         val subGoodsIds = goodsIds.substring(0, goodsIds.length - 1)
-        params.put("goodsIds", subGoodsIds)
-        params.put("isCollection", isCollection)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(subGoodsIds , MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
+        params.put("id", subGoodsIds)
+        params.put("idMark", idMark)//0:店铺，1:商品
+        params.put("type", isCollection) //0:取消，1:添加
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+subGoodsIds, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.Attention)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<String>>(context) {
@@ -1130,12 +1141,14 @@ object DataCtrlClass {
     /**
      * 商品收藏列表
      * */
-    fun favoriteGoodsListData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
+    fun favoriteGoodsListData(context: Context, state: Int, currentPage: Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<List<GoodsBean>>>(Urls.url)
+        params.put("userId", MyApplication.loginUserId)
+        params.put("state", state.toString())
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        OkGo.post<NetEntity<List<GoodsBean>>>(Urls.CollectedGoodsList)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<List<GoodsBean>>>(context) {
@@ -1160,9 +1173,10 @@ object DataCtrlClass {
     fun favoriteShopListData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<GoodsShopBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<List<GoodsShopBean>>>(Urls.url)
+        params.put("userId", MyApplication.loginUserId)
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, salt).toLowerCase())
+        OkGo.post<NetEntity<List<GoodsShopBean>>>(Urls.CollectedShopList)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<List<GoodsShopBean>>>(context) {
@@ -1181,19 +1195,21 @@ object DataCtrlClass {
 
                 })
     }
+
     /**
-    *我 的足迹
-    * */
-    fun footprintData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
+     *我 的足迹
+     * */
+    fun footprintData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<FootprintBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<List<GoodsBean>>>(Urls.url)
+        params.put("userId", MyApplication.loginUserId)
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        OkGo.post<NetEntity<List<FootprintBean>>>(Urls.Footprint)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<List<GoodsBean>>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<List<GoodsBean>>>) {
+                .execute(object : DialogCallback<NetEntity<List<FootprintBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<FootprintBean>>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
                         } else {
@@ -1201,22 +1217,24 @@ object DataCtrlClass {
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<List<GoodsBean>>>) {
+                    override fun onError(response: Response<NetEntity<List<FootprintBean>>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
 
                 })
     }
+
     /**
      *积分变更记录
      * */
     fun mineScoreRecordData(context: Context, currentPage: Int, listener: (scoreRecordBean: List<ScoreRecordBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<List<ScoreRecordBean>>>(Urls.url)
+        params.put("userId", MyApplication.loginUserId)
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        OkGo.post<NetEntity<List<ScoreRecordBean>>>(Urls.MyScoreRecord)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<List<ScoreRecordBean>>>(context) {
@@ -1234,7 +1252,9 @@ object DataCtrlClass {
                     }
 
                 })
-    } /**
+    }
+
+    /**
      *积分兑换订单列表
      * */
     fun scoreOrderListData(context: Context, currentPage: Int, listener: (scoreRecordBean: List<ScoreOrderBean>?) -> Unit) {

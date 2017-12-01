@@ -51,16 +51,17 @@
 
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:id="@+id/tv_minRecharge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:drawablePadding="6dp"
+                    android:drawableStart="@mipmap/icon_mine_return_goods_detail_warning"
+                    android:layout_gravity="right"
                     android:gravity="center_vertical"
-                    android:paddingEnd="@dimen/margin_15"
-                    android:paddingLeft="@dimen/margin_15"
-                    android:paddingRight="@dimen/margin_15"
-                    android:paddingStart="@dimen/margin_15"
-                    android:text="请选择支付方式"
-                    android:textColor="@color/MaterialGrey600"
-                    android:textSize="@dimen/text_14" />
+                    android:text="@string/mine_recharge"
+                    android:textColor="#939296"
+                    android:textSize="12sp" />
 
                 <RadioGroup
                     android:id="@+id/radioGroup"
@@ -97,34 +98,30 @@
 
                 </RadioGroup>
 
+
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/bt_confirm"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:drawablePadding="6dp"
-                    android:gravity="center_vertical"
-                    android:text="充值余额不可申请提现,请按需充值"
-                    android:textColor="#939296"
-                    android:textSize="12sp" />
+                    android:background="@drawable/mine_balance_recharge_bg"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/margin_15"
+                    android:paddingEnd="@dimen/margin_25"
+                    android:paddingStart="@dimen/margin_25"
+                    android:paddingTop="@dimen/margin_15"
+                    android:text="确认支付"
+                    android:layout_margin="30dp"
+                    android:textColor="@color/White"
+                    android:textSize="@dimen/text_14"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <TextView
-        android:id="@+id/bt_confirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:paddingBottom="@dimen/margin_15"
-        android:paddingEnd="@dimen/margin_25"
-        android:paddingStart="@dimen/margin_25"
-        android:paddingTop="@dimen/margin_15"
-        android:text="确认支付"
-        android:textColor="@color/White"
-        android:textSize="@dimen/text_14"
-        app:layout_constraintBottom_toBottomOf="parent" />
+
 
     <include layout="@layout/action_bar_custom" />
 </android.support.constraint.ConstraintLayout>

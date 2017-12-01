@@ -37,20 +37,20 @@ class FavoriteGoodsActivity : BaseActivity() {
         StatusBarUtil.setPaddingSmart(this, blurView)
         toolbar.inflateMenu(R.menu.menu_favorite_goods)
         val actionView = toolbar.menu.getItem(0).actionView
-        (actionView as TextView).text=getString(R.string.favorite_goods_edit)
-        actionView.setOnClickListener{
+        (actionView as TextView).text = getString(R.string.favorite_goods_edit)
+        actionView.setOnClickListener {
             when (if (Edit_Type == "-1") Edit_Type_Edit else Edit_Type) {
                 Edit_Type_Edit -> {
                     lay_tabLayout.visibility = View.GONE
-                    actionView.text=getString(R.string.favorite_goods_confirm)
+                    actionView.text = getString(R.string.favorite_goods_confirm)
                     Edit_Type = Edit_Type_Delete
                 }
                 Edit_Type_Delete -> {
                     lay_tabLayout.visibility = View.VISIBLE
-                    actionView.text=getString(R.string.favorite_goods_edit)
+                    actionView.text = getString(R.string.favorite_goods_edit)
                     Edit_Type = Edit_Type_Edit
                 }
-        }
+            }
             actionView.isClickable = false
             RxBus.get().post(Constants.Collection_Edit, Edit_Type)
             actionView.postDelayed({ actionView.isClickable = true }, 500)
@@ -61,9 +61,9 @@ class FavoriteGoodsActivity : BaseActivity() {
     override fun setInflateId(): Int = R.layout.activity_favorite_goods
 
     override fun init() {
-        mFragments.add(FavoriteGoodsFragment.newInstance())
-        mFragments.add(FavoriteGoodsFragment.newInstance())
-        mFragments.add(FavoriteGoodsFragment.newInstance())
+        mFragments.add(FavoriteGoodsFragment.newInstance(0))
+        mFragments.add(FavoriteGoodsFragment.newInstance(1))
+        mFragments.add(FavoriteGoodsFragment.newInstance(2))
         mTitles.indices.mapTo(mTabEntities) { TabEntity(mTitles[it], mIconSelectIds[it], mIconUnSelectIds[it]) }
         mTabLayout.setTabData(mTabEntities, this, R.id.frameLayout, mFragments)
 
@@ -92,7 +92,7 @@ class FavoriteGoodsActivity : BaseActivity() {
          * @param goodsEntities 移除
          */
         fun removeItem(adapter: FavoriteGoodsAdapter<out GoodsBean>, goodsEntities: Array<GoodsBean>?) {
-            if (goodsEntities==null) {
+            if (goodsEntities == null) {
                 return
             }
             val iterator = adapter.data.iterator()
@@ -102,10 +102,7 @@ class FavoriteGoodsActivity : BaseActivity() {
                     if (temp.goodsId == goodsEntity.goodsId) {
                         val position = adapter.data.indexOf(temp)
                         iterator.remove()
-                        if (goodsEntities.isEmpty())
-                            adapter.notifyDataSetChanged()
-                        else
-                        adapter.notifyItemRemoved(position)
+                        adapter.notifyDataSetChanged()
                     }
                 }
 

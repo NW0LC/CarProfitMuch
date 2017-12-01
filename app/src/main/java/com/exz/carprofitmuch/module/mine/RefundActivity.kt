@@ -215,7 +215,7 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
                     }
 
                 }
-                DataCtrlClassXZW.SubmitRefundData(mContext, intent.getStringExtra(OrderId), returnTypeId,  reasonId,reasonId, img, {
+                DataCtrlClassXZW.SubmitRefundData(mContext, intent.getStringExtra(OrderId), returnTypeId,  reasonId,issue, img, {
                     if (it != null) {
                         finish()
                     }

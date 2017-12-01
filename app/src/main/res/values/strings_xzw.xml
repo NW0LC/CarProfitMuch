@@ -76,4 +76,7 @@
     <string name="mine_type">类型</string>
     <string name="mine_policy_buy_time">购买时间%s</string>
     <string name="mine_policy_premium">保费</string>
+    <string name="mine_recharge">请输入整数金额,最低%s元</string>
+    <string name="mine_nicek_name">昵称</string>
+    <string name="mine_wechat">微信号</string>
 </resources>

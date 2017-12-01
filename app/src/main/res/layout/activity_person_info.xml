@@ -100,6 +100,71 @@
                         android:paddingEnd="@dimen/margin_35"
                         android:paddingStart="0dp"
                         android:text=""
+                        android:id="@+id/tv_phone"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_12"
+                        tool:background="@color/MaterialGrey200" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/bt_nicename"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/White"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/margin_15"
+                        android:text="@string/mine_nicek_name"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/White"
+                        android:gravity="center_vertical|end"
+                        android:minWidth="@dimen/margin_120"
+                        android:paddingEnd="@dimen/margin_35"
+                        android:paddingStart="0dp"
+                        android:text=""
+                        android:id="@+id/tv_nickname"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_12"
+                        tool:background="@color/MaterialGrey200" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/bt_wechat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/White"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/margin_15"
+                        android:text="@string/mine_wechat"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/White"
+                        android:gravity="center_vertical|end"
+                        android:minWidth="@dimen/margin_120"
+                        android:paddingEnd="@dimen/margin_35"
+                        android:paddingStart="0dp"
+                        android:text=""
+                        android:id="@+id/tv_wechat"
                         android:textColor="@color/MaterialGrey600"
                         android:textSize="@dimen/sp_12"
                         tool:background="@color/MaterialGrey200" />

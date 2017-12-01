@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="退款原因"
+        android:layout_marginStart="15dp"
+        android:textSize="12sp"
+        android:textColor="@color/MaterialGrey800"
+        />
+
+    <EditText
+        android:id="@+id/ed_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:textSize="@dimen/sp_14"
+        android:layout_gravity="top"
+        android:padding="10dp"
+        android:textColor="@color/MaterialGrey800"
+        android:textColorHint="@color/MaterialGrey400"
+        android:gravity="top"
+        android:minHeight="100dp"
+        android:background="@drawable/color_app_bg"
+        />
+
+</LinearLayout>

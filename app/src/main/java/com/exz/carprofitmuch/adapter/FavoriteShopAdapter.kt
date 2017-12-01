@@ -13,7 +13,7 @@ import com.exz.carprofitmuch.bean.GoodsShopBean
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type_Delete
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type_Edit
-import com.exz.carprofitmuch.module.mine.favorite.FavoriteShopActivity.Companion.removeItem
+import com.exz.carprofitmuch.module.mine.favorite.FavoriteShopActivity
 import com.exz.carprofitmuch.utils.DialogUtils
 import kotlinx.android.synthetic.main.item_favorite_shop.view.*
 import kotlinx.android.synthetic.main.item_item_favorite_shop.view.*
@@ -23,9 +23,9 @@ class FavoriteShopAdapter<T : GoodsShopBean> : BaseQuickAdapter<T, BaseViewHolde
     var animatorEnable = true
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView = helper.itemView
-        itemView.img.setImageURI(item.img)
+        itemView.img.setImageURI(item.imgUrl)
         itemView.tv_goodsShop_name.text = item.shopName
-        itemView.tv_goodsShop_type.text = item.shopType
+        itemView.tv_goodsShop_type.text = item.shopMark
 
 
         val animatorIn = ObjectAnimator.ofFloat(itemView.constraintLayout, "translationX", 0f, SizeUtils.dp2px(45f).toFloat())
@@ -52,8 +52,9 @@ class FavoriteShopAdapter<T : GoodsShopBean> : BaseQuickAdapter<T, BaseViewHolde
         itemView.radioButton.isChecked = item.isCheck
         itemView.btnDelete.setOnClickListener {
             DialogUtils.delete(mContext) {
-                DataCtrlClass.favoriteShopIsCollection(mContext, "1", arrayOf(item)) {
-                    removeItem(this@FavoriteShopAdapter, it)
+
+                DataCtrlClass.favoriteShopIsCollection(mContext, "0", "0",arrayOf(item)) {
+                    FavoriteShopActivity.removeItem(this, it)
                 }
             }
         }

@@ -89,7 +89,6 @@ class FavoriteGoodsFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdap
 
     private fun initRecycler() {
         mAdapter = FavoriteGoodsAdapter()
-
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -145,7 +144,8 @@ class FavoriteGoodsFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdap
                 }
                 if (b) {
                     DialogUtils.delete(context) {
-                        DataCtrlClass.favoriteGoodsIsCollection(context, "1", goodsEntities.toTypedArray()) {
+
+                        DataCtrlClass.favoriteGoodsIsCollection(context, "1", "0",goodsEntities.toTypedArray()) {
                             removeItem(mAdapter, it)
                         }
                     }
@@ -157,7 +157,7 @@ class FavoriteGoodsFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdap
     }
 
     private fun initData() {
-        DataCtrlClass.favoriteGoodsListData(context, currentPage) {
+        DataCtrlClass.favoriteGoodsListData(context, arguments.getInt(COMMENT_TYPE,0),currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {
@@ -191,9 +191,11 @@ class FavoriteGoodsFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdap
     }
 
     companion object {
-        fun newInstance(): FavoriteGoodsFragment {
+        private const val COMMENT_TYPE = "type"
+        fun newInstance( position: Int): FavoriteGoodsFragment {
             val bundle = Bundle()
             val fragment = FavoriteGoodsFragment()
+            bundle.putInt(COMMENT_TYPE, position)
             fragment.arguments = bundle
             return fragment
         }

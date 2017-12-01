@@ -91,6 +91,8 @@ open class GoodsBean {
 
      var count: String = ""
      var skuid: String = ""
+     var downPrice: String = ""
+     var state: String = ""
 
 
 

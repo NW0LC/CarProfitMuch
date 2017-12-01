@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import com.exz.carprofitmuch.DataCtrlClass
+import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.module.login.LoginActivity
 import com.exz.carprofitmuch.module.login.LoginActivity.Companion.RESULT_LOGIN_CANCELED
@@ -36,6 +36,7 @@ import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main_mine.*
 import kotlinx.android.synthetic.main.layout_progress_score.*
+import java.net.URLDecoder
 
 /**
  * Created by 史忠文
@@ -46,14 +47,15 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     private var mHasNews = false
     private var mOffset = 0
     private var mScrollY = 0
+    private var openState="0"
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_main_mine, container, false)
         return rootView
     }
 
-    private var realScore = 700f
-    private var unlockScore = 900f
-    private var totalScore = 3000f
+    private var realScore = 0f
+    private var unlockScore = 0f
+    private var totalScore = 0f
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
@@ -65,6 +67,43 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     override fun initView() {
         initBar()
         refreshLayout.setOnRefreshListener(this)
+
+        if (MyApplication.checkUserLogin()) {
+            getUserInfo()
+        }
+
+
+    }
+
+
+
+    private fun getUserInfo() {
+        DataCtrlClassXZW.getUserInfo(context, {
+            if (it != null) {
+                img_head.setImageURI(it.headerUrl)
+                tv_userName.text=URLDecoder.decode(it.nickname,"utf-8")
+                tv_userInfo.text=it.level+it.overDate//会员等级 -过期时间
+                totalScore=it.scoreT.toFloat()//车险总积分
+                realScore=it.scoreG.toFloat()//车险获得积分
+                realScore=it.scoreL.toFloat()//车险解锁积分
+                rootView.postDelayed({ SZWUtils.resetProgress(progressBar = progressBar, parentLayout = rootView, realScore = realScore, unlockScore = unlockScore, totalScore = totalScore) {} }, 2000)
+                tv_myBalance.text=String.format(context.getString(R.string.CNY),it.balance)//余额
+                bt_tab_card_count.text=String.format(context.getString(R.string.unit_piece),it.wallet)//可用卡劵数量
+                bt_tab_coupon_count.text=String.format(context.getString(R.string.unit_piece),it.coupon)//可用优惠券数量
+                bt_tab_treasure_count.text=String.format(context.getString(R.string.unit_individual),it.treasure)//待领取宝藏数量
+                bt_tab_score_count.text=String.format(context.getString(R.string.unit_individual),it.score)//我的积分
+                openState=it.openState
+                bt_applyFor_openShop.visibility= if(it.openState.equals("0")||it.openState.equals("1")) View.GONE else View.VISIBLE
+                mHasNews=if(it.isMsg.equals("1")) true else false
+                if (mHasNews) {
+                    toolbar.menu.getItem(1)?.setIcon(R.mipmap.icon_mine_msg_on)
+                } else {
+                    toolbar.menu.getItem(1)?.setIcon(R.mipmap.icon_mine_msg_off)
+                }
+                refreshLayout?.finishRefresh()
+            }
+
+        })
     }
 
 
@@ -115,12 +154,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 startActivityForResult(Intent(context, SettingsActivity::class.java), 100)
             }
             R.id.action_notifications -> {
-                mHasNews = !mHasNews
-                if (mHasNews) {
-                    toolbar.menu.getItem(1)?.setIcon(R.mipmap.icon_mine_msg_on)
-                } else {
-                    toolbar.menu.getItem(1)?.setIcon(R.mipmap.icon_mine_msg_off)
-                }
+
             }
         }
         return false
@@ -141,6 +175,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         bt_order_tab_3.setOnClickListener(this)
         bt_order_tab_4.setOnClickListener(this)
         bt_order_tab_5.setOnClickListener(this)
+        bt_tab_history.setOnClickListener(this)
         bt_promotions.setOnClickListener(this)
         bt_applyFor_openShop.setOnClickListener(this)
         bt_guarantee_slip.setOnClickListener(this)
@@ -149,6 +184,10 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     override fun onClick(p0: View?) {
         when (p0) {
             bt_header -> {// 个人资料
+                if (!MyApplication.checkUserLogin()) {
+                    startActivityForResult(Intent(context, LoginActivity::class.java), RESULT_LOGIN_CANCELED)
+                    return
+                }
                 startActivityForResult(Intent(context, PersonInfoActivity::class.java), 100)
             }
             bt_order_tab_1 -> {//我的订单-待付款
@@ -168,17 +207,25 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             }
 
             bt_myBalance -> { //账户余额
+                if (!MyApplication.checkUserLogin()) {
+                    startActivityForResult(Intent(context, LoginActivity::class.java), RESULT_LOGIN_CANCELED)
+                    return
+                }
                 startActivityForResult(Intent(context, AccountBalanceActivity::class.java), 100)
             }
             bt_tab_coupon -> {//优惠券
-                if(!MyApplication.checkUserLogin()){
-                    startActivityForResult(Intent(context,LoginActivity::class.java),RESULT_LOGIN_CANCELED)
+                if (!MyApplication.checkUserLogin()) {
+                    startActivityForResult(Intent(context, LoginActivity::class.java), RESULT_LOGIN_CANCELED)
                     return
                 }
                 startActivity(Intent(context, CouponActivity::class.java))
             }
             bt_treasure -> {//红包
                 startActivity(Intent(context, TreasureListActivity::class.java))
+            }
+            bt_tab_history -> {//我的足迹
+                startActivity(Intent(context, FootprintActivity::class.java))
+
             }
             bt_tab_myComment -> {//我的评价
                 startActivity(Intent(context, MyCommentActivity::class.java))
@@ -197,11 +244,11 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 startActivityForResult(Intent(context, ScoreCenterActivity::class.java), 100)
             }
             bt_applyFor_openShop -> {//申请开店
-                if(!MyApplication.checkUserLogin()){
-                    startActivityForResult(Intent(context,LoginActivity::class.java),RESULT_LOGIN_CANCELED)
+                if (!MyApplication.checkUserLogin()) {
+                    startActivityForResult(Intent(context, LoginActivity::class.java), RESULT_LOGIN_CANCELED)
                     return
                 }
-                startActivity(Intent(context, OpenShopActivity::class.java))
+                startActivity(Intent(context, OpenShopActivity::class.java).putExtra(openState,openState))
             }
             bt_promotions -> {//我的活动
                 startActivity(Intent(context, PromotionsPersonalActivity::class.java))
@@ -214,15 +261,8 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout?) {
-        realScore = 1500f
-        unlockScore = 1500f
-        totalScore = 3000f
-        rootView.postDelayed({ SZWUtils.resetProgress(progressBar = progressBar, parentLayout = rootView, realScore = realScore, unlockScore = unlockScore, totalScore = totalScore) {} }, 2000)
-        DataCtrlClass.mainStoreData(context) {
-            if (it != null) {
-
-            }
-            refreshLayout?.finishRefresh()
+        if (MyApplication.checkUserLogin()) {
+            getUserInfo()
         }
     }
 

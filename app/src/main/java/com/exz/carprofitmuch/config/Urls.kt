@@ -287,6 +287,94 @@ object Urls{
         */
      var ReturnGoodsReasonList = url + "App/Order/Reality/ReturnOrder/ReturnGoodsReasonList.aspx"
 
+     /*
+        *  申请退货-实物类
+        */
+     var ReturnGoods = url + "App/Order/Reality/ReturnOrder/ReturnGoods.aspx"
+
+
+
+     /*
+        * 申请退款-实物类
+        */
+     var ApplyReturnMoney = url + "App/Order/Reality/ReturnOrder/ApplyReturnMoney.aspx"
+
+
+    /*
+     * 个人中心主页
+     */
+    var Main = url + "App/UserCenter/Main.aspx"
+
+
+    /*
+     * 我的余额
+     */
+    var MyBalance = url + "App/UserCenter/Balance/MyBalance.aspx"
+
+
+    /*
+     * 申请提现
+     */
+    var ApplyWithdraw = url + "App/UserCenter/Balance/ApplyWithdraw.aspx"
+
+    /*
+     * 余额变更记录
+     */
+    var Record = url + "App/UserCenter/Balance/Record.aspx"
+
+    /*
+     * 支付宝充值
+     */
+    var AliRecharge = url + "App/UserCenter/Balance/AliRecharge/Signature.aspx"
+
+    /*
+     * 微信充值
+     */
+    var WeChatRecharge = url + "App/UserCenter/Balance/WeChatRecharge/Signature.aspx"
+
+
+    /*
+     * 充值状态 (第三方支付服务器端验证）
+     */
+    var BalanceRechargeCheck = url + "App/UserCenter/Balance/RechargeCheck.aspx"
+
+    /*
+     * 我的积分
+     */
+    var MyScore = url + "App/UserCenter/MyScore.aspx"
+
+    /*
+     * 我的积分变更记录
+     */
+    var MyScoreRecord = url + "App/UserCenter/MyScoreRecord.aspx"
+
+    /*
+     * 收藏的商品
+     */
+    var CollectedGoodsList = url + "App/UserCenter/CollectedGoodsList.aspx"
+
+
+
+    /*
+     * 关注的店铺
+     */
+    var CollectedShopList = url + "App/UserCenter/CollectedShopList.aspx"
+
+    /*
+     * 我的足迹
+     */
+    var Footprint = url + "App/UserCenter/Footprint.aspx"
+
+    /*
+     * 清空我的足迹
+     */
+    var ClearFootprint = url + "App/UserCenter/ClearFootprint.aspx"
+
+
+    /*
+     * 设置-个人信息
+     */
+    var UserInfo = url + "App/UserCenter/Set/UserInfo.aspx"
 
 
 

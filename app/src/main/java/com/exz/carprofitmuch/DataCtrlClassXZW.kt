@@ -341,8 +341,9 @@ object DataCtrlClassXZW {
         params.put("returnTypeId", returnTypeId)
         params.put("reasonId", reasonId)
         params.put("remarks", remarks)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
+        params.put("img", img)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.ReturnGoods)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<String>>(context) {
@@ -998,7 +999,150 @@ object DataCtrlClassXZW {
 
                 })
     }
+    /**
+     *  申请退款-实物类
+     * */
+    fun ApplyReturnMoney(context: Context,  goodsId:String,reason:String, listener: (scoreStoreBean: String?) -> Unit) {
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("goodsId", goodsId)
+        params.put("reason", reason)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId+goodsId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.ApplyReturnMoney)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
 
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                            context.toast(response.body().message)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<String>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     *  个人中心主页
+     * */
+    fun getUserInfo(context: Context,  listener: (scoreStoreBean: User?) -> Unit) {
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<User>>(Urls.Main)
+                .params(params)
+                .tag(this)
+                .execute(object : JsonCallback<NetEntity<User>>() {
+
+                    override fun onSuccess(response: Response<NetEntity<User>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                            context.toast(response.body().message)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<User>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+
+
+    /**
+     *  我的积分
+     * */
+    fun MyScoreData(context: Context,   listener: (scoreStoreBean: MyScoreBean?) -> Unit) {
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<MyScoreBean>>(Urls.MyScore)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<MyScoreBean>>(context) {
+
+                    override fun onSuccess(response: Response<NetEntity<MyScoreBean>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                            context.toast(response.body().message)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<MyScoreBean>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     *  清空我的足迹
+     * */
+    fun ClearFootprintData(context: Context,   listener: (scoreStoreBean: String?) -> Unit) {
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.ClearFootprint)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
+
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                            context.toast(response.body().message)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<String>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     *  设置-个人信息
+     * */
+    fun UserInfoData(context: Context,   listener: (scoreStoreBean: UserInfoBean?) -> Unit) {
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<UserInfoBean>>(Urls.UserInfo)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<UserInfoBean>>(context) {
+
+                    override fun onSuccess(response: Response<NetEntity<UserInfoBean>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                            context.toast(response.body().message)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<UserInfoBean>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
 
 }
 

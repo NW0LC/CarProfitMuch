@@ -1,12 +1,11 @@
 package com.exz.carprofitmuch.module.mine
 
-import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.exz.carprofitmuch.DataCtrlClass
+import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ScoreRecordAdapter
 import com.exz.carprofitmuch.bean.ScoreRecordBean
@@ -19,6 +18,7 @@ import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_score_center.*
+import kotlinx.android.synthetic.main.header_score_center.view.*
 
 /**
  * Created by 史忠文
@@ -39,11 +39,11 @@ class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.
         StatusBarUtil.setPaddingSmart(this, blurView)
         StatusBarUtil.setMargin(this, header)
         toolbar.inflateMenu(R.menu.menu_mine_score)
-        val actionView = toolbar.menu.getItem(0).actionView
-        (actionView as TextView).text=getString(R.string.mine_score_exchangeRecord)
-        actionView.setOnClickListener{
-                startActivity(Intent(this,ScoreOrderListActivity::class.java))
-        }
+//        val actionView = toolbar.menu.getItem(0).actionView
+//        (actionView as TextView).text = getString(R.string.mine_score_exchangeRecord)
+//        actionView.setOnClickListener {
+//            startActivity(Intent(this, ScoreOrderListActivity::class.java))
+//        }
         return false
     }
 
@@ -51,8 +51,21 @@ class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.
 
     override fun init() {
         initRecycler()
-        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
+        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initEvent()
+        initMyScore()
+    }
+
+    private fun initMyScore() {
+        DataCtrlClassXZW.MyScoreData(mContext, {
+            if (it != null) {
+                headerView.tv_scoreCount.text = it.score//可用积分
+                headerView.tv_pendScoreCount.text = it.scoreL//待返还积分
+                headerView.tv_frizzScoreCount.text = it.scoreT//冻结积分
+                headerView.tv_score_date.text = it.score + "积分将于" + it.invalidDate + "过期"
+            }
+
+        })
     }
 
     private fun initEvent() {
@@ -62,17 +75,6 @@ class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.
 
     private fun initRecycler() {
         mAdapter = ScoreRecordAdapter()
-        val coupons = ArrayList<ScoreRecordBean>()
-        coupons.add(ScoreRecordBean())
-        coupons.add(ScoreRecordBean())
-        coupons.add(ScoreRecordBean())
-        coupons.add(ScoreRecordBean())
-        coupons.add(ScoreRecordBean())
-        coupons.add(ScoreRecordBean())
-        coupons.add(ScoreRecordBean())
-        coupons.add(ScoreRecordBean())
-
-        mAdapter.setNewData(coupons)
 
         headerView = View.inflate(mContext, R.layout.header_score_center, null)
         mAdapter.addHeaderView(headerView)
@@ -81,7 +83,7 @@ class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
-
+        onRefresh(refreshLayout)
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout?) {

@@ -3,12 +3,10 @@ package com.exz.carprofitmuch.module.main.pay
 import android.text.TextUtils
 import android.widget.Toast
 import com.alipay.sdk.app.PayTask
-import com.blankj.utilcode.util.EncryptUtils
 import com.exz.carprofitmuch.config.Urls
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.szw.framelibrary.app.MyApplication
-import com.szw.framelibrary.app.MyApplication.Companion.salt
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.config.Constants.BusAction.Pay_Finish
 import com.szw.framelibrary.utils.DialogUtils
@@ -41,19 +39,19 @@ abstract class PayActivity : BaseActivity() {
         }
 
     // 微信支付
-    protected fun weChatPay(url: String, key: String, value: String) {
+    protected fun weChatPay(url: String, key: String, value: String,requestCheck:String) {
         val map = HashMap<String, String>()
         map.put("userId", MyApplication.loginUserId)
         map.put(key, value)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(value, salt).toLowerCase())
+        map.put("requestCheck", requestCheck)
         OkGo.post<NetEntity<WxBean>>(url).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<WxBean>>(this) {
 
                     override fun onSuccess(response: Response<NetEntity<WxBean>>) {
-                        if (response.body().info != null) {
+                        if (response.body().data != null) {
 
-                            rechargeId = response.body().info?.orderId?:""
+                            rechargeId = if(response.body().data?.orderId.equals("")) response.body().data!!.rechargeId else response.body().data!!.orderId
                             val req = PayReq()
                             req.appId = response.body().info?.appId?:""
                             Urls.APP_ID = response.body().info?.appId?:""
@@ -75,21 +73,21 @@ abstract class PayActivity : BaseActivity() {
     }
 
     // 支付宝支付
-    protected fun aliPay(url: String, key: String, value: String) {
+    protected fun aliPay(url: String, key: String, value: String,requestCheck:String) {
         //        userId	string	必填	会员id
         //        buyCardRecordId	string	必填	会员购买卡种记录id
         //        requestCheck	string	必填	验证请求
         val map = HashMap<String, String>()
         map.put("userId", MyApplication.loginUserId)
         map.put(key, value)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(value, salt).toLowerCase())
+        map.put("requestCheck", requestCheck)
         OkGo.post<NetEntity<AliBean>>(url).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<AliBean>>(this) {
                     override fun onSuccess(response: Response<NetEntity<AliBean>>) {
 
-                        if (response.body().info!= null) {
-                            rechargeId = response.body().info?.orderId?:""
+                        if (response.body().data!= null) {
+                            rechargeId = if(response.body().data?.orderId.equals("")) response.body().data!!.rechargeId else response.body().data!!.orderId
                             pay(response.body().info?.paymentDescription, response.body().info?.sign)
                         }
                     }
@@ -162,6 +160,7 @@ abstract class PayActivity : BaseActivity() {
 
         var appId: String = ""
         var partnerId: String = ""
+        var rechargeId: String = ""
         var prepayId: String = ""
         var nonceStr: String = ""
         var timestamp: String = ""
@@ -181,5 +180,6 @@ abstract class PayActivity : BaseActivity() {
         var paymentDescription: String = ""
         var sign: String = ""
         var orderId: String = ""
+        var rechargeId: String = ""
     }
 }
