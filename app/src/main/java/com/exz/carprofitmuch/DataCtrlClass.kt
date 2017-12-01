@@ -865,12 +865,12 @@ object DataCtrlClass {
 
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)//教练id
-        if (key == "headerImg")
+        if (key == "header")
             params.put(key, EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(value)))
         else
             params.put(key, value)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
+        OkGo.post<NetEntity<String>>(Urls.UpdateUserInfo)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<String>>(context) {
@@ -879,6 +879,7 @@ object DataCtrlClass {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.message())
                         }
                     }
 

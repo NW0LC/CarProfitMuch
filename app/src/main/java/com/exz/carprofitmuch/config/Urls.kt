@@ -381,6 +381,12 @@ object Urls{
     var UserInfo = url + "App/UserCenter/Set/UserInfo.aspx"
 
 
+    /*
+     * 设置-修改个人信息
+     */
+    var UpdateUserInfo = url + "App/UserCenter/Set/UpdateUserInfo.aspx"
+
+
 
 
 

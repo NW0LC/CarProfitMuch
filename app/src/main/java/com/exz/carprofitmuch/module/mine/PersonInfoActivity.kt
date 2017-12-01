@@ -1,14 +1,19 @@
 package com.exz.carprofitmuch.module.mine
 
-import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import com.bigkoo.pickerview.OptionsPickerView
 import com.blankj.utilcode.util.ScreenUtils
 import com.exz.carprofitmuch.DataCtrlClass
+import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.GenderBean
+import com.exz.carprofitmuch.bean.OpenTextBen
+import com.exz.carprofitmuch.bean.UserInfoBean
+import com.exz.carprofitmuch.module.mine.shop.OpenShopActivity
+import com.exz.carprofitmuch.module.mine.shop.OpenShopInputTextActivity
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.lzy.imagepicker.ImagePicker
 import com.lzy.imagepicker.bean.ImageItem
@@ -19,6 +24,7 @@ import com.szw.framelibrary.imageloder.GlideImageLoader
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_person_info.*
+import java.net.URLDecoder
 import java.util.*
 
 /**
@@ -27,6 +33,9 @@ import java.util.*
  */
 
 class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerView.OnOptionsSelectListener {
+    private lateinit var mTextEntity: OpenTextBen
+    private var textType = 0
+    private lateinit var mUserInfo: UserInfoBean
     private lateinit var pvOptions: OptionsPickerView<GenderBean>
     private lateinit var genderList: ArrayList<GenderBean>
     override fun initToolbar(): Boolean {
@@ -50,7 +59,27 @@ class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerVi
     }
 
     private fun initUserInfo() {
+        DataCtrlClassXZW.UserInfoData(mContext, {
+            if (it != null) {
+                mUserInfo = it
+                iv_header.setImageURI(it.headerUrl)
+                tv_phone.text = it.phone
+                tv_nickname.text = URLDecoder.decode(it.nickname, "utf-8")
+                tv_wechat.text = it.wechat
+                when (it.gender) {
+                    "0" -> {
+                        tv_gender.text = "女"
+                    }
+                    "1" -> {
+                        tv_gender.text = "男"
+                    }
+                    "2" -> {
+                        tv_gender.text = "保密"
+                    }
+                }
+            }
 
+        })
     }
 
     private fun initGender() {
@@ -66,6 +95,8 @@ class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerVi
         bt_header.setOnClickListener(this)
         bt_gender.setOnClickListener(this)
         bt_address.setOnClickListener(this)
+        bt_nicename.setOnClickListener(this)
+        bt_wechat.setOnClickListener(this)
     }
 
     private fun initCamera() {
@@ -100,10 +131,13 @@ class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerVi
     private fun editInfo(key: String, value: String) {
         DataCtrlClass.editPersonInfo(this, key, value) {
             if (it != null) {
-                if (key == "headerImg")
+                if (key == "header")
                     iv_header.setImageURI(it)
-                setResult(Activity.RESULT_OK)
             }
+            if (key == "nickname")
+                tv_nickname.text = value
+            else if (key == "wechat")
+                tv_wechat.text = value
         }
     }
 
@@ -111,7 +145,18 @@ class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerVi
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) { //图片选择
             val images = data?.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS) as ArrayList<*>
-            editInfo("headerImg", (images[0] as ImageItem).path)
+            editInfo("header", (images[0] as ImageItem).path)
+        } else if (resultCode == OpenShopActivity.RESULTCODE_OPEN_SHOP) {
+            when (textType) {
+                1 -> {//昵称
+                    mTextEntity = data!!.getSerializableExtra("text") as OpenTextBen
+                    editInfo("nickname", mTextEntity.content)
+                }
+                2 -> {//微信
+                    mTextEntity = data!!.getSerializableExtra("text") as OpenTextBen
+                    editInfo("wechat", mTextEntity.content)
+                }
+            }
         }
     }
 
@@ -121,12 +166,25 @@ class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerVi
     }
 
     override fun onClick(p0: View?) {
+        val b = Bundle()
         when (p0) {
             bt_header -> {
                 PermissionCameraWithCheck(Intent(this, ImageGridActivity::class.java), false)
             }
             bt_gender -> {
                 pvOptions.show()
+            }
+            bt_nicename -> {
+                textType = 1
+                if (mUserInfo != null) mTextEntity = OpenTextBen("修改昵称", URLDecoder.decode(mUserInfo.nickname, "utf-8"), 10, "*店铺名称请控制长度不要超过15字")
+                b.putSerializable("text", mTextEntity)
+                startActivityForResult(Intent(mContext, OpenShopInputTextActivity::class.java).putExtras(b), OpenShopActivity.RESULTCODE_OPEN_SHOP)
+            }
+            bt_wechat -> {
+                textType = 2
+                if (mUserInfo != null) mTextEntity = OpenTextBen("修改微信号", URLDecoder.decode(mUserInfo.wechat, "utf-8"), 10, "*微信号请控制长度不要超过15字")
+                b.putSerializable("text", mTextEntity)
+                startActivityForResult(Intent(mContext, OpenShopInputTextActivity::class.java).putExtras(b), OpenShopActivity.RESULTCODE_OPEN_SHOP)
             }
             bt_address -> {
 
@@ -135,5 +193,6 @@ class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerVi
             }
         }
     }
+
 
 }
