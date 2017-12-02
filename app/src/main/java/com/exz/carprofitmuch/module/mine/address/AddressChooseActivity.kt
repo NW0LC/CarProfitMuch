@@ -99,7 +99,7 @@ class AddressChooseActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapte
     }
 
     private fun iniData() {
-        DataCtrlClass.addressChooseData(this, currentPage) {
+        DataCtrlClass.addressChooseData(this) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

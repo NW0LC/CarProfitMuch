@@ -1,6 +1,7 @@
 package com.exz.carprofitmuch.module.mine.address
 
 import android.app.Activity
+import android.text.TextUtils
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.TextView
@@ -16,6 +17,7 @@ import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_address_add_update.*
+import org.jetbrains.anko.toast
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -36,7 +38,9 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
     private var optionsAddress1 = 0
     private var optionsAddress2 = 0
     private var optionsAddress3 = 0
-    private var addressId = ""
+    private var provinceId = ""
+    private var cityId = ""
+    private var districtId = ""
 
     private var addressType = address_type_3
     override fun initToolbar(): Boolean {
@@ -51,9 +55,34 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
         val actionView = toolbar.menu.getItem(0).actionView
         (actionView as TextView).text = getString(R.string.address_edit_keep)
         actionView.setOnClickListener {
-            //执行保存操作
-            setResult(Activity.RESULT_OK)
-            onBackPressed()
+            var name = ed_userName.text.toString().trim()
+            if (TextUtils.isEmpty(name)) {
+                toast(mContext.getString(R.string.address_hint_userName))
+                return@setOnClickListener
+            }
+
+            var phone = ed_userPhone.text.toString().trim()
+            if (TextUtils.isEmpty(phone)) {
+                toast(mContext.getString(R.string.address_hint_userPhone))
+                return@setOnClickListener
+            }
+            var address = bt_address.text.toString().trim()
+            if (TextUtils.isEmpty(address)) {
+                toast(mContext.getString(R.string.address_hint_area))
+                return@setOnClickListener
+            }
+            var detail = ed_addressDetail.text.toString().trim()
+            if (TextUtils.isEmpty(detail)) {
+                toast(mContext.getString(R.string.address_hint_area_detail))
+                return@setOnClickListener
+            }
+            DataCtrlClass.AddAddressData(mContext, name, phone, provinceId, cityId, districtId, detail, {
+                //执行保存操作
+                setResult(Activity.RESULT_OK)
+                onBackPressed()
+            })
+
+
         }
         return false
     }
@@ -65,7 +94,6 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
         initPicker()
         initEvent()
         initBt()
-
     }
 
     private fun initPicker() {
@@ -97,7 +125,9 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
                 optionsAddress2 = option2
                 optionsAddress3 = options3
                 bt_address.text = String.format(listAddress[options1].areaName + listAddress[options1].cities[option2].areaName + listAddress[options1].cities[option2].counties[options3].areaName)
-                addressId = listAddress[options1].cities[option2].counties[options3].areaId
+                provinceId = listAddress[options1].areaId
+                cityId = listAddress[options1].cities[option2].areaId
+                districtId = listAddress[options1].cities[option2].counties[options3].areaId
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -130,10 +160,10 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
     private fun initData() {
         addressType = intent.getStringExtra(Intent_AddressType)
         val data = intent.getSerializableExtra(Intent_AddressData)
-        if (data!=null){
+        if (data != null) {
             data as AddressBean
-            ed_userName.setText(data.userName)
-            ed_userPhone.setText(data.userPhone)
+            ed_userName.setText(data.name)
+            ed_userPhone.setText(data.phone)
             bt_address.text = String.format(data.province + data.city + data.district)
             ed_addressDetail.setText(data.detail)
         }
@@ -146,7 +176,7 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
     private fun initBt() {
         when (addressType) {
             address_type_1 -> {
-                bt_setDefault.visibility = View.VISIBLE
+                bt_setDefault.visibility = View.GONE
                 bt_delete.visibility = View.VISIBLE
             }
             address_type_2 -> {
@@ -154,7 +184,7 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
                 bt_delete.visibility = View.VISIBLE
             }
             address_type_3 -> {
-                bt_setDefault.visibility = View.VISIBLE
+                bt_setDefault.visibility = View.GONE
                 bt_delete.visibility = View.GONE
             }
         }
@@ -184,9 +214,9 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
             }
             bt_address -> {
                 KeyboardUtils.hideSoftInput(this)
-                pvOptionsAddress.setPicker(optionsProvinces, optionsCities,optionsCounties,
+                pvOptionsAddress.setPicker(optionsProvinces, optionsCities, optionsCounties,
                         true)
-                pvOptionsAddress.setSelectOptions(optionsAddress1, optionsAddress2,optionsAddress3)
+                pvOptionsAddress.setSelectOptions(optionsAddress1, optionsAddress2, optionsAddress3)
                 //三级选择器
                 pvOptionsAddress.setCyclic(false)
                 pvOptionsAddress.show()

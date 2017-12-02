@@ -7,8 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.alibaba.fastjson.JSON
 import com.bigkoo.pickerview.OptionsPickerView
-import com.blankj.utilcode.util.EncodeUtils
-import com.blankj.utilcode.util.FileIOUtils
 import com.blankj.utilcode.util.KeyboardUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
@@ -50,6 +48,7 @@ class OpenShopActivity : BaseActivity() {
     private var ShopLevel = ArrayList<ShopLevelBean>()
 
     private var cardImg = OpenShopCardImgBean()
+    private var businessImgBean = BusinessImgBean()
     private val data = ArrayList<OpenShopListBean>()
     private lateinit var adapter: OpenShopAdapter
     private lateinit var footerView: View
@@ -68,7 +67,7 @@ class OpenShopActivity : BaseActivity() {
     private var idBackImg = ""//身份证反面照（base64)
     private var idNum = ""//身份证号
     private var idName = ""//身份证上的姓名
-    private var businessImg = ""//营业执照（base64)
+    private var businessImg = ""//营业执照
     private var url = ""
 
     override fun initToolbar(): Boolean {
@@ -94,7 +93,7 @@ class OpenShopActivity : BaseActivity() {
         iniView()
         initPicker()
         initEvent()
-        if (!openState.equals("3")) initCheckResult()
+        if (!openState.equals("3")) initCheckResult() else  initShopLevel()
     }
 
     private fun initCheckResult() {
@@ -113,6 +112,7 @@ class OpenShopActivity : BaseActivity() {
                             adapter.data.get(adapter.data.indexOf(bean)).v = it.level.value
                             // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
                             adapter.data.get(adapter.data.indexOf(bean)).state = if (it.level.check.equals("0")) "3" else "4"
+                            initShopLevel()
                         }
                         "店铺名称" -> {
                             adapter.data.get(adapter.data.indexOf(bean)).v = it.name.value
@@ -134,6 +134,9 @@ class OpenShopActivity : BaseActivity() {
                             // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
                             adapter.data.get(adapter.data.indexOf(bean)).state = if (it.detail.check.equals("0")) "3" else "4"
                             locationBean = OpenShopLocationBean(it.longitude.check, it.latitude.check, it.detail.check)
+                            locationBean!!.latitude=it.latitude.check
+                            locationBean!!.longitudCheck=it.longitude.check
+                            locationBean!!.addressCheck=it.detail.check
                             if (it.detail.check.equals("0") || it.latitude.check.equals("0") || it.longitude.check.equals("0")) {
                                 adapter.data.get(adapter.data.indexOf(bean)).state = "3"
                             } else {
@@ -163,14 +166,20 @@ class OpenShopActivity : BaseActivity() {
                                 adapter.data.get(adapter.data.indexOf(bean)).state = "4"
                             }
                             adapter.data.get(adapter.data.indexOf(bean)).v = "已填写"
+
                         }
                         "营业执照照片" -> {
-                            adapter.data.get(adapter.data.indexOf(bean)).v = it.businessImg.value
+                            adapter.data.get(adapter.data.indexOf(bean)).v ="已填写"
+                            businessImgBean= BusinessImgBean()
+                            businessImgBean.businessImg=it.businessImg.value
+                            businessImgBean.check=it.businessImg.check
+
                             // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
                             adapter.data.get(adapter.data.indexOf(bean)).state = if (it.businessImg.check.equals("0")) "3" else "4"
 
                         }
                     }
+                    adapter.notifyDataSetChanged()
                 }
 
             }
@@ -192,6 +201,10 @@ class OpenShopActivity : BaseActivity() {
             } else {
                 url = Urls.ModifyInfo
                 for (bean in adapter.data) {
+                    if (bean.v.equals("请选择") || bean.v.equals("请填写") || bean.v.equals("未填写")||bean.v.equals("")) {
+                        mContext.toast(bean.v + bean.k)
+                        return@setOnClickListener
+                    }
                     if (bean.state.equals("3")) {
                         mContext.toast("请修改" + bean.k)
                         return@setOnClickListener
@@ -215,8 +228,8 @@ class OpenShopActivity : BaseActivity() {
              * idName	string	必填	身份证上的姓名
              * businessImg	string	必填	营业执照（base64)
              * */
-            DataCtrlClassXZW.ConfirmInfoData(mContext, classMark, levelId, name, categoryId, districtId, detail, longitude, latitude, contact, EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(idFrontImg)),
-                    EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(idBackImg)), idNum, idName, EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(businessImg)), url, {
+            DataCtrlClassXZW.ConfirmInfoData(mContext, classMark, levelId, name, categoryId, districtId, detail, longitude, latitude, contact,idFrontImg,
+                    idBackImg, idNum, idName, businessImg, url, {
                 if (it != null) {
                     finish()
                 }
@@ -228,7 +241,7 @@ class OpenShopActivity : BaseActivity() {
     }
 
     private fun iniView() {
-
+        openState = intent.getStringExtra(OPENSTATE)
         adapter = OpenShopAdapter()
         data.add(OpenShopListBean("店铺类型", "实体商品类", "2"))
         data.add(OpenShopListBean("店铺等级", "请选择", "1"))
@@ -294,7 +307,8 @@ class OpenShopActivity : BaseActivity() {
                     }
                     "营业执照照片" -> {
 
-                        startActivityForResult(Intent(mContext, OpenShopBusinessImgActivity::class.java).putExtra("userIcon", businessImg), RESULTCODE_OPEN_SHOP)
+                        b.putSerializable("businessImg",  businessImgBean)
+                        startActivityForResult(Intent(mContext, OpenShopBusinessImgActivity::class.java).putExtras(b), RESULTCODE_OPEN_SHOP)
                     }
                 }
 
@@ -363,8 +377,10 @@ class OpenShopActivity : BaseActivity() {
             adapter.notifyItemChanged(position)
             levelId = ShopLevel.get(options1).levelId
             footerView.tv_fee.text = String.format(mContext.getString(R.string.main_open_shop_fee), ShopLevel.get(position).fee)
+
+
         }
-        initShopLevel()
+
 
     }
 
@@ -382,7 +398,13 @@ class OpenShopActivity : BaseActivity() {
                 }
                 mOptions.setPicker(ShopLevelStr)
 
-
+                //审核被拒 平台管理费
+                if (ShopLevelStr.size > 0 && ShopLevelStr.size > 0&&!adapter.data.get(1).v.equals("请选择")) {
+                    try {
+                        footerView.tv_fee.text = String.format(mContext.getString(R.string.main_open_shop_fee), ShopLevel.get(ShopLevelStr.indexOf(adapter.data.get(1).v)).fee)
+                    } catch (e: Exception) {
+                    }
+                }
             }
         })
     }
@@ -432,7 +454,8 @@ class OpenShopActivity : BaseActivity() {
                 entity.v = "已填写"
             }
             "4" -> {
-                businessImg = data.getStringExtra("userIcon")
+
+                businessImgBean = data.getSerializableExtra("businessImg") as BusinessImgBean
                 entity.v = "已填写"
             }
             "5" -> {
@@ -450,7 +473,7 @@ class OpenShopActivity : BaseActivity() {
 
     companion object {
         var RESULTCODE_OPEN_SHOP = 100
-        var openState = ""//开店状态：0开店审核中 1开店审核通过 2开店审核未通过 3未开店
+        var OPENSTATE = ""//开店状态：0开店审核中 1开店审核通过 2开店审核未通过 3未开店
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -463,8 +486,8 @@ class OpenShopActivity : BaseActivity() {
                         if (data != null) {
                             classMark = (data.getSerializableExtra("keyValue") as OpenShopKeyValueBean).id
                             textChanger("1", data)
-                            adapter.data.get(1).k = ""
-                            adapter.data.get(3).k = ""
+                            adapter.data.get(1).v = ""
+                            adapter.data.get(3).v = ""
                             adapter.notifyItemChanged(1)
                             adapter.notifyItemChanged(3)
                             initShopLevel()
@@ -505,16 +528,16 @@ class OpenShopActivity : BaseActivity() {
                     "身份证正反面照片" -> {
                         if (data != null) {
                             textChanger("3", data)
-                            idFrontImg = (data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardImg
-                            idBackImg = (data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardBackImg
-                            idNum = (data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardNum
-                            idName = (data.getSerializableExtra("cardImg") as OpenShopCardImgBean).cardName
+                            idFrontImg = if(cardImg.cardImg.contains("http")) "" else cardImg.cardImg
+                            idBackImg =if(cardImg.cardBackImg.contains("http")) "" else cardImg.cardBackImg
+                            idNum = cardImg.cardNum
+                            idName = cardImg.cardName
                         }
                     }
                     "营业执照照片" -> {
                         if (data != null) {
                             textChanger("4", data)
-                            businessImg = data.getStringExtra("userIcon")
+                            businessImg =if(businessImgBean.businessImg.contains("http")) "" else businessImgBean.businessImg
                         }
                     }
                 }
@@ -523,3 +546,4 @@ class OpenShopActivity : BaseActivity() {
         }
     }
 }
+

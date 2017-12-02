@@ -1436,14 +1436,14 @@ object DataCtrlClass {
                 })
     }
     /**
-     *地址选择列表
+     *地址选择列表 15105200983
      * */
-    fun addressChooseData(context: Context, currentPage: Int, listener: (addressBean: List<AddressBean>?) -> Unit) {
+    fun addressChooseData(context: Context,  listener: (addressBean: List<AddressBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<List<AddressBean>>>(Urls.url)
+        params.put("userId", MyApplication.loginUserId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, salt).toLowerCase())
+        OkGo.post<NetEntity<List<AddressBean>>>(Urls.AddressList)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<List<AddressBean>>>(context) {
@@ -1484,6 +1484,66 @@ object DataCtrlClass {
                     }
 
                     override fun onError(response: Response<NetEntity<AddressBean>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 地址编辑，设为默认 删除
+     * */
+    fun EditAddressData(context: Context,addressId:String, url:String,listener: (addressBean: String?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("addressId", addressId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+addressId, salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(url)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<String>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     *  新增收货地址（当用户添加地址时，后台判断该用户是否有其他地址，若没有，将该地址设为默认地址）
+     * */
+    fun AddAddressData(context: Context,name:String,phone:String,provinceId:String,cityId:String,districtId:String,detail:String, listener: (addressBean: String?) -> Unit) {
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("name", name)
+        params.put("phone", phone)
+        params.put("provinceId", provinceId)
+        params.put("cityId", cityId)
+        params.put("districtId", districtId)
+        params.put("detail", detail)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.AddAddress)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<String>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }

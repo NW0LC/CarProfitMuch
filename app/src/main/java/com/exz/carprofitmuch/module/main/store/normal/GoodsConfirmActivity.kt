@@ -119,8 +119,8 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener, CompoundButto
             lay_noAddress.visibility = View.GONE
             bt_address.visibility = View.VISIBLE
 
-            tv_userName.text = addressBean.userName
-            tv_userPhone.text = addressBean.userPhone
+            tv_userName.text = addressBean.name
+            tv_userPhone.text = addressBean.phone
 
             val scoreConfirmAddressDetail = getString(R.string.score_confirm_address_detail)
             val msp = SpannableString(scoreConfirmAddressDetail + addressBean.toString())

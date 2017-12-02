@@ -253,7 +253,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                     startActivityForResult(Intent(context, LoginActivity::class.java), RESULT_LOGIN_CANCELED)
                     return
                 }
-                startActivity(Intent(context, OpenShopActivity::class.java).putExtra(openState,openState))
+                startActivity(Intent(context, OpenShopActivity::class.java).putExtra(OpenShopActivity.OPENSTATE,openState))
             }
             bt_promotions -> {//我的活动
                 startActivity(Intent(context, PromotionsPersonalActivity::class.java))
