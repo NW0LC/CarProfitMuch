@@ -17,20 +17,17 @@ import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsShopAdapter
 import com.exz.carprofitmuch.bean.GoodsBean
-import com.exz.carprofitmuch.bean.GoodsShopClassifyBean
+import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity.Companion.GoodsShop_Intent_ShopId
 import com.exz.carprofitmuch.module.main.store.service.ServiceShopActivity
 import com.exz.carprofitmuch.pop.GoodsShopClassifyPop
 import com.exz.carprofitmuch.utils.SZWUtils
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.activity_goods_shop_serach_result.*
 import razerdp.basepopup.BasePopupWindow
-import java.util.*
 
 
 
@@ -40,12 +37,22 @@ import java.util.*
  */
 
 class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
-
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
     private lateinit var mAdapter: GoodsShopAdapter<GoodsBean>
     private var isPriceUp = false  // 是否升序
     private lateinit var goodsShopClassifyPop: GoodsShopClassifyPop
+
+//    shopId   店铺id
+//    selfTypeId   店铺自定义商品分类id
+//    status   1:上新、2:热销
+//    search   搜索内容(UTF-8编码)
+//    sortType   排序方式(0:综合排序，1:按价格降序，2:按价格升序，3:按销量排序)
+    var shopId=""
+    var selfTypeId=""
+    var status=""
+    var search=""
+    var sortType=""
 
     override fun initToolbar(): Boolean {
         toolbar.setContentInsetsAbsolute(0, 0)
@@ -69,8 +76,8 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
         mTitle.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 // do something
-                val searchContent = mTitle.text.toString().trim { it <= ' ' }
-                if (!TextUtils.isEmpty(searchContent)) {
+                search= mTitle.text.toString().trim { it <= ' ' }
+                if (!TextUtils.isEmpty(search)) {
                     refreshLayout.autoRefresh()
                 }
                 return@OnEditorActionListener true
@@ -113,28 +120,17 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
     override fun setInflateId(): Int = R.layout.activity_goods_shop_serach_result
 
     override fun init() {
+        shopId=intent.getStringExtra(GoodsShop_Intent_ShopId)?:""
+        status=intent.getStringExtra(GoodsShopSearchResult_Intent_Status)?:""
+        selfTypeId=intent.getStringExtra(GoodsShopSearchResult_Intent_SelfTypeId)?:""
         goodsShopClassifyPop = GoodsShopClassifyPop(this)
-        val arrayList = ArrayList<GoodsShopClassifyBean>()
-        val classifyBean = GoodsShopClassifyBean("1")
-        classifyBean.name = "分类1"
-        classifyBean.list.add(GoodsShopClassifyBean("2", "子类1"))
-        classifyBean.list.add(GoodsShopClassifyBean("3", "子类2"))
-        classifyBean.list.add(GoodsShopClassifyBean("4", "子类3"))
-        val classifyBean2 = GoodsShopClassifyBean("5")
-        classifyBean2.name = "分类2"
-        classifyBean2.list.add(GoodsShopClassifyBean("6", "子类1"))
-        classifyBean2.list.add(GoodsShopClassifyBean("7", "子类2"))
-        classifyBean2.list.add(GoodsShopClassifyBean("8", "子类3"))
-        arrayList.add(GoodsShopClassifyBean("9", "全部宝贝"))
-        arrayList.add(GoodsShopClassifyBean("10", "新品首发"))
-        arrayList.add(classifyBean)
-        arrayList.add(GoodsShopClassifyBean("11", "新品首发"))
-        arrayList.add(classifyBean2)
-        goodsShopClassifyPop.data = arrayList
+
         goodsShopClassifyPop.onDismissListener = object : BasePopupWindow.OnDismissListener() {
             override fun onDismiss() {
-                if (GoodsShopClassifyPop.shopClassifyId.isNotEmpty())
-                    refreshLayout.autoRefresh()
+                if (goodsShopClassifyPop.shopClassifyId.isNotEmpty()){
+                    selfTypeId=goodsShopClassifyPop.shopClassifyId
+                    onRefresh(refreshLayout)
+                }
             }
         }
         SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
@@ -153,15 +149,6 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
 
     private fun initRecycler() {
         mAdapter = GoodsShopAdapter()
-        val arrayList = ArrayList<GoodsBean>()
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-        arrayList.add(GoodsBean())
-
-        mAdapter.setNewData(arrayList)
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -180,6 +167,7 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
     override fun onClick(p0: View?) {
         when (p0) {
             bt_sort1 -> {
+                sortType="0"
                 isPriceUp = false
                 bt_sort1.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
                 bt_sort2.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
@@ -190,11 +178,13 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
             bt_sort2 -> {
                 isPriceUp = !isPriceUp
                 if (isPriceUp) {
+                    sortType="1"
                     bt_sort1.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
                     bt_sort2.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
                     bt_sort2.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.vector_goods_shop_search_result_price_up), null)
                     bt_sort3.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
                 } else {
+                    sortType="2"
                     bt_sort1.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
                     bt_sort2.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
                     bt_sort2.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.vector_goods_shop_search_result_price_down), null)
@@ -203,6 +193,7 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
                 refreshLayout.autoRefresh()
             }
             bt_sort3 -> {
+                sortType="3"
                 isPriceUp = false
                 bt_sort1.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
                 bt_sort2.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
@@ -225,7 +216,10 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
         currentPage = 1
         refreshState = Constants.RefreshState.STATE_REFRESH
         iniData()
-
+        DataCtrlClass.goodsShopClassifyData(this, intent.getStringExtra(GoodsShop_Intent_ShopId) ?: "") {
+            if (it!=null)
+                goodsShopClassifyPop.data =it
+        }
     }
 
     override fun onLoadMoreRequested() {
@@ -234,7 +228,8 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
     }
 
     private fun iniData() {
-        DataCtrlClass.searchGoodsShopResult(this, currentPage) {
+
+        DataCtrlClass.searchGoodsShopResult(this, currentPage,shopId,selfTypeId,status,search,sortType) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {
@@ -253,5 +248,9 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
                 mAdapter.loadMoreFail()
             }
         }
+    }
+    companion object {
+        var GoodsShopSearchResult_Intent_SelfTypeId="GoodsShopSearchResult_Intent_SelfTypeId"
+        var GoodsShopSearchResult_Intent_Status="GoodsShopSearchResult_Intent_Status"
     }
 }

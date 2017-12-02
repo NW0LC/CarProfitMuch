@@ -352,7 +352,7 @@ object DataCtrlClass {
 
         val params = HashMap<String, String>()
         params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("StoreHome", salt).toLowerCase())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase())
         OkGo.post<NetEntity<List<GoodsBean>>>(Urls.ScoreGoodsList)
                 .params(params)
                 .tag(this)
@@ -427,6 +427,34 @@ object DataCtrlClass {
                     }
 
                     override fun onError(response: Response<NetEntity<ShopBean>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 店铺主页
+     * */
+    fun goodsShopClassifyData(context: Context,shopId:String, listener: (shopBean: ArrayList<GoodsShopClassifyBean>?) -> Unit) {
+//       shopId	string	必填	店铺id
+//       requestCheck	string	必填	验证请求
+        val params = HashMap<String, String>()
+        params.put("shopId", shopId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase())
+        OkGo.post<NetEntity<ArrayList<GoodsShopClassifyBean>>>(Urls.ShopSelfTypeList)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<ArrayList<GoodsShopClassifyBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<ArrayList<GoodsShopClassifyBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<ArrayList<GoodsShopClassifyBean>>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -709,12 +737,24 @@ object DataCtrlClass {
     /**
      * 商铺搜索结果页
      * */
-    fun searchGoodsShopResult(context: Context, currentPage: Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
+    fun searchGoodsShopResult(context: Context, currentPage: Int, shopId:String,selfTypeId:String,status:String,search:String,sortType:String,listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
+//        shopId	string	必填	店铺id
+//        selfTypeId	string	选填	店铺自定义商品分类id
+//        status	string	选填	1:上新、2:热销
+//        search	string	选填	搜索内容(UTF-8编码)
+//        sortType	string	必填	排序方式(0:综合排序，1:按价格降序，2:按价格升序，3:按销量排序)
+//        page	string	必填	分页，从第1页开始，每页20条数据
+//        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<List<GoodsBean>>>(Urls.url)
+        params.put("shopId", shopId)
+        params.put("selfTypeId", selfTypeId)
+        params.put("status", status)
+        params.put("search", search)
+        params.put("sortType", sortType)
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase())
+        OkGo.post<NetEntity<List<GoodsBean>>>(Urls.ShopGoodsList)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<List<GoodsBean>>>(context) {
@@ -1496,24 +1536,24 @@ object DataCtrlClass {
 //       page	string	必填	分页，从第1页开始，每页30条数据
 //       requestCheck	string	必填	验证请求
         val params = HashMap<String, String>()
-        params.put("page", currentPage.toString() + "")
-        if (!TextUtils.isEmpty(""))
-            params.put("typeId", "")
-        if (!TextUtils.isEmpty(""))
-            params.put("search", "")
+        params.put("page", currentPage.toString())
+        if (!TextUtils.isEmpty(typeId))
+            params.put("typeId", typeId)
+        if (!TextUtils.isEmpty(search))
+            params.put("search", search)
         if (!TextUtils.isEmpty(filterPopWin.heightPrice)) {
             params.put("price", if (TextUtils.isEmpty(filterPopWin.lowPrice)) "0" + "," + heightPrice else lowPrice.toString() + "," + heightPrice)
         }else if (!TextUtils.isEmpty(filterPopWin.lowPrice)){
              params.put("price", filterPopWin.lowPrice)
         }
 
-        params.put("status", "")
+        params.put("status", status)
 
 
-        if (!TextUtils.isEmpty("")) {
-            params.put("other", "".substring(0, "".length - 1))
+        if (!TextUtils.isEmpty(other)) {
+            params.put("other", other.substring(0, "".length - 1))
         }
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("SearchGoodsList", salt).toLowerCase())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase())
         OkGo.post<NetEntity<List<GoodsBean>>>(Urls.GoodsList)
                 .params(params)
                 .tag(this)

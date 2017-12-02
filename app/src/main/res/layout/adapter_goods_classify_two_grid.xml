@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginEnd="10dp"
     android:layout_marginBottom="@dimen/dp_10"
-    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <com.facebook.drawee.view.SimpleDraweeView
@@ -22,7 +21,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:singleLine="true"
-        android:text="三级"
+        android:text=""
         android:textColor="@color/MaterialGrey600"
         android:textSize="12sp"/>
 

@@ -4,6 +4,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.TextView
 import com.blankj.utilcode.util.EncryptUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
@@ -14,6 +15,8 @@ import com.exz.carprofitmuch.bean.GoodsClassifyOneEntities
 import com.exz.carprofitmuch.bean.GoodsClassifyTwoEntities
 import com.exz.carprofitmuch.config.Urls.SubTypeList
 import com.exz.carprofitmuch.config.Urls.TypeList
+import com.exz.carprofitmuch.module.main.store.search.SearchGoodsActivity
+import com.exz.carprofitmuch.module.main.store.search.SearchGoodsActivity.Companion.Intent_isShowSoft
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.szw.framelibrary.app.MyApplication.Companion.salt
@@ -42,6 +45,14 @@ class GoodsClassifyActivity : BaseActivity() {
         StatusBarUtil.immersive(this)
         StatusBarUtil.setPaddingSmart(this, toolbar)
         StatusBarUtil.setPaddingSmart(this, blurView)
+        toolbar.inflateMenu(R.menu.menu_favorite_goods)
+        val actionView = toolbar.menu.getItem(0).actionView
+        (actionView as TextView).text = getString(R.string.goods_classify_search)
+        actionView.setOnClickListener {
+            intent.setClass(this@GoodsClassifyActivity, SearchGoodsActivity::class.java)
+            intent.putExtra(Intent_isShowSoft, false)
+            startActivity(intent)
+        }
         return false
     }
 
@@ -84,8 +95,8 @@ class GoodsClassifyActivity : BaseActivity() {
                     override fun onSuccess(response: Response<NetEntity<List<GoodsClassifyOneEntities>>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             mGoodsClassifyOneAdapter.setNewData(response.body()?.data)
-                            if (response.body()?.info?.size ?: 0 > 0) {
-                                twoLevel(response.body()?.info?.get(0)?.typeId ?: "")
+                            if (response.body()?.data?.size ?: 0 > 0) {
+                                twoLevel(response.body()?.data?.get(0)?.typeId ?: "")
                             }
                         }
                     }

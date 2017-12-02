@@ -17,8 +17,8 @@ class GoodsShopAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>(R.la
         val itemView=helper.itemView
         itemView.img.layoutParams.height=(ScreenUtils.getScreenWidth() - SizeUtils.dp2px(5f))/2
         itemView.img.setImageURI(item.imgUrl)
-        itemView.tv_title.text=item.title
-        itemView.tv_price.text=String.format("${mContext.getString(R.string.CNY)}%s",item.price)
+        itemView.tv_title.text=item.goodsName
+        itemView.tv_price.text=String.format("${mContext.getString(R.string.CNY)}%s",item.goodsPrice)
         itemView.tv_oldPrice.text= String.format("${mContext.getString(R.string.CNY)}%s",item.oldPrice)
         itemView.tv_oldPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
         val layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)

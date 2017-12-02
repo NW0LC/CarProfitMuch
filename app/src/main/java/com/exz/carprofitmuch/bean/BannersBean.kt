@@ -5,7 +5,8 @@ package com.exz.carprofitmuch.bean
  * on 2017/10/19.
  */
 
-class BannersBean(var imgUrl: String = "http://seopic.699pic.com/photo/50055/6756.jpg_wh1200.jpg") : AbsMark() {
+class BannersBean(var imgUrl: String = "") :AbsBanner, AbsMark() {
+    override fun getImgUri()=imgUrl
     override fun getMarkId()=mark
     override fun getAdUri()= adUrl
     override fun getAdsID()=adsId

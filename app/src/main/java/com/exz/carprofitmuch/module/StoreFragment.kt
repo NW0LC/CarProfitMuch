@@ -18,8 +18,6 @@ import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.MainStoreServiceBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.module.main.store.normal.GoodsClassifyActivity
-import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity
-import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity.Companion.GoodsDetail_Intent_GoodsId
 import com.exz.carprofitmuch.module.main.store.score.ScoreStoreActivity
 import com.exz.carprofitmuch.module.main.store.service.ServiceListActivity
 import com.exz.carprofitmuch.utils.SZWUtils
@@ -42,7 +40,7 @@ import kotlinx.android.synthetic.main.layout_card_main_store_score.view.*
 class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener {
 
     private var banners = ArrayList<BannersBean>()
-    private var severModel =ArrayList<MainStoreServiceBean>()
+    private var severModel = ArrayList<MainStoreServiceBean>()
     private lateinit var mAdapter: MainStoreAdapter<GoodsBean>
     private lateinit var headerView: View
     private lateinit var footerView: View
@@ -81,9 +79,8 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                val intent = Intent(context, GoodsDetailActivity::class.java)
-                intent.putExtra(GoodsDetail_Intent_GoodsId, mAdapter.data[position].goodsId)
-                startActivity(intent)
+                if (SZWUtils.getMarkIntent(context, mAdapter.data[position]) != null)
+                    startActivity(SZWUtils.getMarkIntent(context, mAdapter.data[position]))
             }
         })
     }
@@ -146,17 +143,17 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
 //                startActivity(Intent(context, SearchResultActivity::class.java))
             }
             headerView.bt_service_lay_0 -> {
-                if (severModel.isNotEmpty()&&SZWUtils.getMarkIntent(context, severModel[0]) != null) {
+                if (severModel.isNotEmpty() && SZWUtils.getMarkIntent(context, severModel[0]) != null) {
                     startActivity(SZWUtils.getMarkIntent(context, severModel[0]))
                 }
             }
             headerView.bt_service_lay_1 -> {
-                if (severModel.isNotEmpty()&&SZWUtils.getMarkIntent(context, severModel[2]) != null) {
+                if (severModel.isNotEmpty() && SZWUtils.getMarkIntent(context, severModel[2]) != null) {
                     startActivity(SZWUtils.getMarkIntent(context, severModel[2]))
                 }
             }
             headerView.bt_service_lay_2 -> {
-                if (severModel.isNotEmpty()&&SZWUtils.getMarkIntent(context, severModel[1]) != null) {
+                if (severModel.isNotEmpty() && SZWUtils.getMarkIntent(context, severModel[1]) != null) {
                     startActivity(SZWUtils.getMarkIntent(context, severModel[1]))
                 }
             }
@@ -180,7 +177,7 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
                 headerView.lay_type_0.removeAllViews()
                 for (card in it.scoreModel) {
                     val cardMainStoreScore = View.inflate(context, R.layout.layout_card_main_store_score, null)
-                    headerView.img_score_bg.layoutParams.height=ScreenUtils.getScreenWidth()/3
+                    headerView.img_score_bg.layoutParams.height = ScreenUtils.getScreenWidth() / 3
                     cardMainStoreScore.img_score_bg.setImageURI(card.imgUrl)
 //                    cardMainStoreScore.tv_score_name.text = card.title
 //                    cardMainStoreScore.tv_score_count.text = String.format("${card.price}%s", getString(R.string.SCORE))
@@ -192,7 +189,7 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
                         }
                     }
                 }
-                severModel=it.severModel
+                severModel = it.severModel
                 for (i in 0 until it.severModel.size) {
 //                    (hotRecommendViews[i * 4] as TextView).text = it.severModel[i].title
 //                    (hotRecommendViews[i * 4 + 1] as TextView).text = it.serviceBeans[i].info

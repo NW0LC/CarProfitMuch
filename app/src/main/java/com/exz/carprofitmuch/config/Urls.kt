@@ -108,6 +108,14 @@ object Urls{
      * 店铺主页
      */
     val ShopMain=url+"App/Store/Reality/ShopMain.aspx"
+    /**
+     * 商品规格
+     */
+    val ShopSelfTypeList=url+"App/Store/Reality/ShopSelfTypeList.aspx"
+    /**
+     * 店铺内商品列表
+     */
+    val ShopGoodsList=url+"App/GoodsType/ShopGoodsList.aspx"
 
 
 

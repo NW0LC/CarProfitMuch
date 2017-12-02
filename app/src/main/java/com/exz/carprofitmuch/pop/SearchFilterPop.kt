@@ -33,6 +33,7 @@ class SearchFilterPop(context: Activity) : BasePopupWindow(context), View.OnFocu
     private var headerView: View = View.inflate(context, R.layout.header_search_goods_filter_price, null)
 
     init {
+        popupWindow.isClippingEnabled = false
         setDismissWhenTouchOutside(true)
         mAdapter.setHeaderView(headerView)
         mAdapter.setHeaderAndEmpty(true)

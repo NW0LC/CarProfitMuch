@@ -4,7 +4,10 @@ package com.exz.carprofitmuch.bean
  * Created by 史忠文
  * on 2017/10/21.
  */
-open class GoodsBean {
+open class GoodsBean : AbsMark(),AbsBanner{
+    override fun getPayM()=payMark
+    override fun getImgUri()=imgUrl
+    override fun getMarkId()=goodsId
 //            "goodsId":"商品id"
 //            "payMark":"1",
 //            "goodsName":"商品名称"

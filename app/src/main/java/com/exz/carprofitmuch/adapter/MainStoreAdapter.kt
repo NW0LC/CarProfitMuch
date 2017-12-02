@@ -18,9 +18,14 @@ class MainStoreAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>(R.la
         itemView.img.layoutParams.height=(ScreenUtils.getScreenWidth()-SizeUtils.dp2px(5f))/2
         itemView.img.setImageURI(item.imgUrl)
         itemView.tv_title.text=item.goodsName
-        itemView.tv_old_price.text= String.format("${mContext.getString(R.string.CNY)}%s",item.oldPrice)
+        if (item.payMark=="1"){
+            itemView.tv_old_price.text= String.format("%s${mContext.getString(R.string.SCORE)}",item.oldPrice)
+            itemView.tv_price.text=String.format("%s${mContext.getString(R.string.SCORE)}",item.goodsPrice)
+        }else{
+            itemView.tv_old_price.text= String.format("${mContext.getString(R.string.CNY)}%s",item.oldPrice)
+            itemView.tv_price.text=String.format("${mContext.getString(R.string.CNY)}%s",item.goodsPrice)
+        }
         itemView.tv_old_price.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG //中划线
-        itemView.tv_price.text=String.format("${mContext.getString(R.string.CNY)}%s",item.goodsPrice)
         val layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
 
         if (if (headerLayoutCount==0)helper.adapterPosition%2==1 else helper.adapterPosition%2==0) {

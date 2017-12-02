@@ -162,6 +162,7 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
 
 
     private fun initBanner() {
+        banner.layoutParams.height=ScreenUtils.getScreenWidth()
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
         //设置图片加载器
         banner.setImageLoader(BannerImageLoader())

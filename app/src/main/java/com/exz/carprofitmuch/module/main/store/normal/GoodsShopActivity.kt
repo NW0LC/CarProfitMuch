@@ -14,8 +14,10 @@ import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsShopAdapter
 import com.exz.carprofitmuch.bean.BannersBean
 import com.exz.carprofitmuch.bean.GoodsBean
-import com.exz.carprofitmuch.bean.GoodsShopClassifyBean
+import com.exz.carprofitmuch.bean.ShopBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
+import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity.Companion.GoodsDetail_Intent_GoodsId
+import com.exz.carprofitmuch.module.main.store.normal.GoodsShopSearchResultActivity.Companion.GoodsShopSearchResult_Intent_Status
 import com.exz.carprofitmuch.pop.GoodsShopClassifyPop
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -36,7 +38,8 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
     private lateinit var mNewAdapter: GoodsShopAdapter<GoodsBean>
     private lateinit var mHotAdapter: GoodsShopAdapter<GoodsBean>
     private lateinit var goodsShopClassifyPop: GoodsShopClassifyPop
-
+    private var recommends: ArrayList<GoodsBean>? = null
+    private var shopBean: ShopBean? = null
     override fun setInflateId(): Int = R.layout.activity_goods_shop
 
     override fun initToolbar(): Boolean {
@@ -55,26 +58,7 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
 
     override fun init() {
         goodsShopClassifyPop = GoodsShopClassifyPop(this)
-        val arrayList = ArrayList<GoodsShopClassifyBean>()
-        val classifyBean = GoodsShopClassifyBean("1")
-        classifyBean.name = "分类1"
-        classifyBean.list.add(GoodsShopClassifyBean("2","子类1"))
-        classifyBean.list.add(GoodsShopClassifyBean("3","子类2"))
-        classifyBean.list.add(GoodsShopClassifyBean("4","子类3"))
-        val classifyBean2 = GoodsShopClassifyBean("5")
-        classifyBean2.name = "分类2"
-        classifyBean2.list.add(GoodsShopClassifyBean("6","子类1"))
-        classifyBean2.list.add(GoodsShopClassifyBean("7","子类2"))
-        classifyBean2.list.add(GoodsShopClassifyBean("8","子类3"))
-        arrayList.add(GoodsShopClassifyBean("9","全部宝贝"))
-        arrayList.add(GoodsShopClassifyBean("10","新品首发"))
-        arrayList.add(classifyBean)
-        arrayList.add(classifyBean)
-        arrayList.add(classifyBean)
-        arrayList.add(classifyBean)
-        arrayList.add(GoodsShopClassifyBean("11","新品首发"))
-        arrayList.add(classifyBean2)
-        goodsShopClassifyPop.data = arrayList
+        goodsShopClassifyPop.shopId=intent.getStringExtra(GoodsShop_Intent_ShopId) ?: ""
 
         val mNsp = SpannableString(getString(R.string.goods_shop_newGoodsList))
         mNsp.setSpan(ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.MaterialRed600)), mNsp.length - 1, mNsp.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -83,10 +67,11 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
         mHsp.setSpan(ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.MaterialRed600)), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_hotGoodsList.text = mHsp
 
-        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
+        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initBanner()
         initRecycler()
         initEvent()
+        onRefresh(refreshLayout)
     }
 
     private fun initBanner() {
@@ -97,16 +82,21 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
         //设置图片加载器
         banner.setImageLoader(BannerImageLoader())
-        //设置图片集合
-        banner.setImages(bannersBean)
+
         //设置自动轮播，默认为true
         banner.isAutoPlay(true)
         //设置轮播时间
         banner.setDelayTime(3000)
         //设置指示器位置（当banner模式中有指示器时）
         banner.setIndicatorGravity(BannerConfig.CENTER)
-        //banner设置方法全部调用完毕时最后调用
-        banner.start()
+        banner.setOnBannerListener {
+            if (recommends != null) {
+                val intent = Intent(this, GoodsDetailActivity::class.java)
+                intent.putExtra(GoodsDetail_Intent_GoodsId, recommends?.get(it)?.goodsId)
+                startActivity(intent)
+            }
+
+        }
 
     }
 
@@ -115,26 +105,20 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
         mRightImg.setOnClickListener(this)
         mLeftImg.setOnClickListener(this)
         mTitle.setOnClickListener(this)
+        bt_goodsShop_favorite.setOnClickListener(this)
+        bt_goodsShop_allGoods.setOnClickListener(this)
+        bt_goodsShop_newGoods.setOnClickListener(this)
+        bt_goodsShop_hotGoods.setOnClickListener(this)
     }
 
     private fun initRecycler() {
         mNewAdapter = GoodsShopAdapter()
         mHotAdapter = GoodsShopAdapter()
-        val scoreList = ArrayList<GoodsBean>()
-        scoreList.add(GoodsBean())
-        scoreList.add(GoodsBean())
-        scoreList.add(GoodsBean())
-        scoreList.add(GoodsBean())
-        scoreList.add(GoodsBean())
-        scoreList.add(GoodsBean())
-
-        mNewAdapter.setNewData(scoreList)
         mNewAdapter.bindToRecyclerView(mNewRecyclerView)
         mNewRecyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         mNewRecyclerView.isNestedScrollingEnabled = false
         mNewRecyclerView.isFocusable = false
 
-        mHotAdapter.setNewData(scoreList)
         mHotAdapter.bindToRecyclerView(mHotRecyclerView)
         mHotRecyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         mHotRecyclerView.isNestedScrollingEnabled = false
@@ -145,40 +129,92 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
         mHotAdapter.onItemClickListener = this
     }
 
-    override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        startActivity(Intent(mContext, GoodsDetailActivity::class.java))
+    override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View?, position: Int) {
+        val intent = Intent(this, GoodsDetailActivity::class.java)
+        intent.putExtra(GoodsDetail_Intent_GoodsId, (adapter.data[position] as GoodsBean).goodsId)
+        startActivity(intent)
     }
 
     override fun onClick(p0: View?) {
+        val shopSearchIntent = Intent(this, GoodsShopSearchResultActivity::class.java)
         when (p0) {
             mLeftImg -> {
                 onBackPressed()
             }
             mTitle -> {
-                val intent = Intent(this, GoodsShopSearchResultActivity::class.java)
-                    intent.putExtra("isShowSoft",true)
-                startActivity(intent)
+                intent.putExtra("isShowSoft", true)
+                startActivity(shopSearchIntent)
             }
             mRightImg -> {
 //                startActivity(Intent(this, GoodsShopSearchResultActivity::class.java))
                 goodsShopClassifyPop.showPopupWindow()
+            }
+            bt_goodsShop_favorite -> {
+                if (shopBean != null) {
+                    DataCtrlClass.editFavoriteData(this, shopBean?.shopId ?: "", "0",
+                            if (shopBean?.isCollected == "1") {
+                                shopBean?.isCollected = "0"
+                                "0"
+                            } else {
+                                shopBean?.isCollected = "1"
+                                "1"
+                            }) {
+                        bt_goodsShop_favorite.setText(if (shopBean?.isCollected == "1") R.string.goods_shop_favorite_remove else R.string.goods_shop_favorite_add)
+
+                    }
+                }
+            }
+            bt_goodsShop_allGoods -> {
+                shopSearchIntent.putExtra(GoodsShop_Intent_ShopId,intent.getStringExtra(GoodsShop_Intent_ShopId) ?: "")
+                startActivity(shopSearchIntent)
+            }
+            bt_goodsShop_newGoods -> {
+                shopSearchIntent.putExtra(GoodsShop_Intent_ShopId,intent.getStringExtra(GoodsShop_Intent_ShopId) ?: "")
+                shopSearchIntent.putExtra(GoodsShopSearchResult_Intent_Status,"1")
+                startActivity(shopSearchIntent)
+            }
+            bt_goodsShop_hotGoods -> {
+                shopSearchIntent.putExtra(GoodsShop_Intent_ShopId,intent.getStringExtra(GoodsShop_Intent_ShopId) ?: "")
+                shopSearchIntent.putExtra(GoodsShopSearchResult_Intent_Status,"2")
+                startActivity(shopSearchIntent)
             }
             else -> {
             }
         }
     }
 
+
     override fun onRefresh(refreshLayout: RefreshLayout?) {
-        DataCtrlClass.goodsShopData(this,intent.getStringExtra(GoodsShop_Intent_ShopId)?:"") {
+
+        DataCtrlClass.goodsShopClassifyData(this, intent.getStringExtra(GoodsShop_Intent_ShopId) ?: "") {
+            if (it != null)
+                goodsShopClassifyPop.data = it
+        }
+        DataCtrlClass.goodsShopData(this, intent.getStringExtra(GoodsShop_Intent_ShopId) ?: "") {
+            refreshLayout?.finishRefresh()
             if (it != null) {
+                shopBean = it
                 img_goods_shop.setImageURI(it.shopImgUrl)
-                tv_goodsShop_name.text=it.shopName
-                tv_goodsShop_tag.text=it.shopMark
-                tv_goodsShop_favoriteCount.text=String.format(getString(R.string.goods_shop_favoriteCount),it.collectedCount)
+                tv_goodsShop_name.text = it.shopName
+                tv_goodsShop_tag.text = it.shopMark
+                tv_goodsShop_favoriteCount.text = String.format(getString(R.string.goods_shop_favoriteCount), it.collectedCount)
+                tv_goodsShop_allGoodsCount.text = it.allCount
+                tv_goodsShop_newGoodsCount.text = it.newCount
+                tv_goodsShop_hotGoodsCount.text = it.hotCount
+                bt_goodsShop_favorite.setText(if (it.isCollected == "1") R.string.goods_shop_favorite_remove else R.string.goods_shop_favorite_add)
+                recommends = it.recommendGoods
+                //设置图片集合
+                banner.setImages(it.recommendGoods)
+                //banner设置方法全部调用完毕时最后调用
+                banner.start()
+
+                mHotAdapter.setNewData(it.hotGoodsList)
+                mNewAdapter.setNewData(it.newGoodsList)
             }
         }
     }
+
     companion object {
-        val GoodsShop_Intent_ShopId="GoodsShop_Intent_ShopId"
+        val GoodsShop_Intent_ShopId = "GoodsShop_Intent_ShopId"
     }
 }

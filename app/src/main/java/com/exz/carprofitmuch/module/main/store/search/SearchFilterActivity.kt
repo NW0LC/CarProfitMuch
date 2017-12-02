@@ -2,7 +2,6 @@ package com.exz.carprofitmuch.module.main.store.search
 
 import android.content.Intent
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.text.TextUtils
 import android.view.Gravity
@@ -18,11 +17,10 @@ import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.MainStoreAdapter
 import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.SearchFilterEntity
-import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity
+import com.exz.carprofitmuch.module.main.store.search.SearchGoodsActivity.Companion.Intent_Search_Content
 import com.exz.carprofitmuch.module.main.store.search.SearchGoodsActivity.Companion.Intent_isShowSoft
 import com.exz.carprofitmuch.pop.SearchFilterPop
 import com.exz.carprofitmuch.pop.ServiceListSortPop
-import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
@@ -33,6 +31,7 @@ import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_search_goods_filter.*
 import org.jetbrains.anko.textColor
 import razerdp.basepopup.BasePopupWindow
+import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.*
 
@@ -54,9 +53,8 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
     private lateinit var filterPopWin: SearchFilterPop
     private var filterEntities= ArrayList<SearchFilterEntity>()
     override fun initToolbar(): Boolean {
-        val searchContent = intent.getStringExtra("searchContent")?:""
         mTitle.hint=getString(R.string.search_filter_hint)
-        mTitle.text = searchContent
+        mTitle.text = URLDecoder.decode(searchContent, "utf-8")
         val params= LinearLayout.LayoutParams(ScreenUtils.getScreenWidth()-SizeUtils.dp2px(85f),SizeUtils.dp2px(35f))
         params.topMargin=SizeUtils.dp2px(10f)
         params.bottomMargin=SizeUtils.dp2px(10f)
@@ -75,7 +73,7 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
         StatusBarUtil.setPaddingSmart(this, mRecyclerView)
         StatusBarUtil.setPaddingSmart(this, blurView)
         StatusBarUtil.setMargin(this, header)
-        SZWUtils.setPaddingSmart(mRecyclerView, 45f)
+        SZWUtils.setPaddingSmart(mRecyclerView, 50f)
         SZWUtils.setMargin(header, 45f)
         return false
     }
@@ -85,9 +83,8 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
     override fun init() {
         SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
 
-
         typeId = intent.getStringExtra("typeId")?:""
-
+        searchContent=intent.getStringExtra(Intent_Search_Content)?:""
         if (!TextUtils.isEmpty(searchContent)) {
             this.searchContent = URLEncoder.encode(searchContent, "utf-8")
         }
@@ -96,6 +93,7 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
         initRecycler()
         initFilterPop()
         initEvent()
+        onRefresh(refreshLayout)
     }
 
     private fun initFilterPop() {
@@ -156,23 +154,13 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
 
     private fun initRecycler() {
         mAdapter = MainStoreAdapter()
-        val arrayList = ArrayList<GoodsBean>()
-       arrayList.add(GoodsBean())
-       arrayList.add(GoodsBean())
-       arrayList.add(GoodsBean())
-       arrayList.add(GoodsBean())
-       arrayList.add(GoodsBean())
-       arrayList.add(GoodsBean())
-
-        mAdapter.setNewData(arrayList)
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
-
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener(){
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-            startActivity(Intent(this@SearchFilterActivity, GoodsDetailActivity::class.java))
+                if (SZWUtils.getMarkIntent(this@SearchFilterActivity, mAdapter.data[position]) != null)
+                    startActivity(SZWUtils.getMarkIntent(this@SearchFilterActivity, mAdapter.data[position]))
             }
         })
     }

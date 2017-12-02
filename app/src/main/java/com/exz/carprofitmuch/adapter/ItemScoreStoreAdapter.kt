@@ -22,12 +22,12 @@ class ItemScoreStoreAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>
         itemView.tv_info.text= item.subTitle
         itemView.tv_price.text=String.format("%s${mContext.getString(R.string.SCORE)}",item.price)
         val layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
-        if (helper.adapterPosition%2==0) {
-            layoutParams.rightMargin= SizeUtils.dp2px(2.5f)
+        if (if (headerLayoutCount==0)helper.adapterPosition%2==1 else helper.adapterPosition%2==0) {
+            layoutParams.leftMargin=SizeUtils.dp2px(2.5f)
         }else{
-            layoutParams.leftMargin= SizeUtils.dp2px(2.5f)
+            layoutParams.rightMargin=SizeUtils.dp2px(2.5f)
         }
-        layoutParams.bottomMargin= SizeUtils.dp2px(5f)
+        layoutParams.bottomMargin=SizeUtils.dp2px(5f)
         itemView.layoutParams= layoutParams
         itemView.setOnClickListener{
             mContext.startActivity(Intent(mContext, ScoreGoodsDetailActivity::class.java))

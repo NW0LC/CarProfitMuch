@@ -481,12 +481,12 @@ object SZWUtils {
     fun <T:AbsMark>getMarkIntent(context: Context, item: T): Intent? {
         var intent: Intent?=null
         when (item.getIdM()+item.getClassM()+item.getPayM()) {
-            "111"->{//积分
+            "111","1"->{//积分
                 intent = Intent()
                 intent.setClass(context, ScoreGoodsDetailActivity::class.java)
                 intent.putExtra(ScoreGoods_Intent_ScoreGoodsId, item.getMarkId())
             }
-            "112"->{//商品
+            "112","2"->{//商品
                 intent = Intent()
                 intent.setClass(context, GoodsDetailActivity::class.java)
                 intent.putExtra(GoodsDetail_Intent_GoodsId, item.getMarkId())

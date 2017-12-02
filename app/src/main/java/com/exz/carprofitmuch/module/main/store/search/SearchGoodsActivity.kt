@@ -1,6 +1,7 @@
 package com.exz.carprofitmuch.module.main.store.search
 
 import android.content.Context
+import android.content.Intent
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
@@ -162,9 +163,9 @@ class SearchGoodsActivity : BaseActivity(), View.OnClickListener {
      * @param content 搜索内容
      */
     private fun search(content: String) {
-        //        Intent intent = new Intent(mContext, ContractResultActivity.class);
-        //        intent.putExtra(Intent_Search_Content,content );
-        //        startActivity(intent);
+                val intent=Intent(this,SearchFilterActivity::class.java)
+                intent.putExtra(Intent_Search_Content,content )
+                startActivity(intent)
         finish()
     }
 

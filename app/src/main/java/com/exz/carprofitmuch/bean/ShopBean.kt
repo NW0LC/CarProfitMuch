@@ -32,8 +32,8 @@ class ShopBean {
     var allCount: String=""
     var newCount: String=""
     var hotCount: String=""
-    private var recommendGoods= ArrayList<GoodsBean>()
-    private var newGoodsList= ArrayList<GoodsBean>()
-    private var hotGoodsList= ArrayList<GoodsBean>()
+    var recommendGoods= ArrayList<GoodsBean>()
+    var newGoodsList= ArrayList<GoodsBean>()
+    var hotGoodsList= ArrayList<GoodsBean>()
     
 }

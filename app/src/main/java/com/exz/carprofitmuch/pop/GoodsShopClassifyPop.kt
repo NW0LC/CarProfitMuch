@@ -12,7 +12,9 @@ import com.blankj.utilcode.util.ScreenUtils
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsShopClassifyAdapter
 import com.exz.carprofitmuch.bean.GoodsShopClassifyBean
+import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity.Companion.GoodsShop_Intent_ShopId
 import com.exz.carprofitmuch.module.main.store.normal.GoodsShopSearchResultActivity
+import com.exz.carprofitmuch.module.main.store.normal.GoodsShopSearchResultActivity.Companion.GoodsShopSearchResult_Intent_SelfTypeId
 import kotlinx.android.synthetic.main.action_bar_custom.view.*
 import kotlinx.android.synthetic.main.pop_goods_shop_classify.view.*
 import razerdp.basepopup.BasePopupWindow
@@ -22,21 +24,18 @@ import razerdp.basepopup.BasePopupWindow
  * on 2017/11/1.
  */
 class GoodsShopClassifyPop(context: Activity) : BasePopupWindow(context) {
-
-    companion object {
-        var shopClassifyId = ""
-    }
-
+    var shopClassifyId = ""
+    var shopId = ""
     var data = ArrayList<GoodsShopClassifyBean>()
         set(value) {
             field = value
             for (goodsShopClassifyBean in value) {
-                if (shopClassifyId == goodsShopClassifyBean.id) {
+                if (shopClassifyId == goodsShopClassifyBean.selfTypeId) {
                     goodsShopClassifyBean.isCheck = true
                     break
                 }
-                for (classifyBean in goodsShopClassifyBean.list) {
-                    if (shopClassifyId == classifyBean.id) {
+                for (classifyBean in goodsShopClassifyBean.subType) {
+                    if (shopClassifyId == classifyBean.selfTypeId) {
                         classifyBean.isCheck = true
                         break
                     }
@@ -63,23 +62,27 @@ class GoodsShopClassifyPop(context: Activity) : BasePopupWindow(context) {
     private fun selectItem(position: Int, itemPosition: Int?) {
         data.forEach {
             it.isCheck = false
-            it.list.forEach {
+            it.subType.forEach {
                 it.isCheck = false
             }
         }
         if (itemPosition == null) {
             data[position].isCheck = true
-            shopClassifyId = data[position].id
+            shopClassifyId = data[position].selfTypeId
         } else {
-            data[position].list[itemPosition].isCheck = true
-            shopClassifyId = data[position].list[itemPosition].id
+            data[position].subType[itemPosition].isCheck = true
+            shopClassifyId = data[position].subType[itemPosition].selfTypeId
         }
         mAdapter.notifyDataSetChanged()
 
         if (context is GoodsShopSearchResultActivity)
             dismiss()
-        else
-            context.startActivity(Intent(context, GoodsShopSearchResultActivity::class.java))
+        else {
+            val intent = Intent(context, GoodsShopSearchResultActivity::class.java)
+            intent.putExtra(GoodsShopSearchResult_Intent_SelfTypeId,shopClassifyId)
+            intent.putExtra(GoodsShop_Intent_ShopId,shopId)
+            context.startActivity(intent)
+        }
     }
 
     private fun initToolBar() {

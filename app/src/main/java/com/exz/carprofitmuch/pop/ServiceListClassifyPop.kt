@@ -33,6 +33,7 @@ class ServiceListClassifyPop(context: Activity, listener:(title:String,position:
     var adapter: ServiceListFilterAdapter<ServiceListFilterBean>
 
     init {
+        popupWindow.isClippingEnabled = false
         setDismissWhenTouchOutside(true)
         popupWindowView.recyclerView.layoutManager = LinearLayoutManager(context)
         popupWindowView.recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER

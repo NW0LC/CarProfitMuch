@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.widget.ImageView;
 
-import com.exz.carprofitmuch.bean.BannersBean;
+import com.exz.carprofitmuch.bean.AbsBanner;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.youth.banner.loader.ImageLoader;
 
@@ -18,7 +18,7 @@ public class BannerImageLoader extends ImageLoader {
           传输的到的是什么格式，那么这种就使用Object接收和返回，你只需要强转成你传输的类型就行，
           切记不要胡乱强转！
          */
-        Uri uri = Uri.parse(((BannersBean) path).getImgUrl());
+        Uri uri = Uri.parse(((AbsBanner) path).getImgUri());
         imageView.setImageURI(uri);
     }
     
