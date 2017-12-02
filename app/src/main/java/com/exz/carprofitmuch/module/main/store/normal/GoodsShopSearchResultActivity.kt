@@ -17,8 +17,8 @@ import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsShopAdapter
 import com.exz.carprofitmuch.bean.GoodsBean
+import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity.Companion.GoodsDetail_Intent_GoodsId
 import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity.Companion.GoodsShop_Intent_ShopId
-import com.exz.carprofitmuch.module.main.store.service.ServiceShopActivity
 import com.exz.carprofitmuch.pop.GoodsShopClassifyPop
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -158,7 +158,9 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                startActivity(Intent(this@GoodsShopSearchResultActivity, ServiceShopActivity::class.java))
+                val intent = Intent(this@GoodsShopSearchResultActivity, GoodsDetailActivity::class.java)
+                intent.putExtra(GoodsDetail_Intent_GoodsId, mAdapter.data[position].goodsId)
+                startActivity(intent)
             }
         })
     }
