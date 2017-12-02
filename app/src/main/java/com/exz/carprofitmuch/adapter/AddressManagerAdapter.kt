@@ -18,8 +18,8 @@ class AddressManagerAdapter<T : AddressBean> : BaseQuickAdapter<T, BaseViewHolde
         helper.addOnClickListener(R.id.bt_delete)
         helper.addOnClickListener(R.id.radioButton)
 
-        itemView.tv_userName.text = item.userName
-        itemView.tv_userPhone.text = item.userPhone
+        itemView.tv_userName.text = item.name
+        itemView.tv_userPhone.text = item.phone
         itemView.tv_address.text = item.toString()
 
         if (item.isDefault()) {

@@ -16,8 +16,8 @@ class AddressChooseAdapter<T : AddressBean> : BaseQuickAdapter<T, BaseViewHolder
 
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
-        itemView.tv_userName.text=item.userName
-        itemView.tv_userPhone.text=item.userPhone
+        itemView.tv_userName.text=item.name
+        itemView.tv_userPhone.text=item.phone
         if (item.isDefault()) {
             val default = mContext.getString(R.string.address_choose_default)
             val msp = SpannableString(default +item.toString())

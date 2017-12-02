@@ -12,6 +12,7 @@ import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.GenderBean
 import com.exz.carprofitmuch.bean.OpenTextBen
 import com.exz.carprofitmuch.bean.UserInfoBean
+import com.exz.carprofitmuch.module.mine.address.AddressManagerActivity
 import com.exz.carprofitmuch.module.mine.shop.OpenShopActivity
 import com.exz.carprofitmuch.module.mine.shop.OpenShopInputTextActivity
 import com.exz.carprofitmuch.utils.SZWUtils
@@ -187,7 +188,7 @@ class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerVi
                 startActivityForResult(Intent(mContext, OpenShopInputTextActivity::class.java).putExtras(b), OpenShopActivity.RESULTCODE_OPEN_SHOP)
             }
             bt_address -> {
-
+                startActivity(Intent(mContext, AddressManagerActivity::class.java))
             }
             else -> {
             }

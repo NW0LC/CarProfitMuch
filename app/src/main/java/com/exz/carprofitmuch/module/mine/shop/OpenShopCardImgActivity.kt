@@ -2,7 +2,10 @@ package com.exz.carprofitmuch.module.mine.shop
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.View
 import com.exz.carprofitmuch.R
@@ -17,6 +20,7 @@ import com.szw.framelibrary.imageloder.GlideImageLoader
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_open_shop_card_img.*
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
 
 /**
@@ -57,13 +61,47 @@ class OpenShopCardImgActivity : BaseActivity(), View.OnClickListener {
     private fun initView() {
 
         entity=intent.getSerializableExtra("cardImg") as OpenShopCardImgBean
-        if(!TextUtils.isEmpty(entity.cardImg)) car_img.setImageURI("file://"+entity.cardImg)
-        if(!TextUtils.isEmpty(entity.cardBackImg)) car_back_img.setImageURI("file://"+entity.cardBackImg)
+        if(!TextUtils.isEmpty(entity.cardImg)) car_img.setImageURI(if(entity.cardImg.contains("http")) entity.cardImg else "file://"+entity.cardImg)
+        if(!TextUtils.isEmpty(entity.cardBackImg)) car_back_img.setImageURI(if(entity.cardBackImg.contains("http")) entity.cardBackImg else "file://"+entity.cardBackImg)
         ed_car_name.setText(entity.cardName)
         ed_card_num.setText(entity.cardNum)
         car_img.setOnClickListener(this)
         car_back_img.setOnClickListener(this)
         tv_submit.setOnClickListener(this)
+
+        if(entity.cardNameCheck.equals("0")){
+            ed_car_name.textColor=ContextCompat.getColor(mContext,R.color.Red)
+        }
+
+        if(entity.cardNumCheck.equals("0")){
+            ed_card_num.textColor=ContextCompat.getColor(mContext,R.color.Red)
+        }
+
+
+        ed_car_name.addTextChangedListener(object :TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                ed_car_name.textColor=ContextCompat.getColor(mContext,R.color.MaterialGrey800)
+                entity.cardNameCheck="1"
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
+        ed_card_num.addTextChangedListener(object :TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                ed_card_num.textColor=ContextCompat.getColor(mContext,R.color.MaterialGrey800)
+                entity.cardNumCheck="1"
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
 
     }
 
@@ -82,7 +120,7 @@ class OpenShopCardImgActivity : BaseActivity(), View.OnClickListener {
                     mContext.toast("请上传身份证正面!")
                     return
                 }
-                if (entity.cardImg.contains("http")) {
+                if (entity.cardImgCheck.equals("0")) {
                     mContext.toast("请修改身份证正面!")
                     return
                 }
@@ -90,7 +128,7 @@ class OpenShopCardImgActivity : BaseActivity(), View.OnClickListener {
                     mContext.toast("请上传身份证反面!")
                     return
                 }
-                if (entity.cardBackImg.contains("http")) {
+                if (entity.cardBackImgCheck.equals("0")) {
                     mContext.toast("请修改身份证反面!")
                     return
                 }
@@ -99,10 +137,18 @@ class OpenShopCardImgActivity : BaseActivity(), View.OnClickListener {
                     ed_car_name.setShakeAnimation()
                     return
                 }
+                if (entity.cardNameCheck.equals("")) {
+                    mContext.toast("请修改身份证姓名!")
+                    return
+                }
                 entity.cardName=carName
                 var cardNum = ed_card_num.text.toString().trim()
                 if (TextUtils.isEmpty(cardNum)) {
                     ed_car_name.setShakeAnimation()
+                    return
+                }
+                if (entity.cardNameCheck.equals("0")) {
+                    mContext.toast("请修改身份号码!")
                     return
                 }
                 entity.cardNum=cardNum
@@ -145,9 +191,11 @@ class OpenShopCardImgActivity : BaseActivity(), View.OnClickListener {
             if (imgType.equals("1")) {
                 car_img.setImageURI("file://" + (images.get(0) as ImageItem).path)
                 entity.cardImg =  (images.get(0) as ImageItem).path
+                entity.cardImgCheck="1"
             } else if (imgType.equals("2")) {
                 car_back_img.setImageURI("file://" +  (images.get(0) as ImageItem).path)
                 entity.cardBackImg = (images.get(0) as ImageItem).path
+                entity.cardBackImgCheck="1"
             }
         }
     }

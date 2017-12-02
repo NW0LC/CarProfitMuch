@@ -6,6 +6,4 @@ package com.exz.carprofitmuch.bean
 
 class OpenShopListBean(var k: String, var v: String, var state: String) {
     var id: String = ""
-    var longitude: Float = 0.0f
-    var latitude: Float = 0.0f
 }

@@ -1,10 +1,12 @@
 package com.exz.carprofitmuch.module.mine.shop
 
 import android.content.Intent
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.View
 import com.exz.carprofitmuch.R
+import com.exz.carprofitmuch.bean.BusinessImgBean
 import com.lzy.imagepicker.ImagePicker
 import com.lzy.imagepicker.bean.ImageItem
 import com.lzy.imagepicker.ui.ImageGridActivity
@@ -23,7 +25,7 @@ import org.jetbrains.anko.toast
 
 class OpenShopBusinessImgActivity : BaseActivity(), View.OnClickListener {
 
-
+    private var entity = BusinessImgBean()
     private var img = ""
     override fun initToolbar(): Boolean {
         mTitle.text = "营业执照上传"
@@ -50,9 +52,8 @@ class OpenShopBusinessImgActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun initView() {
-
-        if(intent.hasExtra("userIcon"))img ="file://"+ intent.getStringExtra("userIcon")
-        if (!TextUtils.isEmpty(img)) iv_img.setImageURI(img)
+        entity = intent.getSerializableExtra("businessImg") as BusinessImgBean
+        if (!TextUtils.isEmpty(entity.businessImg)) iv_img.setImageURI(if (entity.businessImg.contains("http")) entity.businessImg else "file://" + entity.businessImg)
         iv_img.setOnClickListener(this)
         tv_submit.setOnClickListener(this)
 
@@ -64,15 +65,17 @@ class OpenShopBusinessImgActivity : BaseActivity(), View.OnClickListener {
                 PermissionCameraWithCheck(Intent(this@OpenShopBusinessImgActivity, ImageGridActivity::class.java), false)
             }
             tv_submit -> {
-                if (TextUtils.isEmpty(img)) {
+                if (TextUtils.isEmpty(entity.businessImg)) {
                     mContext.toast("请上传身份证正面!")
                     return
                 }
-                if (img.contains("http")) {
-                    mContext.toast("请修改身份证正面!")
+                if (entity.check.equals("0")) {
+                    mContext.toast("请修改营业执照!")
                     return
                 }
-                setResult(OpenShopActivity.RESULTCODE_OPEN_SHOP, Intent().putExtra("userIcon",img))
+                var b = Bundle()
+                b.putSerializable("businessImg", entity)
+                setResult(OpenShopActivity.RESULTCODE_OPEN_SHOP, Intent().putExtras(b))
                 finish()
             }
 
@@ -88,10 +91,10 @@ class OpenShopBusinessImgActivity : BaseActivity(), View.OnClickListener {
         //是否裁剪
         imagePicker.isCrop = true
         //是否按矩形区域保存裁剪图片
-        imagePicker.isSaveRectangle = false
+        imagePicker.isSaveRectangle = true
         //圖片緩存
         imagePicker.imageLoader = GlideImageLoader()
-        imagePicker.isMultiMode = true//多选
+        imagePicker.isMultiMode = false//多选
         //矩形尺寸
         imagePicker.style = CropImageView.Style.RECTANGLE
         val width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300f, resources.displayMetrics).toInt()
@@ -107,7 +110,8 @@ class OpenShopBusinessImgActivity : BaseActivity(), View.OnClickListener {
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) { //图片选择
             val images = data?.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS) as ArrayList<*>
             iv_img.setImageURI("file://" + (images.get(0) as ImageItem).path)
-            img =(images.get(0) as ImageItem).path
+            entity.businessImg = (images.get(0) as ImageItem).path
+            entity.check="1"
         }
     }
 

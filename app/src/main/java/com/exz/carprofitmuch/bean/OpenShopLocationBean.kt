@@ -8,6 +8,10 @@ import java.io.Serializable
 
 class OpenShopLocationBean(var longitude: String,
                            var latitude: String,
-                           var  address: String) : Serializable {
+                           var address: String    ) : Serializable {
+
+    var longitudCheck = ""
+    var latitudeCheck = ""
+    var addressCheck = ""
 
 }

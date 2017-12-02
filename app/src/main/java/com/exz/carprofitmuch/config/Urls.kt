@@ -387,6 +387,31 @@ object Urls{
     var UpdateUserInfo = url + "App/UserCenter/Set/UpdateUserInfo.aspx"
 
 
+    /*
+     * 设置-收货地址列表
+     */
+    var AddressList = url + "App/Address/List.aspx"
+
+
+    /*
+     * 设置-默认收货地址
+     */
+    var AddressDefault = url + "App/Address/Default.aspx"
+
+
+    /*
+     * 设置-删除收货地址
+     */
+    var AddressDelete = url + "App/Address/Delete.aspx"
+
+
+
+    /*
+     * 新增收货地址（当用户添加地址时，后台判断该用户是否有其他地址，若没有，将该地址设为默认地址）
+     */
+    var AddAddress = url + "App/Address/Add.aspx"
+
+
 
 
 
