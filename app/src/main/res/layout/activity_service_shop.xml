@@ -34,10 +34,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <include layout="@layout/layout_banner" />
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp" />
 
                 <LinearLayout
-                    android:id="@+id/bt_coupon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/White"
@@ -89,6 +91,7 @@
                             android:textSize="@dimen/text_14"
                             tool:background="@color/MaterialGrey200" />
                         <ImageView
+                            android:id="@+id/bt_coupon"
                             android:layout_gravity="end"
                             android:layout_width="wrap_content"
                             android:layout_height="20dp"
@@ -133,7 +136,7 @@
                         android:background="@color/app_bg" />
 
                     <ImageView
-                        android:id="@+id/tv_service_store_address"
+                        android:id="@+id/tv_service_store_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

@@ -1,8 +1,11 @@
 package com.exz.carprofitmuch.module.main.store.comment
 
 import android.support.v4.app.Fragment
+import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.TabEntity
+import com.exz.carprofitmuch.module.main.store.comment.GoodsCommentListActivity.Companion.GoodsCommentList_Intent_Id
+import com.exz.carprofitmuch.module.main.store.comment.GoodsCommentListActivity.Companion.GoodsCommentList_Intent_IdMark
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
@@ -36,14 +39,22 @@ class ServiceCommentListActivity : BaseActivity(){
     override fun init() {
         initTabBar()
         initEvent()
+        DataCtrlClass.commentCountData(this,intent.getStringExtra(GoodsCommentList_Intent_Id)?:"",intent.getStringExtra(GoodsCommentList_Intent_IdMark)?:""){
+            if (it!=null){
+                (mTabEntities[0] as TabEntity).title=mTitles[0]+"("+it.total+")"
+                (mTabEntities[1] as TabEntity).title=mTitles[1]+"("+it.hasImg+")"
+                (mTabEntities[2] as TabEntity).title=mTitles[2]+"("+it.lowScore+")"
+            }
+            mTabLayout.setTabData(mTabEntities)
+        }
     }
 
     private fun initTabBar() {
         mTitles.indices.mapTo(mTabEntities) { TabEntity(mTitles[it], mIconSelectIds[it], mIconUnSelectIds[it]) }
-        mFragments.add(ServiceCommentListFragment.newInstance(0))
-        mFragments.add(ServiceCommentListFragment.newInstance(1))
-        mFragments.add(ServiceCommentListFragment.newInstance(2))
-        mFragments.add(ServiceCommentListFragment.newInstance(3))
+        mFragments.add(ServiceCommentListFragment.newInstance(intent.getStringExtra(GoodsCommentList_Intent_Id)?:"",intent.getStringExtra(GoodsCommentList_Intent_IdMark)?:"","0"))
+        mFragments.add(ServiceCommentListFragment.newInstance(intent.getStringExtra(GoodsCommentList_Intent_Id)?:"",intent.getStringExtra(GoodsCommentList_Intent_IdMark)?:"","1"))
+        mFragments.add(ServiceCommentListFragment.newInstance(intent.getStringExtra(GoodsCommentList_Intent_Id)?:"",intent.getStringExtra(GoodsCommentList_Intent_IdMark)?:"","2"))
+        mFragments.add(ServiceCommentListFragment.newInstance(intent.getStringExtra(GoodsCommentList_Intent_Id)?:"",intent.getStringExtra(GoodsCommentList_Intent_IdMark)?:"","3"))
         mTabLayout.setTabData(mTabEntities, this, R.id.frameLayout, mFragments)
     }
 

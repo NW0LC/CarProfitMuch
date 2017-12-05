@@ -61,7 +61,7 @@ class SearchResultActivity : BaseActivity(), OnRefreshListener, View.OnClickList
     }
 
     private fun initFilter() {
-        classifyPop = ServiceListClassifyPop(this) { title, position ->
+        classifyPop = ServiceListClassifyPop(this) { title,_, position ->
             radioButton1.text = title
             SZWUtils.setGreyOrGreen(this, radioButton1, position == 0)
         }
@@ -163,8 +163,4 @@ class SearchResultActivity : BaseActivity(), OnRefreshListener, View.OnClickList
         }
     }
 
-    override fun onDestroy() {
-        ServiceListClassifyPop.serviceClassifyId = ""
-        super.onDestroy()
-    }
 }

@@ -38,41 +38,46 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <include layout="@layout/layout_banner" />
+                    <include
+                        android:id="@+id/include2"
+                        layout="@layout/layout_banner" />
 
-                    <TextView
-                        android:id="@+id/tv_service_goodsName"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:background="@color/black_30000000"
+                        android:id="@+id/lay_title"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text=""
-                        android:textColor="@color/White"
-                        android:textSize="@dimen/sp_14"
-                        app:layout_constraintBottom_toTopOf="@+id/tv_service_goodsInfo"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="@+id/include2"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tool:background="@color/MaterialGrey200" />
+                        app:layout_constraintStart_toStartOf="parent">
 
-                    <TextView
-                        android:id="@+id/tv_service_goodsInfo"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text=""
-                        android:textColor="@color/White"
-                        android:textSize="@dimen/sp_12"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tool:background="@color/MaterialGrey200" />
+                        <TextView
+                            android:id="@+id/tv_service_goodsName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_8"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text=""
+                            android:textColor="@color/White"
+                            android:textSize="@dimen/sp_14"
+                            tool:background="@color/MaterialGrey200" />
+
+                        <TextView
+                            android:id="@+id/tv_service_goodsInfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text=""
+                            android:textColor="@color/White"
+                            android:textSize="@dimen/sp_12"
+                            tool:background="@color/MaterialGrey200" />
+                    </LinearLayout>
                 </android.support.constraint.ConstraintLayout>
 
                 <android.support.constraint.ConstraintLayout
@@ -184,7 +189,7 @@
                 <LinearLayout
                     android:id="@+id/bt_address"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
                     android:background="@color/White">
 
@@ -196,6 +201,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:layout_marginTop="@dimen/margin_8"
                             android:id="@+id/tv_service_shop_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -227,6 +233,22 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             tool:background="@color/MaterialGrey200" />
+                        <TextView
+                            android:layout_marginBottom="@dimen/margin_8"
+                            android:id="@+id/tv_distance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="@dimen/margin_5"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="8dp"
+                            android:drawableStart="@mipmap/icon_service_shop_address"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:minWidth="@dimen/margin_90"
+                            android:text="@string/hint_default"
+                            android:textColor="@color/MaterialGrey400"
+                            android:textSize="@dimen/text_12" />
                     </LinearLayout>
 
                     <View
@@ -237,7 +259,7 @@
                         android:background="@color/app_bg" />
 
                     <ImageView
-                        android:id="@+id/tv_service_store_address"
+                        android:id="@+id/tv_service_store_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -251,6 +273,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/bt_goods_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"

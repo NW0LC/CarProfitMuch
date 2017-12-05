@@ -15,6 +15,7 @@ import razerdp.basepopup.BasePopupWindow
 class ServiceListSortPop(context: Activity, listener:(title:String,state:String,position:Int)->Unit) : BasePopupWindow(context) {
 
     private var firstSetData=true
+    var sortId="0"
     var data = ArrayList<ServiceListFilterBean>()
         set(value) {
             field = value
@@ -40,6 +41,7 @@ class ServiceListSortPop(context: Activity, listener:(title:String,state:String,
             adapter.data.forEach { it.isCheck = false }
             adapter.data[position].isCheck = true
             adapter.notifyDataSetChanged()
+            sortId=adapter.data[position].key
             listener.invoke(if (position==0) context.getString(R.string.service_list_sort_default) else adapter.data[position].value,adapter.data[position].key,position)
             dismiss()
         }

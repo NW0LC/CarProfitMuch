@@ -38,7 +38,7 @@ class GoodsConfirmExpressPop(context: Context) : BasePopupWindow(context), View.
                     couponBean.isCheck=false
                 }
                 mAdapter.data[position].isCheck=true
-                data?.couponId=mAdapter.data[position].expressId
+                data?.expressId=mAdapter.data[position].expressId
                 mAdapter.notifyDataSetChanged()
                 dismiss()
             }

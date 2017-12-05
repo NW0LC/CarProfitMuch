@@ -9,8 +9,9 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ServiceListAdapter
-import com.exz.carprofitmuch.bean.ServiceGoodsBean
-import com.exz.carprofitmuch.bean.ServiceStoreBean
+import com.exz.carprofitmuch.bean.ServiceShopBean
+import com.exz.carprofitmuch.module.MainActivity
+import com.exz.carprofitmuch.module.main.store.service.ServiceShopActivity.Companion.ServiceShop_Intent_ServiceShopId
 import com.exz.carprofitmuch.pop.ServiceListClassifyPop
 import com.exz.carprofitmuch.pop.ServiceListSortPop
 import com.exz.carprofitmuch.utils.RecycleViewDivider
@@ -23,7 +24,6 @@ import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_service_list.*
 import razerdp.basepopup.BasePopupWindow
-import java.util.*
 
 
 /**
@@ -36,7 +36,7 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
-    private lateinit var mAdapter: ServiceListAdapter<ServiceStoreBean>
+    private lateinit var mAdapter: ServiceListAdapter<ServiceShopBean>
     private lateinit var classifyPop: ServiceListClassifyPop
     private lateinit var sortPop: ServiceListSortPop
     override fun initToolbar(): Boolean {
@@ -59,20 +59,22 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
         initRecycler()
         initFilter()
         initEvent()
+        refreshLayout.autoRefresh()
     }
 
     private fun initFilter() {
-        classifyPop = ServiceListClassifyPop(this) { title, position ->
+        classifyPop = ServiceListClassifyPop(this) { title,_, position ->
             radioButton1.text = title
             SZWUtils.setGreyOrGreen(this, radioButton1, position == 0)
+            onRefresh(refreshLayout)
         }
         sortPop = ServiceListSortPop(this) { title, _,position ->
             radioButton2.text = title
             SZWUtils.setGreyOrGreen(this, radioButton2, position == 0)
+            onRefresh(refreshLayout)
         }
         classifyPop.onDismissListener = popDismissListener
         sortPop.onDismissListener = popDismissListener
-        classifyPop.data = SZWUtils.getServiceListClassifyData()
         sortPop.data = SZWUtils.getServiceListSortData()
 
 
@@ -86,18 +88,6 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
 
     private fun initRecycler() {
         mAdapter = ServiceListAdapter()
-        val arrayList = ArrayList<ServiceStoreBean>()
-        val scoreList = ArrayList<ServiceGoodsBean>()
-        scoreList.add(ServiceGoodsBean())
-        scoreList.add(ServiceGoodsBean())
-        scoreList.add(ServiceGoodsBean())
-        scoreList.add(ServiceGoodsBean())
-        scoreList.add(ServiceGoodsBean())
-        scoreList.add(ServiceGoodsBean())
-        arrayList.add(ServiceStoreBean(scoreList))
-        arrayList.add(ServiceStoreBean(scoreList))
-
-        mAdapter.setNewData(arrayList)
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -106,7 +96,9 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
 
         mRecyclerView.addOnItemTouchListener(object :OnItemClickListener(){
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-            startActivity(Intent(this@ServiceListActivity, ServiceShopActivity::class.java))
+                val intent = Intent(this@ServiceListActivity, ServiceShopActivity::class.java)
+                intent.putExtra(ServiceShop_Intent_ServiceShopId,mAdapter.data[position].shopId)
+                SZWUtils.checkLogin(this@ServiceListActivity, intent, ServiceShopActivity::class.java.name)
             }
         })
     }
@@ -114,7 +106,10 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
     override fun onClick(p0: View?) {
         when (p0) {
             radioButton1 -> {
+                if (classifyPop.data.isNotEmpty())
                 classifyPop.showPopupWindow(radioGroup)
+                else
+                    radioGroup.clearCheck()
             }
             radioButton2 -> {
                 sortPop.showPopupWindow(radioGroup)
@@ -128,7 +123,10 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
         currentPage = 1
         refreshState = Constants.RefreshState.STATE_REFRESH
         iniData()
-
+        DataCtrlClass.serviceClassifyData(this,"2"){
+            if (it!=null)
+            classifyPop.data =it
+        }
     }
 
     override fun onLoadMoreRequested() {
@@ -137,7 +135,7 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
     }
 
     private fun iniData(){
-        DataCtrlClass.serviceListData(this, currentPage) {
+        DataCtrlClass.serviceListData(this, currentPage,classifyPop.serviceClassifyId,sortPop.sortId,MainActivity.locationEntity?.longitude?:"0",MainActivity.locationEntity?.latitude?:"0") {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {
@@ -159,13 +157,7 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
     }
     private val popDismissListener: BasePopupWindow.OnDismissListener = object : BasePopupWindow.OnDismissListener() {
         override fun onDismiss() {
-            refreshLayout.autoRefresh()
             radioGroup.clearCheck()
         }
-    }
-
-    override fun onDestroy() {
-        ServiceListClassifyPop.serviceClassifyId = ""
-        super.onDestroy()
     }
 }

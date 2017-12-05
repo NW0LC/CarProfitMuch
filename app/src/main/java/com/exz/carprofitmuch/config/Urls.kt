@@ -116,6 +116,37 @@ object Urls{
      * 店铺内商品列表
      */
     val ShopGoodsList=url+"App/GoodsType/ShopGoodsList.aspx"
+    /**
+     * 虚拟类店铺列表
+     */
+    val ShopList=url+"App/Store/Virtually/ShopList.aspx"
+    /**
+     * 服务店铺详情
+     */
+    val VirtuallyShopMain=url+"App/Store/Virtually/ShopMain.aspx"
+    /**
+     * 虚拟类商品详情
+     */
+    val VirtuallyGoodsDetail=url+"App/Store/Virtually/GoodsDetail.aspx"
+
+    /**
+     * 订单确认信息页-积分实物类
+     */
+    val ScoreOrderInfo=url+"App/Order/Reality/ScoreOrderInfo.aspx"
+
+    /**
+     * 创建订单-积分实物类
+     */
+    val CreateScoreOrder=url+"App/Order/Reality/CreateScoreOrder.aspx"
+    /**
+     * 订单确认信息页-虚拟类
+     */
+    val VirtuallyOrderInfo=url+"App/Order/Virtually/OrderInfo.aspx"
+
+    /**
+     * 创建订单-虚拟类
+     */
+    val VirtuallyCreateOrder=url+"App/Order/Virtually/CreateOrder.aspx"
 
 
 

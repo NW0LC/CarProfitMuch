@@ -12,10 +12,8 @@ import com.exz.carprofitmuch.bean.ServiceListFilterBean
 import kotlinx.android.synthetic.main.pop_list.view.*
 import razerdp.basepopup.BasePopupWindow
 
-class ServiceListClassifyPop(context: Activity, listener:(title:String,position:Int)->Unit) : BasePopupWindow(context) {
-    companion object {
-        var serviceClassifyId = ""
-    }
+class ServiceListClassifyPop(context: Activity, listener:(title:String,serviceClassifyId:String,position:Int)->Unit) : BasePopupWindow(context) {
+    var serviceClassifyId = "0"
     private var firstSetData=true
     var data = ArrayList<ServiceListFilterBean>()
         set(value) {
@@ -23,7 +21,7 @@ class ServiceListClassifyPop(context: Activity, listener:(title:String,position:
             if (firstSetData) {
                 firstSetData=false
                 val bean = ServiceListFilterBean()
-                bean.name="全部"
+                bean.title="全部"
                 bean.isCheck=true
                 value.add(0,bean)
             }
@@ -44,7 +42,7 @@ class ServiceListClassifyPop(context: Activity, listener:(title:String,position:
             adapter.data[position].isCheck = true
             adapter.notifyDataSetChanged()
             serviceClassifyId = adapter.data[position].key
-            listener.invoke(if (position==0) context.getString(R.string.service_list_classify_default) else adapter.data[position].value,position)
+            listener.invoke(if (position==0) context.getString(R.string.service_list_classify_default) else adapter.data[position].value,serviceClassifyId,position)
             dismiss()
         }
 

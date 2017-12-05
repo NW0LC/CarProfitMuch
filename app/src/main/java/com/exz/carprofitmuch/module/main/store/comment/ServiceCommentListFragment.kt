@@ -79,7 +79,7 @@ class ServiceCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnC
     }
 
     private fun iniData(){
-        DataCtrlClass.serviceCommentData(context, currentPage) {
+        DataCtrlClass.goodsCommentData(context, currentPage,arguments[COMMENT_Id].toString(),arguments[COMMENT_IdMark].toString(),arguments[COMMENT_TYPE].toString()) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {
@@ -101,10 +101,14 @@ class ServiceCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnC
     }
     companion object {
         private const val COMMENT_TYPE="type"
-        fun newInstance(position:Int): ServiceCommentListFragment {
+        private const val COMMENT_Id="id"
+        private const val COMMENT_IdMark="idMark"
+        fun newInstance(id:String,idMark:String,type:String): ServiceCommentListFragment {
             val bundle = Bundle()
             val fragment = ServiceCommentListFragment()
-            bundle.putInt(COMMENT_TYPE,position)
+            bundle.putString(COMMENT_TYPE,type)
+            bundle.putString(COMMENT_Id,id)
+            bundle.putString(COMMENT_IdMark,idMark)
             fragment.arguments = bundle
             return fragment
         }

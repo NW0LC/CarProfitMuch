@@ -49,15 +49,15 @@ class CardPackageDetailActivity : BaseActivity(), OnRefreshListener, View.OnClic
     override fun onRefresh(refreshLayout: RefreshLayout?) {
         DataCtrlClass.cardPackageDetailData(this) {
             if (it != null) {
-                tv_service_goodsName.text=it.goods.name
+                tv_service_goodsName.text=it.goods.goodsName
                 tv_service_goodsCount.text=it.goods.count
                 tv_service_time.text=String.format(mContext.getString(R.string.card_package_list_time),it.time)
 
                 tv_service_shop_name.text=it.serviceShopName
                 img.setImageURI(it.orderImg)
-                tv_service_orderName.text=it.goods.name
+                tv_service_orderName.text=it.goods.goodsName
                 tv_service_orderCount.text=String.format(mContext.getString(R.string.card_package_list_count),it.goods.count)
-                tv_service_orderPrice.text=String.format(mContext.getString(R.string.card_package_list_price),it.goods.price)
+                tv_service_orderPrice.text=String.format(mContext.getString(R.string.card_package_list_price),it.goods.goodsPrice)
                 tv_totalPrice.text=String.format("${mContext.getString(R.string.CNY)}%s",it.orderPrice)
 
                 lay_time.addView(with(lay_time.context){

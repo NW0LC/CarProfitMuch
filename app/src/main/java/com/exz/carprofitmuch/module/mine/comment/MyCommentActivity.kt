@@ -13,7 +13,7 @@ import com.exz.carprofitmuch.bean.MyCommentBean
 import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity
 import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity.Companion.GoodsDetail_Intent_GoodsId
 import com.exz.carprofitmuch.module.main.store.service.ServiceDetailActivity
-import com.exz.carprofitmuch.module.main.store.service.ServiceDetailActivity.Companion.Service_Intent_ServieceId
+import com.exz.carprofitmuch.module.main.store.service.ServiceDetailActivity.Companion.Service_Intent_ServiceId
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
@@ -69,7 +69,7 @@ class MyCommentActivity : BaseActivity(), BaseQuickAdapter.RequestLoadMoreListen
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 if (mAdapter.data.get(position).classMark.equals("2")) {
 
-                    startActivity(Intent(mContext, ServiceDetailActivity::class.java).putExtra(Service_Intent_ServieceId, mAdapter.data.get(position).goodsId))
+                    startActivity(Intent(mContext, ServiceDetailActivity::class.java).putExtra(Service_Intent_ServiceId, mAdapter.data.get(position).goodsId))
                 } else if (mAdapter.data.get(position).classMark.equals("1")) {
                     startActivity(Intent(mContext, GoodsDetailActivity::class.java).putExtra(GoodsDetail_Intent_GoodsId, mAdapter.data.get(position).goodsId))
                 }

@@ -3,25 +3,18 @@ package com.exz.carprofitmuch.module.main.store.service
 import android.content.Intent
 import android.view.View
 import android.widget.CompoundButton
-import com.blankj.utilcode.util.EncryptUtils
+import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.bean.CouponBean
-import com.exz.carprofitmuch.bean.ServiceGoodsBean
-import com.exz.carprofitmuch.config.Urls
+import com.exz.carprofitmuch.bean.ServiceConfirmBean
 import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity
 import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Intent_Finish_Type_1
 import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Pay_Intent_Finish_Type
+import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Pay_Intent_OrderId
+import com.exz.carprofitmuch.module.mine.goodsorder.GoodsOrderActivity
 import com.exz.carprofitmuch.pop.GoodsConfirmCouponPop
 import com.exz.carprofitmuch.utils.DialogUtils
-import com.lzy.okgo.OkGo
-import com.lzy.okgo.model.Response
-import com.szw.framelibrary.app.MyApplication
-import com.szw.framelibrary.app.MyApplication.Companion.salt
 import com.szw.framelibrary.base.BaseActivity
-import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
-import com.szw.framelibrary.utils.net.NetEntity
-import com.szw.framelibrary.utils.net.callback.DialogCallback
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_service_confirm.*
 import razerdp.basepopup.BasePopupWindow
@@ -32,21 +25,28 @@ import java.text.DecimalFormat
  * on 2017/10/17.
  */
 
-class ServiceConfirmActivity : BaseActivity(),  View.OnClickListener, CompoundButton.OnCheckedChangeListener  {
+class ServiceConfirmActivity : BaseActivity(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     private var countIndex: Long = 1
-    private var maxCount: Long = 200
-    private val decimalFormat= DecimalFormat("0")
     private val priceFormat = DecimalFormat("0.00")
 
-    lateinit var couponPop: GoodsConfirmCouponPop
+    private lateinit var couponPop: GoodsConfirmCouponPop
+
+    private var shopId = "0"
+    private var goodsId = "0"
+    private var couponId = "0"
+    private var discount = "0"
+    private var payMark = "1"
 
 
+
+    private var data: ServiceConfirmBean? = null
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.service_confirm_name)
         //状态栏透明和间距处理
         StatusBarUtil.immersive(this)
         StatusBarUtil.setPaddingSmart(this, toolbar)
         StatusBarUtil.setPaddingSmart(this, blurView)
+        StatusBarUtil.setPaddingSmart(this, scrollView)
 
 
         return false
@@ -55,9 +55,48 @@ class ServiceConfirmActivity : BaseActivity(),  View.OnClickListener, CompoundBu
     override fun setInflateId(): Int = R.layout.activity_service_confirm
 
     override fun init() {
-
+        try {
+            val ids = (intent.getStringExtra(ServiceConfirm_Intent_ids) ?: "").split(",")
+            shopId = ids[0]
+            goodsId = ids[1]
+            payMark = ids[2]
+        } catch (e: Exception) {
+        }
+        initPayMark()
         initEvent()
         initPop()
+        getData(countIndex)
+    }
+
+    private fun initPayMark() {
+        if (payMark == "1") {
+            accumulatePoints.visibility = View.GONE
+            bt_coupon.visibility = View.GONE
+        }
+    }
+
+    private fun getData(position: Long) {
+        DataCtrlClass.serviceConfirmData(this, shopId, goodsId, position, payMark) { data, index ->
+            if (data!=null)
+                countIndex=data.shopInfo?.goodsInfo?.goodsCount?.toLong()?:position
+
+            count.text = String.format("%s", index)
+            this.data = data
+
+            tv_service_goodsName.text=data?.shopInfo?.goodsInfo?.goodsName
+            tv_service_goodsPrice.text=String.format(if (payMark == "1")  "%s${getString(R.string.SCORE)}" else "${getString(R.string.CNY)}%s" , priceFormat.format(data?.shopInfo?.goodsInfo?.goodsPrice?.toDouble()?:"0"))
+
+            accumulatePoints.visibility = if (data?.scoreInfo != null) View.VISIBLE else View.GONE
+            accumulatePoints.text = data?.scoreInfo?.toString(this)
+            //默认优惠券选择第一个
+
+            if (data?.couponInfo!=null&&data.couponInfo.size>0){
+                data.couponInfo.firstOrNull()?.isCheck = true
+                couponId=data.couponInfo.firstOrNull()?.couponId?:""
+                couponPop.couponData=(data.couponInfo)
+            }
+            initData(data)
+        }
     }
 
     private fun initEvent() {
@@ -68,17 +107,15 @@ class ServiceConfirmActivity : BaseActivity(),  View.OnClickListener, CompoundBu
         count.setOnClickListener(this)
         bt_coupon.setOnClickListener(this)
     }
+
     private fun initPop() {
-        val coupons = ArrayList<CouponBean>()
-        couponPop.couponData=coupons
-
-
-        couponPop = GoodsConfirmCouponPop(this){
-
+        couponPop = GoodsConfirmCouponPop(this) {
+            couponId=it
+            discount= data?.couponInfo?.first { couponBean-> couponBean.isCheck }?.discount?:"0"
         }
         val popDismiss: BasePopupWindow.OnDismissListener = object : BasePopupWindow.OnDismissListener() {
             override fun onDismiss() {
-//                tv_coupon.text=item.goodsCoupons.first { it.isCheck }.toString()
+                tv_coupon.text=data?.couponInfo?.first { it.isCheck }.toString()
             }
         }
         couponPop.onDismissListener = popDismiss
@@ -88,84 +125,82 @@ class ServiceConfirmActivity : BaseActivity(),  View.OnClickListener, CompoundBu
      * 计算总价格
      * return 总价格
      */
-    fun initData(data: ServiceGoodsBean?): String {
+    private fun initData(data: ServiceConfirmBean?): String {
         //总价格
-        var totalPrice =data?.price?.toDouble()?:0.toDouble()
-            //除去优惠券金额
-            val couponPrice = data?.coupons?.first { it.isCheck }?.discount?.toDoubleOrNull()
-            tv_coupon.text=data?.coupons?.first { it.isCheck }.toString()
-            //是否有可选优惠券
-            bt_coupon.visibility=if (data?.coupons?.isNotEmpty()==true) View.VISIBLE else View.GONE
-        totalPrice -= couponPrice?:0.toDouble()
+        var totalPrice = (data?.shopInfo?.goodsInfo?.goodsPrice?.toDouble() ?: 0.toDouble())* (data?.shopInfo?.goodsInfo?.goodsCount?.toDouble()?:0.toDouble())
+        //除去优惠券金额
+        val couponPrice = (data?.couponInfo?.firstOrNull{ it.isCheck }?.discount?.toDoubleOrNull())?:0.toDouble()
+        tv_coupon.text = data?.couponInfo?.firstOrNull{ it.isCheck }.toString()
+        //是否有可选优惠券
+        bt_coupon.visibility = if (data?.couponInfo?.isNotEmpty() == true) View.VISIBLE else View.GONE
+        totalPrice -= couponPrice
 
-            //避免负数
+        //避免负数
         totalPrice = if (totalPrice < 0) 0.toDouble() else totalPrice
 
+        //小计金额
+        tv_service_totalPrice.text = String.format(if (payMark == "1")  "%s${getString(R.string.SCORE)}" else "${getString(R.string.CNY)}%s" , priceFormat.format(totalPrice))
 
         //减去积分对应的金额
-        totalPrice -= if (data?.score?.isSelect == true) (data.score?.scorePrice ?: "0").toDouble() else 0.toDouble()
+        totalPrice -= if (data?.scoreInfo?.isSelect == true) (data.scoreInfo?.money ?: "0").toDouble() else 0.toDouble()
+        data?.scores=if (data?.scoreInfo?.isSelect == true) (data.scoreInfo?.money ?: "0").toDouble() else 0.toDouble()
 
         //避免负数
         totalPrice = if (totalPrice < 0) 0.toDouble() else totalPrice
 
         //给总价格赋值
-        tv_totalPrice.text = String.format("${getString(R.string.CNY)}%s",priceFormat.format(totalPrice))
+        tv_totalPrice.text = String.format(if (payMark == "1")  "%s${getString(R.string.SCORE)}" else "${getString(R.string.CNY)}%s" , priceFormat.format(totalPrice))
+        data?.totalPrice=totalPrice
 
         return priceFormat.format(totalPrice)
     }
-    override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
 
+    override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+        data?.scoreInfo?.isSelect = p1
+        initData(data)
     }
+
     override fun onClick(p0: View?) {
         when (p0) {
             bt_confirm -> {
-//                startActivity(Intent(this, PayServiceActivity::class.java))
-                val intent = Intent(this, PayMethodsActivity::class.java)
-                intent.putExtra(Pay_Intent_Finish_Type, Intent_Finish_Type_1)
-                startActivity(intent)
+//                shopId", param[0])
+//                goodsId", param[1])
+//                goodsCount", param[2])
+//                payMark", param[3])
+//                scores", param[4])
+//                ordersMoney", param[5])
+//                couponId", param[6])
+//                discount", param[7])
+                DataCtrlClass.createServiceOrder(this,shopId,goodsId,countIndex.toString(),payMark,data?.scores.toString(),data?.totalPrice.toString(),couponId,discount){
+                    if (it!=null) {
+                        if (payMark=="1") {
+                            startActivity(Intent(this, GoodsOrderActivity::class.java))
+                        }else{
+                            val intent = Intent(this, PayMethodsActivity::class.java)
+                            intent.putExtra(Pay_Intent_OrderId, it.orderId)
+                            intent.putExtra(Pay_Intent_Finish_Type, Intent_Finish_Type_1)
+                            startActivity(intent)
+                        }
+                    }
+                    finish()
+                }
+
+
             }
 
             minus -> if (countIndex > 1) {
-                changeCount("", (countIndex - 1)) {}
+                getData(countIndex - 1)
             }
-            add -> changeCount("", (countIndex + 1)) {}
+            add -> getData(countIndex + 1)
             count -> DialogUtils.changeNum(mContext, countIndex) {
-                changeCount("", it) {}
+                getData(it)
             }
             bt_coupon -> couponPop.showPopupWindow()
         }
     }
-    /**
-     * 购物车更改 商品数量
-     * @param goodsEntity 商品
-     */
-    private fun changeCount(serviceId: String, index: Long, listener: (data: ServiceGoodsBean?) -> Unit) {
-        val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("goodsCount", String.format("%s", index))
-        params.put("serviceId", serviceId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<ServiceGoodsBean>>(Urls.url)
-                .params(params)
-                .tag(this)
-                .execute(object : DialogCallback<NetEntity<ServiceGoodsBean>>(this) {
-                    override fun onSuccess(response: Response<NetEntity<ServiceGoodsBean>>) =
-                            if (response.body().getCode() == Constants.NetCode.SUCCESS) {
-                                count.text = String.format("%s", index)
-                                initData(response.body().data)
-                                listener.invoke(response.body().data)
-                            } else {
-                                listener.invoke(null)
-                            }
 
-                    override fun onError(response: Response<NetEntity<ServiceGoodsBean>>) {
-                        super.onError(response)
-                        listener.invoke(null)
-                    }
-
-                })
-
+    companion object {
+        var ServiceConfirm_Intent_ids = "ServiceConfirm_Intent_ids"
     }
-
 
 }

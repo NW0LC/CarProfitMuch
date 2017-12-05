@@ -65,15 +65,16 @@ open class GoodsBean : AbsMark(),AbsBanner{
     var goodsCarId: String=""//商品购物车属性
     var goodsType: String=""//商品购物车属性
 
-    var scorePrice="25.00"//积分商品属性
-    var goodsCount="1"
-    var goodsChooseClassify="蓝色 草莓味 500g 饼干"
+    var scorePrice=""//积分商品属性
+    var goodsCount=""
+    var goodsChooseClassify=""
     var isCheck=false
 
     var goodsCollectionPriceChangeInfo="goodsCollectionPriceChangeInfo"
 
 
 
+    var id=""//积分商品属性
     var title=""//积分商品属性
     var price=""//积分商品属性
     var subTitle=""//积分商品属性

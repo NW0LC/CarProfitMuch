@@ -23,6 +23,7 @@ import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.szw.framelibrary.base.BaseActivity
+import com.szw.framelibrary.utils.DialogUtils
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.youth.banner.BannerConfig
 import kotlinx.android.synthetic.main.activity_goods_shop.*
@@ -109,6 +110,9 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
         bt_goodsShop_allGoods.setOnClickListener(this)
         bt_goodsShop_newGoods.setOnClickListener(this)
         bt_goodsShop_hotGoods.setOnClickListener(this)
+        bt_goodsShop_detail.setOnClickListener(this)
+        bt_goodsShop_classify.setOnClickListener(this)
+        bt_goodsShop_phone.setOnClickListener(this)
     }
 
     private fun initRecycler() {
@@ -177,6 +181,17 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
                 shopSearchIntent.putExtra(GoodsShop_Intent_ShopId,intent.getStringExtra(GoodsShop_Intent_ShopId) ?: "")
                 shopSearchIntent.putExtra(GoodsShopSearchResult_Intent_Status,"2")
                 startActivity(shopSearchIntent)
+            }
+            bt_goodsShop_detail -> {//
+
+            }
+            bt_goodsShop_classify -> {//
+                goodsShopClassifyPop.showPopupWindow()
+            }
+            bt_goodsShop_phone -> {//
+                if (shopBean != null) {
+                    DialogUtils.Call(this,shopBean?.shopPhone?:"")
+                }
             }
             else -> {
             }

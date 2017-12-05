@@ -9,9 +9,9 @@ import com.exz.carprofitmuch.R
  */
 class GoodsConfirmScoreBean{
     var isSelect =false
-    var score="1500"
-    var scorePrice ="15"
+    var scores="1500"
+    var money ="15"
     fun toString(context: Context): String =
-            String.format(context.getString(R.string.goods_confirm_score),score, scorePrice)
+            String.format(context.getString(R.string.goods_confirm_score),scores, money)
 }
 

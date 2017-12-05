@@ -14,13 +14,13 @@ class ServiceShopGoodsAdapter<T : ServiceGoodsBean> : BaseQuickAdapter<T, BaseVi
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
         itemView.img.setImageURI(item.img)
-        itemView.tv_service_goodsName.text=item.name
-        itemView.tv_service_goodsPrice.text=String.format("${mContext.getString(R.string.CNY)}%s",item.price)
+        itemView.tv_service_goodsName.text=item.goodsName
+        itemView.tv_service_goodsPrice.text=String.format("${mContext.getString(R.string.CNY)}%s",item.oldPrice)
         itemView.tv_service_goodsOldPrice.text=String.format("${mContext.getString(R.string.service_goods_oldPrice)}%s",item.oldPrice)
         itemView.tv_service_goodsOldPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG //中划线
-        itemView.tv_service_goodsSoldCount.text=String.format("${mContext.getString(R.string.service_list_serviceGoods_soldCount)}%s", getSoldCount(mContext,item.soldCount))
+        itemView.tv_service_goodsSoldCount.text=String.format("${mContext.getString(R.string.service_list_serviceGoods_soldCount)}%s", getSoldCount(mContext,item.saleCount))
 
     }
 
-    override fun getItemCount(): Int = goodsCount
+    override fun getItemCount(): Int = if (data.size<goodsCount)data.size else goodsCount
 }

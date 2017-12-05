@@ -15,9 +15,9 @@ class CardPackageListAdapter<T : ServiceOrderBean> : BaseQuickAdapter<T, BaseVie
         val itemView=helper.itemView
         itemView.tv_service_shop_name.text=item.serviceShopName
         itemView.img.setImageURI(item.orderImg)
-        itemView.tv_service_orderName.text=item.goods.name
+        itemView.tv_service_orderName.text=item.goods.goodsName
         itemView.tv_service_orderCount.text=String.format(mContext.getString(R.string.card_package_list_count),item.goods.count)
-        itemView.tv_service_orderPrice.text=String.format(mContext.getString(R.string.card_package_list_price),item.goods.price)
+        itemView.tv_service_orderPrice.text=String.format(mContext.getString(R.string.card_package_list_price),item.goods.goodsPrice)
         itemView.tv_service_orderTime.text=String.format(mContext.getString(R.string.card_package_list_time),item.time)
 
         helper.addOnClickListener(R.id.bt_left)

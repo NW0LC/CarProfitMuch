@@ -41,6 +41,7 @@ import com.youth.banner.BannerConfig
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_goods_detail.*
 import kotlinx.android.synthetic.main.layout_banner.*
+import org.jetbrains.anko.backgroundColor
 
 /**
  * Created by 史忠文
@@ -295,6 +296,8 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
                     params.weight = 6f
                     bt_confirm.layoutParams = params
                     bt_confirm.text = getString(R.string.goods_detail_pass)
+                    bt_confirm.backgroundColor=ContextCompat.getColor(mContext,R.color.MaterialGrey600)
+                    bt_confirm.isClickable=false
                 }
                 DataCtrlClass.goodsClassifyData(this, it.goodsId) { spec ->
                     if (spec != null)

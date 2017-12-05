@@ -1062,7 +1062,7 @@ object DataCtrlClassXZW {
     /**
      *  我的积分
      * */
-    fun MyScoreData(context: Context,   listener: (scoreStoreBean: MyScoreBean?) -> Unit) {
+    fun myScoreData(context: Context, listener: (scoreStoreBean: MyScoreBean?) -> Unit) {
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, MyApplication.salt).toLowerCase())
@@ -1076,7 +1076,6 @@ object DataCtrlClassXZW {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
-                            context.toast(response.body().message)
                         }
                     }
 

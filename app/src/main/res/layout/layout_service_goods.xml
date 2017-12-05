@@ -31,23 +31,20 @@
                 android:textSize="@dimen/text_14"
                 tool:background="@color/MaterialGrey200" />
 
-            <com.flyco.roundview.RoundTextView
-                android:id="@+id/tv_service_offerPrice"
+            <TextView
+                android:id="@+id/tv_service_goods_oldPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:ellipsize="end"
+                android:lines="1"
                 android:layout_marginTop="@dimen/margin_5"
-                android:paddingBottom="@dimen/margin_3"
-                android:paddingEnd="@dimen/margin_5"
-                android:paddingStart="@dimen/margin_5"
-                android:paddingTop="@dimen/margin_3"
-                android:text=""
-                android:textColor="@color/Orange"
-                android:textSize="@dimen/text_12"
                 android:minWidth="@dimen/margin_60"
-                app:rv_cornerRadius="@dimen/margin_3"
-                app:rv_strokeColor="@color/Orange"
-                app:rv_strokeWidth="1dp" />
+                android:textColor="@color/MaterialGrey400"
+                android:textSize="@dimen/text_12"
+                tool:background="@color/MaterialGrey200" />
+
+
         </LinearLayout>
 
         <LinearLayout

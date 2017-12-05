@@ -57,7 +57,7 @@ class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.
     }
 
     private fun initMyScore() {
-        DataCtrlClassXZW.MyScoreData(mContext, {
+        DataCtrlClassXZW.myScoreData(mContext, {
             if (it != null) {
                 headerView.tv_scoreCount.text = it.score//可用积分
                 headerView.tv_pendScoreCount.text = it.scoreL//待返还积分

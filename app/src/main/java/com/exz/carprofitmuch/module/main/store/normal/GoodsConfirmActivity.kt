@@ -225,7 +225,7 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener, CompoundButto
             totalPrice += itemPrice
         }
         //减去积分对应的金额
-        totalPrice -= if (data.score?.isSelect == true) (data.score?.scorePrice ?: "0").toDouble() else 0.toDouble()
+        totalPrice -= if (data.score?.isSelect == true) (data.score?.money ?: "0").toDouble() else 0.toDouble()
 
         //避免负数
         totalPrice = if (totalPrice < 0) 0.toDouble() else totalPrice

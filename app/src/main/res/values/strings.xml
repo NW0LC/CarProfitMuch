@@ -44,7 +44,9 @@
     <string name="CNY">￥</string>
     <string name="YUAN">元</string>
     <string name="SCORE">积分</string>
+    <string name="UNIT_SCORE">分</string>
     <string name="DAY">天</string>
+    <string name="KM">km</string>
     <string name="footer_footer_text">- 车利多为你提供优质服务 -</string>
     <string name="footer_score_store">所有售卖或兑换商品最终解释权归车利多所有</string>
     <string name="score_goods_detail_goodsName">商品详情</string>

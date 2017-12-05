@@ -3,13 +3,16 @@ package com.exz.carprofitmuch.module.main.store.score
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.view.View
 import com.blankj.utilcode.util.ScreenUtils
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.BannersBean
+import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
+import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity.Companion.GoodsDetail_Intent_GoodsId
 import com.exz.carprofitmuch.pop.GoodsDetailClassifyPop
 import com.exz.carprofitmuch.pop.GoodsDetailClassifyPop.Companion.SCORE_STATE_NORMAL
 import com.exz.carprofitmuch.pop.GoodsDetailClassifyPop.Companion.STATE_NORMAL
@@ -20,10 +23,15 @@ import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
+import com.szw.framelibrary.view.preview.PreviewActivity
+import com.szw.framelibrary.view.preview.PreviewActivity.Companion.PREVIEW_INTENT_IMAGES
+import com.szw.framelibrary.view.preview.PreviewActivity.Companion.PREVIEW_INTENT_POSITION
+import com.szw.framelibrary.view.preview.PreviewActivity.Companion.PREVIEW_INTENT_SHOW_NUM
 import com.youth.banner.BannerConfig
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_score_goods_detail.*
 import kotlinx.android.synthetic.main.layout_banner.*
+import org.jetbrains.anko.backgroundColor
 
 
 /**
@@ -36,7 +44,7 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
 
     private var mScrollY = 0
     private lateinit var classifyPop:GoodsDetailClassifyPop
-
+    private var goodsBean: GoodsBean? = null
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.score_goods_detail_goodsName)
         //状态栏透明和间距处理
@@ -91,6 +99,7 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
         })
         buttonBarLayout.alpha = 0f
         blurView.alpha = 0f
+        refreshLayout.setOnRefreshListener(this)
         return false
     }
     override fun setInflateId(): Int= R.layout.activity_score_goods_detail
@@ -104,6 +113,7 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
         initBanner()
         initEvent()
         mWebView.loadUrl("http://www.baidu.com")
+        onRefresh(refreshLayout)
     }
 
     private fun initEvent() {
@@ -114,24 +124,25 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
 
 
     private fun initBanner() {
-        val bannersBean = ArrayList<BannersBean>()
-        bannersBean.add(BannersBean())
-        bannersBean.add(BannersBean())
-        bannersBean.add(BannersBean())
+        banner.layoutParams.height=ScreenUtils.getScreenWidth()
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
         //设置图片加载器
         banner.setImageLoader(BannerImageLoader())
-        //设置图片集合
-        banner.setImages(bannersBean)
         //设置自动轮播，默认为true
         banner.isAutoPlay(true)
         //设置轮播时间
         banner.setDelayTime(3000)
         //设置指示器位置（当banner模式中有指示器时）
         banner.setIndicatorGravity(BannerConfig.CENTER)
-        //banner设置方法全部调用完毕时最后调用
-        banner.start()
-
+        banner.setOnBannerListener {
+            if (goodsBean != null) {
+                val intent = Intent(mContext, PreviewActivity::class.java)
+                intent.putExtra(PREVIEW_INTENT_IMAGES, goodsBean?.mainImgs)
+                intent.putExtra(PREVIEW_INTENT_SHOW_NUM, true)
+                intent.putExtra(PREVIEW_INTENT_POSITION, it)
+                mContext.startActivity(intent)
+            }
+        }
     }
     override fun onClick(p0: View?) {
         when (p0) {
@@ -139,21 +150,35 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
                 classifyPop.showPopupWindow()
             }
             bt_confirm -> {
-//                val intent = Intent()
-//                intent.putExtra(Intent_ClassName,ScoreConfirmActivity::class.java.name)
-//                SZWUtils.checkLogin(this, intent)
-                startActivity(Intent(this, ScoreConfirmActivity::class.java))
+                classifyPop.showPopupWindow()
             }
 
         }
     }
     override fun onRefresh(refreshLayout: RefreshLayout?) {
-        DataCtrlClass.scoreGoodsDetailData(this,"") {
+        DataCtrlClass.goodsDetailData(this, intent.getStringExtra(GoodsDetail_Intent_GoodsId) ?: "") {
             if (it != null) {
+                goodsBean = it
+                //设置图片集合
+                val banners = ArrayList<BannersBean>()
+                it.mainImgs.mapTo(banners) { BannersBean(it) }
+                banner.setImages(banners)
+                //banner设置方法全部调用完毕时最后调用
+                banner.start()
+
+
+                tv_goodsName.text = it.goodsName
+                tv_score_count.text = String.format("%s"+getString(R.string.SCORE)  , it.goodsPrice)
+                bt_choose_type.visibility = if (it.isCoupon == "1") View.VISIBLE else View.GONE
+                if (it.isDelete == "1") {
+                    bt_confirm.text = getString(R.string.goods_detail_pass)
+                    bt_confirm.backgroundColor= ContextCompat.getColor(mContext,R.color.MaterialGrey600)
+                    bt_confirm.isClickable=false
+                }
+                DataCtrlClass.goodsClassifyData(this, it.goodsId) { spec ->
+                    classifyPop.setNewData(spec, it)
+                }
             }
         }
-    }
-    companion object {
-        val ScoreGoods_Intent_ScoreGoodsId="ScoreGoods_Intent_ScoreGoodsId"
     }
 }

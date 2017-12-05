@@ -182,7 +182,7 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 startActivity(Intent(context, AdsActivity::class.java))
             }
             headerView.bt_tab_4 -> {//宝藏领取
-                val intent = Intent(context, MapPinActivity::class.java).putExtra("className", context.getString(R.string.main_treasure_get))
+                val intent = Intent(context,MapPinActivity::class.java).putExtra("className", context.getString(R.string.main_treasure_get))
                 SZWUtils.checkLogin(this, intent, MapPinActivity::class.java.name)
             }
             headerView.bt_tab_5 -> {//红包领取
@@ -194,8 +194,8 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                     toast("定位中，请允许获取定位权限")
                     (activity as BaseActivity).PermissionLocationWithCheck(Intent(context, LocationService::class.java),true)
                 }else{
-                val intent = Intent(context, PromotionsActivity::class.java)
-                SZWUtils.checkLogin(this,intent,PromotionsActivity::class.java.name)
+                    val intent = Intent(context, PromotionsActivity::class.java)
+                SZWUtils.checkLogin(this,intent,clazzName = PromotionsActivity::class.java.name)
             }
             }
             headerView.bt_more_hot_recommend -> {

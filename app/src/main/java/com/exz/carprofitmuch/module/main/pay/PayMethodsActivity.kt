@@ -37,9 +37,10 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
 
     lateinit var pwdPop: PwdPop
     var canBalancePay = false
-    private var  orderId =intent.getStringExtra(Pay_Intent_OrderId)?:""
+    private var  orderId=""
     companion object {
         var Pay_Intent_OrderId="Pay_Intent_OrderId"
+
         var Pay_Intent_Finish_Type="Intent_Finish_Type"
         var Intent_Finish_Type_1="ServiceConfirmActivity"
         var Intent_Finish_Type_2="GoodsConfirmActivity"
@@ -61,6 +62,8 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
     }
 
     override fun init() {
+        orderId =intent.getStringExtra(Pay_Intent_OrderId)?:""
+
         pwdPop = PwdPop(this) {
             OnPasswordInputFinish {
                 balancePay(it)

@@ -167,7 +167,7 @@ object DialogUtils {
     /***
      *积分支付成功
      */
-    fun scorePaySuccess(context: Context) {
+    fun scorePaySuccess(context: Context,listener: () -> Unit) {
 
         val inflate = View.inflate(context, R.layout.dialog_score_success, null)
         val dlg = CoreDialog(context, com.common.alertpop.R.style.dialog, inflate, true)
@@ -175,6 +175,9 @@ object DialogUtils {
         dlg.setCanceledOnTouchOutside(true)
         inflate.bt_score_success_close.setOnClickListener {
             dlg.dismiss()
+        }
+        dlg.setOnDismissListener {
+            listener.invoke()
         }
         dlg.show()
     }

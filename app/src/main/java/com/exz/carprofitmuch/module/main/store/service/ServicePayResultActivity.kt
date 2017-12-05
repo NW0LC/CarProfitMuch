@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_pay_service_result.*
  * Created by 史忠文
  * on 2017/10/17.
  */
-
+@Deprecated("废弃")
 class ServicePayResultActivity : BaseActivity(), OnRefreshListener, View.OnClickListener {
     private lateinit var mServiceShopGoodsAdapter: ServiceShopGoodsAdapter<ServiceGoodsBean>
     override fun initToolbar(): Boolean {
@@ -60,7 +60,7 @@ class ServicePayResultActivity : BaseActivity(), OnRefreshListener, View.OnClick
         arrayList.add(ServiceGoodsBean())
         arrayList.add(ServiceGoodsBean())
 
-        mServiceShopGoodsAdapter.goodsCount=arrayList.size
+//        mServiceShopGoodsAdapter.goodsCount=arrayList.size
         mServiceShopGoodsAdapter.setNewData(arrayList)
 
 

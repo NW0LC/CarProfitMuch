@@ -17,6 +17,7 @@ import com.exz.carprofitmuch.bean.GoodsClassifyBean
 import com.exz.carprofitmuch.bean.GoodsSubClassifyBean
 import com.exz.carprofitmuch.bean.SpecBean
 import com.exz.carprofitmuch.module.main.store.score.ScoreConfirmActivity
+import com.exz.carprofitmuch.module.main.store.score.ScoreConfirmActivity.Companion.ScoreConfirm_Intent_Ids
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.hwangjr.rxbus.RxBus
@@ -42,16 +43,17 @@ import kotlin.collections.ArrayList
 class GoodsDetailClassifyPop(private val context: Activity, private val listener: (str: String) -> Unit) : BasePopupWindow(context), View.OnClickListener {
 
 
-    var poolId: String = ""
+    var poolId: String = "0"
     var image: String = ""
     var countIndex: Long = 1
     private val decimalFormat: DecimalFormat
     private val adapter: GoodsDetailClassifyAdapter<GoodsClassifyBean>
-    private lateinit var data: SpecBean
+    private  var data: SpecBean?=null
     private var maxCount: Long = 0
     private lateinit var inflate: View
     private var state = STATE_NORMAL
     private var clickAble = true
+    private var  goodsBean: GoodsBean?=null
 
     companion object {
         var STATE_NORMAL = "state_normal"//正常  指定状态，区别跳转积分确认，或商品确认
@@ -76,17 +78,18 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
         inflate.mRecyclerView.addItemDecoration(RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL, 1, ContextCompat.getColor(getContext(), R.color.White)))
     }
 
-    fun setNewData(data: SpecBean,goodsBean: GoodsBean) {
+    fun setNewData(data: SpecBean?,goodsBean: GoodsBean) {
         this.data = data
-        adapter.setNewData(data.rankInfo)
+        this.goodsBean=goodsBean
+        adapter.setNewData(data?.rankInfo)
         if (goodsBean.mainImgs.size > 0) {
             image = goodsBean.mainImgs[0]
             inflate.img.setImageURI(image)
         }
-        inflate.price.text =String.format("${context.getString(R.string.CNY)}%s",goodsBean.price)
+        inflate.price.text =String.format("${context.getString(R.string.CNY)}%s",goodsBean.goodsPrice)
         inflate.inventory.text = String.format(context.getString(R.string.classify_pop_inventory), if (TextUtils.isEmpty(goodsBean.allStock)) "0" else goodsBean.allStock)
-        var chooseStr = if (data.rankInfo.size < 1) "" else context.getString(R.string.classify_pop_chooseStr_please)
-        for (goodsClassifyBean in data.rankInfo) {
+        var chooseStr = if (data?.rankInfo?.size?:0 < 1) "" else context.getString(R.string.classify_pop_chooseStr_please)
+        for (goodsClassifyBean in data?.rankInfo?: ArrayList()) {
             chooseStr += " "+goodsClassifyBean.rankName
         }
         maxCount = (if (TextUtils.isEmpty(goodsBean.allStock)) "0" else goodsBean.allStock).toLong()
@@ -95,26 +98,26 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
 
     private fun chooseClassify(choose: String?, index: Int?) {
         var chooseStr = if (choose?.isEmpty() != false) context.getString(R.string.classify_pop_chooseStr_default) else choose
-        if (data.rankInfo.size > 0) {
+        if (data?.rankInfo?.size?:0 > 0) {
             chooseStr = context.getString(R.string.classify_pop_chooseStr)
-            val selectArray = arrayOfNulls<String>(data.rankInfo.size)
+            val selectArray = arrayOfNulls<String>(data?.rankInfo?.size?:0)
             Thread {
-                for (indice in data.rankInfo.indices) {//遍历最外层数组
-                    val goodsSubClassify = data.rankInfo[indice].subRank//子类型数据
-                    if (goodsSubClassify.size > 0) {//子类型数据不止一条
+                for (indice in data?.rankInfo?.indices?: IntRange(0,0)) {//遍历最外层数组
+                    val goodsSubClassify = data?.rankInfo?.get(indice)?.subRank//子类型数据
+                    if (goodsSubClassify?.size?:0 > 0) {//子类型数据不止一条
                         if (index == null) { //适配器选择设置数据
 
-                            for (indie in goodsSubClassify.indices) {//遍历子类型数据
-                                if (goodsSubClassify[indie].goodsSubState == GoodsSubClassifyBean.STATE_1) {// 如果被选中
+                            for (indie in goodsSubClassify?.indices?: IntRange(0,0)) {//遍历子类型数据
+                                if (goodsSubClassify?.get(indie)?.goodsSubState == GoodsSubClassifyBean.STATE_1) {// 如果被选中
                                     chooseStr +=  " "+goodsSubClassify[indie].rankName  //已选择子类型的名称
                                     selectArray[indice] = goodsSubClassify[indie].rankId//已选择子类型的id集合
                                 }
                             }
 
                         } else {//指定选择设置数据  默认选择每一种的第一个
-                            goodsSubClassify[0].goodsSubState = GoodsSubClassifyBean.STATE_1
-                            chooseStr += " "+ goodsSubClassify[0].rankName
-                            selectArray[indice] = goodsSubClassify[0].rankId
+                            goodsSubClassify?.get(0)?.goodsSubState= GoodsSubClassifyBean.STATE_1
+                            chooseStr += " "+ goodsSubClassify?.get(0)?.rankName
+                            selectArray[indice] = goodsSubClassify?.get(0)?.rankId
 
                         }
                     }
@@ -124,7 +127,7 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
                     //判断两个数组是不是相等，相等就各种赋值
                     inflate.type.text = chooseStr
                     listener.invoke(chooseStr)
-                    for (goodsClassifyPoolBean in data.rankComb) {
+                    for (goodsClassifyPoolBean in data?.rankComb?:ArrayList()) {
                         val poolArray = goodsClassifyPoolBean.skuid.split(",").toTypedArray()
                         Arrays.sort(poolArray)
                         if (Arrays.equals(selectArray, poolArray)) {
@@ -137,11 +140,12 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
                             onNum(countIndex)
                         }
                     }
-                    state = if (maxCount == 0L) STATE_NO_INVENTORY else STATE_NORMAL
-                    clickAble = initBtn()
+
                 }
             }.start()
         }
+        state = if (maxCount == 0L) STATE_NO_INVENTORY else STATE_NORMAL
+        clickAble = initBtn()
         inflate.type.text = chooseStr
         listener.invoke(chooseStr)
     }
@@ -247,7 +251,14 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
                         //判断是商品还是积分。区别跳转
                         when (state) {
                             SCORE_STATE_NORMAL -> {
-                                context.startActivity(Intent(context, ScoreConfirmActivity::class.java))
+//                                shopId	string	必填	店铺id
+//                                goodsId	string	必填	商品id
+//                                goodsCount	string	必填	商品数量
+//                                skuid	string	必填	规格id
+
+                                val intent = Intent(context, ScoreConfirmActivity::class.java)
+                                intent.putExtra(ScoreConfirm_Intent_Ids,goodsBean?.shopId+","+goodsBean?.goodsId+","+countIndex+","+poolId)
+                                context.startActivity(intent)
                             }
                             GOODS_STATE_NORMAL -> {
 

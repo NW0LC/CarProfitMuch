@@ -2,6 +2,7 @@ package com.exz.carprofitmuch.utils
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -35,9 +36,8 @@ import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity.Compan
 import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity
 import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity.Companion.GoodsShop_Intent_ShopId
 import com.exz.carprofitmuch.module.main.store.score.ScoreGoodsDetailActivity
-import com.exz.carprofitmuch.module.main.store.score.ScoreGoodsDetailActivity.Companion.ScoreGoods_Intent_ScoreGoodsId
 import com.exz.carprofitmuch.module.main.store.service.ServiceDetailActivity
-import com.exz.carprofitmuch.module.main.store.service.ServiceDetailActivity.Companion.Service_Intent_ServieceId
+import com.exz.carprofitmuch.module.main.store.service.ServiceDetailActivity.Companion.Service_Intent_ServiceId
 import com.exz.carprofitmuch.module.main.store.service.ServiceShopActivity
 import com.exz.carprofitmuch.module.main.store.service.ServiceShopActivity.Companion.ServiceShop_Intent_ServiceShopId
 import com.exz.carprofitmuch.widget.MyWebActivity
@@ -86,6 +86,29 @@ object SZWUtils {
             login.putExtras(intent)
             mContext.startActivityForResult(login, 0xc8)
             mContext.activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.fade_out)
+            false
+        } else {
+            try {
+                mContext.startActivityForResult(intent, 0xc8)
+            } catch (e: Exception) {
+            }
+            true
+        }
+    }
+    /**
+     * @param mContext 上下文
+     * @param intent   事件
+     * @return true登录
+     */
+    fun checkLogin(mContext: Activity, intent: Intent = Intent(), clazzName: String = ""): Boolean {
+        return if (!MyApplication.checkUserLogin()) {
+            val login = Intent(mContext, LoginActivity::class.java)
+            if (clazzName.isNotEmpty()) {
+                login.putExtra(Intent_ClassName, clazzName)
+            }
+            login.putExtras(intent)
+            mContext.startActivityForResult(login, 0xc8)
+            mContext.overridePendingTransition(R.anim.slide_in_bottom, R.anim.fade_out)
             false
         } else {
             try {
@@ -277,18 +300,6 @@ object SZWUtils {
     }
 
     /**
-     * 获取服务列表分类筛选数据
-     */
-    fun getServiceListClassifyData(): ArrayList<ServiceListFilterBean> {
-        val filterBeans = ArrayList<ServiceListFilterBean>()
-        filterBeans.add(ServiceListFilterBean("1", "汽车美容"))
-        filterBeans.add(ServiceListFilterBean("2", "维修保养"))
-        filterBeans.add(ServiceListFilterBean("3", "汽车配件"))
-        filterBeans.add(ServiceListFilterBean("4", "汽车用品"))
-        return filterBeans
-    }
-
-    /**
      * 获取搜索商品搜索结果分类筛选数据
      */
     fun getSearchGoodsResultClassifyData(): ArrayList<ServiceListFilterBean> {
@@ -305,7 +316,8 @@ object SZWUtils {
      */
     fun getServiceListSortData(): ArrayList<ServiceListFilterBean> {
         val filterBeans = ArrayList<ServiceListFilterBean>()
-        filterBeans.add(ServiceListFilterBean("1", "综合排序"))
+        filterBeans.add(ServiceListFilterBean("0", "综合排序"))
+        filterBeans.add(ServiceListFilterBean("1", "距离优先"))
         filterBeans.add(ServiceListFilterBean("2", "好评优先"))
         return filterBeans
     }
@@ -439,7 +451,7 @@ object SZWUtils {
             "1" -> {
                 intent = Intent()
                 intent.setClass(context, ServiceDetailActivity::class.java)
-                intent.putExtra(Service_Intent_ServieceId, item.getMarkId())
+                intent.putExtra(Service_Intent_ServiceId, item.getMarkId())
             }
             "2" -> {
                 intent = Intent()
@@ -449,7 +461,7 @@ object SZWUtils {
             "3" -> {
                 intent = Intent()
                 intent.setClass(context, ScoreGoodsDetailActivity::class.java)
-                intent.putExtra(ScoreGoods_Intent_ScoreGoodsId, item.getMarkId())
+                intent.putExtra(GoodsDetail_Intent_GoodsId, item.getMarkId())
             }
             "4" -> {
                 intent = Intent()
@@ -484,7 +496,7 @@ object SZWUtils {
             "111","1"->{//积分
                 intent = Intent()
                 intent.setClass(context, ScoreGoodsDetailActivity::class.java)
-                intent.putExtra(ScoreGoods_Intent_ScoreGoodsId, item.getMarkId())
+                intent.putExtra(GoodsDetail_Intent_GoodsId, item.getMarkId())
             }
             "112","2"->{//商品
                 intent = Intent()
@@ -494,7 +506,7 @@ object SZWUtils {
             "121","122"->{//服务
                 intent = Intent()
                 intent.setClass(context, ServiceDetailActivity::class.java)
-                intent.putExtra(Service_Intent_ServieceId, item.getMarkId())
+                intent.putExtra(Service_Intent_ServiceId, item.getMarkId())
             }
             "211","212"->{//商品店铺
                 intent = Intent()
