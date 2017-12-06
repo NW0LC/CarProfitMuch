@@ -42,7 +42,7 @@ class MainCartAdapter<T : GoodsCarBean>(context: CartFragment) : BaseMultiItemQu
                 mAdapter.bindToRecyclerView(itemView.mRecyclerView)
                 itemView.mRecyclerView.isFocusable = false
                 itemView.mRecyclerView.layoutManager = LinearLayoutManager(mContext)
-                mAdapter.setNewData(item.goods)
+                mAdapter.setNewData(item.goodsInfo)
                 mAdapter.setOnItemChildClickListener { _, view, position ->
                     val goodsEntity = mAdapter.data[position]
                     val index = (if (TextUtils.isEmpty(goodsEntity.goodsCount)) "1" else goodsEntity.goodsCount).toLong()
@@ -78,13 +78,13 @@ class MainCartAdapter<T : GoodsCarBean>(context: CartFragment) : BaseMultiItemQu
             }
             GoodsCarBean.TYPE_2 -> {
                 helper.addOnClickListener(R.id.bt_clearGoods)
-                itemView.tv_loseGoodsCount.text=String.format(mContext.getString(R.string.main_cart_loseGoodsCount),item.goods.size.toString())
+                itemView.tv_loseGoodsCount.text=String.format(mContext.getString(R.string.main_cart_loseGoodsCount),item.goodsInfo.size.toString())
 
                 val mAdapter = ItemMainCartLoseAdapter<GoodsBean>(cartFragment, this,animatorEnable)
                 mAdapter.bindToRecyclerView(itemView.mLoseRecyclerView)
                 itemView.mLoseRecyclerView.isFocusable = false
                 itemView.mLoseRecyclerView.layoutManager = LinearLayoutManager(mContext)
-                mAdapter.setNewData(item.goods)
+                mAdapter.setNewData(item.goodsInfo)
                 mAdapter.setOnItemChildClickListener { _, view, position ->
                     when (view.id) {
                         R.id.radioButton -> {

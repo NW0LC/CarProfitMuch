@@ -14,8 +14,8 @@ open class GoodsCarBean : MultiItemEntity {
         val TYPE_2=2
     }
 
-    var shopName="Created by 史忠文"
+    var shopName=""
     var shopId=""
     var isCheck=false
-    var goods=ArrayList<GoodsBean>()
+    var goodsInfo =ArrayList<GoodsBean>()
 }

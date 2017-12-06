@@ -62,12 +62,11 @@ open class GoodsBean : AbsMark(),AbsBanner{
     var commentList =ArrayList<CommentBean>()//商品属性
     var shopId =""//商品属性
 
-    var goodsCarId: String=""//商品购物车属性
+    var shopCarId: String=""//商品购物车属性
     var goodsType: String=""//商品购物车属性
 
     var scorePrice=""//积分商品属性
     var goodsCount=""
-    var goodsChooseClassify=""
     var isCheck=false
 
     var goodsCollectionPriceChangeInfo="goodsCollectionPriceChangeInfo"

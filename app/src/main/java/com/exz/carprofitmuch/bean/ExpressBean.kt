@@ -7,12 +7,12 @@ import com.vilyever.resource.Resource
  * Created by NW0LC
  * on 2017/11/19.
  */
-class ExpressBean(private var expressName: String = "", var expressPrice: String = "") :KeyAndValueBean() {
-    override fun absKey(): String = expressId
+class ExpressBean(private var transportName: String = "", var transportMoney: String = "") :KeyAndValueBean() {
+    override fun absKey(): String = transportId
 
-    override fun absValue(): String =expressPrice
-    var expressId=""
-    override  fun toString(): String = if (expressPrice.isNotEmpty()){expressName+expressPrice+ Resource.getString(R.string.YUAN)}else{
+    override fun absValue(): String =transportMoney
+    var transportId=""
+    override  fun toString(): String = if (transportMoney.isNotEmpty()){transportName+transportMoney+ Resource.getString(R.string.YUAN)}else{
         Resource.getString(R.string.goods_confirm_express_item)
     }
 }

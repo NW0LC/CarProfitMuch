@@ -24,8 +24,13 @@ class ServiceListAdapter<T : ServiceShopBean> : BaseQuickAdapter<T, BaseViewHold
         itemView.lay_serviceGoods.removeAllViews()
         for (serviceGood in item.goodsList) {
             val inflate = View.inflate(mContext, R.layout.layout_service_goods, null)
-            inflate.tv_service_goods_price.text =String.format("${mContext.getString(R.string.CNY)}%s", serviceGood.goodsPrice)
-            inflate.tv_service_goods_oldPrice.text=String.format("${mContext.getString(R.string.service_goods_oldPrice)}%s",serviceGood.oldPrice)
+            if (serviceGood.payMark=="1") {
+                inflate.tv_service_goods_price.text = String.format("%s"+mContext.getString(R.string.SCORE), serviceGood.goodsPrice)
+                inflate.tv_service_goods_oldPrice.text = String.format("%s"+mContext.getString(R.string.SCORE), serviceGood.oldPrice)
+            }else{
+                inflate.tv_service_goods_price.text = String.format("%s"+mContext.getString(R.string.CNY), serviceGood.goodsPrice)
+                inflate.tv_service_goods_oldPrice.text = String.format("%s"+mContext.getString(R.string.service_goods_oldPrice), serviceGood.oldPrice)
+            }
             inflate.tv_service_goods_oldPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG //中划线
             inflate.tv_service_goodsName.text = serviceGood.goodsName
             inflate.tv_service_goodsSoldCount.text = String.format("${mContext.getString(R.string.service_list_serviceGoods_soldCount)}%s", SZWUtils.getSoldCount(mContext,serviceGood.saleCount))

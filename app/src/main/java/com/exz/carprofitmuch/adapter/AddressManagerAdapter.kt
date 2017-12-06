@@ -23,11 +23,11 @@ class AddressManagerAdapter<T : AddressBean> : BaseQuickAdapter<T, BaseViewHolde
         itemView.tv_address.text = item.toString()
 
         if (item.isDefault()) {
-            itemView.radioButton.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, R.mipmap.icon_service_pay_select_on), null, null, null)
+            itemView.radioButton.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, R.mipmap.icon_mine_open_shop_select), null, null, null)
             itemView.radioButton.text = mContext.getString(R.string.address_choose_default2)
             itemView.radioButton.textColor = ContextCompat.getColor(mContext, R.color.colorPrimary)
         } else {
-            itemView.radioButton.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, R.mipmap.icon_service_pay_select_off), null, null, null)
+            itemView.radioButton.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, R.mipmap.icon_mine_open_shop_unselect), null, null, null)
             itemView.radioButton.text = mContext.getString(R.string.address_choose_setDefault)
             itemView.radioButton.textColor = ContextCompat.getColor(mContext, R.color.MaterialGrey600)
         }

@@ -200,27 +200,13 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
                 classifyPop.showPopupWindow()
             }
             bt_addCard -> {
-                if (goodsBean != null) {
-                    if (goodsBean?.isHaveRank == "1") {
-                        classifyPop.showPopupWindow()
-                    } else {
-                        val view = View(this)
-                        view.id = R.id.addCar
-                        classifyPop.onClick(view)
-                    }
-                }
+                if (goodsBean != null)
+                classifyPop.showPopupWindow()
 
             }
             bt_confirm -> {
-                if (goodsBean != null) {
-                    if (goodsBean?.isHaveRank == "1") {
-                        classifyPop.showPopupWindow()
-                    } else {
-                        val view = View(this)
-                        view.id = R.id.buy
-                        classifyPop.onClick(view)
-                    }
-                }
+                if (goodsBean != null)
+                classifyPop.showPopupWindow()
             }
             bt_coupon -> {  // 领取优惠券
                 DataCtrlClass.couponListData(goodsBean?.shopId ?: "", goodsBean?.goodsId ?: "") {

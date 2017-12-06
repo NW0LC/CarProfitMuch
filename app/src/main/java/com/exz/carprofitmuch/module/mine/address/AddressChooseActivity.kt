@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.activity_address_choose.*
  * Created by 史忠文
  * on 2017/10/17.
  */
-class AddressChooseActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+class AddressChooseActivity : BaseActivity(), OnRefreshListener{
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
@@ -56,6 +56,7 @@ class AddressChooseActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapte
         SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
         initEvent()
+        refreshLayout.autoRefresh()
     }
 
     private fun initEvent() {
@@ -64,19 +65,7 @@ class AddressChooseActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapte
 
     private fun initRecycler() {
         mAdapter = AddressChooseAdapter()
-        val coupons = ArrayList<AddressBean>()
-        coupons.add(AddressBean("1"))
-        coupons.add(AddressBean("0"))
-        coupons.add(AddressBean("0"))
-        coupons.add(AddressBean("0"))
-        coupons.add(AddressBean("0"))
-        coupons.add(AddressBean("0"))
-        coupons.add(AddressBean("0"))
-        coupons.add(AddressBean("0"))
-
-        mAdapter.setNewData(coupons)
         mAdapter.bindToRecyclerView(mRecyclerView)
-        mAdapter.setOnLoadMoreListener(this,mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
@@ -91,11 +80,6 @@ class AddressChooseActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapte
         refreshState = Constants.RefreshState.STATE_REFRESH
         iniData()
 
-    }
-
-    override fun onLoadMoreRequested() {
-        refreshState = Constants.RefreshState.STATE_LOAD_MORE
-        iniData()
     }
 
     private fun iniData() {

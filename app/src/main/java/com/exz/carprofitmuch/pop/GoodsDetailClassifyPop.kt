@@ -16,6 +16,7 @@ import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.GoodsClassifyBean
 import com.exz.carprofitmuch.bean.GoodsSubClassifyBean
 import com.exz.carprofitmuch.bean.SpecBean
+import com.exz.carprofitmuch.module.CartFragment
 import com.exz.carprofitmuch.module.main.store.score.ScoreConfirmActivity
 import com.exz.carprofitmuch.module.main.store.score.ScoreConfirmActivity.Companion.ScoreConfirm_Intent_Ids
 import com.exz.carprofitmuch.utils.DialogUtils
@@ -236,7 +237,7 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
                             context.toast(context.getString(R.string.classify_pop_toast_noInventory))
                             return
                         }
-                        //                    GoodsCarFragment.addCar(context, poolId, countIndex + "", data);
+                        CartFragment.addCar(context,goodsBean?.shopId?:"" ,poolId, countIndex.toString(), arrayListOf(goodsBean?:GoodsBean()))
                         dismiss()
                     }
             R.id.buy ->

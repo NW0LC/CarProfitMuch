@@ -23,7 +23,7 @@ class OpenShopkeyValueAdapter() : BaseQuickAdapter<OpenShopKeyValueBean, BaseVie
         }else{
             v.tv_name.textColor=ContextCompat.getColor(mContext,R.color.MaterialGrey800)
 
-            v.tv_name.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,ContextCompat.getDrawable(mContext,R.mipmap.icon_mine_open_shop_noselect),null)
+            v.tv_name.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,ContextCompat.getDrawable(mContext,R.mipmap.icon_mine_open_shop_unselect),null)
         }
     }
 }

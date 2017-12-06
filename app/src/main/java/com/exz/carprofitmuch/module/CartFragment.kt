@@ -21,12 +21,16 @@ import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.GoodsCarBean
 import com.exz.carprofitmuch.bean.GoodsCarBean.Companion.TYPE_2
 import com.exz.carprofitmuch.config.Urls
+import com.exz.carprofitmuch.config.Urls.AddShopCar
+import com.exz.carprofitmuch.config.Urls.DeleteShopCar
 import com.exz.carprofitmuch.module.main.store.normal.GoodsConfirmActivity
+import com.exz.carprofitmuch.module.main.store.normal.GoodsConfirmActivity.Companion.GoodsConfirm_Intent_shopInfo
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type_Delete
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type_Edit
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.exz.carprofitmuch.utils.SZWUtils
+import com.google.gson.Gson
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -42,6 +46,7 @@ import com.szw.framelibrary.utils.net.callback.DialogCallback
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.fragment_main_cart.*
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.toast
 import java.text.DecimalFormat
 import java.util.HashMap
 import kotlin.collections.ArrayList
@@ -67,7 +72,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         initBar()
         SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initRecycler()
-
+        onRefresh(refreshLayout)
     }
 
     private fun initBar() {
@@ -107,7 +112,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                         mRecyclerView.post {
                             val goodsCarBean = mAdapter.data[position]
                             goodsCarBean.isCheck = !goodsCarBean.isCheck
-                            for (goodsBean in goodsCarBean.goods) {  //设置某个店铺下的商品选中状态
+                            for (goodsBean in goodsCarBean.goodsInfo) {  //设置某个店铺下的商品选中状态
                                 goodsBean.isCheck = goodsCarBean.isCheck
                             }
                             mAdapter.notifyItemChanged(position)
@@ -131,7 +136,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 mAdapter.data
                         .flatMap {
                             it.isCheck = select_all.isChecked
-                            it.goods
+                            it.goodsInfo
                         }
                         .forEach { it.isCheck = select_all.isChecked }
                 mAdapter.notifyDataSetChanged()
@@ -206,7 +211,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                         goodsCarBean = data[if (goodsCarBean?.itemType == TYPE_2) data.lastIndex - 1 else data.lastIndex]
 //                        如果上下匹配，合并到一起
                         if (it.first().shopId == goodsCarBean.shopId) {
-                            goodsCarBean.goods.addAll(it.first().goods)
+                            goodsCarBean.goodsInfo.addAll(it.first().goodsInfo)
 //                          匹配的话移除新增数组的第一条数据
                             it.removeAt(0)
                         }
@@ -241,22 +246,24 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         newGoodsCarBean.type = TYPE_2
         while (goodsCarBeans.hasNext()) {
             val goodsCarBean = goodsCarBeans.next()
-            val goodsBeans = goodsCarBean.goods.iterator()
+            val goodsBeans = goodsCarBean.goodsInfo.iterator()
             while (goodsBeans.hasNext()) {
                 val goodsBean = goodsBeans.next()
-                newGoodsCarBean.goods = if (newGoodsCarBean.goods.isEmpty()) ArrayList() else newGoodsCarBean.goods
-                if (goodsBean.goodsType.toInt() == TYPE_2) {
-                    newGoodsCarBean.goods.add(goodsBean)
+                newGoodsCarBean.goodsInfo = if (newGoodsCarBean.goodsInfo.isEmpty()) ArrayList() else newGoodsCarBean.goodsInfo
+                if (goodsBean.isDelete== "1") {
+                    newGoodsCarBean.goodsInfo.add(goodsBean)
                     goodsBeans.remove()
                 }
             }
-            if (!goodsCarBean.goods.isNotEmpty()) {
+            if (!goodsCarBean.goodsInfo.isNotEmpty()) {
                 goodsCarBeans.remove()
             }
 
         }
-        mAdapter.data.add(newGoodsCarBean)
-        mAdapter.notifyDataSetChanged()
+        if (newGoodsCarBean.goodsInfo.size!=0){
+            mAdapter.data.add(newGoodsCarBean)
+            mAdapter.notifyDataSetChanged()
+        }
     }
 
 
@@ -265,12 +272,17 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
      * @param goodsEntity 商品
      */
     fun cartChangeCount(goodsEntity: GoodsBean, index: Long, listener: (data: String?) -> Unit) {
+//        userId	string	必填	用户id
+//        shopCarId	string	必填	购物车id
+//        goodsCount	string	必填	商品数量
+//        requestCheck	string	必填	验证请求
+
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
         params.put("goodsCount", String.format("%s", index))
-        params.put("goodsCarId", goodsEntity.goodsCarId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
+        params.put("shopCarId", goodsEntity.shopCarId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+goodsEntity.shopCarId, salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.EditShopCar)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<String>>(context) {
@@ -305,7 +317,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         val goodsCarBeans = ArrayList<GoodsCarBean>()
         for (goodsCarBean in mAdapter.data) {
             val goodsBeans = ArrayList<GoodsBean>()
-            for (goodsBean in goodsCarBean.goods) {
+            for (goodsBean in goodsCarBean.goodsInfo) {
                 if (goodsBean.isCheck) {
                     goodsBeans.add(goodsBean)
                     b = true
@@ -313,7 +325,8 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             }
             if (goodsBeans.size > 0) {
                 val newGoodsCarBean = GoodsCarBean()
-                newGoodsCarBean.goods.addAll(goodsBeans)
+                newGoodsCarBean.shopId=goodsCarBean.shopId
+                newGoodsCarBean.goodsInfo.addAll(goodsBeans)
                 goodsCarBeans.add(newGoodsCarBean)
             }
         }
@@ -322,13 +335,13 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
                 DialogUtils.delete(context) {
                     goodsCarBeans.forEach {
-                        //                        deleteCar(context, it.goods) {
-                        removeItem(this, mAdapter, null, it.goods)
-                        if (mAdapter.data.size <= 0) {
-                            checkSelectAll(mAdapter, select_all)
+                        deleteCar(context, it.goodsInfo) {
+                            removeItem(this, mAdapter, null, it)
+                            if (mAdapter.data.size <= 0) {
+                                checkSelectAll(mAdapter, select_all)
 
+                            }
                         }
-//                        }
                     }
 
                 }
@@ -339,7 +352,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             if (b) {
 
                 val intent = Intent(context, GoodsConfirmActivity::class.java)
-//                intent.putExtra(Intent_GoodsCar_GoodsCarId, goodsCarIds.substring(0, goodsCarIds.length - 1))
+                intent.putExtra(GoodsConfirm_Intent_shopInfo, Gson().toJson(goodsCarBeans))
                 startActivityForResult(intent, 100)
             }
         }
@@ -352,9 +365,9 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
      */
     fun setAllPrice() {
         selectCount = 0
-        val price = mAdapter.data.flatMap { if (it.itemType == TYPE_2) ArrayList() else it.goods }.filter { it.isCheck }.sumByDouble {
+        val price = mAdapter.data.flatMap { if (it.itemType == TYPE_2) ArrayList() else it.goodsInfo }.filter { it.isCheck }.sumByDouble {
             selectCount++
-            (if (it.price.isEmpty()) "0" else it.price).toDouble() * (if (it.goodsCount.isEmpty()) "0" else it.goodsCount).toInt()
+            (if (it.goodsPrice.isEmpty()) "0" else it.goodsPrice).toDouble() * (if (it.goodsCount.isEmpty()) "0" else it.goodsCount).toInt()
         }
         assignPriceAndCount(price)
         footer_bar.visibility = if (mAdapter.data.size > 0) View.VISIBLE else View.GONE
@@ -392,7 +405,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             val goodsBean = subAdapter.data[position]
             goodsBean.isCheck = !goodsBean.isCheck
             subAdapter.notifyItemChanged(position)
-            if (goodsCarBean.isCheck != goodsCarBean.goods.none { !it.isCheck }) {
+            if (goodsCarBean.isCheck != goodsCarBean.goodsInfo.none { !it.isCheck }) {
                 goodsCarBean.isCheck = !goodsCarBean.isCheck
                 mAdapter.notifyItemChanged(parentPosition)
             }
@@ -404,7 +417,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
          * @param view 是否全选
          */
         fun checkSelectAll(mAdapter: MainCartAdapter<*>, view: CheckBox) {
-            val b = mAdapter.data.flatMap { if (it.itemType == TYPE_2 && Edit_Type == Edit_Type_Edit) ArrayList() else it.goods }.none { !it.isCheck }
+            val b = mAdapter.data.flatMap { if (it.itemType == TYPE_2 && Edit_Type == Edit_Type_Edit) ArrayList() else it.goodsInfo }.none { !it.isCheck }
             view.isChecked = b
         }
 
@@ -415,7 +428,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
          * @param goodsEntities 实体
          */
         fun deleteCar(context: Context, goodsEntities: ArrayList<GoodsBean>, onDeleteFinishListener: (scoreRecordBean: List<GoodsBean>) -> Unit) {
-            addOrDelete(context, "0", "", "", goodsEntities, onDeleteFinishListener)
+            addOrDelete(context, DeleteShopCar, "0", "", "", "", goodsEntities, onDeleteFinishListener)
         }
 
         /**
@@ -423,8 +436,8 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
          * type 0,删除；1，添加
          * @param goodsEntities 实体
          */
-        fun addCar(context: Context, poolId: String, goodsCount: String, goodsEntities: List<GoodsBean>) {
-            addOrDelete(context, "1", poolId, goodsCount, goodsEntities, null)
+        fun addCar(context: Context, shopId: String, poolId: String, goodsCount: String, goodsEntities: ArrayList<GoodsBean>) {
+            addOrDelete(context, AddShopCar, "1", shopId, poolId, goodsCount, goodsEntities, null)
         }
 
         /**
@@ -433,22 +446,37 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
          * @param onDeleteFinishListener    是否删除成功
          * @param goodsEntities            实体
          */
-        private fun addOrDelete(context: Context, type: String, poolId: String, goodsCount: String, goodsEntities: List<GoodsBean>, onDeleteFinishListener: ((goodsEntities: List<GoodsBean>) -> Unit)?) {
+        private fun addOrDelete(context: Context, url: String, type: String, shopId: String, poolId: String, goodsCount: String, goodsEntities: List<GoodsBean>, onDeleteFinishListener: ((goodsEntities: List<GoodsBean>) -> Unit)?) {
+//            userId	string	必填	用户id
+//            goodsId	string	必填	商品id
+//            shopId	string	必填	店铺id
+//            skuid	string	必填	规格id
+//            count	string	必填	数量(最少为1)
+//            requestCheck	string	必填	验证请求
+
+
             var goodsIds = ""
             for (goodsEntity in goodsEntities) {
-                goodsIds += (if ("0" == type) goodsEntity.goodsCarId else goodsEntity.goodsId) + ","
+                goodsIds += (if ("0" == type) goodsEntity.shopCarId else goodsEntity.goodsId) + ","
             }
             val map = HashMap<String, String>()
             map.put("userId", MyApplication.loginUserId)
-            map.put("type", type)
-            map.put("poolKey", if (TextUtils.isEmpty(poolId)) "0" else poolId)
-            map.put("goodsCount", goodsCount)
-            map.put(if ("0" == type) "goodsCarIds" else "goodsId", goodsIds.substring(0, goodsIds.length - 1))
-            map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
-            OkGo.post<NetEntity<String>>(Urls.url).tag(context)
+            if ("0" == type) {
+                map.put("shopCarId", goodsIds.substring(0, goodsIds.length - 1))
+                map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + goodsIds.substring(0, goodsIds.length - 1), salt).toLowerCase())
+            } else {
+                map.put("shopId", shopId)
+                map.put("goodsId", goodsIds.substring(0, goodsIds.length - 1))
+                map.put("skuid", if (TextUtils.isEmpty(poolId)) "0" else poolId)
+                map.put("count", goodsCount)
+                map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + goodsIds.substring(0, goodsIds.length - 1) + shopId, salt).toLowerCase())
+            }
+
+            OkGo.post<NetEntity<String>>(url).tag(context)
                     .params(map)
                     .execute(object : DialogCallback<NetEntity<String>>(context) {
                         override fun onSuccess(response: Response<NetEntity<String>>) {
+                            context.toast(response.body().message)
                             onDeleteFinishListener?.invoke(goodsEntities)
                         }
 
@@ -469,12 +497,12 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 val parentPosition = adapter.data.indexOf(temp)
 
 
-                val subIterator = temp.goods.iterator()
+                val subIterator = temp.goodsInfo.iterator()
                 while (subIterator.hasNext()) {
                     val subTemp = subIterator.next()
                     for (goodsEntity in goodsEntities) {
-                        if (subTemp.goodsCarId == goodsEntity.goodsCarId) {
-                            val position = adapter.data[parentPosition].goods.indexOf(subTemp)
+                        if (subTemp.shopCarId == goodsEntity.shopCarId) {
+                            val position = adapter.data[parentPosition].goodsInfo.indexOf(subTemp)
                             subIterator.remove()
                             if (subAdapter == null) {
                                 adapter.notifyDataSetChanged()
@@ -484,7 +512,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                         }
                     }
                 }
-                if (temp.goods.size <= 0) {
+                if (temp.goodsInfo.size <= 0) {
                     iterator.remove()
                     if (adapter.data.size <= 0) {
                         adapter.notifyDataSetChanged()

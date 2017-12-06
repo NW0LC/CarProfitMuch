@@ -55,28 +55,28 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
         val actionView = toolbar.menu.getItem(0).actionView
         (actionView as TextView).text = getString(R.string.address_edit_keep)
         actionView.setOnClickListener {
-            var name = ed_userName.text.toString().trim()
+            val name = ed_userName.text.toString().trim()
             if (TextUtils.isEmpty(name)) {
                 toast(mContext.getString(R.string.address_hint_userName))
                 return@setOnClickListener
             }
 
-            var phone = ed_userPhone.text.toString().trim()
+            val phone = ed_userPhone.text.toString().trim()
             if (TextUtils.isEmpty(phone)) {
                 toast(mContext.getString(R.string.address_hint_userPhone))
                 return@setOnClickListener
             }
-            var address = bt_address.text.toString().trim()
+            val address = bt_address.text.toString().trim()
             if (TextUtils.isEmpty(address)) {
                 toast(mContext.getString(R.string.address_hint_area))
                 return@setOnClickListener
             }
-            var detail = ed_addressDetail.text.toString().trim()
+            val detail = ed_addressDetail.text.toString().trim()
             if (TextUtils.isEmpty(detail)) {
                 toast(mContext.getString(R.string.address_hint_area_detail))
                 return@setOnClickListener
             }
-            DataCtrlClass.AddAddressData(mContext, name, phone, provinceId, cityId, districtId, detail, {
+            DataCtrlClass.addAddressData(mContext, name, phone, provinceId, cityId, districtId, detail, {
                 //执行保存操作
                 setResult(Activity.RESULT_OK)
                 onBackPressed()

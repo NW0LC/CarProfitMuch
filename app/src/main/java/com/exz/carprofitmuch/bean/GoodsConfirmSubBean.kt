@@ -5,21 +5,23 @@ package com.exz.carprofitmuch.bean
  * on 2017/11/19.
  */
 open class GoodsConfirmSubBean {
-    var goodsShopId=""
-    var couponId=""
-    var expressId=""
+    var shopId="0"
+    var couponId="0"
+    var discount=""
+    var transportMoney=""
+    var transportId="0"
 
-    var goodsShopName="鱼干店"
-    var goodsCount="2"
+    var shopName=""
+    var goodsCount=""
     var isShowExpress=false
     var isShowCoupon=false
     var sendWay=""
     var coupon=""
-    var goodsCoupons=ArrayList<CouponBean>()
-    var sendWays=ArrayList<ExpressBean>()
-    var msg=""
+    var couponInfo=ArrayList<CouponBean>()
+    var transportInfo=ArrayList<ExpressBean>()
+    var buyerMsg=""
 
     var totalPrice=0.toDouble()
-    var goods=ArrayList<GoodsBean>()
+    var goodsInfo=ArrayList<GoodsBean>()
 
 }

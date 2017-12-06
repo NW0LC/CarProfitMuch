@@ -73,7 +73,7 @@ class AddressManagerActivity : BaseActivity() {
         mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
         mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener() {
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View, position: Int) {
-                var entity=mAdapter.data.get(position)
+                val entity= mAdapter.data[position]
                 when (view.id) {
                     R.id.bt_edit -> {
                         val intent = Intent(this@AddressManagerActivity, AddressAddOrUpdateActivity::class.java)

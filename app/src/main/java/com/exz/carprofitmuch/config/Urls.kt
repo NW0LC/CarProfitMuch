@@ -148,6 +148,40 @@ object Urls{
      */
     val VirtuallyCreateOrder=url+"App/Order/Virtually/CreateOrder.aspx"
 
+    /**
+     * 加入购物车
+     */
+    val AddShopCar=url+"App/ShopCar/Reality/AddShopCar.aspx"
+
+    /**
+     * 删除购物车
+     */
+    val DeleteShopCar=url+"App/ShopCar/Reality/DeleteShopCar.aspx"
+
+    /**
+     * 我的购物车
+     */
+    val ShopCarList=url+"App/ShopCar/Reality/ShopCarList.aspx"
+
+    /**
+     * 编辑购物车中商品数量
+     */
+    val EditShopCar=url+"App/ShopCar/Reality/EditShopCar.aspx"
+
+    /**
+     * 订单确认信息页-金钱实物类
+     */
+    val MoneyOrderInfo=url+"App/Order/Reality/MoneyOrderInfo.aspx"
+    /**
+     * 可用积分-金钱实物类
+     */
+    val CanUseScore=url+"App/Order/Reality/CanUseScore.aspx"
+
+    /**
+     * 创建订单-金钱实物类（有可能是多个订单，因为一个店铺就是一个订单）
+     */
+    val CreateMoneyOrder=url+"App/Order/Reality/CreateMoneyOrder.aspx"
+
 
 
 

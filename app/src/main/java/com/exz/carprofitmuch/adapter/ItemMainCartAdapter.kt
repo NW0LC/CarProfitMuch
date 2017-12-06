@@ -22,18 +22,18 @@ class ItemMainCartAdapter<T : GoodsBean>(private var context: CartFragment, priv
         helper.addOnClickListener(R.id.minus)
         helper.addOnClickListener(R.id.count)
         helper.addOnClickListener(R.id.lay_main_cart)
-        itemView.goodsName.text = item.title
+        itemView.goodsName.text = item.goodsName
         itemView.count.text = if (TextUtils.isEmpty(item.goodsCount)) "1" else if (item.goodsCount.toDouble() == 0.toDouble()) "1" else item.goodsCount
-        itemView.goodsChooseClassify.text = item.goodsChooseClassify
-        itemView.tv_price.text = item.price
+        itemView.goodsChooseClassify.text = item.goodsType
+        itemView.tv_price.text = item.goodsPrice
         itemView.img.setImageURI(item.imgUrl)
-        itemView.radioButton.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, if (item.isCheck) R.mipmap.icon_service_pay_select_on else R.mipmap.icon_service_pay_select_off), null, null, null)
+        itemView.radioButton.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, if (item.isCheck) R.mipmap.icon_mine_open_shop_select else R.mipmap.icon_mine_open_shop_unselect), null, null, null)
         itemView.btnDelete.setOnClickListener {
             DialogUtils.delete(mContext) {
-//                CartFragment.deleteCar(mContext, arrayListOf(item)) {
-                    CartFragment.removeItem(context, parentAdapter, this, listOf(item))
+                CartFragment.deleteCar(mContext, arrayListOf(item)) {
+                    CartFragment.removeItem(context, parentAdapter, this, it)
                     CartFragment.checkSelectAll(parentAdapter, context.select_all)
-//                }
+                }
             }
         }
     }

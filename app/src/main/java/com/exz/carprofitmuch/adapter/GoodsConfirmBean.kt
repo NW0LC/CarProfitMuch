@@ -9,6 +9,6 @@ import com.exz.carprofitmuch.bean.GoodsConfirmSubBean
  */
 class GoodsConfirmBean{
     var address:AddressBean?=null
-    var score:GoodsConfirmScoreBean?=null
-    var goodsConfirmSubs=ArrayList<GoodsConfirmSubBean>()
+    var scoreInfo:GoodsConfirmScoreBean?=null
+    var shopInfo=ArrayList<GoodsConfirmSubBean>()
 }

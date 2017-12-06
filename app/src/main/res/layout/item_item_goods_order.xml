@@ -94,25 +94,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         tool:background="@color/MaterialGrey200" />
 
-    <com.flyco.roundview.RoundTextView
-        android:id="@+id/bt_refund"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:minWidth="@dimen/margin_60"
-        android:paddingBottom="@dimen/margin_5"
-        android:paddingEnd="@dimen/margin_15"
-        android:paddingStart="@dimen/margin_15"
-        android:paddingTop="@dimen/margin_5"
-        android:text="@string/goods_order_refund"
-        android:textColor="@color/MaterialGrey700"
-        android:textSize="@dimen/sp_12"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img"
-        app:rv_cornerRadius="@dimen/margin_3"
-        app:rv_strokeColor="@color/MaterialGrey700"
-        app:rv_strokeWidth="1dp" />
 </android.support.constraint.ConstraintLayout>

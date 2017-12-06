@@ -14,10 +14,9 @@ class ItemGoodsOrderAdapter<T :GoodsBean>: BaseQuickAdapter<T, BaseViewHolder>(R
         itemView.img.setImageURI(item.imgUrl)
         itemView.tv_goodsName.text = item.goodsName
         itemView.img.setImageURI(item.imgUrl)
-        helper.addOnClickListener(R.id.bt_refund)
         itemView.tv_goodsType.text=String.format(mContext.getString(R.string.goods_order_goodsType),item.goodsType)
         itemView.tv_goodsCount.text=String.format(mContext.getString(R.string.goods_order_goodsCount),item.goodsCount)
-        itemView.tv_goodsPrice.text=String.format(mContext.getString(R.string.CNY)+"%s",item.price)
+        itemView.tv_goodsPrice.text=String.format(mContext.getString(R.string.CNY)+"%s",item.goodsPrice)
     }
 }
 

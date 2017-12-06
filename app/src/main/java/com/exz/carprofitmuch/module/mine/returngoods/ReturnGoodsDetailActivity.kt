@@ -11,14 +11,12 @@ import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ItemOrderCommentImageAdapter
 import com.exz.carprofitmuch.module.mine.InputLogisticsActivity
-import com.exz.carprofitmuch.module.mine.RefundActivity
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.DialogUtils
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.szw.framelibrary.view.preview.PreviewActivity
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_retunr_goods_detail.*
-import kotlinx.android.synthetic.main.item_item_goods_order.*
 import kotlinx.android.synthetic.main.lay_goods_order_bt.*
 import kotlinx.android.synthetic.main.lay_return_goods_num.*
 
@@ -137,15 +135,10 @@ class ReturnGoodsDetailActivity : BaseActivity(), View.OnClickListener {
         tv_left.setOnClickListener(this)
         tv_mid.setOnClickListener(this)
         tv_right.setOnClickListener(this)
-        bt_refund.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.bt_refund -> {//申请退款
-                startActivity(Intent(mContext, RefundActivity::class.java))
-            }
-
 
             R.id.tv_left -> {//联系卖家
                 DialogUtils.Call(this, "110")

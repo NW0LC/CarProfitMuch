@@ -38,7 +38,6 @@ class ServiceConfirmActivity : BaseActivity(), View.OnClickListener, CompoundBut
     private var payMark = "1"
 
 
-
     private var data: ServiceConfirmBean? = null
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.service_confirm_name)
@@ -77,23 +76,23 @@ class ServiceConfirmActivity : BaseActivity(), View.OnClickListener, CompoundBut
 
     private fun getData(position: Long) {
         DataCtrlClass.serviceConfirmData(this, shopId, goodsId, position, payMark) { data, index ->
-            if (data!=null)
-                countIndex=data.shopInfo?.goodsInfo?.goodsCount?.toLong()?:position
+            if (data != null)
+                countIndex = data.shopInfo?.goodsInfo?.goodsCount?.toLong() ?: position
 
             count.text = String.format("%s", index)
             this.data = data
 
-            tv_service_goodsName.text=data?.shopInfo?.goodsInfo?.goodsName
-            tv_service_goodsPrice.text=String.format(if (payMark == "1")  "%s${getString(R.string.SCORE)}" else "${getString(R.string.CNY)}%s" , priceFormat.format(data?.shopInfo?.goodsInfo?.goodsPrice?.toDouble()?:"0"))
+            tv_service_goodsName.text = data?.shopInfo?.goodsInfo?.goodsName
+            tv_service_goodsPrice.text = String.format(if (payMark == "1") "%s${getString(R.string.SCORE)}" else "${getString(R.string.CNY)}%s", priceFormat.format(data?.shopInfo?.goodsInfo?.goodsPrice?.toDouble() ?: "0"))
 
-            accumulatePoints.visibility = if (data?.scoreInfo != null) View.VISIBLE else View.GONE
+            accumulatePoints.visibility = if (data?.scoreInfo != null && data.scoreInfo?.money?.toDoubleOrNull() != 0.toDouble()) View.VISIBLE else View.GONE
             accumulatePoints.text = data?.scoreInfo?.toString(this)
             //默认优惠券选择第一个
 
-            if (data?.couponInfo!=null&&data.couponInfo.size>0){
+            if (data?.couponInfo != null && data.couponInfo.size > 0) {
                 data.couponInfo.firstOrNull()?.isCheck = true
-                couponId=data.couponInfo.firstOrNull()?.couponId?:""
-                couponPop.couponData=(data.couponInfo)
+                couponId = data.couponInfo.firstOrNull()?.couponId ?: ""
+                couponPop.couponData = (data.couponInfo)
             }
             initData(data)
         }
@@ -110,12 +109,12 @@ class ServiceConfirmActivity : BaseActivity(), View.OnClickListener, CompoundBut
 
     private fun initPop() {
         couponPop = GoodsConfirmCouponPop(this) {
-            couponId=it
-            discount= data?.couponInfo?.first { couponBean-> couponBean.isCheck }?.discount?:"0"
+            couponId = it
+            discount = data?.couponInfo?.first { couponBean -> couponBean.isCheck }?.discount ?: "0"
         }
         val popDismiss: BasePopupWindow.OnDismissListener = object : BasePopupWindow.OnDismissListener() {
             override fun onDismiss() {
-                tv_coupon.text=data?.couponInfo?.first { it.isCheck }.toString()
+                tv_coupon.text = data?.couponInfo?.first { it.isCheck }.toString()
             }
         }
         couponPop.onDismissListener = popDismiss
@@ -127,10 +126,10 @@ class ServiceConfirmActivity : BaseActivity(), View.OnClickListener, CompoundBut
      */
     private fun initData(data: ServiceConfirmBean?): String {
         //总价格
-        var totalPrice = (data?.shopInfo?.goodsInfo?.goodsPrice?.toDouble() ?: 0.toDouble())* (data?.shopInfo?.goodsInfo?.goodsCount?.toDouble()?:0.toDouble())
+        var totalPrice = (data?.shopInfo?.goodsInfo?.goodsPrice?.toDouble() ?: 0.toDouble()) * (data?.shopInfo?.goodsInfo?.goodsCount?.toDouble() ?: 0.toDouble())
         //除去优惠券金额
-        val couponPrice = (data?.couponInfo?.firstOrNull{ it.isCheck }?.discount?.toDoubleOrNull())?:0.toDouble()
-        tv_coupon.text = data?.couponInfo?.firstOrNull{ it.isCheck }.toString()
+        val couponPrice = (data?.couponInfo?.firstOrNull { it.isCheck }?.discount?.toDoubleOrNull()) ?: 0.toDouble()
+        tv_coupon.text = data?.couponInfo?.firstOrNull { it.isCheck }.toString()
         //是否有可选优惠券
         bt_coupon.visibility = if (data?.couponInfo?.isNotEmpty() == true) View.VISIBLE else View.GONE
         totalPrice -= couponPrice
@@ -139,18 +138,22 @@ class ServiceConfirmActivity : BaseActivity(), View.OnClickListener, CompoundBut
         totalPrice = if (totalPrice < 0) 0.toDouble() else totalPrice
 
         //小计金额
-        tv_service_totalPrice.text = String.format(if (payMark == "1")  "%s${getString(R.string.SCORE)}" else "${getString(R.string.CNY)}%s" , priceFormat.format(totalPrice))
+        tv_service_totalPrice.text = String.format(if (payMark == "1") "%s${getString(R.string.SCORE)}" else "${getString(R.string.CNY)}%s", priceFormat.format(totalPrice))
 
         //减去积分对应的金额
         totalPrice -= if (data?.scoreInfo?.isSelect == true) (data.scoreInfo?.money ?: "0").toDouble() else 0.toDouble()
-        data?.scores=if (data?.scoreInfo?.isSelect == true) (data.scoreInfo?.money ?: "0").toDouble() else 0.toDouble()
+        data?.scores = if (data?.scoreInfo?.isSelect == true) (data.scoreInfo?.money ?: "0").toDouble() else 0.toDouble()
 
         //避免负数
         totalPrice = if (totalPrice < 0) 0.toDouble() else totalPrice
 
         //给总价格赋值
-        tv_totalPrice.text = String.format(if (payMark == "1")  "%s${getString(R.string.SCORE)}" else "${getString(R.string.CNY)}%s" , priceFormat.format(totalPrice))
-        data?.totalPrice=totalPrice
+        tv_totalPrice.text = String.format(if (payMark == "1") "%s${getString(R.string.SCORE)}" else "${getString(R.string.CNY)}%s", priceFormat.format(totalPrice))
+        if (payMark == "1") {
+            data?.scores = totalPrice
+            data?.totalPrice = 0.toDouble()
+        } else
+            data?.totalPrice = totalPrice
 
         return priceFormat.format(totalPrice)
     }
@@ -171,18 +174,18 @@ class ServiceConfirmActivity : BaseActivity(), View.OnClickListener, CompoundBut
 //                ordersMoney", param[5])
 //                couponId", param[6])
 //                discount", param[7])
-                DataCtrlClass.createServiceOrder(this,shopId,goodsId,countIndex.toString(),payMark,data?.scores.toString(),data?.totalPrice.toString(),couponId,discount){
-                    if (it!=null) {
-                        if (payMark=="1") {
+                DataCtrlClass.createServiceOrder(this, shopId, goodsId, countIndex.toString(), payMark, data?.scores.toString(), data?.totalPrice.toString(), couponId, discount) {
+                    if (it != null) {
+                        if (payMark == "1") {
                             startActivity(Intent(this, GoodsOrderActivity::class.java))
-                        }else{
+                        } else {
                             val intent = Intent(this, PayMethodsActivity::class.java)
                             intent.putExtra(Pay_Intent_OrderId, it.orderId)
                             intent.putExtra(Pay_Intent_Finish_Type, Intent_Finish_Type_1)
                             startActivity(intent)
                         }
+                        finish()
                     }
-                    finish()
                 }
 
 

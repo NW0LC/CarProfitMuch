@@ -22,12 +22,12 @@ class GoodsConfirmCouponPop(context: Context,listener:(couponId:String)->Unit) :
     var mAdapter: GoodsConfirmPopAdapter<CouponBean> = GoodsConfirmPopAdapter()
     var data: GoodsConfirmSubBean? = null
         set(value) {
-            if (value?.goodsCoupons?.last()?.toString()!=context.getString(R.string.goods_confirm_coupon_item)) {
-                value?.goodsCoupons?.add(CouponBean())
+            if (value?.couponInfo?.last()?.toString()!=context.getString(R.string.goods_confirm_coupon_item)) {
+                value?.couponInfo?.add(CouponBean())
             }
         field=value
 
-        mAdapter.setNewData(value?.goodsCoupons)
+        mAdapter.setNewData(value?.couponInfo)
     }
     var couponData: ArrayList<CouponBean>? = null
         set(value) {
@@ -51,6 +51,7 @@ class GoodsConfirmCouponPop(context: Context,listener:(couponId:String)->Unit) :
                 }
                 mAdapter.data[position].isCheck=true
                 data?.couponId=mAdapter.data[position].couponId
+                data?.discount=mAdapter.data[position].discount
                 listener.invoke(mAdapter.data[position].couponId)
                 mAdapter.notifyDataSetChanged()
                 dismiss()
