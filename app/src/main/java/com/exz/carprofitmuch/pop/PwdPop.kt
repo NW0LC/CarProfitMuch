@@ -8,7 +8,6 @@ import android.view.animation.TranslateAnimation
 import com.blankj.utilcode.util.ScreenUtils
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.module.main.pay.PwdGetCodeActivity
-import com.exz.carprofitmuch.module.main.pay.PwdSetActivity
 import com.szw.framelibrary.view.pwd.widget.OnPasswordInputFinish
 import com.szw.framelibrary.view.pwd.widget.PasswordPopView
 import razerdp.basepopup.BasePopupWindow
@@ -24,7 +23,6 @@ class PwdPop(context: Activity,inputFinish:()->OnPasswordInputFinish) : BasePopu
         mPasswordView.virtualKeyboardView.layoutBack.visibility = View.GONE
         mPasswordView.viewForgetPwd.setOnClickListener {
             dismiss()
-            PwdSetActivity.IsSetPwd=false
             this@PwdPop.context.startActivity(Intent(this@PwdPop.context, PwdGetCodeActivity::class.java))
         }
         mPasswordView.imgCancel.setOnClickListener { dismiss() }

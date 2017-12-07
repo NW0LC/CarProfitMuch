@@ -19,7 +19,6 @@ import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.fragment_comment_list.*
-import java.util.*
 
 /**
  * Created by 史忠文
@@ -40,10 +39,7 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
         initToolbar()
         SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
-    }
-
-    override fun initEvent() {
-
+        onRefresh(refreshLayout)
     }
     fun initToolbar(): Boolean {
         //状态栏透明和间距处理
@@ -53,7 +49,6 @@ class GoodsCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnCli
         SZWUtils.setMargin(header, 55f)
         return false
     }
-    private val arrayList2= ArrayList<CommentBean>()
     private fun initRecycler() {
         mAdapter = GoodsCommentAdapter()
         mAdapter.bindToRecyclerView(mRecyclerView)

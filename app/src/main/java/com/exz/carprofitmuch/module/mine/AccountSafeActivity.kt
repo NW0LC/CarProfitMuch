@@ -59,11 +59,9 @@ class AccountSafeActivity : BaseActivity(), View.OnClickListener {
         DataCtrlClass.checkHavePayPwd(this){
             when (it) {
                 "0" -> {
-                    PwdSetActivity.IsSetPwd = true
                     bt_pay_set_pwd.text = getString(R.string.account_pwd_set)
                 }
                 "1" -> {
-                    PwdSetActivity.IsSetPwd = false
                     bt_pay_set_pwd.text = getString(R.string.account_pwd_forget)
                 }
                 else -> {

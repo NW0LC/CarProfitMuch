@@ -383,6 +383,12 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             buyNow.text = String.format(getString(R.string.cart_confirm), selectCount)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode==100){
+            onRefresh(refreshLayout)
+        }
+    }
     override fun onDetach() {
         Edit_Type = "-1"
         super.onDetach()

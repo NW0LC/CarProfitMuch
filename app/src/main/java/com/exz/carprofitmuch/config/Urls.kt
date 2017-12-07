@@ -181,6 +181,46 @@ object Urls{
      * 创建订单-金钱实物类（有可能是多个订单，因为一个店铺就是一个订单）
      */
     val CreateMoneyOrder=url+"App/Order/Reality/CreateMoneyOrder.aspx"
+    /**
+     * 订单支付信息
+     */
+    val PayInfo=url+"App/Order/PayInfo.aspx"
+    /**
+     * 是否设置了支付密码
+     */
+    val IsSetPayPwd=url+"App/PayPwd/IsSetPayPwd.aspx"
+    /**
+     * 【订单支付】 支付宝签名
+     */
+    val AliPay=url+"App/Order/AliPay/Signature.aspx"
+    /**
+     * 【订单支付】 微信支付签名
+     */
+    val WeChatPay=url+"App/Order/WeChatPay/Signature.aspx"
+    /**
+     * 【订单支付】 支付状态 (第三方支付服务器端验证）
+     */
+    val PayState=url+"App/Order/PayState.aspx"
+    /**
+     * 【订单支付】 余额支付
+     */
+    val BalancePay=url+"App/Order/BalancePay.aspx"
+    /**
+     * 设置支付密码的验证码验证
+     */
+    val PayPwdCodeVerify=url+"App/PayPwd/PayPwdCodeVerify.aspx"
+    /**
+     * 设置支付密码
+     */
+    val SetPayPwd=url+"App/PayPwd/SetPayPwd.aspx"
+    /**
+     * 验证支付密码（修改支付密码前调用）
+     */
+    val PayPwdVerify=url+"App/PayPwd/PayPwdVerify.aspx"
+    /**
+     * 修改支付密码
+     */
+    val ModifyPayPwd=url+"App/PayPwd/ModifyPayPwd.aspx"
 
 
 
@@ -483,6 +523,10 @@ object Urls{
      * 新增收货地址（当用户添加地址时，后台判断该用户是否有其他地址，若没有，将该地址设为默认地址）
      */
     var AddAddress = url + "App/Address/Add.aspx"
+    /*
+     * 新增收货地址（当用户添加地址时，后台判断该用户是否有其他地址，若没有，将该地址设为默认地址）
+     */
+    var ModifyAddress = url + "App/Address/Modify.aspx"
 
 
 

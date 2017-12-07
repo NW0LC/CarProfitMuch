@@ -104,7 +104,9 @@ class ServiceDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickLis
 
         mServiceRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                startActivity(Intent(this@ServiceDetailActivity, ServiceDetailActivity::class.java))
+                val intent = Intent(this@ServiceDetailActivity, ServiceDetailActivity::class.java)
+                intent.putExtra(Service_Intent_ServiceId,mServiceShopGoodsAdapter.data[position].goodsId)
+                startActivity(intent)
             }
         })
     }

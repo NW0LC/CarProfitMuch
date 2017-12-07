@@ -14,6 +14,8 @@ import com.exz.carprofitmuch.bean.AddressBean
 import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
@@ -23,11 +25,16 @@ import kotlinx.android.synthetic.main.activity_address_manager.*
  * Created by 史忠文
  * on 2017/10/17.
  */
-class AddressManagerActivity : BaseActivity() {
+class AddressManagerActivity : BaseActivity() ,OnRefreshListener{
+    override fun onRefresh(refreshLayout: RefreshLayout?) {
+        initData()
+    }
 
     private lateinit var mAdapter: AddressManagerAdapter<AddressBean>
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.address_manager_name)
+        mTitle.isFocusable=true
+        mTitle.requestFocus()
         //状态栏透明和间距处理
         StatusBarUtil.immersive(this)
         StatusBarUtil.setPaddingSmart(this, toolbar)
@@ -41,6 +48,7 @@ class AddressManagerActivity : BaseActivity() {
     override fun setInflateId(): Int = R.layout.activity_address_manager
 
     override fun init() {
+        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
         initEvent()
         initData()
@@ -51,7 +59,6 @@ class AddressManagerActivity : BaseActivity() {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 mAdapter.setNewData(it)
-                mAdapter.loadMoreEnd()
             }
         }
     }
@@ -82,12 +89,12 @@ class AddressManagerActivity : BaseActivity() {
                         startActivityForResult(intent, 100)
                     }
                     R.id.bt_delete -> {
-                        DataCtrlClass.EditAddressData(mContext, entity.id, Urls.AddressDelete) {
+                        DataCtrlClass.editAddressState(mContext, entity.addressId, Urls.AddressDelete) {
                                 initData()
                         }
                     }
                     R.id.radioButton -> {
-                        DataCtrlClass.EditAddressData(mContext, entity.id, Urls.AddressDefault) {
+                        DataCtrlClass.editAddressState(mContext, entity.addressId, Urls.AddressDefault) {
                                 initData()
 
                         }

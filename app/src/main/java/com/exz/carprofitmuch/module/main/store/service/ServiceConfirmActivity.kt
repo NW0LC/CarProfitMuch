@@ -180,7 +180,7 @@ class ServiceConfirmActivity : BaseActivity(), View.OnClickListener, CompoundBut
                             startActivity(Intent(this, GoodsOrderActivity::class.java))
                         } else {
                             val intent = Intent(this, PayMethodsActivity::class.java)
-                            intent.putExtra(Pay_Intent_OrderId, it.orderId)
+                            intent.putExtra(Pay_Intent_OrderId, it)
                             intent.putExtra(Pay_Intent_Finish_Type, Intent_Finish_Type_1)
                             startActivity(intent)
                         }

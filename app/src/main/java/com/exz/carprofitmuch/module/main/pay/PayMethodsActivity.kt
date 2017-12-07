@@ -5,11 +5,20 @@ import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import com.blankj.utilcode.util.EncryptUtils
+import com.blankj.utilcode.util.TimeUtils
+import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.CheckPayBean
-import com.exz.carprofitmuch.bean.MyAccountBean
-import com.exz.carprofitmuch.module.main.store.service.ServicePayResultActivity
+import com.exz.carprofitmuch.bean.PayInfoBean
+import com.exz.carprofitmuch.config.Urls.AliPay
+import com.exz.carprofitmuch.config.Urls.BalancePay
+import com.exz.carprofitmuch.config.Urls.IsSetPayPwd
+import com.exz.carprofitmuch.config.Urls.PayInfo
+import com.exz.carprofitmuch.config.Urls.PayState
+import com.exz.carprofitmuch.config.Urls.WeChatPay
 import com.exz.carprofitmuch.module.mine.CardPackageDetailActivity
+import com.exz.carprofitmuch.module.mine.CardPackageListActivity
+import com.exz.carprofitmuch.module.mine.goodsorder.GoodsOrderActivity
 import com.exz.carprofitmuch.module.mine.goodsorder.GoodsOrderDetailActivity
 import com.exz.carprofitmuch.pop.PwdPop
 import com.exz.carprofitmuch.utils.DialogUtils
@@ -73,16 +82,16 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
         pwdPop.setPrice(String.format("${getString(R.string.CNY)}%s", OrderPrice))
         radioGroup.check(radioGroup.getChildAt(0).id)
         bt_confirm.setOnClickListener(this)
+        orderInfo()
         myBalance()
     }
 
     override fun onClick(p0: View?) {
-        startActivity(Intent(this, ServicePayResultActivity::class.java))
         if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(0).id)
-            aliPay("", "rechargeId", "","")
-        else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(2).id)
-            weChatPay("", "rechargeId", "","")
-        else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(4).id) {
+            aliPay(AliPay, "orderId", orderId,EncryptUtils.encryptMD5ToString(MyApplication.loginUserId , MyApplication.salt).toLowerCase())
+        else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(1).id)
+            weChatPay(WeChatPay, "orderId", orderId,EncryptUtils.encryptMD5ToString(MyApplication.loginUserId , MyApplication.salt).toLowerCase())
+        else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(2).id) {
             if (canBalancePay)
                 checkHavePayPwd()
             else
@@ -91,46 +100,62 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
     }
 
     /**
-     * 我的余额
+     * 订单支付信息
      */
-    private fun myBalance() {
+    private fun orderInfo() {
+//        userId	string	必填	用户id
+//        orderId	string	必填	订单id，多个订单时用英文逗号拼接
+//        requestCheck	string	必填	验证请求
+
         val map = HashMap<String, String>()
         map.put("userId", MyApplication.loginUserId)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId , MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<MyAccountBean>>("").tag(this)
+        map.put("orderId", orderId)
+        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId +orderId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<PayInfoBean>>(PayInfo).tag(this)
                 .params(map)
-                .execute(object : DialogCallback<NetEntity<MyAccountBean>>(this) {
+                .execute(object : DialogCallback<NetEntity<PayInfoBean>>(this) {
 
-                    override fun onSuccess(response: Response<NetEntity<MyAccountBean>>) {
-                        (radioGroup.getChildAt(4) as RadioButton).text = String.format("%s(￥%s)", resources.getString(R.string.pay_balance), response.body().info?.price)//我的余额
-                        canBalancePay = try {
-                            (response.body().info?.price?.toDouble()?:0.toDouble()) >= OrderPrice.toDouble()
-                        } catch (e: Exception) {
-                            false
-                        }
-
+                    override fun onSuccess(response: Response<NetEntity<PayInfoBean>>) {
+                        tv_orderNum.text=String.format(getString(R.string.goods_order_orderNum),response.body().data?.orderNum)
+                        tv_totalPrice.text=String.format(getString(R.string.CNY)+"%s",response.body().data?.payMoney)
                     }
                 })
 
+    }
+    /**
+     * 我的余额
+     */
+    private fun myBalance() {
+        DataCtrlClass.accountBalance(this){
+            (radioGroup.getChildAt(2) as RadioButton).text = String.format("%s(￥%s)", resources.getString(R.string.pay_balance), it?.balance)//我的余额
+            canBalancePay = try {
+                (it?.balance?.toDouble()?:0.toDouble()) >= OrderPrice.toDouble()
+            } catch (e: Exception) {
+                false
+            }
+        }
     }
 
     /**
      * 是否有支付密码
      */
     private fun checkHavePayPwd() {
-        //        buyCardRecordId	string	必填	会员购买卡种记录id
-        //        requestCheck	string	必填	验证请求
+//        userId	string	必填	用户id
+//                timestamp	string	必填	时间戳
+//                requestCheck	string	必填	验证请求
 
         val map = HashMap<String, String>()
         map.put("userId", MyApplication.loginUserId)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>("").tag(this)
+        val nowMills = TimeUtils.getNowMills().toString()
+        map.put("timestamp", nowMills)
+        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+nowMills, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(IsSetPayPwd).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<String>>(this) {
 
                     override fun onSuccess(response: Response<NetEntity<String>>) {
                         //                                "data":"能否支付，0未设置 1已设置
-                        if ("0" == response.body().info) {
+                        if ("0" == response.body().data) {
                             DialogUtils.payNoPwd(this@PayMethodsActivity) {
                                 startActivity(Intent(mContext, PwdGetCodeActivity::class.java))
                             }
@@ -146,18 +171,18 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
      * 余额支付
      */
     private fun balancePay(payPwd: String) {
-        //     userId		string		必填		用户Id
-//        rechargeId		string		必填		订单编号
-//                paymentPassword		string		必填		支付密码
-//                requestCheck		string		必填		验证请求
+//        userId	string	必填	用户id
+//                orderId	string	必填	订单id
+//                payPwd	string	必填	支付密码
+//                requestCheck	string	必填	验证请求
 
 
         val map = HashMap<String, String>()
         map.put("userId", MyApplication.loginUserId)
-        map.put("paymentPassword", payPwd)
-        map.put("rechargeId", orderId)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId, MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<CheckPayBean>>("").tag(this)
+        map.put("payPwd", payPwd)
+        map.put("orderId", orderId)
+        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId+payPwd, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<CheckPayBean>>(BalancePay).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<CheckPayBean>>(this) {
 
@@ -194,21 +219,20 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
         }
         val map = HashMap<String, String>()
         map.put("userId", MyApplication.loginUserId)
-        map.put("rechargeId", rechargeId)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + rechargeId, MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<CheckPayBean>>("").tag(this)
+        map.put("orderId", orderId)
+        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<CheckPayBean>>(PayState).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<CheckPayBean>>(this) {
 
                     override fun onSuccess(response: Response<NetEntity<CheckPayBean>>) {
-                        if (response.body().info?.payState == "3") {
-                            payPrice = response.body().info?.payMoney ?: ""
-                            paySuccessDate = response.body().info?.paySuccessDate ?: ""
+                        if (response.body().data?.payState == "1") {
+                            payPrice = response.body().data?.payMoney ?: ""
+                            paySuccessDate = response.body().data?.paySuccessDate ?: ""
                             val intent= if (Pay_Intent_Finish_Type== Intent_Finish_Type_1) {
-
-                                Intent(mContext, CardPackageDetailActivity::class.java)
+                                Intent(mContext, CardPackageListActivity::class.java)
                             }else
-                                Intent(mContext, GoodsOrderDetailActivity::class.java)
+                                Intent(mContext, GoodsOrderActivity::class.java)
                             startActivity(intent)
                             finish()
                         } else {

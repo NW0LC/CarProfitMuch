@@ -6,12 +6,14 @@ import android.view.View
 import android.widget.Toast
 import com.blankj.utilcode.util.EncryptUtils
 import com.exz.carprofitmuch.R
+import com.exz.carprofitmuch.config.Urls
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.app.MyApplication.Companion.salt
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.config.Constants
+import com.szw.framelibrary.config.PreferencesService
 import com.szw.framelibrary.utils.net.NetEntity
 import com.szw.framelibrary.utils.net.callback.DialogCallback
 import com.szw.framelibrary.view.pwd.widget.OnPasswordInputFinish
@@ -28,9 +30,9 @@ import org.jetbrains.anko.toast
 class PwdSetActivity : BaseActivity(), OnPasswordInputFinish {
     var type = ""
     var phoneNum = ""
-    private var oldPwd: String=""
-    private var newPwd: String=""
-    private var  url: String=""
+    private var oldPwd: String = ""
+    private var newPwd: String = ""
+    private var url: String = ""
     lateinit var mPasswordView: PasswordView
     override fun initToolbar(): Boolean {
         toolbar.setContentInsetsAbsolute(0, 0)
@@ -43,7 +45,7 @@ class PwdSetActivity : BaseActivity(), OnPasswordInputFinish {
     override fun setInflateId(): Int = R.layout.pwd_activity_set
 
     override fun init() {
-        phoneNum="" //Todo  电话
+        phoneNum = PreferencesService.getAccountKey(this) ?: ""
         type = if (TextUtils.isEmpty(type)) intent.getStringExtra(PwdSetActivity_Type) else type
         mPasswordView = findViewById(R.id.mPasswordView)
         mPasswordView.virtualKeyboardView.layoutBack.visibility = View.GONE
@@ -53,14 +55,16 @@ class PwdSetActivity : BaseActivity(), OnPasswordInputFinish {
 
     private fun passReset() {
         when (type) {
-            PwdSetActivity_Type_1 -> {info.text = "输入支付密码，以验证身份"
-//                                url= Urls.CorrectPaymentPassword  Todo  地址
+            PwdSetActivity_Type_1 -> {
+                info.text = "输入支付密码，以验证身份"
+                url = Urls.PayPwdVerify
             }
-            PwdSetActivity_Type_2 -> {info.text = "输入新密码"
+            PwdSetActivity_Type_2 -> {
+                info.text = "输入新密码"
             }
-            PwdSetActivity_Type_3 -> {info.text = "重新输入新密码"
-                //                url=Urls.ModifyPayPwd;
-//                url=Urls.ModifyPaymentPassword  Todo  地址
+            PwdSetActivity_Type_3 -> {
+                info.text = "重新输入新密码"
+                url = Urls.ModifyPayPwd
             }
         }
 
@@ -75,8 +79,7 @@ class PwdSetActivity : BaseActivity(), OnPasswordInputFinish {
                 type = PwdSetActivity_Type_3
                 passReset()
             } else {
-                //                    url=Urls.SetPayPwd;
-//                url=Urls.ForgetPaymentPassword  Todo  地址
+                url = Urls.SetPayPwd
                 setPayPwd(password, "", "")
             }
             PwdSetActivity_Type_3 -> if (newPwd == password) {
@@ -100,20 +103,18 @@ class PwdSetActivity : BaseActivity(), OnPasswordInputFinish {
         if (!TextUtils.isEmpty(payPwd)) {
             if (TextUtils.isEmpty(intent.getStringExtra(PwdSetActivity_Security_Code))) {
                 //验证身份
-                map.put("password", payPwd)
-                map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+                map.put("payPwd", payPwd)
+                map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + payPwd, salt).toLowerCase())
             } else {//设置密码
-                map.put("mobile", phoneNum)
-                map.put("password", payPwd)
-                map.put("attribute", if (IsSetPwd)"3" else "2")
-                map.put("verifyCode", intent.getStringExtra(PwdSetActivity_Security_Code))
-                map.put("requestCheck", EncryptUtils.encryptMD5ToString(phoneNum , salt).toLowerCase())
+                map.put("payPwd", payPwd)
+                map.put("code", intent.getStringExtra(PwdSetActivity_Security_Code))
+                map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId  + intent.getStringExtra(PwdSetActivity_Security_Code)+ payPwd, salt).toLowerCase())
             }
 
         } else {//重置密码
-            map.put("password", oldPayPwd)
-            map.put("newPassword", newPayPwd)
-            map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+oldPayPwd, salt).toLowerCase())
+            map.put("oldPayPwd", oldPayPwd)
+            map.put("newPayPwd", newPayPwd)
+            map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + oldPayPwd + newPayPwd, salt).toLowerCase())
         }
         OkGo.post<NetEntity<String>>(url).tag(this)
                 .params(map)
@@ -122,7 +123,7 @@ class PwdSetActivity : BaseActivity(), OnPasswordInputFinish {
                     override fun onSuccess(response: Response<NetEntity<String>>) {
                         when (type) {
                             PwdSetActivity_Type_1 -> {
-                                if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                                if (response.body().getCode() == Constants.NetCode.SUCCESS&&response.body().data=="1") {
                                     oldPwd = payPwd
                                     type = PwdSetActivity_Type_2
                                 } else {
@@ -149,7 +150,6 @@ class PwdSetActivity : BaseActivity(), OnPasswordInputFinish {
     }
 
     companion object {
-        var IsSetPwd=false
         val PwdSetActivity_Type = "PwdSetActivity_Type"
         val PwdSetActivity_Type_1 = "PwdSetActivity_Type_1"//原密码
         val PwdSetActivity_Type_2 = "PwdSetActivity_Type_2"//新密码

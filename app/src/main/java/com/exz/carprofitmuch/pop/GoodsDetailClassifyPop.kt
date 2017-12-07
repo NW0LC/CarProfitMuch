@@ -12,15 +12,15 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsDetailClassifyAdapter
 import com.exz.carprofitmuch.adapter.GoodsDetailClassifyAdapter.Companion.GoodsDetailClassify
-import com.exz.carprofitmuch.bean.GoodsBean
-import com.exz.carprofitmuch.bean.GoodsClassifyBean
-import com.exz.carprofitmuch.bean.GoodsSubClassifyBean
-import com.exz.carprofitmuch.bean.SpecBean
+import com.exz.carprofitmuch.bean.*
 import com.exz.carprofitmuch.module.CartFragment
+import com.exz.carprofitmuch.module.main.store.normal.GoodsConfirmActivity
+import com.exz.carprofitmuch.module.main.store.normal.GoodsConfirmActivity.Companion.GoodsConfirm_Intent_shopInfo
 import com.exz.carprofitmuch.module.main.store.score.ScoreConfirmActivity
 import com.exz.carprofitmuch.module.main.store.score.ScoreConfirmActivity.Companion.ScoreConfirm_Intent_Ids
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.exz.carprofitmuch.utils.RecycleViewDivider
+import com.google.gson.Gson
 import com.hwangjr.rxbus.RxBus
 import com.hwangjr.rxbus.annotation.Subscribe
 import com.hwangjr.rxbus.annotation.Tag
@@ -129,10 +129,10 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
                     inflate.type.text = chooseStr
                     listener.invoke(chooseStr)
                     for (goodsClassifyPoolBean in data?.rankComb?:ArrayList()) {
-                        val poolArray = goodsClassifyPoolBean.skuid.split(",").toTypedArray()
+                        val poolArray = goodsClassifyPoolBean.rankCombId.split(",").toTypedArray()
                         Arrays.sort(poolArray)
                         if (Arrays.equals(selectArray, poolArray)) {
-                            poolId = goodsClassifyPoolBean.rankCombId
+                            poolId = goodsClassifyPoolBean.skuid
                             image = goodsClassifyPoolBean.image
                             inflate.img.setImageURI(image)
                             inflate.price.text = String.format("${context.getString(R.string.CNY)}%s",goodsClassifyPoolBean.price)
@@ -211,6 +211,7 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
         }
     }
 
+    var canToast=true
     override fun onClick(p0: View) {
         when (p0.id) {
             R.id.minus -> {
@@ -219,7 +220,13 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
             }
             R.id.add -> {
                 if (countIndex + 1 > maxCount) {
-                    context.toast(context.getString(R.string.classify_pop_toast_outOfDex))
+                    if (canToast)
+                    Thread{
+                        context.toast(context.getString(R.string.classify_pop_toast_outOfDex))
+                        canToast=false
+                        Thread.sleep(500)
+                        canToast=true
+                    }.start()
                     return
                 }
                 countIndex += 1
@@ -265,13 +272,19 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
 
                             }
                         }
-
-
-                        //                    Intent intent = new Intent(context, BillingInfoActivity.class);
-                        //                    intent.putExtra(Intent_GoodsCar_GoodsId, data.getGoodsId());
-                        //                    intent.putExtra(Intent_GoodsCar_GoodsCount, countIndex + "");
-                        //                    intent.putExtra(Intent_GoodsCar_PoolId, poolId);
-                        //                    context.startActivity(intent);
+                        val intent = Intent(context, GoodsConfirmActivity::class.java)
+                        val list =ArrayList<GoodsCarBean>()
+                        val goodsCarBeans= GoodsCarBean()
+                        goodsCarBeans.shopId=goodsBean?.shopId?:"0"
+                        val bean = GoodsBean()
+                        bean.shopCarId="0"
+                        bean.goodsId=goodsBean?.goodsId?:"0"
+                        bean.skuid=poolId
+                        bean.goodsCount=countIndex.toString()
+                        goodsCarBeans.goodsInfo.add(bean)
+                        list.add(goodsCarBeans)
+                        intent.putExtra(GoodsConfirm_Intent_shopInfo, Gson().toJson(list))
+                        context.startActivity(intent)
                         dismiss()
                     }
             R.id.img ->{

@@ -75,7 +75,7 @@ class ScoreConfirmActivity : BaseActivity(),View.OnClickListener {
             }
             bt_confirm -> {
                 if (data.totalScore<data.score)
-                DataCtrlClass.createScoreOrder(this,data.address?.id?:"",data.totalScore.toString(),data.shopInfo?.shopId?:"",data.shopInfo?.goodsInfo?.goodsId?:"",data.shopInfo?.goodsInfo?.goodsCount?:"",data.shopInfo?.goodsInfo?.skuid?:""){
+                DataCtrlClass.createScoreOrder(this,data.address?.addressId?:"",data.totalScore.toString(),data.shopInfo?.shopId?:"",data.shopInfo?.goodsInfo?.goodsId?:"",data.shopInfo?.goodsInfo?.goodsCount?:"",data.shopInfo?.goodsInfo?.skuid?:""){
                     if (it!=null){
                         DialogUtils.scorePaySuccess(this)  {
                             startActivity(Intent(this, GoodsOrderActivity::class.java))

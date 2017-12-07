@@ -415,7 +415,7 @@ object DataCtrlClass {
     /**
      * 创建积分订单
      * */
-    fun createScoreOrder(context: Context,addressId:String,scores:String,shopId:String, goodsId:String,goodsCount:String, skuid:String, listener: (orderBean: MyOrderBean?) -> Unit) {
+    fun createScoreOrder(context: Context,addressId:String,scores:String,shopId:String, goodsId:String,goodsCount:String, skuid:String, listener: (orderId: String?) -> Unit) {
 //       userId	string	必填	用户id
 //       addressId	string	必填	地址id
 //       scores	string	必填	积分数
@@ -435,11 +435,11 @@ object DataCtrlClass {
         params.put("goodsCount", goodsCount)
         params.put("skuid", skuid)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
-        OkGo.post<NetEntity<MyOrderBean>>(Urls.CreateScoreOrder)
+        OkGo.post<NetEntity<String>>(Urls.CreateScoreOrder)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<MyOrderBean>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<MyOrderBean>>) {
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
                         } else {
@@ -447,7 +447,7 @@ object DataCtrlClass {
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<MyOrderBean>>) {
+                    override fun onError(response: Response<NetEntity<String>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -527,7 +527,7 @@ object DataCtrlClass {
     /**
      * 创建服务订单
      * */
-    fun createServiceOrder(context: Context,vararg param:String, listener: (orderBean: MyOrderBean?) -> Unit) {
+    fun createServiceOrder(context: Context,vararg param:String, listener: (orderId: String?) -> Unit) {
 //        userId	string	必填	用户id
 //        shopId	string	必填	店铺id
 //        goodsId	string	必填	商品id
@@ -552,11 +552,11 @@ object DataCtrlClass {
         params.put("couponId", param[6])
         params.put("discount", param[7])
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
-        OkGo.post<NetEntity<MyOrderBean>>(Urls.VirtuallyCreateOrder)
+        OkGo.post<NetEntity<String>>(Urls.VirtuallyCreateOrder)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<MyOrderBean>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<MyOrderBean>>) {
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
                         } else {
@@ -564,7 +564,7 @@ object DataCtrlClass {
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<MyOrderBean>>) {
+                    override fun onError(response: Response<NetEntity<String>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -902,7 +902,7 @@ object DataCtrlClass {
         params.put("idMark", idMark)
         params.put("type", type)
         params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(id, salt).toLowerCase())
         OkGo.post<NetEntity<List<CommentBean>>>(Urls.CommentList)
                 .params(params)
                 .tag(this)
@@ -1152,11 +1152,11 @@ object DataCtrlClass {
      */
     fun checkHavePayPwd(context: Context,listener: (data: String?) -> Unit) {
         val params = HashMap<String, String>()
-        params.put("id", MyApplication.loginUserId)
-        val time = Calendar.getInstance(Locale.CHINA).timeInMillis.toString()
-        params.put("timestamp", time)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + time, MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
+        params.put("userId", MyApplication.loginUserId)
+        val nowMills = TimeUtils.getNowMills().toString()
+        params.put("timestamp", nowMills)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+nowMills, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.IsSetPayPwd)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<String>>(context) {
@@ -1687,7 +1687,7 @@ object DataCtrlClass {
     /**
      * 一般商品生成订单
      * */
-    fun createGoodsOrderData(context: Context,addressId:String,scores:String,ordersMoney:String,info:String, listener: (MyOrderBean: MyOrderBean?) -> Unit) {
+    fun createGoodsOrderData(context: Context,addressId:String,scores:String,ordersMoney:String,info:String, listener: (orderId: String?) -> Unit) {
 //        userId	string	必填	用户id
 //        addressId	string	必填	收货地址id
 //        scores	string	必填	抵扣积分数
@@ -1699,11 +1699,11 @@ object DataCtrlClass {
         params.put("ordersMoney", ordersMoney)
         params.put("shopInfo", info)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
-        OkGo.post<NetEntity<MyOrderBean>>(Urls.CreateMoneyOrder)
+        OkGo.post<NetEntity<String>>(Urls.CreateMoneyOrder)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<MyOrderBean>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<MyOrderBean>>) {
+                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
                         } else {
@@ -1711,7 +1711,7 @@ object DataCtrlClass {
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<MyOrderBean>>) {
+                    override fun onError(response: Response<NetEntity<String>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -1748,25 +1748,26 @@ object DataCtrlClass {
     /**
      * 地址编辑，设为默认还是删除
      * */
-    fun editAddressState(context: Context,info:String, listener: (addressBean: AddressBean?) -> Unit) {
+    fun editAddressState(context: Context,addressId:String, url:String,listener: (addressBean: NetEntity<Void>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
-        params.put("info", info)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<AddressBean>>(Urls.url)
+        params.put("addressId", addressId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+addressId, salt).toLowerCase())
+        OkGo.post<NetEntity<Void>>(url)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<AddressBean>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<AddressBean>>) {
+                .execute(object : DialogCallback<NetEntity<Void>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<Void>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
-                            listener.invoke(response.body().data)
+                            listener.invoke(response.body())
                         } else {
+                            context.toast(response.body().message)
                             listener.invoke(null)
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<AddressBean>>) {
+                    override fun onError(response: Response<NetEntity<Void>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -1774,15 +1775,19 @@ object DataCtrlClass {
                 })
     }
     /**
-     * 地址编辑，设为默认 删除
+     *  新增收货地址（当用户添加地址时，后台判断该用户是否有其他地址，若没有，将该地址设为默认地址）
      * */
-    fun EditAddressData(context: Context,addressId:String, url:String,listener: (addressBean: String?) -> Unit) {
-
+    fun addAddressData(context: Context, name:String, phone:String, provinceId:String, cityId:String, districtId:String, detail:String, listener: (addressBean: String?) -> Unit) {
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
-        params.put("addressId", addressId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+addressId, salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(url)
+        params.put("name", name)
+        params.put("phone", phone)
+        params.put("provinceId", provinceId)
+        params.put("cityId", cityId)
+        params.put("districtId", districtId)
+        params.put("detail", detail)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.AddAddress)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<String>>(context) {
@@ -1804,17 +1809,18 @@ object DataCtrlClass {
     /**
      *  新增收货地址（当用户添加地址时，后台判断该用户是否有其他地址，若没有，将该地址设为默认地址）
      * */
-    fun addAddressData(context: Context, name:String, phone:String, provinceId:String, cityId:String, districtId:String, detail:String, listener: (addressBean: String?) -> Unit) {
+    fun updateAddAddressData(context: Context, addressId:String,name:String, phone:String, provinceId:String, cityId:String, districtId:String, detail:String, listener: (addressBean: String?) -> Unit) {
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
+        params.put("addressId", addressId)
         params.put("name", name)
         params.put("phone", phone)
         params.put("provinceId", provinceId)
         params.put("cityId", cityId)
         params.put("districtId", districtId)
         params.put("detail", detail)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.AddAddress)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+addressId, salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.ModifyAddress)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<String>>(context) {

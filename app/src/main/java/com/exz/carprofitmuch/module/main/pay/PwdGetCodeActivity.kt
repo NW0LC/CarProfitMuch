@@ -9,12 +9,12 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import com.blankj.utilcode.util.EncryptUtils
+import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
-import com.exz.carprofitmuch.bean.CodeBean
+import com.exz.carprofitmuch.config.Urls.PayPwdCodeVerify
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
-import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.app.MyApplication.Companion.salt
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.config.Constants
@@ -25,6 +25,7 @@ import com.szw.framelibrary.utils.net.NetEntity
 import com.szw.framelibrary.utils.net.callback.DialogCallback
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.pwd_activity_get_code.*
+import org.jetbrains.anko.toast
 
 class PwdGetCodeActivity : BaseActivity(), View.OnClickListener {
 
@@ -43,7 +44,7 @@ class PwdGetCodeActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun init() {
-        phoneNum=""//Todo  手机号码
+        phoneNum=PreferencesService.getAccountKey(this)?:""
         ed_phone.setText(SZWUtils.hideMidPhone(phoneNum))
         val l = System.currentTimeMillis()
         if (PreferencesService.getDownTimer(this, downKey) in 1..(l - 1)) {
@@ -124,21 +125,29 @@ class PwdGetCodeActivity : BaseActivity(), View.OnClickListener {
      * 验证验证码
      */
     private fun checkCode() {
-        //        userId	string	必填	会员id
-        //        buyCardRecordId	string	必填	会员购买卡种记录id
-        //        requestCheck	string	必填	验证请求
+//        phone	string	必填	手机号
+//                code	string	必填	短信验证码
+//                requestCheck	string	必填	验证请求
+
         val map = HashMap<String, String>()
-        map.put("userId", MyApplication.loginUserId)
-        map.put("verifyCode", ed_code.text.toString().trim { it <= ' ' })
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
-        OkGo.post<NetEntity<String>>("").tag(this)
+        map.put("phone", phoneNum)
+        map.put("code", ed_code.text.toString().trim { it <= ' ' })
+        map.put("requestCheck", EncryptUtils.encryptMD5ToString(phoneNum+ed_code.text.toString().trim { it <= ' ' }, salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(PayPwdCodeVerify).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<String>>(this) {
                     override fun onSuccess(response: Response<NetEntity<String>>) {
-                        val intent = Intent(mContext, PwdSetActivity::class.java)
-                        intent.putExtra(PwdSetActivity.PwdSetActivity_Type, PwdSetActivity.PwdSetActivity_Type_2)
-                        intent.putExtra(PwdSetActivity.PwdSetActivity_Security_Code, ed_code.text.toString().trim { it <= ' ' })
-                        startActivityForResult(intent, 100)
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            if (response.body().data=="1") {
+                                val intent = Intent(mContext, PwdSetActivity::class.java)
+                                intent.putExtra(PwdSetActivity.PwdSetActivity_Type, PwdSetActivity.PwdSetActivity_Type_2)
+                                intent.putExtra(PwdSetActivity.PwdSetActivity_Security_Code, ed_code.text.toString().trim { it <= ' ' })
+                                startActivityForResult(intent, 100)
+                            }else{
+                                toast(response.body().message)
+                            }
+                        }
+
                     }
                 })
 
@@ -150,28 +159,13 @@ class PwdGetCodeActivity : BaseActivity(), View.OnClickListener {
         } else {
             downTimer(time.toLong())
             PreferencesService.setDownTimer(this, downKey, System.currentTimeMillis())
-            val map = HashMap<String, String>()
-            val mobile = phoneNum
-            map.put("mobile", if (TextUtils.isEmpty(mobile)) "" else mobile)
-            map.put("attribute", if (PwdSetActivity.IsSetPwd)"3" else "2")
-            map.put("requestCheck", EncryptUtils.encryptMD5ToString(mobile, salt).toLowerCase())
-            OkGo.post<NetEntity<CodeBean>>("").tag(this)
-                    .params(map)
-                    .execute(object : DialogCallback<NetEntity<CodeBean>>(this) {
-
-                        override fun onSuccess(response: Response<NetEntity<CodeBean>>) {
-                            Toast.makeText(mContext, response.body().message, Toast.LENGTH_SHORT).show()
-                            if (response.body().getCode() == Constants.NetCode.SUCCESS) {
-                                ed_code.setText(response.body().info?.verifyCode)
-                            }
-                        }
-
-                        override fun onError(response: Response<NetEntity<CodeBean>>) {
-                            super.onError(response)
-                            resetTimer(true, java.lang.Long.MIN_VALUE)
-                        }
-                    })
-
+            DataCtrlClass.getSecurityCode(this,phoneNum, "3"){
+                if (it != null) {
+                    ed_code.setText(it)
+                } else {
+                    resetTimer(true, java.lang.Long.MIN_VALUE)
+                }
+            }
         }
     }
 

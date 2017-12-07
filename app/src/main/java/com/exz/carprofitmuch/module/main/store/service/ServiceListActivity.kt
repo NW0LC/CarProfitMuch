@@ -5,7 +5,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ServiceListAdapter
@@ -94,8 +94,8 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
         mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
 
 
-        mRecyclerView.addOnItemTouchListener(object :OnItemClickListener(){
-            override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+        mRecyclerView.addOnItemTouchListener(object :OnItemChildClickListener(){
+            override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 val intent = Intent(this@ServiceListActivity, ServiceShopActivity::class.java)
                 intent.putExtra(ServiceShop_Intent_ServiceShopId,mAdapter.data[position].shopId)
                 SZWUtils.checkLogin(this@ServiceListActivity, intent, ServiceShopActivity::class.java.name)

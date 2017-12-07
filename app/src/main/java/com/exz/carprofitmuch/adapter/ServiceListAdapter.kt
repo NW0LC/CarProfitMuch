@@ -1,11 +1,14 @@
 package com.exz.carprofitmuch.adapter
 
+import android.content.Intent
 import android.graphics.Paint
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.ServiceShopBean
+import com.exz.carprofitmuch.module.main.store.service.ServiceDetailActivity
+import com.exz.carprofitmuch.module.main.store.service.ServiceDetailActivity.Companion.Service_Intent_ServiceId
 import com.exz.carprofitmuch.utils.SZWUtils
 import kotlinx.android.synthetic.main.item_service_list.view.*
 import kotlinx.android.synthetic.main.layout_service_goods.view.*
@@ -15,6 +18,8 @@ class ServiceListAdapter<T : ServiceShopBean> : BaseQuickAdapter<T, BaseViewHold
 
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView = helper.itemView
+        helper.addOnClickListener(R.id.bt_serviceShop)
+        helper.addOnClickListener(R.id.bt_more_serviceGoods)
         itemView.img.setImageURI(item.shopIcon)
         itemView.tv_service_store_name.text = item.shopName
         itemView.mRatingBar.rating = item.score.toFloat()
@@ -37,6 +42,9 @@ class ServiceListAdapter<T : ServiceShopBean> : BaseQuickAdapter<T, BaseViewHold
             itemView.lay_serviceGoods.addView(inflate)
             inflate.setOnClickListener{
                 //跳转服务详情
+                val intent = Intent(mContext, ServiceDetailActivity::class.java)
+                intent.putExtra(Service_Intent_ServiceId,serviceGood.goodsId)
+                mContext.startActivity(intent)
             }
         }
 

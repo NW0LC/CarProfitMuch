@@ -1,6 +1,7 @@
 package com.exz.carprofitmuch.module.mine.address
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.text.TextUtils
 import android.view.View
 import android.widget.CompoundButton
@@ -12,9 +13,11 @@ import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.AddressBean
 import com.exz.carprofitmuch.bean.CityBean
+import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
+import com.szw.framelibrary.view.CustomProgress
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_address_add_update.*
 import org.jetbrains.anko.toast
@@ -41,6 +44,7 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
     private var provinceId = ""
     private var cityId = ""
     private var districtId = ""
+    private var isSetDefault =false
 
     private var addressType = address_type_3
     override fun initToolbar(): Boolean {
@@ -76,11 +80,47 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
                 toast(mContext.getString(R.string.address_hint_area_detail))
                 return@setOnClickListener
             }
-            DataCtrlClass.addAddressData(mContext, name, phone, provinceId, cityId, districtId, detail, {
-                //执行保存操作
-                setResult(Activity.RESULT_OK)
-                onBackPressed()
-            })
+            if ( data != null &&data?.addressId?.isNotEmpty()==true) {
+                if (districtId.isNotEmpty()) {
+                    CustomProgress.show(this, "", false, DialogInterface.OnCancelListener { })
+                    listAddress.firstOrNull {
+                        val citiesEntity = it.cities.firstOrNull {
+                            val filter = it.counties.firstOrNull { it.areaId == data?.districtId }
+                            if (filter != null) {
+                                cityId = it.areaId
+                            }
+                            filter != null
+                        }
+                        if (citiesEntity!=null){
+                            provinceId=it.areaId
+                        }
+                        citiesEntity != null
+                    }
+                }
+                DataCtrlClass.updateAddAddressData(mContext, data?.addressId?:"", name, phone, provinceId, cityId, districtId, detail) {
+                    //更新地址
+                    if (isSetDefault) {//设置默认地址
+                        if (data != null && data?.addressId?.isNotEmpty()==true )
+                            DataCtrlClass.editAddressState(mContext, data?.addressId?:"", Urls.AddressDefault) {
+                                if (it==null)
+                                    bt_setDefault.isChecked=false
+                                else {
+                                    setResult(Activity.RESULT_OK)
+                                    onBackPressed()
+                                }
+                            }
+                    }else {
+                        setResult(Activity.RESULT_OK)
+                        onBackPressed()
+                    }
+
+                }
+            } else
+                DataCtrlClass.addAddressData(mContext, name, phone, provinceId, cityId, districtId, detail, {
+                    //新增地址
+                    setResult(Activity.RESULT_OK)
+                    onBackPressed()
+                })
 
 
         }
@@ -98,6 +138,7 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
 
     private fun initPicker() {
         pvOptionsAddress = OptionsPickerView(this)
+        CustomProgress.show(this, "", false, DialogInterface.OnCancelListener { })
         Thread {
             val cityBean = JSON.parseObject<CityBean>(getJson(), CityBean::class.java)
             var city: ArrayList<String>
@@ -117,6 +158,7 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
                 optionsCities.add(city)
                 optionsCounties.add(countiesS)
             }
+            CustomProgress.disMissNow()
         }.start()
 
         pvOptionsAddress.setOnoptionsSelectListener { options1, option2, options3 ->
@@ -157,17 +199,20 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
         return stringBuilder.toString()
     }
 
+    var data: AddressBean? = null
     private fun initData() {
         addressType = intent.getStringExtra(Intent_AddressType)
         val data = intent.getSerializableExtra(Intent_AddressData)
-        if (data != null) {
-            data as AddressBean
-            ed_userName.setText(data.name)
-            ed_userPhone.setText(data.phone)
-            bt_address.text = String.format(data.province + data.city + data.district)
-            ed_addressDetail.setText(data.detail)
+        if (data!=null) {
+            this.data= data as AddressBean
         }
-
+        if (data!=null) {
+            ed_userName.setText(this.data?.name)
+            ed_userPhone.setText(this.data?.phone)
+            bt_address.text = String.format(this.data?.province + this.data?.city + this.data?.district)
+            ed_addressDetail.setText(this.data?.detail)
+            districtId = this.data?.districtId?:""
+        }
     }
 
     /**
@@ -176,7 +221,7 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
     private fun initBt() {
         when (addressType) {
             address_type_1 -> {
-                bt_setDefault.visibility = View.GONE
+                bt_setDefault.visibility = View.VISIBLE
                 bt_delete.visibility = View.VISIBLE
             }
             address_type_2 -> {
@@ -195,18 +240,19 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
         toolbar.setNavigationOnClickListener { finish() }
         bt_address.setOnClickListener(this)
         bt_delete.setOnClickListener(this)
-
+        bt_setDefault.setOnCheckedChangeListener(this)
     }
 
     override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
-
+        isSetDefault=p1
     }
 
     override fun onClick(p0: View?) {
         when (p0) {
             bt_delete -> {
                 DialogUtils.delete(mContext) {
-                    DataCtrlClass.editAddressState(mContext, "") {
+                    if (data != null && data?.addressId?.isNotEmpty()==true )
+                    DataCtrlClass.editAddressState(mContext, data?.addressId?:"", Urls.AddressDelete) {
                         setResult(Activity.RESULT_OK)
                         onBackPressed()
                     }
@@ -229,6 +275,6 @@ class AddressAddOrUpdateActivity : BaseActivity(), View.OnClickListener, Compoun
         var Intent_AddressData = "Intent_AddressData"
         val address_type_1 = "can_delete_default" //可删除 可设置默认地址
         val address_type_2 = "can_delete"// 可删除
-        val address_type_3 = "can_default"// 可设置默认地址
+        val address_type_3 = "can_default"// 功能缺失，暂时不能设置默认地址
     }
 }

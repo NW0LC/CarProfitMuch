@@ -10,6 +10,11 @@ open class AddressBean :Serializable{
     var isDefault: String = "1"
     var id=""
     var addressId=""
+        get() {
+            if (field.isEmpty())
+            field=id
+            return field
+        }
     var name=""
     var phone=""
     var province=""

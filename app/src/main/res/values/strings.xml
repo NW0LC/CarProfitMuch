@@ -114,7 +114,7 @@
     <string name="pay_check_failed">服务器验证支付失败，请联系平台</string>
     <string name="pay_service_result_success">购买成功</string>
     <string name="pay_service_result_more">看了本套餐的用户还看了</string>
-    <string name="pay_methods_totalPrice">待支付金额：%s</string>
+    <string name="pay_methods_totalPrice">待支付金额：</string>
     <string name="search_goods_hint">搜索商品</string>
     <string name="search_goods_result_name">其他商品</string>
     <string name="score_goods_detail_unit">单价：%s个积分</string>

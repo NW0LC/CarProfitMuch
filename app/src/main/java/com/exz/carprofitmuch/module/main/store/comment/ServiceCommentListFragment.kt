@@ -19,7 +19,6 @@ import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.fragment_comment_list.*
-import java.util.*
 
 /**
  * Created by 史忠文
@@ -40,6 +39,7 @@ class ServiceCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnC
         SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initToolbar()
         initRecycler()
+        onRefresh(refreshLayout)
     }
 
     override fun initEvent() {
@@ -53,7 +53,6 @@ class ServiceCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnC
         SZWUtils.setMargin(header, 55f)
         return false
     }
-    private val arrayList2=ArrayList<CommentBean>()
     private fun initRecycler() {
         mAdapter = ServiceCommentAdapter()
         mAdapter.bindToRecyclerView(mRecyclerView)

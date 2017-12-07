@@ -279,10 +279,11 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener, CompoundButto
                         }else{
                             //跳转支付
                             val intent = Intent(this, PayMethodsActivity::class.java)
-                            intent.putExtra(Pay_Intent_OrderId, it.orderId)
+                            intent.putExtra(Pay_Intent_OrderId, it)
                             intent.putExtra(Pay_Intent_Finish_Type, Intent_Finish_Type_1)
                             startActivity(intent)
                         }
+                        finish()
                     }
                 }
             }
