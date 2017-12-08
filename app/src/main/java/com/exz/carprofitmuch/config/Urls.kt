@@ -221,6 +221,19 @@ object Urls{
      * 修改支付密码
      */
     val ModifyPayPwd=url+"App/PayPwd/ModifyPayPwd.aspx"
+    /**
+     * 设置-修改登录密码
+     */
+    val ModifyLoginPwd=url+"App/UserCenter/Set/ModifyLoginPwd.aspx"
+
+    /**
+     * 缴费金额
+     */
+    val VipSignature=url+"App/UserCenter/Vip/Signature.aspx"
+    /**
+     * 订单详情-实物类
+     */
+    val OrderDetail=url+"App/Order/Reality/OrderDetail.aspx"
 
 
 

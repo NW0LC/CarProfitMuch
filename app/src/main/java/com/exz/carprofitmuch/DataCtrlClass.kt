@@ -1179,12 +1179,17 @@ object DataCtrlClass {
      * 修改登录密码
      */
     fun changeAccountPwd(context: Context,oldPwd:String ,newPwd:String ,listener: (data: String?) -> Unit) {
+//        userId	/**/string	必填	用户ID
+//                pwd	string	必填	旧密码
+//                newPwd	string	必填	新密码
+//                requestCheck	string	必填	验证请求
+
         val params = HashMap<String, String>()
-        params.put("id", loginUserId)
-        params.put("oldPwd", oldPwd)
+        params.put("userId", loginUserId)
+        params.put("pwd", oldPwd)
         params.put("newPwd", newPwd)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId , MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId +oldPwd+newPwd, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(Urls.ModifyLoginPwd)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<String>>(context) {

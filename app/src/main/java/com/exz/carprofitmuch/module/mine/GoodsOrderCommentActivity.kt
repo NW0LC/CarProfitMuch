@@ -17,6 +17,8 @@ import com.exz.carprofitmuch.bean.CommentOrder
 import com.exz.carprofitmuch.bean.GoodsOrderCommentBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.lzy.imagepicker.ImagePicker
 import com.lzy.imagepicker.bean.ImageItem
 import com.lzy.imagepicker.ui.ImageGridActivity
@@ -59,20 +61,21 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
         StatusBarUtil.setMargin(this, header)
         SZWUtils.setPaddingSmart(mRecyclerView, 10f)
 
+        toolbar.inflateMenu(R.menu.menu_footprint)
         val actionView = toolbar.menu.getItem(0).actionView
         (actionView as TextView).text = getString(R.string.mine_my_goods_order_comment)
         actionView.setOnClickListener {
             mCustomProgress = CustomProgress.show(mContext, "提交中...", false, null)!!
-            var entity = CommentOrder()
+            val entity = CommentOrder()
             entity.userId = MyApplication.loginUserId
             entity.orderId = orderId
             entity.shopId = shopId
             entity.serveStar = serveStar
             entity.logisticsStar = logisticsStar
             entity.requestCheck = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId, MyApplication.salt).toLowerCase()
-            var commentInfo = ArrayList<CommentOrder.CommentInfoBean>()
+            val commentInfo = ArrayList<CommentOrder.CommentInfoBean>()
             for (bean in mAdapter.data) {
-                var info = CommentOrder.CommentInfoBean()
+                val info = CommentOrder.CommentInfoBean()
                 info.goodsId = bean.goodsId
                 info.content = bean.content
                 info.goodsStar = bean.score
@@ -86,7 +89,7 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
             }
 
 
-            DataCtrlClassXZW.ConfirmCommentData(mContext, JSON.toJSONString(entity), {
+            DataCtrlClassXZW.confirmCommentData(mContext, JSON.toJSONString(entity), {
                 if (it != null) {
                     mCustomProgress.dismiss()
                     finish()
@@ -104,11 +107,11 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun initData() {
-        mAdapter.setNewData(JSON.parseArray(json, GoodsOrderCommentBean::class.java))
+        val list = Gson().fromJson<MutableList<GoodsOrderCommentBean>>(json, object : TypeToken<ArrayList<GoodsOrderCommentBean>>() {}.type)
         for (bean in mAdapter.data) {
             bean.photos.add(0, "res://com.exz.carprofitmuch/" + R.mipmap.icon_take_photo)
         }
-        mAdapter.loadMoreEnd()
+        mAdapter.setNewData(list)
     }
 
     private fun initImgRecycler() {
@@ -129,21 +132,21 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
         mRecyclerView.layoutManager = LinearLayoutManager(mContext)
         mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 15, ContextCompat.getColor(mContext, R.color.app_bg)))
         mAdapter.setOnItemClickListeners(object : GoodsOrderCommentAdapter.OnItemClick {
-            override fun OnItemClickListener(positions: Int, positionImgs: Int) {
-                position = positions
-                positionImg = positionImgs
-                if (positionImgs == mAdapter.data.get(position).photos.size - 1) {
-                    imagePicker.selectLimit = 6 - mAdapter.data.get(position).photos.size
+            override fun onItemClickListener(position: Int, positionImg: Int) {
+                this@GoodsOrderCommentActivity.position = position
+                this@GoodsOrderCommentActivity.positionImg = positionImg
+                if (positionImg == mAdapter.data[this@GoodsOrderCommentActivity.position].photos.size - 1) {
+                    imagePicker.selectLimit = 6 - mAdapter.data[this@GoodsOrderCommentActivity.position].photos.size
                     PermissionCameraWithCheck(Intent(mContext, ImageGridActivity::class.java), false)
                 } else {
                     val intent = Intent(mContext, PreviewActivity::class.java)
                     val imgs = ArrayList<String>()
-                    imgs.addAll(mAdapter.data.get(position).photos)
+                    imgs.addAll(mAdapter.data[this@GoodsOrderCommentActivity.position].photos)
                     imgs.removeAt(imgs.lastIndex)
                     intent.putExtra(PreviewActivity.PREVIEW_INTENT_IMAGES, imgs)
                     intent.putExtra(PreviewActivity.PREVIEW_INTENT_SHOW_NUM, true)
                     intent.putExtra(PreviewActivity.PREVIEW_INTENT_IS_CAN_DELETE, true)
-                    intent.putExtra(PreviewActivity.PREVIEW_INTENT_POSITION, position)
+                    intent.putExtra(PreviewActivity.PREVIEW_INTENT_POSITION, this@GoodsOrderCommentActivity.position)
                     startActivityForResult(intent, 100)
                 }
             }
@@ -151,11 +154,11 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
 
         })
 
-        mFooterView.rb_serveStar.setOnRatingBarChangeListener { ratingBar, fl, b ->
+        mFooterView.rb_serveStar.setOnRatingBarChangeListener { ratingBar, _, _ ->
             serveStar = ratingBar.rating.toString()
 
         }
-        mFooterView.rb_logisticsStar.setOnRatingBarChangeListener { ratingBar, fl, b ->
+        mFooterView.rb_logisticsStar.setOnRatingBarChangeListener { ratingBar, _, _ ->
             logisticsStar = ratingBar.rating.toString()
 
         }
@@ -201,21 +204,21 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) { //图片选择
             val images = data?.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS) as ArrayList<*>
             mCustomProgress = CustomProgress.show(mContext, "提交中...", false, null)!!
-            var phontList = ArrayList<String>()
+            val phoneList = ArrayList<String>()
             for (image in images) {
-                mAdapter.data.get(position).photos.add(mAdapter.data.get(position).photos.size - 1, (image as ImageItem).path)
+                mAdapter.data[position].photos.add(mAdapter.data[position].photos.size - 1, (image as ImageItem).path)
             }
             mAdapter.notifyItemChanged(position)
-            phontList.addAll(mAdapter.data.get(position).photos)
-            phontList.removeAt(0)
-            DataCtrlClassXZW.UploadImgData(position, mAdapter, phontList, mCustomProgress, {})
+            phoneList.addAll(mAdapter.data[position].photos)
+            phoneList.removeAt(0)
+            DataCtrlClassXZW.UploadImgData(position, mAdapter, phoneList, mCustomProgress, {})
 
         } else if (Activity.RESULT_OK == resultCode) {
-            val photos = mAdapter.data.get(position).photos
-            val imgUrl = mAdapter.data.get(position).imgUrls
+            val photos = mAdapter.data[position].photos
+            val imgUrl = mAdapter.data[position].imgUrls
             val array = data?.getStringArrayListExtra(PreviewActivity.PREVIEW_INTENT_RESULT)
             array?.forEach {
-                var index = photos.indexOf(it) - 1
+                val index = photos.indexOf(it) - 1
                 photos.remove(it)
                 imgUrl.removeAt(index)
             }
@@ -223,11 +226,11 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    override fun onBackPressed() {
+    override fun onDestroy() {
+        super.onDestroy()
         orderId = ""
         shopId = ""
         json = ""
-        super.onBackPressed()
     }
 
     companion object {

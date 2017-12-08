@@ -98,7 +98,7 @@ class ScoreStoreActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.R
         iniData()
     }
     private fun iniData() {
-        DataCtrlClass.bannerData(this, "1") {
+        DataCtrlClass.bannerData(this, "3") {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 banners = it

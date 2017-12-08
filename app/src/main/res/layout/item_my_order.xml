@@ -52,7 +52,7 @@
             android:layout_marginEnd="@dimen/dp_10"
             android:drawablePadding="@dimen/dp_10"
             android:text="@string/mine_my_order_num_goods"
-            android:textColor="@color/MaterialGrey800"
+            android:textColor="@color/MaterialGrey600"
             android:textSize="@dimen/sp_14" />
 
         <TextView
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mine_my_order_actual_payment"
-            android:textColor="@color/MaterialGrey800"
+            android:textColor="@color/MaterialGrey600"
             android:textSize="@dimen/sp_14" />
 
     </LinearLayout>
@@ -68,7 +68,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/app_bg"></View>
+        android:background="@color/app_bg"/>
 
     <include layout="@layout/lay_goods_order_bt" />
 

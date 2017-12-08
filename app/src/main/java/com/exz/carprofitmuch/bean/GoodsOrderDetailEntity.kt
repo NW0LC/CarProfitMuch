@@ -34,9 +34,9 @@ class GoodsOrderDetailEntity {
     var actualMoney: String? = null
     var buyerMessage: String? = null
     var addressInfo: AddressInfoBean? = null
-    var moneyInfo: List<MoneyInfoBean>? = null
-    var goodsInfo: List<GoodsBean>? = null
-    var dateInfo: List<DateInfoBean>? = null
+    var moneyInfo: ArrayList<MoneyInfoBean>? = null
+    var goodsInfo: ArrayList<GoodsBean>? = null
+    var dateInfo: ArrayList<DateInfoBean>? = null
 
     class AddressInfoBean {
         /**
@@ -50,6 +50,7 @@ class GoodsOrderDetailEntity {
         var phone: String? = null
         var area: String? = null
         var detailAddress: String? = null
+        override fun toString(): String = area+detailAddress
     }
 
     class MoneyInfoBean {

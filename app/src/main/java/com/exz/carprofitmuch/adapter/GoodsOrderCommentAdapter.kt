@@ -34,12 +34,12 @@ class GoodsOrderCommentAdapter : BaseQuickAdapter<GoodsOrderCommentBean, BaseVie
 
             }
             itemView.imgs.setOnClickListener {
-                onItemClick.OnItemClickListener(helper.adapterPosition, item.photos.indexOf(photo))
+                onItemClick.onItemClickListener(helper.adapterPosition, item.photos.indexOf(photo))
 
             }
 
         }
-        v.ed_content_count.setText(String.format(mContext.getString(R.string.service_order_comment_content_count), 120))
+        v.ed_content_count.text = String.format(mContext.getString(R.string.service_order_comment_content_count), 120)
 
 
 
@@ -58,7 +58,7 @@ class GoodsOrderCommentAdapter : BaseQuickAdapter<GoodsOrderCommentBean, BaseVie
             }
 
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                v.ed_content_count.setText(String.format(mContext.getString(R.string.service_order_comment_content_count), 120 - s.toString().trim().length))
+                v.ed_content_count.text = String.format(mContext.getString(R.string.service_order_comment_content_count), 120 - s.toString().trim().length)
                 item.content = v.ed_content_count.text.toString().trim()
             }
         })
@@ -73,7 +73,7 @@ class GoodsOrderCommentAdapter : BaseQuickAdapter<GoodsOrderCommentBean, BaseVie
     lateinit var onItemClick: OnItemClick
 
     interface OnItemClick {
-        fun OnItemClickListener(position: Int, positionImg: Int)
+        fun onItemClickListener(position: Int, positionImg: Int)
     }
 
 }

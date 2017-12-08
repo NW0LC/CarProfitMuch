@@ -148,13 +148,13 @@ object DataCtrlClassXZW {
     /**
      * 订单详情
      * */
-    fun OrderDetailData(context: Context, orderId: String, listener: (scoreStoreBean: GoodsOrderDetailEntity?) -> Unit) {
+    fun orderDetailData(context: Context, orderId: String, listener: (scoreStoreBean: GoodsOrderDetailEntity?) -> Unit) {
 
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
         params.put("orderId", orderId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<GoodsOrderDetailEntity>>(Urls.url)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<GoodsOrderDetailEntity>>(Urls.OrderDetail)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<GoodsOrderDetailEntity>>(context) {
@@ -210,28 +210,28 @@ object DataCtrlClassXZW {
     /**
      *  编辑订单（取消，删除，确认收货）-实物类
      * */
-    fun EditOrderData(context: Context, orderId: String, editType: String, listener: (scoreStoreBean: String?) -> Unit) {
+    fun editOrderData(context: Context, orderId: String, editType: String, listener: (scoreStoreBean: NetEntity<Void>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
         params.put("orderId", orderId)
         params.put("editType", editType) //编辑类型（0：取消  1：删除  2：确认收货）
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId + editType, MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.EditOrder)
+        OkGo.post<NetEntity<Void>>(Urls.EditOrder)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                .execute(object : DialogCallback<NetEntity<Void>>(context) {
 
-                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                    override fun onSuccess(response: Response<NetEntity<Void>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
-                            listener.invoke(response.body().data)
+                            listener.invoke(response.body())
                         } else {
                             listener.invoke(null)
                             context.toast(response.body().message)
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<String>>) {
+                    override fun onError(response: Response<NetEntity<Void>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -270,41 +270,11 @@ object DataCtrlClassXZW {
                 })
     }
 
-    /**
-     * 确认收货
-     * */
-    fun ConfirmOrderDetailData(context: Context, orderId: String, listener: (scoreStoreBean: String?) -> Unit) {
-
-        val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("orderId", orderId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
-                .params(params)
-                .tag(this)
-                .execute(object : DialogCallback<NetEntity<String>>(context) {
-
-                    override fun onSuccess(response: Response<NetEntity<String>>) {
-                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
-                            listener.invoke(response.body().data)
-                        } else {
-                            listener.invoke(null)
-                            context.toast(response.body().message)
-                        }
-                    }
-
-                    override fun onError(response: Response<NetEntity<String>>) {
-                        super.onError(response)
-                        listener.invoke(null)
-                    }
-
-                })
-    }
 
     /**
      * 评价
      * */
-    fun ConfirmCommentData(context: Context, commentsInfo: String, listener: (scoreStoreBean: String?) -> Unit) {
+    fun confirmCommentData(context: Context, commentsInfo: String, listener: (scoreStoreBean: String?) -> Unit) {
 
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
@@ -334,7 +304,7 @@ object DataCtrlClassXZW {
     /**
      * 提交退款申请
      * */
-    fun SubmitRefundData(context: Context, orderId: String, returnTypeId: String, reasonId: String, remarks:  String, img: String, listener: (scoreStoreBean: String?) -> Unit) {
+    fun submitRefundData(context: Context, orderId: String, returnTypeId: String, reasonId: String, remarks:  String, img: String, listener: (scoreStoreBean: String?) -> Unit) {
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
         params.put("orderId", orderId)
@@ -974,9 +944,9 @@ object DataCtrlClassXZW {
     /**
      *  退货原因列表-实物类
      * */
-    fun ReturnGoodsReasonListData(context: Context,  goodsId:String, listener: (scoreStoreBean: List<ReturnGoodsReasonBean>?) -> Unit) {
+    fun returnGoodsReasonListData(context: Context, goodsId:String, listener: (scoreStoreBean: List<ReturnGoodsReasonBean>?) -> Unit) {
         val params = HashMap<String, String>()
-        params.put("goodsId", goodsId)
+        params.put("orderId", goodsId)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(goodsId, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<List<ReturnGoodsReasonBean>>>(Urls.ReturnGoodsReasonList)
                 .params(params)

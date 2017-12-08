@@ -2,16 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="right|center_vertical"
+    android:layout_height="45dp"
+    android:gravity="end|center_vertical"
     android:background="@color/white"
     android:padding="5dp"
-    android:layout_marginEnd="@dimen/dp_10"
     android:orientation="horizontal"
     >
 
     <TextView
         android:id="@+id/tv_left"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dp_10"
@@ -21,9 +21,8 @@
         android:paddingStart="@dimen/dp_10"
         android:paddingTop="5dp"
         android:gravity="center"
-        android:visibility="gone"
         android:minEms="3"
-        android:textColor="@color/MaterialGrey800"
+        android:textColor="@color/MaterialGrey600"
         android:background="@drawable/mine_my_order_grey"
         android:textSize="@dimen/sp_14" />
     <TextView
@@ -39,7 +38,7 @@
         android:gravity="center"
 
         android:minEms="3"
-        android:textColor="@color/MaterialGrey800"
+        android:textColor="@color/MaterialGrey600"
         android:background="@drawable/mine_my_order_grey"
         android:textSize="@dimen/sp_14" />
 

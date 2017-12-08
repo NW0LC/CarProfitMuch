@@ -14,7 +14,7 @@
     <string name="mine_sorce_record">积分记录</string>
     <string name="mine_my_order">我的订单</string>
     <string name="mine_my_order_num_goods">共%s件商品</string>
-    <string name="mine_my_order_actual_payment">实付款:￥ %s</string>
+    <string name="mine_my_order_actual_payment">实付款:</string>
     <string name="mine_my_order_detail">订单详情</string>
     <string name="mine_my_order_comment">评价订单</string>
     <string name="mine_my_goods_order_comment">评价</string>

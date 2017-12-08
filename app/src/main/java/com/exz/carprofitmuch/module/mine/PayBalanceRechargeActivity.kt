@@ -50,17 +50,17 @@ class PayBalanceRechargeActivity : PayActivity(), View.OnClickListener {
 
     private fun initView() {
 
-        tv_minRecharge.text = String.format(mContext.getString(R.string.mine_recharge), intent.getStringExtra(MinRecharge))
+        tv_minRecharge.text = String.format(mContext.getString(R.string.mine_recharge), intent.getStringExtra(PayBalanceRecharge_Intent_MinRecharge))
     }
 
     override fun onClick(p0: View?) {
-        var rechargeMoney = ed_rechargeMoney.text.toString().trim()
+        val rechargeMoney = ed_rechargeMoney.text.toString().trim()
         if (TextUtils.isEmpty(rechargeMoney)) {
             mContext.toast("请输入充值金额,数值为整数")
             return
         }
-        if(rechargeMoney.toInt()<intent.getStringExtra(MinRecharge).toFloat()){
-            mContext.toast("最低充值额度"+intent.getStringExtra(MinRecharge))
+        if(rechargeMoney.toInt()<intent.getStringExtra(PayBalanceRecharge_Intent_MinRecharge).toFloat()){
+            mContext.toast("最低充值额度"+intent.getStringExtra(PayBalanceRecharge_Intent_MinRecharge))
             return
         }
 
@@ -107,7 +107,7 @@ class PayBalanceRechargeActivity : PayActivity(), View.OnClickListener {
     }
 
     companion object {
-        var MinRecharge = ""
+        var PayBalanceRecharge_Intent_MinRecharge = "PayBalanceRecharge_Intent_MinRecharge"
     }
 
 }

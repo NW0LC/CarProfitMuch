@@ -16,7 +16,12 @@ class ItemGoodsOrderAdapter<T :GoodsBean>: BaseQuickAdapter<T, BaseViewHolder>(R
         itemView.img.setImageURI(item.imgUrl)
         itemView.tv_goodsType.text=String.format(mContext.getString(R.string.goods_order_goodsType),item.goodsType)
         itemView.tv_goodsCount.text=String.format(mContext.getString(R.string.goods_order_goodsCount),item.goodsCount)
-        itemView.tv_goodsPrice.text=String.format(mContext.getString(R.string.CNY)+"%s",item.goodsPrice)
+        if (item.payMark=="1"){
+            itemView.tv_goodsPrice.text=String.format("%s${mContext.getString(R.string.SCORE)}",item.goodsPrice)
+        }else{
+            itemView.tv_goodsPrice.text=String.format(mContext.getString(R.string.CNY)+"%s",item.goodsPrice)
+        }
+
     }
 }
 

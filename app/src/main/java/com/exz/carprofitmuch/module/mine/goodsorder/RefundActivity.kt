@@ -1,4 +1,4 @@
-package com.exz.carprofitmuch.module.mine
+package com.exz.carprofitmuch.module.mine.goodsorder
 
 import android.app.Activity
 import android.content.Intent
@@ -40,16 +40,16 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
 
 
     private lateinit var imagePicker: ImagePicker
-    var photos = ArrayList<String>()
-    var returnGoodsTypeStr = ArrayList<String>()
-    var returnGoodsType = ArrayList<ReturnGoodsTypeBean>()
-    var reasonStr = ArrayList<String>()
-    var mPickerType = ""
-    var reasonList = ArrayList<ReturnGoodsReasonBean>()
-    lateinit var mAdapter: ItemOrderCommentImageAdapter
-    lateinit var mPickerView: OptionsPickerView<String>
-    var returnTypeId = ""
-    var reasonId = ""
+    private var photos = ArrayList<String>()
+    private var returnGoodsTypeStr = ArrayList<String>()
+    private var returnGoodsType = ArrayList<ReturnGoodsTypeBean>()
+    private var reasonStr = ArrayList<String>()
+    private var mPickerType = ""
+    private var reasonList = ArrayList<ReturnGoodsReasonBean>()
+    private lateinit var mAdapter: ItemOrderCommentImageAdapter
+    private lateinit var mPickerView: OptionsPickerView<String>
+    private var returnTypeId = ""
+    private var reasonId = ""
 
     override fun initToolbar(): Boolean {
         mTitle.text = mContext.getString(R.string.mine_return_total)
@@ -68,20 +68,18 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-    override fun setInflateId(): Int {
-        return R.layout.activity_refund
-    }
+    override fun setInflateId(): Int = R.layout.activity_refund
 
     override fun init() {
         super.init()
         initCamera()
         initView()
-        initRetrunType()
-        initRetrunReason()
+        initReturnType()
+        initReturnReason()
     }
 
 
-    private fun initRetrunType() {
+    private fun initReturnType() {
         DataCtrlClassXZW.ReturnGoodsTypeListData(mContext, {
             if (it != null) {
                 returnGoodsType = it as ArrayList<ReturnGoodsTypeBean>
@@ -94,8 +92,8 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
         })
     }
 
-    private fun initRetrunReason() {
-        DataCtrlClassXZW.ReturnGoodsReasonListData(mContext, intent.getStringExtra(OrderId), {
+    private fun initReturnReason() {
+        DataCtrlClassXZW.returnGoodsReasonListData(mContext, intent.getStringExtra(Refund_Intent_OrderId), {
             if (it != null) {
                 reasonList = it as ArrayList<ReturnGoodsReasonBean>
                 for (bean in reasonList) {
@@ -143,18 +141,15 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
             }
         })
         mPickerView = OptionsPickerView(mContext)
-        mPickerView.setOnoptionsSelectListener(object : OptionsPickerView.OnOptionsSelectListener {
-            override fun onOptionsSelect(options1: Int, option2: Int, options3: Int) {
-                if (mPickerType.equals("1")) {
-                    tv_refund_type.setText(returnGoodsTypeStr.get(options1))
-                    returnTypeId = returnGoodsType.get(options1).typeId
-                } else {
-                    tv_refund_cause.setText(reasonStr.get(options1))
-                    returnTypeId = reasonList.get(options1).reasonId
-                }
-
+        mPickerView.setOnoptionsSelectListener { options1, _, _ ->
+            if (mPickerType == "1") {
+                tv_refund_type.text = returnGoodsTypeStr[options1]
+                returnTypeId = returnGoodsType[options1].typeId
+            } else {
+                tv_refund_cause.text = reasonStr[options1]
+                returnTypeId = reasonList[options1].reasonId
             }
-        })
+        }
         tv_refund_type.setOnClickListener(this)
         tv_submit.setOnClickListener(this)
     }
@@ -204,18 +199,15 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
 
                 if (TextUtils.isEmpty(reasonId)) {
 
-                   toast(mContext.getString(R.string.mine_input_refund_cause))
+                    toast(mContext.getString(R.string.mine_input_refund_cause))
                     return
                 }
-                var issue = ed_issue.text.toString().trim()
+                val issue = ed_issue.text.toString().trim()
                 var img = ""
-                for (data in mAdapter.data) {
-                    if (!data.contains("res://")) {
-                        img += EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(data.replace("file://", ""))) + ","
-                    }
-
-                }
-                DataCtrlClassXZW.SubmitRefundData(mContext, intent.getStringExtra(OrderId), returnTypeId,  reasonId,issue, img, {
+                mAdapter.data
+                        .filterNot { it.contains("res://") }
+                        .forEach { img += EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(it.replace("file://", ""))) + "," }
+                DataCtrlClassXZW.submitRefundData(mContext, intent.getStringExtra(Refund_Intent_OrderId), returnTypeId, reasonId, issue, img, {
                     if (it != null) {
                         finish()
                     }
@@ -242,7 +234,7 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
     }
 
     companion object {
-        val OrderId = "OrderId"
+        val Refund_Intent_OrderId = "Refund_Intent_OrderId"
     }
 
 }

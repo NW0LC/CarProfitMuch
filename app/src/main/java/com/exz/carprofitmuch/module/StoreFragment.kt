@@ -162,7 +162,7 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
 
 
     override fun onRefresh(refreshLayout: RefreshLayout?) {
-        DataCtrlClass.bannerData(context, "1") {
+        DataCtrlClass.bannerData(context, "2") {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 banners = it
@@ -177,7 +177,7 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
                 headerView.lay_type_0.removeAllViews()
                 for (card in it.scoreModel) {
                     val cardMainStoreScore = View.inflate(context, R.layout.layout_card_main_store_score, null)
-                    headerView.img_score_bg.layoutParams.height = ScreenUtils.getScreenWidth() / 3
+                    cardMainStoreScore.img_score_bg.layoutParams.height = ScreenUtils.getScreenWidth() / 3
                     cardMainStoreScore.img_score_bg.setImageURI(card.imgUrl)
 //                    cardMainStoreScore.tv_score_name.text = card.title
 //                    cardMainStoreScore.tv_score_count.text = String.format("${card.price}%s", getString(R.string.SCORE))

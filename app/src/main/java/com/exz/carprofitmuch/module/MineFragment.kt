@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.module.login.LoginActivity
-import com.exz.carprofitmuch.module.login.LoginActivity.Companion.RESULT_LOGIN_CANCELED
 import com.exz.carprofitmuch.module.main.promotion.PromotionsPersonalActivity
 import com.exz.carprofitmuch.module.mine.*
 import com.exz.carprofitmuch.module.mine.comment.MyCommentActivity
@@ -60,55 +59,44 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
-            SZWUtils.resetProgress(progressBar = progressBar, parentLayout = rootView, realScore = realScore, unlockScore = unlockScore, totalScore = totalScore) {}
-        }
+            if (MyApplication.checkUserLogin()) {
+                getUserInfo()
+            } }
     }
 
     override fun initView() {
         initBar()
         refreshLayout.setOnRefreshListener(this)
-
-
-
-
     }
-
-    override fun onResume() {
-        super.onResume()
-        if (MyApplication.checkUserLogin()) {
-            getUserInfo()
-        }
-    }
-
-
 
     private fun getUserInfo() {
-        DataCtrlClassXZW.getUserInfo(context, {
+        DataCtrlClassXZW.getUserInfo(context) {
+            refreshLayout?.finishRefresh()
             if (it != null) {
                 img_head.setImageURI(it.headerUrl)
                 tv_userName.text=URLDecoder.decode(it.nickname,"utf-8")
-                tv_userInfo.text=it.level+it.overDate//会员等级 -过期时间
+                tv_userInfo.text= "${it.level}${it.overDate}"//会员等级 -过期时间
                 totalScore=it.scoreT.toFloat()//车险总积分
                 realScore=it.scoreG.toFloat()//车险获得积分
                 realScore=it.scoreL.toFloat()//车险解锁积分
                 rootView.postDelayed({ SZWUtils.resetProgress(progressBar = progressBar, parentLayout = rootView, realScore = realScore, unlockScore = unlockScore, totalScore = totalScore) {} }, 2000)
-                tv_myBalance.text=String.format(context.getString(R.string.CNY),it.balance)//余额
+                tv_myBalance.text=String.format(context.getString(R.string.CNY)+"%s",it.balance)//余额
                 bt_tab_card_count.text=String.format(context.getString(R.string.unit_piece),it.wallet)//可用卡劵数量
                 bt_tab_coupon_count.text=String.format(context.getString(R.string.unit_piece),it.coupon)//可用优惠券数量
                 bt_tab_treasure_count.text=String.format(context.getString(R.string.unit_individual),it.treasure)//待领取宝藏数量
                 bt_tab_score_count.text=String.format(context.getString(R.string.unit_individual),it.score)//我的积分
                 openState=it.openState
-                bt_applyFor_openShop.visibility= if(it.openState.equals("0")||it.openState.equals("1")) View.GONE else View.VISIBLE
-                mHasNews=if(it.isMsg.equals("1")) true else false
+                bt_applyFor_openShop.visibility= if(it.openState == "0" || it.openState == "1") View.GONE else View.VISIBLE
+                mHasNews= it.isMsg == "1"
                 if (mHasNews) {
                     toolbar.menu.getItem(1)?.setIcon(R.mipmap.icon_mine_msg_on)
                 } else {
                     toolbar.menu.getItem(1)?.setIcon(R.mipmap.icon_mine_msg_off)
                 }
-                refreshLayout?.finishRefresh()
+
             }
 
-        })
+        }
     }
 
 
@@ -166,7 +154,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     }
 
     override fun initEvent() {
-        bt_header.setOnClickListener(this)
+        img_head.setOnClickListener(this)
         bt_myBalance.setOnClickListener(this)
         bt_tab_card.setOnClickListener(this)
         bt_tab_coupon.setOnClickListener(this)
@@ -184,16 +172,18 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         bt_promotions.setOnClickListener(this)
         bt_applyFor_openShop.setOnClickListener(this)
         bt_guarantee_slip.setOnClickListener(this)
+        bt_vip_recharge.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when (p0) {
-            bt_header -> {// 个人资料
-                if (!MyApplication.checkUserLogin()) {
-                    startActivityForResult(Intent(context, LoginActivity::class.java), RESULT_LOGIN_CANCELED)
-                    return
-                }
-                startActivityForResult(Intent(context, PersonInfoActivity::class.java), 100)
+            img_head -> {// 个人资料
+                val intent = Intent(context, PersonInfoActivity::class.java)
+                SZWUtils.checkLogin(this, intent, PersonInfoActivity::class.java.name)
+            }
+            bt_vip_recharge -> {// vip充值
+                val intent = Intent(context, PayVipActivity::class.java)
+                SZWUtils.checkLogin(this, intent, PayVipActivity::class.java.name)
             }
             bt_order_tab_1 -> {//我的订单-待付款
                 startActivity(Intent(context, GoodsOrderActivity::class.java).putExtra("currentTab", 1))
@@ -212,18 +202,12 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             }
 
             bt_myBalance -> { //账户余额
-                if (!MyApplication.checkUserLogin()) {
-                    startActivityForResult(Intent(context, LoginActivity::class.java), RESULT_LOGIN_CANCELED)
-                    return
-                }
-                startActivityForResult(Intent(context, AccountBalanceActivity::class.java), 100)
+                val intent = Intent(context, AccountBalanceActivity::class.java)
+                SZWUtils.checkLogin(this, intent, AccountBalanceActivity::class.java.name)
             }
             bt_tab_coupon -> {//优惠券
-                if (!MyApplication.checkUserLogin()) {
-                    startActivityForResult(Intent(context, LoginActivity::class.java), RESULT_LOGIN_CANCELED)
-                    return
-                }
-                startActivity(Intent(context, CouponActivity::class.java))
+                val intent = Intent(context, CouponActivity::class.java)
+                SZWUtils.checkLogin(this, intent, CouponActivity::class.java.name)
             }
             bt_treasure -> {//红包
                 startActivity(Intent(context, TreasureListActivity::class.java))
@@ -249,11 +233,8 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 startActivityForResult(Intent(context, ScoreCenterActivity::class.java), 100)
             }
             bt_applyFor_openShop -> {//申请开店
-                if (!MyApplication.checkUserLogin()) {
-                    startActivityForResult(Intent(context, LoginActivity::class.java), RESULT_LOGIN_CANCELED)
-                    return
-                }
-                startActivity(Intent(context, OpenShopActivity::class.java).putExtra(OpenShopActivity.OPENSTATE,openState))
+                val intent = Intent(context, OpenShopActivity::class.java).putExtra(OpenShopActivity.OPENSTATE,openState)
+                SZWUtils.checkLogin(this, intent, OpenShopActivity::class.java.name)
             }
             bt_promotions -> {//我的活动
                 startActivity(Intent(context, PromotionsPersonalActivity::class.java))
@@ -276,7 +257,8 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         if (resultCode == LoginActivity.RESULT_LOGIN_CANCELED) {
             (activity as MainActivity).mainTabBar.currentTab = 0
         } else if (resultCode == Activity.RESULT_OK) {
-            //刷新 TODO
+            //刷新
+            onRefresh(refreshLayout)
         }
     }
 

@@ -31,6 +31,7 @@ abstract class PayActivity : BaseActivity() {
     //        finish();
     //    }
     protected var rechargeId = ""
+    protected var vipOrderId = ""
     private val isWXAppInstalledAndSupported: Boolean
         get() {
             val msgApi = WXAPIFactory.createWXAPI(this, null)
@@ -51,7 +52,8 @@ abstract class PayActivity : BaseActivity() {
                     override fun onSuccess(response: Response<NetEntity<WxBean>>) {
                         if (response.body().data != null) {
 
-                            rechargeId = if(response.body().data?.orderId.equals("")) response.body().data!!.rechargeId else response.body().data!!.orderId
+                            rechargeId = response.body().data?.rechargeId?:""
+                            vipOrderId = response.body().data?.vipOrderId?:""
                             val req = PayReq()
                             req.appId = response.body().info?.appId?:""
                             Urls.APP_ID = response.body().info?.appId?:""
@@ -87,7 +89,8 @@ abstract class PayActivity : BaseActivity() {
                     override fun onSuccess(response: Response<NetEntity<AliBean>>) {
 
                         if (response.body().data!= null) {
-                            rechargeId = if(response.body().data?.orderId.equals("")) response.body().data!!.rechargeId else response.body().data!!.orderId
+                            rechargeId = response.body().data?.rechargeId?:""
+                            vipOrderId = response.body().data?.vipOrderId?:""
                             pay(response.body().info?.paymentDescription, response.body().info?.sign)
                         }
                     }
@@ -134,13 +137,13 @@ abstract class PayActivity : BaseActivity() {
                     }
                     DialogUtils.Warning(this@PayActivity, mess)
                     if (DialogUtils.dialog != null) {
-                        DialogUtils.dialog!!.setOnDismissListener {
+                        DialogUtils.dialog?.setOnDismissListener {
                             if (TextUtils.equals(resultStatus, "9000")) {
                                 RxBus.get().post(Pay_Finish, Pay_Finish)
                             } else
-                                DialogUtils.dialog!!.dismiss()
+                                DialogUtils.dialog?.dismiss()
                         }
-                        DialogUtils.dialog!!.setOkBtn("确定") { DialogUtils.dialog!!.dismiss() }
+                        DialogUtils.dialog?.setOkBtn("确定") { DialogUtils.dialog?.dismiss() }
                     }
                 }
         // 必须异步调用
@@ -161,12 +164,12 @@ abstract class PayActivity : BaseActivity() {
         var appId: String = ""
         var partnerId: String = ""
         var rechargeId: String = ""
+        var vipOrderId: String = ""
         var prepayId: String = ""
         var nonceStr: String = ""
         var timestamp: String = ""
         var packageValue: String = ""
         var sign: String = ""
-        var orderId: String = ""
     }
 
     class AliBean {
@@ -179,7 +182,7 @@ abstract class PayActivity : BaseActivity() {
 
         var paymentDescription: String = ""
         var sign: String = ""
-        var orderId: String = ""
         var rechargeId: String = ""
+        var vipOrderId: String = ""
     }
 }

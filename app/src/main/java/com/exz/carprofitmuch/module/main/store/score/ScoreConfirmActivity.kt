@@ -45,13 +45,6 @@ class ScoreConfirmActivity : BaseActivity(),View.OnClickListener {
     override fun setInflateId(): Int= R.layout.activity_score_confirm
 
     override fun init() {
-        val scoreConfirmAddressDetail = getString(R.string.score_confirm_address_detail)
-        val msp = SpannableString(scoreConfirmAddressDetail+"更换当前号码将从手机发送一条普通短信进行验证")
-        msp.setSpan(ForegroundColorSpan(ContextCompat.getColor(mContext,R.color.MaterialGrey700)), 0, scoreConfirmAddressDetail.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        tv_address.text = msp
-
-
-
         initEvent()
         initData()
     }

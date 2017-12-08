@@ -37,7 +37,7 @@ class ReAccountPwdActivity : BaseActivity() {
                 else -> {
                     DataCtrlClass.changeAccountPwd(this,et_old_pwd.text.toString(),et_new_pwd.text.toString()){
                         if (null!=it){
-                            onBackPressed()
+                            finish()
                         }
                     }
                 }

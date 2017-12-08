@@ -1,5 +1,6 @@
-package com.exz.carprofitmuch.module.main.pay
+package com.exz.carprofitmuch.module.mine
 
+import android.app.Activity
 import android.content.Intent
 import android.view.View
 import android.widget.RadioButton
@@ -9,17 +10,14 @@ import com.blankj.utilcode.util.TimeUtils
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.CheckPayBean
-import com.exz.carprofitmuch.bean.PayInfoBean
 import com.exz.carprofitmuch.config.Urls.AliPay
 import com.exz.carprofitmuch.config.Urls.BalancePay
 import com.exz.carprofitmuch.config.Urls.IsSetPayPwd
-import com.exz.carprofitmuch.config.Urls.PayInfo
 import com.exz.carprofitmuch.config.Urls.PayState
+import com.exz.carprofitmuch.config.Urls.VipSignature
 import com.exz.carprofitmuch.config.Urls.WeChatPay
-import com.exz.carprofitmuch.module.mine.CardPackageDetailActivity
-import com.exz.carprofitmuch.module.mine.CardPackageListActivity
-import com.exz.carprofitmuch.module.mine.goodsorder.GoodsOrderActivity
-import com.exz.carprofitmuch.module.mine.goodsorder.GoodsOrderDetailActivity
+import com.exz.carprofitmuch.module.main.pay.PayActivity
+import com.exz.carprofitmuch.module.main.pay.PwdGetCodeActivity
 import com.exz.carprofitmuch.pop.PwdPop
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.hwangjr.rxbus.annotation.Subscribe
@@ -35,42 +33,32 @@ import com.szw.framelibrary.utils.net.NetEntity
 import com.szw.framelibrary.utils.net.callback.DialogCallback
 import com.szw.framelibrary.view.pwd.widget.OnPasswordInputFinish
 import kotlinx.android.synthetic.main.action_bar_custom.*
-import kotlinx.android.synthetic.main.activity_pay_methods.*
+import kotlinx.android.synthetic.main.activity_pay_vip.*
+import org.jetbrains.anko.toast
 
 
 /**
  * Created by 史忠文
  * on 2017/8/18.
  */
-class PayMethodsActivity : PayActivity(), View.OnClickListener {
+class PayVipActivity : PayActivity(), View.OnClickListener {
 
     lateinit var pwdPop: PwdPop
-    var canBalancePay = false
-    private var  orderId=""
-    private var payMoney = ""
-    companion object {
-        var Pay_Intent_OrderId="Pay_Intent_OrderId"
-
-        var Pay_Intent_Finish_Type="Intent_Finish_Type"
-        var Intent_Finish_Type_1="ServiceConfirmActivity"
-        var Intent_Finish_Type_2="GoodsConfirmActivity"
-    }
-
-    override fun setInflateId() = R.layout.activity_pay_methods
+    private var canBalancePay = false
+    private var rechargePrice = ""
+    override fun setInflateId() = R.layout.activity_pay_vip
     override fun initToolbar(): Boolean {
-        mTitle.text = getString(R.string.pay_service_name)
+        mTitle.text = getString(R.string.pay_vip_recharge)
         //状态栏透明和间距处理
         StatusBarUtil.immersive(this)
         StatusBarUtil.setPaddingSmart(this, toolbar)
         StatusBarUtil.setPaddingSmart(this, blurView)
-        StatusBarUtil.setMargin(this, tv_orderNum)
-        toolbar.setNavigationOnClickListener({ DialogUtils.payBack(this@PayMethodsActivity) })
+        StatusBarUtil.setPaddingSmart(this, lay_price)
+        toolbar.setNavigationOnClickListener({ DialogUtils.payBack(this@PayVipActivity) })
         return false
     }
 
     override fun init() {
-        orderId =intent.getStringExtra(Pay_Intent_OrderId)?:""
-
         pwdPop = PwdPop(this) {
             OnPasswordInputFinish {
                 balancePay(it)
@@ -81,14 +69,14 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
         radioGroup.check(radioGroup.getChildAt(0).id)
         bt_confirm.setOnClickListener(this)
         orderInfo()
-
+        myBalance()
     }
 
     override fun onClick(p0: View?) {
         if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(0).id)
-            aliPay(AliPay, "orderId", orderId,EncryptUtils.encryptMD5ToString(MyApplication.loginUserId , MyApplication.salt).toLowerCase())
+            aliPay(AliPay, "vipPrice", rechargePrice, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(1).id)
-            weChatPay(WeChatPay, "orderId", orderId,EncryptUtils.encryptMD5ToString(MyApplication.loginUserId , MyApplication.salt).toLowerCase())
+            weChatPay(WeChatPay, "vipPrice", rechargePrice, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(2).id) {
             if (canBalancePay)
                 checkHavePayPwd()
@@ -98,39 +86,40 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
     }
 
     /**
-     * 订单支付信息
+     * 缴费金额
      */
     private fun orderInfo() {
 //        userId	string	必填	用户id
-//        orderId	string	必填	订单id，多个订单时用英文逗号拼接
 //        requestCheck	string	必填	验证请求
 
         val map = HashMap<String, String>()
         map.put("userId", MyApplication.loginUserId)
-        map.put("orderId", orderId)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId +orderId, MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<PayInfoBean>>(PayInfo).tag(this)
+        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<String>>(VipSignature).tag(this)
                 .params(map)
-                .execute(object : DialogCallback<NetEntity<PayInfoBean>>(this) {
+                .execute(object : DialogCallback<NetEntity<String>>(this) {
 
-                    override fun onSuccess(response: Response<NetEntity<PayInfoBean>>) {
-                        tv_orderNum.text=String.format(getString(R.string.goods_order_orderNum),response.body().data?.orderNum)
-                        tv_totalPrice.text=String.format(getString(R.string.CNY)+"%s",response.body().data?.payMoney)
-                        payMoney=response.body().data?.payMoney?:""
-                        pwdPop.setPrice(String.format("${getString(R.string.CNY)}%s", payMoney))
-                        myBalance()
+                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            rechargePrice = response.body()?.data ?: ""
+                            pwdPop.setPrice(String.format("${getString(R.string.CNY)}%s", rechargePrice))
+                            tv_rechargeMoney.text = String.format(getString(R.string.pay_vip_unit), response.body()?.data ?: "")
+                        } else {
+                            toast(response.body()?.message ?: "")
+                        }
                     }
                 })
 
     }
+
     /**
      * 我的余额
      */
     private fun myBalance() {
-        DataCtrlClass.accountBalance(this){
+        DataCtrlClass.accountBalance(this) {
             (radioGroup.getChildAt(2) as RadioButton).text = String.format("%s(￥%s)", resources.getString(R.string.pay_balance), it?.balance)//我的余额
             canBalancePay = try {
-                (it?.balance?.toDouble()?:0.toDouble()) >= payMoney.toDouble()
+                (it?.balance?.toDouble() ?: 0.toDouble()) >= rechargePrice.toDouble()
             } catch (e: Exception) {
                 false
             }
@@ -149,7 +138,7 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
         map.put("userId", MyApplication.loginUserId)
         val nowMills = TimeUtils.getNowMills().toString()
         map.put("timestamp", nowMills)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+nowMills, MyApplication.salt).toLowerCase())
+        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + nowMills, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<String>>(IsSetPayPwd).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<String>>(this) {
@@ -157,7 +146,7 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
                     override fun onSuccess(response: Response<NetEntity<String>>) {
                         //                                "data":"能否支付，0未设置 1已设置
                         if ("0" == response.body().data) {
-                            DialogUtils.payNoPwd(this@PayMethodsActivity) {
+                            DialogUtils.payNoPwd(this@PayVipActivity) {
                                 startActivity(Intent(mContext, PwdGetCodeActivity::class.java))
                             }
                         } else {
@@ -181,23 +170,18 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
         val map = HashMap<String, String>()
         map.put("userId", MyApplication.loginUserId)
         map.put("payPwd", payPwd)
-        map.put("orderId", orderId)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId+payPwd, MyApplication.salt).toLowerCase())
+        map.put("vipPrice", rechargePrice)
+        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + payPwd, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<CheckPayBean>>(BalancePay).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<CheckPayBean>>(this) {
 
                     override fun onSuccess(response: Response<NetEntity<CheckPayBean>>) {
-                        val intent= if (Pay_Intent_Finish_Type== Intent_Finish_Type_1) {
-
-                           Intent(mContext, CardPackageDetailActivity::class.java)
-                        }else {
-                            GoodsOrderDetailActivity.orderId =orderId
-                            Intent(mContext, GoodsOrderDetailActivity::class.java)
-                        }
-                        startActivity(intent)
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                         RxBus.get().post(Constants.BusAction.Pay_Finish, Constants.BusAction.Pay_Finish)
+                        setResult(Activity.RESULT_OK)
                         finish()
+                    }
                     }
                 })
 
@@ -218,22 +202,22 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
         }
         val map = HashMap<String, String>()
         map.put("userId", MyApplication.loginUserId)
-        map.put("orderId", orderId)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId, MyApplication.salt).toLowerCase())
+        map.put("vipOrderId", vipOrderId)
+        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + vipOrderId, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<CheckPayBean>>(PayState).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<CheckPayBean>>(this) {
 
                     override fun onSuccess(response: Response<NetEntity<CheckPayBean>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                         if (response.body().data?.payState == "1") {
-                            val intent= if (Pay_Intent_Finish_Type== Intent_Finish_Type_1) {
-                                Intent(mContext, CardPackageListActivity::class.java)
-                            }else
-                                Intent(mContext, GoodsOrderActivity::class.java)
-                            startActivity(intent)
+                            setResult(Activity.RESULT_OK)
                             finish()
                         } else {
                             com.szw.framelibrary.utils.DialogUtils.Warning(mContext, getString(R.string.pay_check_failed))
+                        }
+                    }else{
+                            toast(response.body().message)
                         }
                     }
                 })
@@ -241,7 +225,7 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
     }
 
     override fun onBackPressed() {
-        DialogUtils.payBack(this@PayMethodsActivity)
+        DialogUtils.payBack(this@PayVipActivity)
     }
 
 }

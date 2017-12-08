@@ -4,10 +4,10 @@ package com.exz.carprofitmuch.bean
  * Created by 史忠文
  * on 2017/10/21.
  */
-open class GoodsBean : AbsMark(),AbsBanner{
-    override fun getPayM()=payMark
-    override fun getImgUri()=imgUrl
-    override fun getMarkId()=goodsId
+open class GoodsBean : AbsMark(), AbsBanner {
+    override fun getPayM() = payMark
+    override fun getImgUri() = imgUrl
+    override fun getMarkId() = goodsId
 //            "goodsId":"商品id"
 //            "payMark":"1",
 //            "goodsName":"商品名称"
@@ -42,43 +42,48 @@ open class GoodsBean : AbsMark(),AbsBanner{
 //
 
 
-    var imgUrl=""//商品属性
-    var goodsId: String=""  //商品属性
-    var payMark=""//商品属性
-    var goodsName=""//商品属性
-    var goodsPrice: String=""//商品属性
-    var oldPrice=""//商品属性
-    var expressPrice=""//商品属性
-    var saleCount=""//商品属性
-    var address=""//商品属性
-    var score=""//商品属性
-    var isCoupon=""//商品属性
-    var isCollected=""//商品属性
-    var mainImgs=ArrayList<String>()//商品属性
-    var allStock =""//商品属性
-    var isHaveRank =""//商品属性
-    var isDelete =""//商品属性
-    var commentCount =""//商品属性
-    var commentList =ArrayList<CommentBean>()//商品属性
-    var shopId =""//商品属性
+    var imgUrl = ""//商品属性
+    var goodsId: String = ""  //商品属性
+    var payMark = ""//商品属性
+    var goodsName = ""//商品属性
+    var goodsPrice: String = ""//商品属性
+    var oldPrice = ""//商品属性
+    var expressPrice = ""//商品属性
+    var saleCount = ""//商品属性
+    var address = ""//商品属性
+    var score = ""//商品属性
+    var isCoupon = ""//商品属性
+    var isCollected = ""//商品属性
+    var mainImgs = ArrayList<String>()//商品属性
+    var allStock = ""//商品属性
+    var isHaveRank = ""//商品属性
+    var isDelete = ""//商品属性
+    var commentCount = ""//商品属性
+    var commentList = ArrayList<CommentBean>()//商品属性
+    var shopId = ""//商品属性
 
-    var shopCarId: String=""//商品购物车属性
-    var goodsType: String=""//商品购物车属性
+    var shopCarId: String = ""//商品购物车属性
+    var goodsType: String = ""//商品购物车属性
 
-    var scorePrice=""//积分商品属性
-    var goodsCount=""
-    var isCheck=false
+    var scorePrice = ""//积分商品属性
+    var goodsCount = ""
+        get() {
+            if (field.isEmpty()) {
+                field = count
+            }
+            return field
+        }
+    var isCheck = false
 
-    var goodsCollectionPriceChangeInfo="goodsCollectionPriceChangeInfo"
+    var goodsCollectionPriceChangeInfo = "goodsCollectionPriceChangeInfo"
 
 
+    var id = ""//积分商品属性
+    var title = ""//积分商品属性
+    var price = ""//积分商品属性
+    var subTitle = ""//积分商品属性
 
-    var id=""//积分商品属性
-    var title=""//积分商品属性
-    var price=""//积分商品属性
-    var subTitle=""//积分商品属性
-
-    var date: String="" //历史足迹属性
+    var date: String = "" //历史足迹属性
 
 
     /**
@@ -92,11 +97,10 @@ open class GoodsBean : AbsMark(),AbsBanner{
      * goodsType : 规格内容
      */
 
-     var count: String = ""
-     var skuid: String = ""
-     var downPrice: String = ""
-     var state: String = ""
-
+    var count: String = ""
+    var skuid: String = ""
+    var downPrice: String = ""
+    var state: String = ""
 
 
 }

@@ -144,6 +144,8 @@
         <activity android:name=".module.main.promotion.PromotionsPersonalActivity"/>
         <!--热点资讯-->
         <activity android:name=".module.main.HotNewsActivity"/>
+        <!--会员充值-->
+        <activity android:name=".module.mine.PayVipActivity"/>
 
 
 
@@ -249,7 +251,7 @@
         <activity android:name=".module.mine.returngoods.ReturnGoodsDetailActivity"/>
 
         <!--申请退款-->
-        <activity android:name=".module.mine.RefundActivity"/>
+        <activity android:name=".module.mine.goodsorder.RefundActivity"/>
 
         <!--填写物流-->
         <activity android:name=".module.mine.InputLogisticsActivity"/>

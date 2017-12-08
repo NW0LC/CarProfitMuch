@@ -5,7 +5,7 @@ import android.view.View
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.module.mine.AccountBalanceWithdrawalActivity.Companion.Balance
-import com.exz.carprofitmuch.module.mine.PayBalanceRechargeActivity.Companion.MinRecharge
+import com.exz.carprofitmuch.module.mine.PayBalanceRechargeActivity.Companion.PayBalanceRecharge_Intent_MinRecharge
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
@@ -37,12 +37,11 @@ class AccountBalanceActivity : BaseActivity(), View.OnClickListener {
         bt_recharge_money.setOnClickListener(this)
         bt_request_withdrawal.setOnClickListener(this)
         bt_balance_change.setOnClickListener(this)
-        initBalance()
     }
 
     override fun onClick(view: View) {
         when (view) {
-            bt_recharge_money -> startActivity(Intent(mContext, PayBalanceRechargeActivity::class.java).putExtra(MinRecharge,minRecharge))
+            bt_recharge_money -> startActivity(Intent(mContext, PayBalanceRechargeActivity::class.java).putExtra(PayBalanceRecharge_Intent_MinRecharge,minRecharge))
             bt_request_withdrawal -> startActivity(Intent(mContext, AccountBalanceWithdrawalActivity::class.java).putExtra(Balance, tv_balance.text.toString().trim()))
             bt_balance_change -> {
                 startActivity(Intent(this, AccountBalanceRecordActivity::class.java))

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/app_bg">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnablePreviewInEditMode="false"
+        app:srlHeaderHeight="150dp"
+        app:srlHeaderMaxDragRate="1">
+
+        <View
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/black" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="?attr/actionBarSize"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/lay_price"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/White"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/dp_10"
+                        android:drawableStart="@mipmap/icon_balance_recharge"
+                        android:text="@string/pay_vip_recharge"
+                        android:gravity="center_vertical"
+                        android:maxLength="10"
+                        android:maxLines="1"
+                        android:padding="14dp"
+                        android:textColor="@color/MaterialGrey600"
+                        android:textColorHint="@color/MaterialGrey400"
+                        android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/tv_rechargeMoney"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end|center_vertical"
+                        android:maxLines="1"
+                        android:padding="14dp"
+                        android:text="@string/pay_vip_unit"
+                        android:textColor="@color/Red"
+                        android:textColorHint="@color/MaterialGrey400"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_minRecharge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:drawablePadding="6dp"
+                    android:drawableStart="@mipmap/icon_mine_return_goods_detail_warning"
+                    android:layout_gravity="end"
+                    android:gravity="center_vertical"
+                    android:text="@string/pay_vip_passTime"
+                    android:textColor="#939296"
+                    android:textSize="12sp" />
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:background="@color/White"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:checked="true"
+                        android:drawableEnd="@drawable/selector_service_pay"
+                        android:drawablePadding="@dimen/margin_10"
+                        android:drawableStart="@mipmap/icon_ali_pay"
+                        android:padding="@dimen/margin_15"
+                        android:text="@string/pay_Ali"
+                        android:textColor="@color/MaterialGrey500"
+                        android:textSize="@dimen/text_12" />
+
+
+                    <RadioButton
+                        android:drawableEnd="@drawable/selector_service_pay"
+                        android:background="@color/White"
+                        android:layout_marginTop="@dimen/margin_0.5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:checked="false"
+                        android:drawablePadding="@dimen/margin_10"
+                        android:drawableStart="@mipmap/icon_weichat"
+                        android:padding="@dimen/margin_15"
+                        android:text="@string/pay_we_chat"
+                        android:textColor="@color/MaterialGrey500"
+                        android:textSize="@dimen/text_12" />
+
+
+                    <RadioButton
+                        android:drawableEnd="@drawable/selector_service_pay"
+                        android:background="@color/White"
+                        android:layout_marginTop="@dimen/margin_0.5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:drawablePadding="@dimen/margin_10"
+                        android:drawableStart="@mipmap/icon_balance_pay"
+                        android:padding="@dimen/margin_15"
+                        android:text="@string/pay_balance"
+                        android:textColor="@color/MaterialGrey500"
+                        android:textSize="@dimen/text_12" />
+
+                </RadioGroup>
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/bt_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="@dimen/margin_15"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_40"
+                    android:layout_marginBottom="@dimen/margin_40"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_15"
+                    android:text="@string/pay_vip_confirm"
+                    android:textColor="@color/White"
+                    android:textSize="@dimen/sp_14"
+                    app:rv_backgroundColor="@color/colorPrimary"
+                    app:rv_cornerRadius="5dp" />
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+    <include layout="@layout/action_bar_custom" />
+
+
+</FrameLayout>
