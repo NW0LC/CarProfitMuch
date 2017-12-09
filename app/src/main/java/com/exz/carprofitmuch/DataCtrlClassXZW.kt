@@ -239,46 +239,33 @@ object DataCtrlClassXZW {
                 })
     }
 
-    /**
-     * 删除订单
-     * */
-    fun DeleteOrderDetailData(context: Context, orderId: String, listener: (scoreStoreBean: String?) -> Unit) {
-
-        val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("orderId", orderId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.url)
-                .params(params)
-                .tag(this)
-                .execute(object : DialogCallback<NetEntity<String>>(context) {
-
-                    override fun onSuccess(response: Response<NetEntity<String>>) {
-                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
-                            listener.invoke(response.body().data)
-                        } else {
-                            listener.invoke(null)
-                            context.toast(response.body().message)
-                        }
-                    }
-
-                    override fun onError(response: Response<NetEntity<String>>) {
-                        super.onError(response)
-                        listener.invoke(null)
-                    }
-
-                })
-    }
-
 
     /**
      * 评价
      * */
-    fun confirmCommentData(context: Context, commentsInfo: String, listener: (scoreStoreBean: String?) -> Unit) {
+    fun confirmCommentData(context: Context, orderId: String, shopId: String, serveStar: String,logisticsStar: String,commentsInfo: String, listener: (scoreStoreBean: String?) -> Unit) {
+//        userId	string	必填	用户id
+//                orderId	string	必填	订单id
+//                shopId	string	必填	店铺id
+//                serveStar	string	必填	服务评分
+//                logisticsStar	string	必填	物流评分
+//                commentInfo	[{
+//                    "goodsId":""
+//                    "skuid":""
+//                    "images":"图片名称(多张用英文逗号隔开)"//【共同方法】中的【图片上传】接口
+//                    "content:"评价内容"(UTF-8编码)
+//                    "goodsStar:"商品评分"
+//                },...]
+//        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
+        params.put("orderId", orderId)
+        params.put("shopId", shopId)
+        params.put("serveStar", serveStar)
+        params.put("logisticsStar", logisticsStar)
         params.put("commentsInfo", commentsInfo)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<String>>(Urls.CommentOrder)
                 .params(params)
                 .tag(this)

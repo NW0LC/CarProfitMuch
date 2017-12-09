@@ -2,6 +2,7 @@ package com.exz.carprofitmuch.module.mine.goodsorder
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -109,7 +110,7 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
 
         SZWUtils.matcherSearchTitle(tv_star1, mContext.getString(R.string.mine_return_Policy), mContext.getString(R.string.mine_return_Policy).indexOf("*"), mContext.getString(R.string.mine_return_Policy).length, ContextCompat.getColor(mContext, R.color.Red))
         SZWUtils.matcherSearchTitle(tv_star3, mContext.getString(R.string.mine_refund_cause), mContext.getString(R.string.mine_refund_cause).indexOf("*"), mContext.getString(R.string.mine_return_Policy).length, ContextCompat.getColor(mContext, R.color.Red))
-        photos.add(0, "res://com.exz.carprofitmuch/" + R.mipmap.icon_take_photo)
+        photos.add(0, Uri.parse("android.resource://" + applicationContext.packageName + "/" +R.mipmap.icon_take_photo).toString())
         mAdapter = ItemOrderCommentImageAdapter()
         mAdapter.setNewData(photos)
         mAdapter.bindToRecyclerView(mRecyclerView)
@@ -120,7 +121,7 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 if (position == mAdapter.data.size - 1) {
-                    imagePicker.selectLimit = 5 - mAdapter.data.size
+                    imagePicker.selectLimit = 6 - mAdapter.data.size
                     PermissionCameraWithCheck(Intent(mContext, ImageGridActivity::class.java), false)
                 } else {
                     val intent = Intent(mContext, PreviewActivity::class.java)
@@ -205,7 +206,7 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
                 val issue = ed_issue.text.toString().trim()
                 var img = ""
                 mAdapter.data
-                        .filterNot { it.contains("res://") }
+                        .filterNot { it.contains("android.resource://") }
                         .forEach { img += EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(it.replace("file://", ""))) + "," }
                 DataCtrlClassXZW.submitRefundData(mContext, intent.getStringExtra(Refund_Intent_OrderId), returnTypeId, reasonId, issue, img, {
                     if (it != null) {

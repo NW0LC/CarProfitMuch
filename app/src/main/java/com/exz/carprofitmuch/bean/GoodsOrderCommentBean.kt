@@ -4,7 +4,7 @@ package com.exz.carprofitmuch.bean
  * Created by pc on 2017/11/17.
  */
 
-class GoodsOrderCommentBean(var photos: ArrayList<String>){
+class GoodsOrderCommentBean{
     /**
      * goodsId : 商品id
      * payMark : 1
@@ -15,7 +15,7 @@ class GoodsOrderCommentBean(var photos: ArrayList<String>){
      * skuid : 规格id
      * goodsType : 规格内容
      */
-
+    var photos=ArrayList<String>()
     var goodsId: String = ""
     var payMark: String = ""
     var goodsName: String = ""

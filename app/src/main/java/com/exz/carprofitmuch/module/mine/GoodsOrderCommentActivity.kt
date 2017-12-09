@@ -2,14 +2,14 @@ package com.exz.carprofitmuch.module.mine
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.text.TextUtils
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import com.alibaba.fastjson.JSON
-import com.blankj.utilcode.util.EncryptUtils
+import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsOrderCommentAdapter
@@ -25,7 +25,6 @@ import com.lzy.imagepicker.ui.ImageGridActivity
 import com.lzy.imagepicker.view.CropImageView
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
-import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.imageloder.GlideImageLoader
 import com.szw.framelibrary.utils.StatusBarUtil
@@ -45,8 +44,8 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
     lateinit var mAdapter: GoodsOrderCommentAdapter
     private var position: Int = 0
     private var positionImg: Int = 0
-    private var serveStar: String = ""
-    private var logisticsStar: String = ""
+    private var serveStar: String = "5"
+    private var logisticsStar: String = "5"
     private lateinit var mFooterView: View
     private lateinit var mCustomProgress: CustomProgress
     override fun initToolbar(): Boolean {
@@ -66,35 +65,34 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
         (actionView as TextView).text = getString(R.string.mine_my_goods_order_comment)
         actionView.setOnClickListener {
             mCustomProgress = CustomProgress.show(mContext, "提交中...", false, null)!!
-            val entity = CommentOrder()
-            entity.userId = MyApplication.loginUserId
-            entity.orderId = orderId
-            entity.shopId = shopId
-            entity.serveStar = serveStar
-            entity.logisticsStar = logisticsStar
-            entity.requestCheck = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId, MyApplication.salt).toLowerCase()
-            val commentInfo = ArrayList<CommentOrder.CommentInfoBean>()
-            for (bean in mAdapter.data) {
-                val info = CommentOrder.CommentInfoBean()
-                info.goodsId = bean.goodsId
-                info.content = bean.content
-                info.goodsStar = bean.score
-                info.skuid = bean.skuid
-                var img = ""
-                for (imgUrl in bean.imgUrls) {
-                    img += imgUrl + ","
-                }
-                info.images = if (!TextUtils.isEmpty(img)) "" else img.substring(0, img.length - 1)
-                commentInfo.add(info)
+            Thread{
+                val commentInfo = ArrayList<CommentOrder.CommentInfoBean>()
+                for (bean in mAdapter.data) {
+                    val info = CommentOrder.CommentInfoBean()
+                    info.goodsId = bean.goodsId
+                    info.content = bean.content
+                    info.goodsStar = if (bean.score.isEmpty())"5" else bean.score
+                    info.skuid = bean.skuid
+                    val imgs=ArrayList<String>()
+                    imgs.addAll(bean.photos)
+                    imgs.removeAt(imgs.lastIndex)
+                    DataCtrlClass.pushImgData(imgs){
+                        info.images=it
+                        commentInfo.add(info)
+                        if (commentInfo.size==mAdapter.data.size) {
+                            DataCtrlClassXZW.confirmCommentData(mContext, orderId, shopId,serveStar,logisticsStar,JSON.toJSONString(commentInfo), {
+                                mCustomProgress.dismiss()
+                                if (it != null) {
+                                    finish()
+                                }
+                            })
+                        }
+                    }
             }
+            }.start()
 
 
-            DataCtrlClassXZW.confirmCommentData(mContext, JSON.toJSONString(entity), {
-                if (it != null) {
-                    mCustomProgress.dismiss()
-                    finish()
-                }
-            })
+
         }
         return false
     }
@@ -108,10 +106,12 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
 
     private fun initData() {
         val list = Gson().fromJson<MutableList<GoodsOrderCommentBean>>(json, object : TypeToken<ArrayList<GoodsOrderCommentBean>>() {}.type)
-        for (bean in mAdapter.data) {
-            bean.photos.add(0, "res://com.exz.carprofitmuch/" + R.mipmap.icon_take_photo)
+        for (bean in list) {
+            bean.photos.add(0, Uri.parse("android.resource://" + applicationContext.packageName + "/" +R.mipmap.icon_take_photo).toString())
         }
         mAdapter.setNewData(list)
+
+
     }
 
     private fun initImgRecycler() {
@@ -146,7 +146,7 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
                     intent.putExtra(PreviewActivity.PREVIEW_INTENT_IMAGES, imgs)
                     intent.putExtra(PreviewActivity.PREVIEW_INTENT_SHOW_NUM, true)
                     intent.putExtra(PreviewActivity.PREVIEW_INTENT_IS_CAN_DELETE, true)
-                    intent.putExtra(PreviewActivity.PREVIEW_INTENT_POSITION, this@GoodsOrderCommentActivity.position)
+                    intent.putExtra(PreviewActivity.PREVIEW_INTENT_POSITION, this@GoodsOrderCommentActivity.positionImg)
                     startActivityForResult(intent, 100)
                 }
             }
@@ -203,24 +203,15 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) { //图片选择
             val images = data?.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS) as ArrayList<*>
-            mCustomProgress = CustomProgress.show(mContext, "提交中...", false, null)!!
-            val phoneList = ArrayList<String>()
             for (image in images) {
-                mAdapter.data[position].photos.add(mAdapter.data[position].photos.size - 1, (image as ImageItem).path)
+                mAdapter.data[position].photos.add(mAdapter.data[position].photos.size - 1,"file://" + (image as ImageItem).path)
             }
             mAdapter.notifyItemChanged(position)
-            phoneList.addAll(mAdapter.data[position].photos)
-            phoneList.removeAt(0)
-            DataCtrlClassXZW.UploadImgData(position, mAdapter, phoneList, mCustomProgress, {})
-
         } else if (Activity.RESULT_OK == resultCode) {
             val photos = mAdapter.data[position].photos
-            val imgUrl = mAdapter.data[position].imgUrls
             val array = data?.getStringArrayListExtra(PreviewActivity.PREVIEW_INTENT_RESULT)
             array?.forEach {
-                val index = photos.indexOf(it) - 1
                 photos.remove(it)
-                imgUrl.removeAt(index)
             }
             mAdapter.notifyDataSetChanged()
         }
