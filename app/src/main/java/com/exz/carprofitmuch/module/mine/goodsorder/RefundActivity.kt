@@ -31,6 +31,7 @@ import com.szw.framelibrary.view.preview.PreviewActivity
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_refund.*
 import org.jetbrains.anko.toast
+import java.net.URLEncoder
 
 /**
  * Created by pc on 2017/11/21.
@@ -148,10 +149,11 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
                 returnTypeId = returnGoodsType[options1].typeId
             } else {
                 tv_refund_cause.text = reasonStr[options1]
-                returnTypeId = reasonList[options1].reasonId
+                reasonId = reasonList[options1].reasonId
             }
         }
         tv_refund_type.setOnClickListener(this)
+        tv_refund_cause.setOnClickListener(this)
         tv_submit.setOnClickListener(this)
     }
 
@@ -181,15 +183,20 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
         when (v.id) {
             R.id.tv_refund_type -> {
                 mPickerType = "1"
-                mPickerView.setPicker(returnGoodsTypeStr)
-                mPickerView.setCyclic(false)
-                mPickerView.show()
+                if (returnGoodsTypeStr.isNotEmpty()) {
+                    mPickerView.setPicker(returnGoodsTypeStr)
+                    mPickerView.setCyclic(false)
+                    mPickerView.show()
+                }
+
             }
             R.id.tv_refund_cause -> {
                 mPickerType = "2"
+                if (returnGoodsTypeStr.isNotEmpty()) {
                 mPickerView.setPicker(reasonStr)
                 mPickerView.setCyclic(false)
                 mPickerView.show()
+            }
             }
 
             R.id.tv_submit -> {
@@ -203,11 +210,13 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
                     toast(mContext.getString(R.string.mine_input_refund_cause))
                     return
                 }
-                val issue = ed_issue.text.toString().trim()
+                val issue = URLEncoder.encode(ed_issue.text.toString().trim(),"utf-8")
                 var img = ""
                 mAdapter.data
                         .filterNot { it.contains("android.resource://") }
-                        .forEach { img += EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(it.replace("file://", ""))) + "," }
+                        .forEach { img += EncodeUtils.base64Encode2String(
+                                FileIOUtils.readFile2BytesByStream(
+                                        it.replace("file://", ""))) + "," }
                 DataCtrlClassXZW.submitRefundData(mContext, intent.getStringExtra(Refund_Intent_OrderId), returnTypeId, reasonId, issue, img, {
                     if (it != null) {
                         finish()

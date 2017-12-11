@@ -234,6 +234,18 @@ object Urls{
      * 订单详情-实物类
      */
     val OrderDetail=url+"App/Order/Reality/OrderDetail.aspx"
+    /**
+     * 订单列表-虚拟类（卡券包）
+     */
+    val VirtuallyOrderList=url+"App/Order/Virtually/OrderList.aspx"
+    /**
+     * 订单详情-虚拟类（卡券包详情）
+     */
+    val VirtuallyOrderDetail=url+"App/Order/Virtually/OrderDetail.aspx"
+    /**
+     * 编辑订单（删除，申请退款）-虚拟类
+     */
+    val VirtuallyEditOrder=url+"App/Order/Virtually/EditOrder.aspx"
 
 
 
@@ -381,12 +393,20 @@ object Urls{
         * 订单列表-实物类
         */
      var OrderList = url + "App/Order/Reality/OrderList.aspx"
+     /*
+        * 退货/退款订单列表-实物类
+        */
+     var ReturnOrderOrderList = url + "App/Order/Reality/ReturnOrder/OrderList.aspx"
 
 
      /*
         * 编辑订单（取消，删除，确认收货）-实物类
         */
      var EditOrder = url + "App/Order/Reality/EditOrder.aspx"
+     /*
+        *编辑退款/货订单（取消，删除）-实物类
+        */
+     var ReturnOrderEditOrder = url + "App/Order/Reality/ReturnOrder/EditOrder.aspx"
 
      /*
         * 上传图片

@@ -1,6 +1,5 @@
 package com.exz.carprofitmuch.adapter
 
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
@@ -10,8 +9,7 @@ import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.R.id.state
 import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.ReturnGoodsBean
-import com.exz.carprofitmuch.utils.RecycleViewDivider
-import kotlinx.android.synthetic.main.item_my_order.view.*
+import kotlinx.android.synthetic.main.item_return_goods.view.*
 import kotlinx.android.synthetic.main.lay_goods_order_bt.view.*
 import kotlinx.android.synthetic.main.lay_return_goods_num.view.*
 
@@ -28,19 +26,23 @@ class ReturnGoodsAdapter<T> : BaseQuickAdapter<ReturnGoodsBean, BaseViewHolder>(
         mAdapter.setNewData(item.goodsInfo)
         helper.itemView.mRecyclerView.isFocusable=false
         helper.itemView.mRecyclerView.layoutManager = LinearLayoutManager(mContext)
-        helper.itemView.mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
         helper.addOnClickListener(R.id.tv_mid)
         helper.addOnClickListener(R.id.tv_right)
         when (item.returnOrderType) {
             "1","3" -> {//退款
-                helper.itemView.tv_refund_num.text="退款编号:"+item.returnOrderId
+                helper.itemView.tv_refund_num.text= String.format(mContext.getString(R.string.return_priceOrderNum)+"%s",item.returnOrderId)
             }
             "2" -> {//退货
-                helper.itemView.tv_refund_num.text="退货编号:"+item.returnOrderId
+                helper.itemView.tv_refund_num.text=String.format(mContext.getString(R.string.return_goodsOrderNum)+"%s",item.returnOrderId)
             }
         }
-        helper.itemView.tv_refund.text=String.format(mContext.getString(R.string.mine_return_price),item.returnMoney)
-        initStateBtn(item.returnOrderState,item.returnOrderSubState, item.returnOrderType, helper.itemView.tv_mid, helper.itemView.tv_right)
+
+        if (item.goodsInfo[0].payMark=="1")
+        helper.itemView.tv_refund.text=String.format(mContext.getString(R.string.mine_return_price)+mContext.getString(R.string.SCORE),item.returnScore)
+        else{
+            helper.itemView.tv_refund.text=String.format(mContext.getString(R.string.mine_return_price),mContext.getString(R.string.CNY)+item.returnMoney)
+        }
+        initStateBtn(item.returnOrderState,item.returnOrderSubState, item.returnOrderType,helper.itemView.tv_my_order, helper.itemView.tv_mid, helper.itemView.tv_right)
 
 
     }
@@ -81,15 +83,12 @@ class ReturnGoodsAdapter<T> : BaseQuickAdapter<ReturnGoodsBean, BaseViewHolder>(
              * 其他
              */
             view[0].text = getState(returnOrderState)
-            if (view[1].id == R.id.tv_left) view[1].visibility = View.VISIBLE else view[1].visibility = View.GONE
-            var strLeft=""
             var strMid=""
             var strRight = ""
             when (returnOrderState) {
                 "1" -> {
-                    strLeft = ""
                     strMid = "联系商家"
-                    strRight =if(returnOrderType.equals(2)) "取消退货" else "取消退款"
+                    strRight =if(returnOrderType == "2") "取消退货" else "取消退款"
                 }
                 "2" -> { //【联系商家   查看物流  确认收货】
 
@@ -128,7 +127,6 @@ class ReturnGoodsAdapter<T> : BaseQuickAdapter<ReturnGoodsBean, BaseViewHolder>(
 
                 }
                 "3" -> {// 【联系商家   平台申诉  取消退货】
-                    strLeft = ""
                     strMid = "联系商家"
                     strRight = "删除订单"
                 }
@@ -136,15 +134,13 @@ class ReturnGoodsAdapter<T> : BaseQuickAdapter<ReturnGoodsBean, BaseViewHolder>(
                 else -> {
                     view[1].visibility = View.GONE
                     view[2].visibility = View.GONE
-                    strLeft = ""
                     strMid = ""
                     strRight = ""
                 }
 
             }
-            view[1].text = strLeft
-            view[2].text = strMid
-            view[3].text = strRight
+            view[1].text = strMid
+            view[2].text = strRight
         }
     }
 }

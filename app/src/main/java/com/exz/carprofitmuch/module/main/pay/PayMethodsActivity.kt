@@ -17,6 +17,7 @@ import com.exz.carprofitmuch.config.Urls.PayInfo
 import com.exz.carprofitmuch.config.Urls.PayState
 import com.exz.carprofitmuch.config.Urls.WeChatPay
 import com.exz.carprofitmuch.module.mine.CardPackageDetailActivity
+import com.exz.carprofitmuch.module.mine.CardPackageDetailActivity.Companion.CardPackageDetail_Intent_OrderId
 import com.exz.carprofitmuch.module.mine.CardPackageListActivity
 import com.exz.carprofitmuch.module.mine.goodsorder.GoodsOrderActivity
 import com.exz.carprofitmuch.module.mine.goodsorder.GoodsOrderDetailActivity
@@ -48,6 +49,7 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
     var canBalancePay = false
     private var  orderId=""
     private var payMoney = ""
+    private var finishType = ""
     companion object {
         var Pay_Intent_OrderId="Pay_Intent_OrderId"
 
@@ -70,7 +72,7 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
 
     override fun init() {
         orderId =intent.getStringExtra(Pay_Intent_OrderId)?:""
-
+        finishType=intent.getStringExtra(Pay_Intent_Finish_Type)?:""
         pwdPop = PwdPop(this) {
             OnPasswordInputFinish {
                 balancePay(it)
@@ -189,7 +191,7 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
 
                     override fun onSuccess(response: Response<NetEntity<CheckPayBean>>) {
                         val intent= if (Pay_Intent_Finish_Type== Intent_Finish_Type_1) {
-
+                            intent.putExtra(CardPackageDetail_Intent_OrderId,orderId)
                            Intent(mContext, CardPackageDetailActivity::class.java)
                         }else {
                             GoodsOrderDetailActivity.orderId =orderId

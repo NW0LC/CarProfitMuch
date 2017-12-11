@@ -1,43 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg">
 
-
-
-    <LinearLayout
-        android:id="@+id/llLay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        android:background="@color/white"
-        android:gravity="right">
-
-        <TextView
-            android:id="@+id/tv_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:padding="@dimen/margin_15"
-            android:text="@string/mine_submit_info"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_14" />
-
-    </LinearLayout>
-
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/llLay"
         app:srlEnableHeaderTranslationContent="true"
         app:srlEnablePreviewInEditMode="false">
 
 
-    <View
+        <View
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,12 +47,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_10"
                     android:layout_marginStart="@dimen/dp_10"
-                    android:textCursorDrawable="@drawable/color_cursor"
                     android:background="@drawable/mine_refund_price_ed"
                     android:hint="@string/mine_select_logistics_company"
                     android:padding="@dimen/dp_10"
                     android:textColor="@color/MaterialGrey800"
                     android:textColorHint="@color/MaterialGrey400"
+                    android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
@@ -94,12 +70,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_10"
                     android:layout_marginStart="@dimen/dp_10"
-                    android:textCursorDrawable="@drawable/color_cursor"
                     android:background="@drawable/mine_refund_price_ed"
                     android:hint="@string/mine_select_logistics_numy"
                     android:padding="@dimen/dp_10"
                     android:textColor="@color/MaterialGrey800"
                     android:textColorHint="@color/MaterialGrey400"
+                    android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="@dimen/sp_14" />
 
 
@@ -109,5 +85,25 @@
         </android.support.v4.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
+    <LinearLayout
+        android:id="@+id/llLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:gravity="end">
+
+        <TextView
+            android:id="@+id/tv_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:padding="@dimen/margin_15"
+            android:text="@string/mine_submit_info"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14" />
+
+    </LinearLayout>
+
     <include layout="@layout/action_bar_custom" />
-</RelativeLayout>
+</FrameLayout>

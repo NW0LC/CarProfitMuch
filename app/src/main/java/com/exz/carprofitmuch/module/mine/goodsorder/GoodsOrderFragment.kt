@@ -19,6 +19,7 @@ import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Pay_In
 import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Pay_Intent_OrderId
 import com.exz.carprofitmuch.module.mine.GoodsOrderCommentActivity
 import com.exz.carprofitmuch.module.mine.goodsorder.RefundActivity.Companion.Refund_Intent_OrderId
+import com.exz.carprofitmuch.utils.DialogUtils
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.exz.carprofitmuch.widget.MyWebActivity
@@ -95,11 +96,14 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdapter
                     R.id.tv_mid -> {
                         when (mAdapter.data[position].orderState) {
                             "1" -> {//取消订单
-                                DataCtrlClassXZW.editOrderData(context, mAdapter.data[position].orderId, "0", {
-                                    if (it != null) {
-                                        onRefresh(refreshLayout)
-                                    }
-                                })
+                                DialogUtils.cancel(context){
+                                    DataCtrlClassXZW.editOrderData(context, mAdapter.data[position].orderId, "0", {
+                                        if (it != null) {
+                                            onRefresh(refreshLayout)
+                                        }
+                                    })
+                                }
+
                             }
                             "3" -> {//查看物流
                                 startActivity(Intent(context, MyWebActivity::class.java).putExtra(MyWebActivity.Intent_Url, "http://m.kuaidi100.com/result.jsp?nu=" + mAdapter.data[position].logisticsNum).putExtra(MyWebActivity.Intent_Title, "查看物流"))
@@ -129,6 +133,7 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdapter
 
                             }
                             "3" -> {//确认收货
+
                                 DataCtrlClassXZW.editOrderData(context, mAdapter.data[position].orderId, "2", {
                                     if (it != null) {
                                         onRefresh(refreshLayout)
@@ -143,11 +148,14 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdapter
 
                             }
                             "5","6" -> {    //删除订单
-                                DataCtrlClassXZW.editOrderData(context, mAdapter.data[position].orderId, "1", {
-                                    if (it != null) {
-                                        onRefresh(refreshLayout)
-                                    }
-                                })
+                                DialogUtils.delete(context){
+                                    DataCtrlClassXZW.editOrderData(context, mAdapter.data[position].orderId, "1", {
+                                        if (it != null) {
+                                            onRefresh(refreshLayout)
+                                        }
+                                    })
+                                }
+
                             }
 
                         }

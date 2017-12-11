@@ -26,8 +26,8 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="?attr/actionBarSize"
-            android:overScrollMode="never">
+            android:overScrollMode="never"
+            android:paddingTop="?attr/actionBarSize">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,26 +80,16 @@
                     </com.flyco.roundview.RoundLinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/lay_service_code"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/margin_15"
-                        android:layout_marginStart="@dimen/margin_15"
-                        android:layout_marginTop="@dimen/margin_20">
+                        android:layout_marginEnd="@dimen/margin_5"
+                        android:layout_marginStart="@dimen/margin_5"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/service_code_code"
-                            android:textColor="@color/MaterialGrey500"
-                            android:textSize="@dimen/sp_14" />
 
-                        <LinearLayout
-                            android:id="@+id/lay_service_code"
-                            android:orientation="vertical"
-                            android:layout_marginStart="@dimen/dp_10"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                        </LinearLayout>
+
 
                     </LinearLayout>
 
@@ -108,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/margin_15"
-                        android:layout_marginStart="@dimen/margin_15"
+                        android:layout_marginStart="@dimen/margin_5"
                         android:layout_marginTop="@dimen/margin_10"
                         android:ellipsize="end"
                         android:lines="1"
@@ -166,70 +156,20 @@
                             tool:background="@color/MaterialGrey200" />
                     </LinearLayout>
 
-                    <android.support.constraint.ConstraintLayout
-                        android:id="@+id/lay_serviceOrder"
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/mRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/app_bg"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/lay_shop">
-
-                        <com.facebook.drawee.view.SimpleDraweeView
-                            android:id="@+id/img"
-                            android:layout_width="65dp"
-                            android:layout_height="65dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:roundBottomLeft="true"
-                            app:roundBottomRight="true"
-                            app:roundTopLeft="true"
-                            app:roundTopRight="true"
-                            app:roundedCornerRadius="3dp"
-                            tool:background="@color/MaterialGrey200" />
-
-                        <TextView
-                            android:id="@+id/tv_service_orderName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:minWidth="@dimen/margin_90"
-                            android:text=""
-                            android:textColor="@color/MaterialGrey600"
-                            android:textSize="@dimen/sp_14"
-                            app:layout_constraintStart_toEndOf="@+id/img"
-                            app:layout_constraintTop_toTopOf="@+id/img"
-                            tool:background="@color/MaterialGrey200" />
-
-                        <TextView
-                            android:id="@+id/tv_service_orderCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="4dp"
-                            android:text="@string/card_package_list_count"
-                            android:textColor="@color/MaterialGrey400"
-                            android:textSize="@dimen/sp_12"
-                            app:layout_constraintStart_toEndOf="@+id/img"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_service_orderName" />
-
-                        <TextView
-                            android:id="@+id/tv_service_orderPrice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="4dp"
-                            android:text="@string/card_package_list_price"
-                            android:textColor="@color/MaterialGrey400"
-                            android:textSize="@dimen/sp_12"
-                            app:layout_constraintStart_toEndOf="@+id/img"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_service_orderCount" />
-                    </android.support.constraint.ConstraintLayout>
-
+                        app:layout_constraintTop_toBottomOf="@+id/lay_shop" />
+                    <LinearLayout
+                        android:id="@+id/lay_price"
+                        app:layout_constraintTop_toBottomOf="@+id/mRecyclerView"
+                        android:layout_marginTop="@dimen/margin_0.5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -239,7 +179,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/lay_serviceOrder">
+                        app:layout_constraintTop_toBottomOf="@+id/lay_price">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -257,15 +197,16 @@
                             android:textSize="@dimen/sp_14" />
                     </LinearLayout>
                 </android.support.constraint.ConstraintLayout>
+
                 <LinearLayout
-                    android:layout_marginTop="1dp"
                     android:id="@+id/lay_time"
-                    android:layout_marginBottom="@dimen/margin_45"
-                    android:padding="@dimen/margin_15"
-                    android:orientation="vertical"
-                    android:background="@color/White"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_45"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/White"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_15">
 
                 </LinearLayout>
             </LinearLayout>
@@ -277,11 +218,13 @@
     <include layout="@layout/action_bar_custom" />
 
     <LinearLayout
-        android:layout_gravity="bottom"
+        android:paddingStart="@dimen/margin_10"
+        android:paddingEnd="@dimen/margin_10"
         android:id="@+id/lay_bottom"
-        android:background="@color/White"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_45"
+        android:layout_gravity="bottom"
+        android:background="@color/White"
         android:gravity="center_vertical|end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -289,6 +232,7 @@
 
         <com.flyco.roundview.RoundTextView
             android:id="@+id/bt_left"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

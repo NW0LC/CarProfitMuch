@@ -40,10 +40,10 @@ class CardPackageListActivity : BaseActivity(){
 
     private fun initTabBar() {
         mTitles.indices.mapTo(mTabEntities) { TabEntity(mTitles[it], mIconSelectIds[it], mIconUnSelectIds[it]) }
-        mFragments.add(CardPackageListFragment.newInstance(0))
         mFragments.add(CardPackageListFragment.newInstance(1))
         mFragments.add(CardPackageListFragment.newInstance(2))
         mFragments.add(CardPackageListFragment.newInstance(3))
+        mFragments.add(CardPackageListFragment.newInstance(4))
         mTabLayout.setTabData(mTabEntities, this, R.id.frameLayout, mFragments)
     }
 

@@ -36,6 +36,20 @@ object DialogUtils {
         }
         dialog.setCanceledOnTouchOutside(true)
         dialog.show()
+    }/**
+     * 取消提醒
+     */
+    fun cancel(context: Context, listener: () -> Unit) {
+        dialog = CommonDialogFactory.createDialogByType(context, DialogUtil.DIALOG_TYPE_103)
+        dialog.setTitleText("删除")
+        dialog.setContentText("确定取消？")
+        dialog.setCancelBtn("取消") { dialog.dismiss() }
+        dialog.setOkBtn("确定") {
+            dialog.dismiss()
+            listener.invoke()
+        }
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.show()
     }
 
     /**

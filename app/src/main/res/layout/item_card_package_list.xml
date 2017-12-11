@@ -44,69 +44,14 @@
             tool:background="@color/MaterialGrey200" />
     </LinearLayout>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/lay_serviceOrder"
+    <android.support.v7.widget.RecyclerView
+
+        android:id="@+id/mRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_bg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lay_shop">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/img"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:roundBottomLeft="true"
-            app:roundBottomRight="true"
-            app:roundTopLeft="true"
-            app:roundTopRight="true"
-            app:roundedCornerRadius="3dp"
-            tool:background="@color/MaterialGrey200" />
-
-        <TextView
-            android:id="@+id/tv_service_orderName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:minWidth="@dimen/margin_90"
-            android:text=""
-            android:textColor="@color/MaterialGrey600"
-            android:textSize="@dimen/sp_14"
-            app:layout_constraintStart_toEndOf="@+id/img"
-            app:layout_constraintTop_toTopOf="@+id/img"
-            tool:background="@color/MaterialGrey200" />
-
-        <TextView
-            android:id="@+id/tv_service_orderCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/card_package_list_count"
-            android:textColor="@color/MaterialGrey400"
-            android:textSize="@dimen/sp_12"
-            app:layout_constraintStart_toEndOf="@+id/img"
-            app:layout_constraintTop_toBottomOf="@+id/tv_service_orderName" />
-
-        <TextView
-            android:id="@+id/tv_service_orderPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/card_package_list_price"
-            android:textColor="@color/MaterialGrey400"
-            android:textSize="@dimen/sp_12"
-            app:layout_constraintStart_toEndOf="@+id/img"
-            app:layout_constraintTop_toBottomOf="@+id/tv_service_orderCount" />
-    </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:id="@+id/lay_bottom"
@@ -116,7 +61,7 @@
         android:padding="@dimen/margin_10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lay_serviceOrder">
+        app:layout_constraintTop_toBottomOf="@+id/mRecyclerView">
 
         <TextView
 
@@ -148,6 +93,7 @@
             android:text=""
             android:textColor="@color/MaterialGrey700"
             android:textSize="@dimen/sp_12"
+            android:visibility="gone"
             app:rv_cornerRadius="@dimen/margin_3"
             app:rv_strokeColor="@color/MaterialGrey700"
             app:rv_strokeWidth="1dp" />

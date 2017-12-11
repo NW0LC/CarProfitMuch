@@ -8,13 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ReturnGoodsAdapter
 import com.exz.carprofitmuch.bean.MyOrderBean
 import com.exz.carprofitmuch.module.mine.InputLogisticsActivity
+import com.exz.carprofitmuch.module.mine.returngoods.ReturnGoodsDetailActivity.Companion.ReturnGoodsDetail_Intent_orderId
+import com.exz.carprofitmuch.module.mine.returngoods.ReturnGoodsDetailActivity.Companion.ReturnGoodsDetail_Intent_phone
+import com.exz.carprofitmuch.module.mine.returngoods.ReturnGoodsDetailActivity.Companion.ReturnGoodsDetail_Intent_returnOrderSubState
+import com.exz.carprofitmuch.module.mine.returngoods.ReturnGoodsDetailActivity.Companion.ReturnGoodsDetail_Intent_state
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
@@ -84,13 +87,16 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                startActivity(Intent(context, ReturnGoodsDetailActivity::class.java).putExtra("orderType", (adapter!!.data.get(position) as MyOrderBean).orderState))
+                val intent = Intent(context, ReturnGoodsDetailActivity::class.java)
+                intent.putExtra(ReturnGoodsDetail_Intent_state,mAdapter.data[position].returnOrderState)
+                intent.putExtra(ReturnGoodsDetail_Intent_returnOrderSubState,mAdapter.data[position].returnOrderSubState)
+                intent.putExtra(ReturnGoodsDetail_Intent_phone,mAdapter.data[position].shopPhone)
+                intent.putExtra(ReturnGoodsDetail_Intent_orderId,mAdapter.data[position].returnOrderId)
+                startActivity(intent)
             }
-        })
 
-        mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener() {
-            override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View, position: Int) {
-                var entity=mAdapter.data.get(position)
+            override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View, position: Int) {
+                val entity= mAdapter.data[position]
                 when (view.id) {
                     R.id.tv_mid -> {
                         when (entity.returnOrderState) {
@@ -107,7 +113,7 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
                                         DialogUtils.Call(context as BaseActivity, entity.shopPhone)
                                     }
                                     "3"->{//填写物流
-                                        startActivity(Intent(context,InputLogisticsActivity::class.java).putExtra(InputLogisticsActivity.OrderId,entity.returnOrderId))
+                                        startActivity(Intent(context, InputLogisticsActivity::class.java).putExtra(InputLogisticsActivity.InputLogistics_Intent_OrderId,entity.returnOrderId))
                                     }
 
                                 }
@@ -116,39 +122,38 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
                             "3" -> {   //联系商家
 
                                 DialogUtils.Call(context as BaseActivity, entity.shopPhone)
-                                DataCtrlClassXZW.ReturnEditOrderData(context, entity.returnOrderId,"1", {
-                                    if (it != null) {
-                                        onRefresh(refreshLayout)
-                                    }
-                                })
                             }
 
                         }
                     }
                     R.id.tv_right -> {
                         when (entity.returnOrderState) {
-                            "1","2"  -> {//取消收货
-                                DataCtrlClassXZW.ReturnEditOrderData(context, entity.returnOrderId,"0", {
-                                    if (it != null) {
-                                        onRefresh(refreshLayout)
-                                    }
-                                })
+                            "1","2"  -> {//取消退货
+                                com.exz.carprofitmuch.utils.DialogUtils.cancel(context){
+                                    DataCtrlClassXZW.returnEditOrderData(context, entity.returnOrderId,"0", {
+                                        if (it != null) {
+                                            onRefresh(refreshLayout)
+                                        }
+                                    })
+                                }
 
                             }
                             "3" -> {    //删除订单
-                                DataCtrlClassXZW.ReturnEditOrderData(context, entity.returnOrderId,"1", {
-                                    if (it != null) {
-                                        onRefresh(refreshLayout)
-                                    }
-                                })
+                               com.exz.carprofitmuch.utils.DialogUtils.delete(context){
+                                   DataCtrlClassXZW.returnEditOrderData(context, entity.returnOrderId,"1", {
+                                       if (it != null) {
+                                           onRefresh(refreshLayout)
+                                       }
+                                   })
+                               }
                             }
 
                         }
                     }
                 }
-
             }
         })
+
     }
 
     override fun onClick(p0: View?) {
@@ -167,7 +172,7 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
     }
 
     private fun iniData() {
-        DataCtrlClassXZW.ReturnOrderOrderData(context,arguments.getInt(COMMENT_TYPE).toString(), currentPage) {
+        DataCtrlClassXZW.returnOrderOrderData(context,arguments.getInt(COMMENT_TYPE).toString(), currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

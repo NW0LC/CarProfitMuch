@@ -2,6 +2,7 @@ package com.exz.carprofitmuch.module.mine
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
@@ -55,7 +56,7 @@ class ServiceOrderCommentActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun initImgRecycler() {
-        photos.add(0, "res://com.exz.carprofitmuch/" + R.mipmap.icon_take_photo)
+        photos.add(0, Uri.parse("android.resource://" + applicationContext.packageName + "/" +R.mipmap.icon_take_photo).toString())
         mAdapter = ItemOrderCommentImageAdapter()
         mAdapter.setNewData(photos)
         mAdapter.bindToRecyclerView(mPhotoRecyclerView)

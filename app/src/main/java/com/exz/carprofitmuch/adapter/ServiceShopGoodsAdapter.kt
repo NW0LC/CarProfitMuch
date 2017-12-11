@@ -13,7 +13,7 @@ class ServiceShopGoodsAdapter<T : ServiceGoodsBean> : BaseQuickAdapter<T, BaseVi
     var goodsCount=3
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
-        itemView.img.setImageURI(item.img)
+//        itemView.img.setImageURI(item.img)
         itemView.tv_service_goodsName.text=item.goodsName
         if (item.payMark=="1") {
             itemView.tv_service_goodsPrice.text=String.format("%s"+mContext.getString(R.string.SCORE), item.goodsPrice)

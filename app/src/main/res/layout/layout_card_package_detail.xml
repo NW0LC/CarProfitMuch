@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_service_codeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minEms="3"
+            android:text="@string/service_code_code"
+            android:textColor="@color/MaterialGrey500"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_service_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_3"
+            android:layout_marginStart="@dimen/margin_3"
+            android:layout_weight="1"
+            android:lines="1"
+            android:minEms="3"
+            android:text=""
+            android:textColor="@color/MaterialGrey700"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_service_isUsed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cardPackage_used"
+            android:textColor="@color/MaterialGrey500"
+            android:textSize="@dimen/sp_14" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

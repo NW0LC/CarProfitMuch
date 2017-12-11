@@ -2,7 +2,6 @@ package com.exz.carprofitmuch.module.mine
 
 import android.text.TextUtils
 import android.view.View
-import com.bigkoo.pickerview.OptionsPickerView
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.szw.framelibrary.base.BaseActivity
@@ -10,14 +9,7 @@ import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_input_logistcs.*
 
-/**
- * Created by pc on 2017/11/22.
- */
-
 class InputLogisticsActivity : BaseActivity(), View.OnClickListener {
-
-
-    lateinit var mPickerView: OptionsPickerView<String>
     override fun initToolbar(): Boolean {
         mTitle.text = mContext.getString(R.string.mine_input_logistics)
         //状态栏透明和间距处理
@@ -32,9 +24,7 @@ class InputLogisticsActivity : BaseActivity(), View.OnClickListener {
         return false
     }
 
-    override fun setInflateId(): Int {
-        return R.layout.activity_input_logistcs
-    }
+    override fun setInflateId(): Int = R.layout.activity_input_logistcs
 
     override fun init() {
         super.init()
@@ -49,19 +39,18 @@ class InputLogisticsActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.tv_submit -> {
-                var logisticsName = ed_logisticsName.text.toString().trim()
+                val logisticsName = ed_logisticsName.text.toString().trim()
                 if (TextUtils.isEmpty(logisticsName)) {
                     ed_logisticsName.setShakeAnimation()
                     return
                 }
-                var logistics_num = ed_logistics_num.text.toString().trim()
-                if (TextUtils.isEmpty(logistics_num)) {
+                val logisticsNum = ed_logistics_num.text.toString().trim()
+                if (TextUtils.isEmpty(logisticsNum)) {
                     ed_logistics_num.setShakeAnimation()
                     return
                 }
 
-                DataCtrlClassXZW.SubmitLogisticsCompanyData(mContext, intent.getStringExtra(OrderId), logisticsName, logistics_num, {
-
+                DataCtrlClassXZW.submitLogisticsCompanyData(mContext, intent.getStringExtra(InputLogistics_Intent_OrderId), logisticsName, logisticsNum, {
                     if (it != null) {
                         finish()
                     }
@@ -73,7 +62,7 @@ class InputLogisticsActivity : BaseActivity(), View.OnClickListener {
 
 
     companion object {
-        var OrderId = "OrderId"
+        var InputLogistics_Intent_OrderId = "InputLogistics_Intent_OrderId"
     }
 
 }

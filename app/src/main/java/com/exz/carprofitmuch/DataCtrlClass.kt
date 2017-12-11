@@ -12,6 +12,7 @@ import com.exz.carprofitmuch.adapter.GoodsConfirmBean
 import com.exz.carprofitmuch.adapter.GoodsConfirmScoreBean
 import com.exz.carprofitmuch.bean.*
 import com.exz.carprofitmuch.config.Urls
+import com.exz.carprofitmuch.config.Urls.VirtuallyEditOrder
 import com.exz.carprofitmuch.pop.SearchFilterPop
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
@@ -1302,12 +1303,17 @@ object DataCtrlClass {
     /**
      *  卡券包列表
      * */
-    fun cardPackageListData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<ServiceOrderBean>?) -> Unit) {
+    fun cardPackageListData(context: Context, currentPage: Int,orderState:String, listener: (scoreStoreBean: List<ServiceOrderBean>?) -> Unit) {
+//       userId	string	必填	用户ID
+//       orderState	string	必填	订单状态
+//       page	string	选填	分页
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
-        OkGo.post<NetEntity<List<ServiceOrderBean>>>(Urls.url)
+        params.put("userId", MyApplication.loginUserId)
+        params.put("orderState", orderState)
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        OkGo.post<NetEntity<List<ServiceOrderBean>>>(Urls.VirtuallyOrderList)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<List<ServiceOrderBean>>>(context) {
@@ -1327,13 +1333,52 @@ object DataCtrlClass {
                 })
     }
     /**
+     * 编辑订单（删除，申请退款）-虚拟类
+     * */
+    fun editServiceState(context: Context,orderId:String, editType:String,listener: (addressBean: NetEntity<Void>?) -> Unit) {
+//        userId	string	必填	用户ID
+//                orderId	string	必填	订单ID
+//                editType	string	必填	编辑类型（1：删除  2：申请退款）
+//        requestCheck	string	必填	验证请求
+
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("orderId", orderId)
+        params.put("editType", editType)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId, salt).toLowerCase())
+        OkGo.post<NetEntity<Void>>(VirtuallyEditOrder)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<Void>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<Void>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body())
+                        } else {
+                            context.toast(response.body().message)
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<Void>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
      * 卡券包列表详情
      */
-    fun cardPackageDetailData(context: Context,listener: (data: ServiceOrderBean?) -> Unit) {
+    fun cardPackageDetailData(context: Context,orderId:String,listener: (data: ServiceOrderBean?) -> Unit) {
+//        userId	string	必填	用户ID
+//                orderId	string	必填	订单ID
+//                requestCheck	string	必填	验证请求
+
         val params = HashMap<String, String>()
-        params.put("id", loginUserId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId , MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<ServiceOrderBean>>(Urls.url)
+        params.put("userId", loginUserId)
+        params.put("orderId", orderId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId +orderId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<ServiceOrderBean>>(Urls.VirtuallyOrderDetail)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<ServiceOrderBean>>(context) {

@@ -48,7 +48,7 @@ open class ServiceGoodsBean {
     var goodsId = ""
     var goodsPrice = ""
     var oldPrice = ""
-    var img = ""
+    var imgUrl = ""
     var goodsName = ""
     var saleCount = ""
     var payMark = ""
