@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/dp_10"
     android:background="@color/blur_bg_white"
+    android:id="@+id/layout"
     android:padding="@dimen/margin_15">
 
     <com.facebook.drawee.view.SimpleDraweeView
@@ -63,13 +64,16 @@
             android:textSize="@dimen/sp_12" />
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            tool:listitem="@layout/item_image" />
-    </LinearLayout>
 
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/llLay"
+        android:layout_alignStart="@+id/llLay"
+        android:id="@+id/mRecyclerView"
+        android:overScrollMode="never"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        tool:listitem="@layout/item_image" />
 
 </RelativeLayout>

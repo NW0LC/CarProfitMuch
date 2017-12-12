@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.GoodsBean
+import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type_Delete
 import com.exz.carprofitmuch.module.mine.favorite.FavoriteGoodsActivity.Companion.Edit_Type_Edit
@@ -60,7 +61,7 @@ class FavoriteGoodsAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>(
         itemView.btnDelete.setOnClickListener {
             DialogUtils.delete(mContext) {
                 DataCtrlClass.favoriteGoodsIsCollection(mContext, "1","0", arrayOf(item)) {
-                    removeItem(this@FavoriteGoodsAdapter, it)
+                    removeItem(mContext as FavoriteGoodsActivity,this, it)
                 }
             }
         }

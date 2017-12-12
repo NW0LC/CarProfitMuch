@@ -286,24 +286,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:background="@color/White"
-                    android:paddingStart="@dimen/margin_15"
-                    android:paddingEnd="@dimen/margin_15"
-                    android:paddingTop="@dimen/margin_10"
-                    android:paddingBottom="@dimen/margin_10"
-                    android:text="@string/service_detail_buyNeedKnow"
-                    android:textColor="@color/MaterialGrey500" />
-
-                <im.delight.android.webview.AdvancedWebView
-                    android:id="@+id/mWebView"
-                    android:layout_marginTop="@dimen/margin_0.5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:ellipsize="end"
                     android:lines="1"

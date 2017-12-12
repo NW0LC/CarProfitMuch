@@ -425,7 +425,7 @@ object DataCtrlClassXZW {
      *
      *
      */
-    fun MapPinData(context: Context, url: String, longitude: String, latitude: String, listener: (scoreStoreBean: List<MapPinBean>?) -> Unit) {
+    fun mapPinData(context: Context, url: String, longitude: String, latitude: String, listener: (scoreStoreBean: List<MapPinBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params.put("longitude", longitude)
@@ -581,7 +581,7 @@ object DataCtrlClassXZW {
     /**
      * 我的宝藏
      * */
-    fun MyTreasure(context: Context, state: String, currentPage: Int, listener: (scoreStoreBean: List<MyTreasureListBean>?) -> Unit) {
+    fun myTreasure(context: Context, state: String, currentPage: Int, listener: (scoreStoreBean: List<MyTreasureListBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
@@ -718,9 +718,9 @@ object DataCtrlClassXZW {
      * idName	string	必填	身份证上的姓名
      * businessImg	string	必填	营业执照（base64)
      * */
-    fun ConfirmInfoData(context: Context, classMark: String, levelId: String, name: String, categoryId: String, districtId: String, detail: String, longitude: String,
+    fun confirmInfoData(context: Context, classMark: String, levelId: String, name: String, categoryId: String, districtId: String, detail: String, longitude: String,
                         latitude: String, contact: String, idFrontImg: String, idBackImg: String, idNum: String, idName: String, businessImg: String, url: String,
-                        listener: (scoreStoreBean: String?) -> Unit) {
+                        listener: (v: NetEntity<Void>?) -> Unit) {
         val params = HashMap<String, String>()
         if (!TextUtils.isEmpty(MyApplication.loginUserId)) params.put("userId", MyApplication.loginUserId)
         if (!TextUtils.isEmpty(classMark)) params.put("classMark", classMark)
@@ -738,21 +738,21 @@ object DataCtrlClassXZW {
         if (!TextUtils.isEmpty(idName)) params.put("idName", idName)
         if (!TextUtils.isEmpty(businessImg)) params.put("businessImg",EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(businessImg)) )
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(url)
+        OkGo.post<NetEntity<Void>>(url)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                .execute(object : DialogCallback<NetEntity<Void>>(context) {
 
-                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                    override fun onSuccess(response: Response<NetEntity<Void>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
-                            listener.invoke(response.body().data)
+                            listener.invoke(response.body())
                         } else {
                             listener.invoke(null)
                         }
                         context.toast(response.body().message)
                     }
 
-                    override fun onError(response: Response<NetEntity<String>>) {
+                    override fun onError(response: Response<NetEntity<Void>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -1046,25 +1046,25 @@ object DataCtrlClassXZW {
     /**
      *  清空我的足迹
      * */
-    fun ClearFootprintData(context: Context,   listener: (scoreStoreBean: String?) -> Unit) {
+    fun clearFootprintData(context: Context, listener: (v: NetEntity<Void>?) -> Unit) {
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.ClearFootprint)
+        OkGo.post<NetEntity<Void>>(Urls.ClearFootprint)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                .execute(object : DialogCallback<NetEntity<Void>>(context) {
 
-                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                    override fun onSuccess(response: Response<NetEntity<Void>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
-                            listener.invoke(response.body().data)
+                            listener.invoke(response.body())
                         } else {
                             listener.invoke(null)
                             context.toast(response.body().message)
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<String>>) {
+                    override fun onError(response: Response<NetEntity<Void>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }

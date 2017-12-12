@@ -1,5 +1,6 @@
 package com.exz.carprofitmuch.module
 
+import android.content.Intent
 import android.support.v4.app.Fragment
 import android.view.View
 import android.view.animation.Animation
@@ -11,6 +12,9 @@ import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.LocationBean
 import com.exz.carprofitmuch.bean.TabEntity
 import com.exz.carprofitmuch.config.Constants.Receiver_Location
+import com.exz.carprofitmuch.module.login.LoginActivity.Companion.RESULT_LOGIN_CANCELED
+import com.exz.carprofitmuch.module.login.LoginActivity.Companion.RESULT_LOGIN_OK
+import com.exz.carprofitmuch.utils.SZWUtils
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.hwangjr.rxbus.annotation.Subscribe
@@ -28,7 +32,8 @@ class MainActivity : BaseActivity() {
     private val mIconSelectIds = intArrayOf(R.mipmap.icon_home_on, R.mipmap.icon_store_on, R.mipmap.icon_goods_car_on, R.mipmap.icon_mine_on)
     private val mTabEntities = ArrayList<CustomTabEntity>()
     private val mFragments = ArrayList<Fragment>()
-
+    private var oldPosition=0
+    private var newPosition=0
 
     override fun initToolbar(): Boolean {
         //状态栏透明和间距处理
@@ -48,6 +53,17 @@ class MainActivity : BaseActivity() {
         mainTabBar.setOnTabSelectListener(object : OnTabSelectListener {
             override fun onTabSelect(position: Int) {
                 startAnimation(position)
+                when(position){
+                    0,1->{
+                        oldPosition=position
+                    }
+                    2,3->{
+                        newPosition=position
+                        if (!SZWUtils.checkLogin(this@MainActivity)) {
+                            mainTabBar.currentTab=oldPosition
+                        }
+                    }
+                }
             }
 
             override fun onTabReselect(position: Int) {
@@ -87,6 +103,13 @@ class MainActivity : BaseActivity() {
         locationEntity = entity
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode==RESULT_LOGIN_OK) {
+            mainTabBar.currentTab=newPosition
+        }else if (resultCode== RESULT_LOGIN_CANCELED)
+            mainTabBar.currentTab=oldPosition
+    }
     companion object {
         var locationEntity: LocationBean? = null
     }

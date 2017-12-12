@@ -108,7 +108,7 @@ class OpenShopAddressActivity : BaseActivity() {
                 return@setOnClickListener
             }
             entity.latitude = mNewLat
-            entity.latitude = mNewLon
+            entity.longitude = mNewLon
 
             var b = Bundle()
             b.putSerializable("location", entity)

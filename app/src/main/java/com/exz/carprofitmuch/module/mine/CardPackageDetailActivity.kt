@@ -14,6 +14,7 @@ import com.exz.carprofitmuch.adapter.CardPackageListAdapter.Companion.initStateB
 import com.exz.carprofitmuch.adapter.ItemCardPackageAdapter
 import com.exz.carprofitmuch.bean.ServiceGoodsBean
 import com.exz.carprofitmuch.bean.ServiceOrderBean
+import com.google.gson.Gson
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.DialogUtils
 import com.szw.framelibrary.utils.StatusBarUtil
@@ -87,7 +88,10 @@ class CardPackageDetailActivity : BaseActivity(), View.OnClickListener {
                     }
                     "2" -> {
                         //评价订单
-                        startActivity(Intent(this,ServiceOrderCommentActivity::class.java))
+                        GoodsOrderCommentActivity.shopId = data?.shopId?:""
+                        GoodsOrderCommentActivity.orderId =data?.orderId?:""
+                        GoodsOrderCommentActivity.json = Gson().toJson(data?.goodsInfo)
+                        startActivityForResult(Intent(this, GoodsOrderCommentActivity::class.java),100)
                         setResult(Activity.RESULT_OK)
                     }
                     else -> {

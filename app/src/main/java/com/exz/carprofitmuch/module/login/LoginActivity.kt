@@ -84,7 +84,7 @@ internal class LoginActivity : BaseActivity() {
     }
 
     companion object {
-        private val RESULT_LOGIN_OK = 2000
+        val RESULT_LOGIN_OK = 2000
         val RESULT_LOGIN_CANCELED = 3000
 
         fun loginSuccess(context: Activity, mobile: String,pwd: String, user: User?) {

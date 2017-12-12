@@ -1,6 +1,7 @@
 package com.exz.carprofitmuch.adapter
 
 import com.exz.carprofitmuch.bean.AddressBean
+import com.exz.carprofitmuch.bean.GoodsConfirmScoreBean
 import com.exz.carprofitmuch.bean.GoodsConfirmSubBean
 
 /**
@@ -9,6 +10,6 @@ import com.exz.carprofitmuch.bean.GoodsConfirmSubBean
  */
 class GoodsConfirmBean{
     var address:AddressBean?=null
-    var scoreInfo:GoodsConfirmScoreBean?=null
+    var scoreInfo: GoodsConfirmScoreBean?=null
     var shopInfo=ArrayList<GoodsConfirmSubBean>()
 }

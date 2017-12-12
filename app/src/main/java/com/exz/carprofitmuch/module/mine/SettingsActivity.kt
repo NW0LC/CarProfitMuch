@@ -3,6 +3,7 @@ package com.exz.carprofitmuch.module.mine
 import android.content.Intent
 import android.view.View
 import com.exz.carprofitmuch.R
+import com.exz.carprofitmuch.config.Urls.AboutUS
 import com.exz.carprofitmuch.module.login.LoginActivity
 import com.exz.carprofitmuch.widget.MyWebActivity
 import com.szw.framelibrary.app.MyApplication
@@ -33,9 +34,9 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
 
     override fun init() {
 //     bt_personInfo.setOnClickListener(this)
-     bt_security.setOnClickListener(this)
-     bt_aboutUs.setOnClickListener(this)
-     bt_exit.setOnClickListener(this)
+        bt_security.setOnClickListener(this)
+        bt_aboutUs.setOnClickListener(this)
+        bt_exit.setOnClickListener(this)
     }
 
     override fun setInflateId(): Int = R.layout.activity_settings
@@ -43,18 +44,18 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0) {
-            bt_security-> {
-                startActivity(Intent(this,AccountSafeActivity::class.java))
+            bt_security -> {
+                startActivity(Intent(this, AccountSafeActivity::class.java))
             }
-            bt_aboutUs-> {
+            bt_aboutUs -> {
                 val intent = Intent(this, MyWebActivity::class.java)
-//            intent.putExtra(MyWebActivity.Intent_Title, response.body().info[it].title)
-//            intent.putExtra(MyWebActivity.Intent_Url, response.body().info[it].url)
+                intent.putExtra(MyWebActivity.Intent_Title, getString(R.string.settings_aboutUs))
+                intent.putExtra(MyWebActivity.Intent_Url, AboutUS)
                 startActivity(intent)
             }
-            bt_exit-> {
-                PreferencesService.saveAccount(this, PreferencesService.getAccountKey(this)?:"", "")
-                MyApplication.user=null
+            bt_exit -> {
+                PreferencesService.saveAccount(this, PreferencesService.getAccountKey(this) ?: "", "")
+                MyApplication.user = null
                 setResult(LoginActivity.RESULT_LOGIN_CANCELED)
                 onBackPressed()
             }

@@ -44,7 +44,7 @@ class FootprintActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.Re
         (actionView as TextView).text = getString(R.string.footprint_clear)
         actionView.setOnClickListener {
             DialogUtils.delete(mContext) {
-                DataCtrlClassXZW.ClearFootprintData(mContext, {
+                DataCtrlClassXZW.clearFootprintData(mContext, {
                     if (it != null) {
                         onRefresh(refreshLayout)
 

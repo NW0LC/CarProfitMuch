@@ -4,6 +4,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!--腾讯地图 SDK 要求的权限(开始)-->
     <!--访问网络获取地图服务-->
@@ -146,6 +147,8 @@
         <activity android:name=".module.main.HotNewsActivity"/>
         <!--会员充值-->
         <activity android:name=".module.mine.PayVipActivity"/>
+        <!--购物车-->
+        <activity android:name=".module.CartActivity"/>
 
 
 

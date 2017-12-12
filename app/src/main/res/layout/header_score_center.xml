@@ -4,7 +4,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
-        android:padding="@dimen/margin_10"
+        android:paddingTop="@dimen/margin_20"
+        android:paddingBottom="@dimen/margin_20"
+        android:paddingStart="@dimen/margin_15"
+        android:paddingEnd="@dimen/margin_15"
         android:background="@drawable/mine_score_top_gradient_bg"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -90,7 +93,7 @@
                 android:id="@+id/tv_score_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:minWidth="@dimen/margin_60"

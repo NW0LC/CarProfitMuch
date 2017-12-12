@@ -1,6 +1,7 @@
 package com.exz.carprofitmuch.module.main.map
 
 import android.content.Intent
+import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.exz.carprofitmuch.DataCtrlClassXZW
@@ -37,7 +38,7 @@ class MapPinActivity : BaseActivity(), TencentLocationListener, TencentMap.OnMar
     private var icLction = ""
     private var url = ""
     private var data: List<MapPinBean>? = null
-    private var bottomContent=""
+    private var bottomContent = ""
     override fun initToolbar(): Boolean {
         mTitle.text = intent.getStringExtra("className")
 
@@ -55,7 +56,6 @@ class MapPinActivity : BaseActivity(), TencentLocationListener, TencentMap.OnMar
     override fun setInflateId(): Int = R.layout.activity_map_pin
 
     override fun init() {
-        super.init()
         initView()
 
     }
@@ -74,13 +74,13 @@ class MapPinActivity : BaseActivity(), TencentLocationListener, TencentMap.OnMar
         if (intent.getStringExtra("className").equals(mContext.getString(R.string.main_treasure_get))) {
             icLction = "ic_treasure.ico" //宝藏地图页数据
             url = MapTreasure
-            bottomContent=mContext.getString(R.string.home_map_treasure_num)
+            bottomContent = mContext.getString(R.string.home_map_treasure_num)
             tv_get.setCompoundDrawablesRelativeWithIntrinsicBounds(ContextCompat.getDrawable(mContext, R.mipmap.icon_map_treasure2), null, null, null)
 
         } else {
             url = MapPacket //红包地图页数据
             icLction = "ic_redpacket.ico"
-            bottomContent=mContext.getString(R.string.home_map_packet_num)
+            bottomContent = mContext.getString(R.string.home_map_packet_num)
             tv_get.setCompoundDrawablesRelativeWithIntrinsicBounds(ContextCompat.getDrawable(mContext, R.mipmap.icon_map_red_packet2), null, null, null)
         }
 
@@ -93,56 +93,28 @@ class MapPinActivity : BaseActivity(), TencentLocationListener, TencentMap.OnMar
 //设置缩放级别
         tencentMap.setZoom(13)
 
-        tencentMap.addMarker(MarkerOptions()
-                .position(LatLng(34.063909, 117.073309))
-                .icon(BitmapDescriptorFactory.fromAsset(icLction)).tag(0))
-
-        tencentMap.addMarker(MarkerOptions()
-                .position(LatLng(34.163909, 117.173309))
-                .icon(BitmapDescriptorFactory.fromAsset(icLction)).tag(1))
-
-        tencentMap.addMarker(MarkerOptions()
-                .position(LatLng(34.363909, 117.373309))
-                .icon(BitmapDescriptorFactory.fromAsset(icLction)).tag(2))
-
-        tencentMap.addMarker(MarkerOptions()
-                .position(LatLng(34.463909, 117.473309))
-                .icon(BitmapDescriptorFactory.fromAsset(icLction)).tag(3))
-
-        tencentMap.addMarker(MarkerOptions()
-                .position(LatLng(34.563909, 117.573309))
-                .icon(BitmapDescriptorFactory.fromAsset(icLction)).tag(4))
-
-        tencentMap.addMarker(MarkerOptions()
-                .position(LatLng(34.663909, 117.573309))
-                .icon(BitmapDescriptorFactory.fromAsset(icLction)).tag(5))
-
         //标记点击事件
         tencentMap.setOnMarkerClickListener(this)
 
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-//        var entity= data!!.get(marker.tag as Int)
-//        var  b= Bundle()
-//        b.putSerializable(MAP_BEAN,entity)
+        val entity = data?.get(marker.tag as Int)
+        val b = Bundle()
+        b.putSerializable(MAP_BEAN, entity)
         //宝藏领取
-        if (intent.getStringExtra("className").equals(mContext.getString(R.string.main_treasure_get))) {
-
-            startActivity(Intent(mContext, MapTreasureActivity::class.java))
-//            startActivity(Intent(mContext, MapTreasureActivity::class.java).putExtras(b))
+        if (intent.getStringExtra("className") == mContext.getString(R.string.main_treasure_get)) {
+            startActivity(Intent(mContext, MapTreasureActivity::class.java).putExtras(b))
         } else { //紅包领取
-            startActivity(Intent(mContext, MapRedPacketActivity::class.java))
-            //            startActivity(Intent(mContext, MapTreasureActivity::class.java).putExtras(b))
+            startActivity(Intent(mContext, MapRedPacketActivity::class.java).putExtras(b))
         }
 
         return true
     }
 
 
-
     companion object {
-        var MAP_BEAN="Map_Bean"
+        var MAP_BEAN = "Map_Bean"
     }
 
 
@@ -157,16 +129,16 @@ class MapPinActivity : BaseActivity(), TencentLocationListener, TencentMap.OnMar
             val latLng = LatLng(arg0.latitude, arg0.longitude)
             //设置地图中心点
             tencentMap.setCenter(latLng)
-            if (myLocation != null) {
-                myLocation!!.remove()
-                myLocation = tencentMap.addMarker(MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_red_location)).anchor(0.5f, 0.5f))
+            myLocation = if (myLocation != null) {
+                myLocation?.remove()
+                tencentMap.addMarker(MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_red_location)).anchor(0.5f, 0.5f))
             } else {
-                myLocation = tencentMap.addMarker(MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_red_location)).anchor(0.5f, 0.5f))
+                tencentMap.addMarker(MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_red_location)).anchor(0.5f, 0.5f))
             }
-            myLocation!!.position = latLng
-            myLocation!!.rotation = arg0.bearing //仅当定位来源于gps有效，或者使用方向传感器
+            myLocation?.position = latLng
+            myLocation?.rotation = arg0.bearing //仅当定位来源于gps有效，或者使用方向传感器
 
-//            initMapPacket(latLng)
+            initMapPacket(latLng)
         } else {
             Log.e("location", "location failed:" + arg2)
         }
@@ -177,7 +149,7 @@ class MapPinActivity : BaseActivity(), TencentLocationListener, TencentMap.OnMar
     * 红包宝藏地图页数据
     */
     private fun initMapPacket(latLng: LatLng) {
-        DataCtrlClassXZW.MapPinData(mContext, url, latLng.latitude.toString(), latLng.longitude.toString(), {
+        DataCtrlClassXZW.mapPinData(mContext, url, latLng.longitude.toString(),latLng.latitude.toString(),  {
             if (it != null) {
                 data = it
                 for (bean in it) {
@@ -185,7 +157,7 @@ class MapPinActivity : BaseActivity(), TencentLocationListener, TencentMap.OnMar
                             .position(LatLng(bean.latitude, bean.longitude))
                             .icon(BitmapDescriptorFactory.fromAsset(icLction)).tag(it.indexOf(bean)))
                 }
-                    tv_get.text=String.format(bottomContent,it.size)
+                tv_get.text = String.format(bottomContent, it.size)
             }
         })
 

@@ -32,7 +32,7 @@ class FavoriteShopActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter
     var refreshState = Constants.RefreshState.STATE_REFRESH
     var currentPage = 1
     lateinit var mAdapter: FavoriteShopAdapter<GoodsShopBean>
-
+    lateinit var actionView: TextView
     private fun refresh() {
         if (Edit_Type == Edit_Type_Edit) {//正常状态
             lay_bottom.visibility = View.GONE
@@ -62,23 +62,9 @@ class FavoriteShopActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter
         StatusBarUtil.setMargin(this, header)
 
         toolbar.inflateMenu(R.menu.menu_favorite_goods)
-        val actionView = toolbar.menu.getItem(0).actionView
-        (actionView as TextView).text = getString(R.string.favorite_goods_edit)
-        actionView.setOnClickListener {
-            when (if (Edit_Type == "-1") Edit_Type_Edit else Edit_Type) {
-                Edit_Type_Edit -> {
-                    actionView.text = getString(R.string.favorite_goods_confirm)
-                    Edit_Type = Edit_Type_Delete
-                }
-                Edit_Type_Delete -> {
-                    actionView.text = getString(R.string.favorite_goods_edit)
-                    Edit_Type = Edit_Type_Edit
-                }
-            }
-            actionView.isClickable = false
-            actionView.postDelayed({ actionView.isClickable = true }, 500)
-            refresh()
-        }
+        actionView = toolbar.menu.getItem(0).actionView as TextView
+        actionView.text = getString(R.string.favorite_goods_edit)
+        actionView.setOnClickListener(this)
         return false
     }
 
@@ -141,10 +127,25 @@ class FavoriteShopActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter
                     DialogUtils.delete(this) {
 
                         DataCtrlClass.favoriteShopIsCollection(mContext, "0", "0", goodsEntities.toTypedArray()) {
-                            removeItem(mAdapter, it)
+                            removeItem(this, mAdapter, it)
                         }
                     }
                 }
+            }
+            actionView -> {
+                when (if (Edit_Type == "-1") Edit_Type_Edit else Edit_Type) {
+                    Edit_Type_Edit -> {
+                        actionView.text = getString(R.string.favorite_goods_confirm)
+                        Edit_Type = Edit_Type_Delete
+                    }
+                    Edit_Type_Delete -> {
+                        actionView.text = getString(R.string.favorite_goods_edit)
+                        Edit_Type = Edit_Type_Edit
+                    }
+                }
+                actionView.isClickable = false
+                actionView.postDelayed({ actionView.isClickable = true }, 500)
+                refresh()
             }
             else -> {
             }
@@ -195,7 +196,7 @@ class FavoriteShopActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter
          * @param adapter       适配器
          * @param goodsEntities 移除
          */
-        fun removeItem(adapter: FavoriteShopAdapter<out GoodsShopBean>, goodsEntities: Array<out GoodsShopBean>?) {
+        fun removeItem(context: FavoriteShopActivity, adapter: FavoriteShopAdapter<out GoodsShopBean>, goodsEntities: Array<out GoodsShopBean>?) {
             if (goodsEntities == null) {
                 return
             }
@@ -206,7 +207,12 @@ class FavoriteShopActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter
                     if (temp.id == goodsEntity.id) {
                         val position = adapter.data.indexOf(temp)
                         iterator.remove()
-                        adapter.notifyDataSetChanged()
+                        if (adapter.data.size <= 0) {
+                            adapter.notifyDataSetChanged()
+                            if (Edit_Type == Edit_Type_Delete)
+                            context.onClick(context.actionView)
+                        } else
+                            adapter.notifyItemRemoved(position)
                     }
                 }
 

@@ -340,4 +340,5 @@
     <string name="cardPackage_use">未使用</string>
     <string name="cardPackage_pass">已过期</string>
     <string name="cardPackage_return">已退款</string>
+    <string name="user_protocol">用户协议</string>
 </resources>

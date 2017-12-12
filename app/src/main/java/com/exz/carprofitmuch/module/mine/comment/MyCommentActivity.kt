@@ -5,7 +5,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.MyCommentAdapter
@@ -65,13 +65,13 @@ class MyCommentActivity : BaseActivity(), BaseQuickAdapter.RequestLoadMoreListen
         mRecyclerView.layoutManager = LinearLayoutManager(mContext)
         mRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(mContext, R.color.app_bg)))
 
-        mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
-            override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                if (mAdapter.data.get(position).classMark.equals("2")) {
+        mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener(){
+            override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+                if (mAdapter.data[position].classMark == "2") {
 
-                    startActivity(Intent(mContext, ServiceDetailActivity::class.java).putExtra(Service_Intent_ServiceId, mAdapter.data.get(position).goodsId))
-                } else if (mAdapter.data.get(position).classMark.equals("1")) {
-                    startActivity(Intent(mContext, GoodsDetailActivity::class.java).putExtra(GoodsDetail_Intent_GoodsId, mAdapter.data.get(position).goodsId))
+                    startActivity(Intent(mContext, ServiceDetailActivity::class.java).putExtra(Service_Intent_ServiceId, mAdapter.data[position].goodsId))
+                } else if (mAdapter.data[position].classMark == "1") {
+                    startActivity(Intent(mContext, GoodsDetailActivity::class.java).putExtra(GoodsDetail_Intent_GoodsId, mAdapter.data[position].goodsId))
                 }
             }
         })

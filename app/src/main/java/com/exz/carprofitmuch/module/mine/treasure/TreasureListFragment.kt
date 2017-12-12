@@ -1,6 +1,5 @@
 package com.exz.carprofitmuch.module.mine.comment
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -12,9 +11,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.MyTreasureAdapter
-import com.exz.carprofitmuch.bean.CommentBean
 import com.exz.carprofitmuch.bean.MyTreasureListBean
-import com.exz.carprofitmuch.module.main.store.normal.GoodsShopActivity
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -23,7 +20,6 @@ import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.fragment_comment_list.*
-import java.util.*
 
 /**
  * on 2017/10/17.
@@ -57,11 +53,8 @@ class TreasureListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLi
         StatusBarUtil.setMargin(activity, header)
         SZWUtils.setPaddingSmart(mRecyclerView, 55f)
         SZWUtils.setMargin(header, 55f)
-        header.visibility = View.VISIBLE
         return false
     }
-
-    private val arrayList2 = ArrayList<CommentBean>()
     private fun initRecycler() {
         mAdapter = MyTreasureAdapter()
         mAdapter.bindToRecyclerView(mRecyclerView)
@@ -71,7 +64,7 @@ class TreasureListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLi
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                startActivity(Intent(context, GoodsShopActivity::class.java))
+
             }
         })
     }
@@ -92,7 +85,7 @@ class TreasureListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLi
     }
 
     private fun iniData() {
-        DataCtrlClassXZW.MyTreasure(context, this.arguments.getInt(COMMENT_TYPE,0).toString(),currentPage) {
+        DataCtrlClassXZW.myTreasure(context, this.arguments.getInt(COMMENT_TYPE,0).toString(),currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

@@ -16,7 +16,9 @@ import com.exz.carprofitmuch.adapter.GoodsCommentAdapter
 import com.exz.carprofitmuch.bean.BannersBean
 import com.exz.carprofitmuch.bean.CommentBean
 import com.exz.carprofitmuch.bean.GoodsBean
+import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
+import com.exz.carprofitmuch.module.CartActivity
 import com.exz.carprofitmuch.module.main.store.comment.GoodsCommentListActivity
 import com.exz.carprofitmuch.module.main.store.comment.GoodsCommentListActivity.Companion.GoodsCommentList_Intent_Id
 import com.exz.carprofitmuch.module.main.store.comment.GoodsCommentListActivity.Companion.GoodsCommentList_Intent_IdMark
@@ -65,7 +67,14 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
         StatusBarUtil.immersive(this)
         StatusBarUtil.setPaddingSmart(this, toolbar)
         StatusBarUtil.setPaddingSmart(this, blurView)
-
+        toolbar.inflateMenu(R.menu.menu_cart)
+        toolbar.setOnMenuItemClickListener {
+            when (it?.itemId) {
+                R.id.action_settings -> {
+                    startActivityForResult(Intent(this, CartActivity::class.java), 100)
+                }
+            }
+            false }
         refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
             override fun onHeaderPulling(header: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
                 toolbar.alpha = 1 - Math.min(percent, 1f)
@@ -91,6 +100,7 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
                     buttonBarLayout.alpha = 1f * mScrollY / h
                     blurView.alpha = 1f * mScrollY / h
                     toolbar.setNavigationIcon(if (lastScrollY > 70) R.mipmap.icon_arrow_white_back else R.mipmap.icon_goods_detail_back)
+                    toolbar.menu.getItem(0).setIcon(if (lastScrollY > 70) R.mipmap.icon_goods_detail_cart_white else R.mipmap.icon_goods_detail_cart_black)
                 }
                 lastScrollY = scrollNewY
 
@@ -122,13 +132,13 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
     override fun setInflateId(): Int = R.layout.activity_goods_detail
 
     override fun init() {
+        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initPop()
         initBanner()
-        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initRecycler()
         initEvent()
         onRefresh(refreshLayout)
-        mWebView.loadUrl("http://www.baidu.com")
+        mWebView.loadUrl("${Urls.url}App/H5/GoodsInfo.aspx?id=${intent.getStringExtra(GoodsDetail_Intent_GoodsId)}")
     }
 
     private fun initPop() {
@@ -250,6 +260,7 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
 
     override fun onRefresh(refreshLayout: RefreshLayout?) {
         DataCtrlClass.goodsDetailData(this, intent.getStringExtra(GoodsDetail_Intent_GoodsId) ?: "") {
+            refreshLayout?.finishRefresh()
             if (it != null) {
                 goodsBean = it
                 //设置图片集合

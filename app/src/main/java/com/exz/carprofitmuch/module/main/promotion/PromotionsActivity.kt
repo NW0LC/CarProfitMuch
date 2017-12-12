@@ -102,13 +102,12 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
                 startActivity(intent)
             }
 
-            override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+            override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 if (mAdapter.data[position].isJoin + mAdapter.data[position].isJoin == "01") {
                     if (view?.id == R.id.tv_state) {
                         DataCtrlClass.promotionJoin(this@PromotionsActivity, mAdapter.data[position].id) {onRefresh(refreshLayout)}
                     }
                 }
-
             }
         })
     }
@@ -120,10 +119,10 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
                 setGaryOrOrange(radioButton1, true)
                 radioButton1.text = getString(R.string.service_list_sort_default)
                 radioButton2.setTextColor(ContextCompat.getColor(this@PromotionsActivity, R.color.colorPrimary))
+                radioButton3.setTextColor(ContextCompat.getColor(this@PromotionsActivity, R.color.MaterialGrey600))
                 for (valueEntity in sortPop.adapter.data) {
                     valueEntity.isCheck = false
                 }
-                sortPop.adapter.data.firstOrNull()?.isCheck = true
                 sortPop.adapter.notifyDataSetChanged()
                 status = "6"
                 onRefresh(refreshLayout)
@@ -137,7 +136,6 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
                 for (valueEntity in sortPop.adapter.data) {
                     valueEntity.isCheck = false
                 }
-                sortPop.adapter.data.firstOrNull()?.isCheck = true
                 sortPop.adapter.notifyDataSetChanged()
                 status = "7"
                 onRefresh(refreshLayout)

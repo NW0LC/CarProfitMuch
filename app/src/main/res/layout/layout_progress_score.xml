@@ -189,7 +189,7 @@
                     android:layout_width="10dp"
                     android:layout_height="5dp"
                     android:layout_marginStart="@dimen/margin_25"
-                    app:rv_backgroundColor="#14c187"
+                    app:rv_backgroundColor="@color/colorPrimary"
                     app:rv_cornerRadius="20dp" />
 
                 <TextView
@@ -229,8 +229,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_3"
-                    android:text="3650"
-                    android:textColor="#14c187"
+                    android:text="0"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>

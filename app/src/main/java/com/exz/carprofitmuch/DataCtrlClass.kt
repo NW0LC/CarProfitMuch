@@ -9,7 +9,6 @@ import com.blankj.utilcode.util.TimeUtils
 import com.exz.carprofitmuch.R.id.heightPrice
 import com.exz.carprofitmuch.R.id.lowPrice
 import com.exz.carprofitmuch.adapter.GoodsConfirmBean
-import com.exz.carprofitmuch.adapter.GoodsConfirmScoreBean
 import com.exz.carprofitmuch.bean.*
 import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.config.Urls.VirtuallyEditOrder
@@ -220,7 +219,7 @@ object DataCtrlClass {
 
         val params = HashMap<String, String>()
         params.put("type", type)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(type, salt).toLowerCase())
         OkGo.post<NetEntity<ArrayList< BannersBean>>>(Urls.HomeBanner)
                 .params(params)
                 .tag(this)
@@ -2030,6 +2029,7 @@ object DataCtrlClass {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body())
                         } else {
+                            context.toast(response.body().message)
                             listener.invoke(null)
                         }
                         context.toast(response.body().message)
@@ -2070,7 +2070,6 @@ object DataCtrlClass {
                         } else {
                             listener.invoke(null)
                         }
-                        context.toast(response.body().message)
                     }
 
                     override fun onError(response: Response<NetEntity<PromotionsBean>>) {

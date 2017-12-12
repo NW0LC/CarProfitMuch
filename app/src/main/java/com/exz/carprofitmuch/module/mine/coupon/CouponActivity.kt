@@ -11,10 +11,6 @@ import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_coupon_list.*
 import java.util.*
 
-/**
- * Created by pc on 2017/11/9.
- */
-
 class CouponActivity : BaseActivity() {
     private val mTitles = arrayOf("未使用", "已使用", "已过期")
     private val mIconUnSelectIds = intArrayOf(R.mipmap.icon_home_off, R.mipmap.icon_store_off, R.mipmap.icon_goods_car_off, R.mipmap.icon_mine_off)

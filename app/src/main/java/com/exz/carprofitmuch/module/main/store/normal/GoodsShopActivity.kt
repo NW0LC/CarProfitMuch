@@ -15,11 +15,15 @@ import com.exz.carprofitmuch.adapter.GoodsShopAdapter
 import com.exz.carprofitmuch.bean.BannersBean
 import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.ShopBean
+import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity.Companion.GoodsDetail_Intent_GoodsId
 import com.exz.carprofitmuch.module.main.store.normal.GoodsShopSearchResultActivity.Companion.GoodsShopSearchResult_Intent_Status
 import com.exz.carprofitmuch.pop.GoodsShopClassifyPop
 import com.exz.carprofitmuch.utils.SZWUtils
+import com.exz.carprofitmuch.widget.MyWebActivity
+import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Title
+import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Url
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.szw.framelibrary.base.BaseActivity
@@ -183,7 +187,10 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
                 startActivity(shopSearchIntent)
             }
             bt_goodsShop_detail -> {//
-
+                val intent = Intent(this, MyWebActivity::class.java)
+                intent.putExtra(Intent_Url, "${Urls.url}Mobile/ShopDetail.aspx?id=${intent.getStringExtra(GoodsShop_Intent_ShopId)}")
+                intent.putExtra(Intent_Title, getString(R.string.goods_shop_detail))
+                startActivity(intent)
             }
             bt_goodsShop_classify -> {//
                 goodsShopClassifyPop.showPopupWindow()

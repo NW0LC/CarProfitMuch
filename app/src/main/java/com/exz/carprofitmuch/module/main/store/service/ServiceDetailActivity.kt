@@ -14,6 +14,7 @@ import com.exz.carprofitmuch.adapter.ServiceShopGoodsAdapter
 import com.exz.carprofitmuch.bean.BannersBean
 import com.exz.carprofitmuch.bean.CommentBean
 import com.exz.carprofitmuch.bean.ServiceGoodsBean
+import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.module.MainActivity
 import com.exz.carprofitmuch.module.main.store.comment.GoodsCommentListActivity.Companion.GoodsCommentList_Intent_Id
@@ -156,8 +157,8 @@ class ServiceDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickLis
             }
             bt_goods_detail -> {
                 val intent = Intent(this, MyWebActivity::class.java)
-                intent.putExtra(Intent_Url, "")
-                intent.putExtra(Intent_Title, "")
+                intent.putExtra(Intent_Url, "${Urls.url}App/H5/GoodsInfo.aspx?id=${intent.getStringExtra(Service_Intent_ServiceId)}")
+                intent.putExtra(Intent_Title, getString(R.string.service_detail_name))
                 startActivity(intent)
             }
         }
@@ -197,7 +198,7 @@ class ServiceDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickLis
                 }
                 mServiceShopGoodsAdapter.goodsCount =it.goodsList.size
                 mServiceShopGoodsAdapter.setNewData(it.goodsList)
-                mRatingBar.rating = it.commentAverage.toFloat()
+                mRatingBar.rating = it.commentAverage.toFloatOrNull()?:0f
                 tv_service_detail_score.text = String.format("%s${mContext.getString(R.string.UNIT_SCORE)}", it.commentAverage)
                 tv_service_detail_commentCount.text = String.format(mContext.getString(R.string.service_detail_commentCount), it.commentCount)
                 mServiceCommentAdapter.setNewData(it.commentList)

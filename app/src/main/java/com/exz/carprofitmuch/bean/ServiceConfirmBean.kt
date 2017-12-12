@@ -1,7 +1,5 @@
 package com.exz.carprofitmuch.bean
 
-import com.exz.carprofitmuch.adapter.GoodsConfirmScoreBean
-
 /**
  * Created by 史忠文
  * on 2017/12/5.

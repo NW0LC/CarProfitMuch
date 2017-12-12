@@ -5,12 +5,17 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.blankj.utilcode.util.ScreenUtils
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
+import com.exz.carprofitmuch.adapter.GoodsCommentAdapter
 import com.exz.carprofitmuch.bean.BannersBean
+import com.exz.carprofitmuch.bean.CommentBean
 import com.exz.carprofitmuch.bean.GoodsBean
+import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity.Companion.GoodsDetail_Intent_GoodsId
 import com.exz.carprofitmuch.pop.GoodsDetailClassifyPop
@@ -22,6 +27,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.szw.framelibrary.base.BaseActivity
+import com.szw.framelibrary.utils.RecycleViewDivider
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.szw.framelibrary.view.preview.PreviewActivity
 import com.szw.framelibrary.view.preview.PreviewActivity.Companion.PREVIEW_INTENT_IMAGES
@@ -44,6 +50,7 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
 
     private var mScrollY = 0
     private lateinit var classifyPop:GoodsDetailClassifyPop
+    private lateinit var mGoodsCommentAdapter: GoodsCommentAdapter<CommentBean>
     private var goodsBean: GoodsBean? = null
     override fun initToolbar(): Boolean {
         mTitle.text = getString(R.string.score_goods_detail_goodsName)
@@ -112,10 +119,20 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
 
         initBanner()
         initEvent()
-        mWebView.loadUrl("http://www.baidu.com")
+        initRecycler()
+        mWebView.loadUrl("${Urls.url}App/H5/GoodsInfo.aspx?id=${intent.getStringExtra(GoodsDetail_Intent_GoodsId)}")
         onRefresh(refreshLayout)
     }
+    private fun initRecycler() {
+        mGoodsCommentAdapter = GoodsCommentAdapter()
+        mGoodsCommentAdapter.bindToRecyclerView(mCommentRecyclerView)
+        mCommentRecyclerView.layoutManager = LinearLayoutManager(this)
+        mCommentRecyclerView.addItemDecoration(RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL, 1, ContextCompat.getColor(mContext, R.color.app_bg)))
+        mCommentRecyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        mCommentRecyclerView.isNestedScrollingEnabled = false
+        mCommentRecyclerView.isFocusable = false
 
+    }
     private fun initEvent() {
         toolbar.setNavigationOnClickListener { finish() }
         bt_choose_type.setOnClickListener(this)
@@ -170,12 +187,16 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
                 tv_goodsName.text = it.goodsName
                 tv_score_count.text = String.format("%s"+getString(R.string.SCORE)  , it.goodsPrice)
                 bt_choose_type.visibility = if (it.isCoupon == "1") View.VISIBLE else View.GONE
+                tv_goodsType.visibility = if (it.isHaveRank == "1") View.VISIBLE else View.GONE
+                bt_more_goodsComment.text = String.format(getString(R.string.goods_detail_comment), it.commentCount)
+                mGoodsCommentAdapter.setNewData(it.commentList)
+
                 if (it.isDelete == "1") {
                     bt_confirm.text = getString(R.string.goods_detail_pass)
                     bt_confirm.backgroundColor= ContextCompat.getColor(mContext,R.color.MaterialGrey600)
                     bt_confirm.isClickable=false
                 }
-                DataCtrlClass.goodsClassifyData(this, it.goodsId) { spec ->
+                DataCtrlClass.goodsClassifyData(this, intent.getStringExtra(GoodsDetail_Intent_GoodsId) ?: "") { spec ->
                     classifyPop.setNewData(spec, it)
                 }
             }

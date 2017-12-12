@@ -54,7 +54,7 @@ class FavoriteShopAdapter<T : GoodsShopBean> : BaseQuickAdapter<T, BaseViewHolde
             DialogUtils.delete(mContext) {
 
                 DataCtrlClass.favoriteShopIsCollection(mContext, "0", "0",arrayOf(item)) {
-                    FavoriteShopActivity.removeItem(this, it)
+                    FavoriteShopActivity.removeItem(mContext as FavoriteShopActivity,this, it)
                 }
             }
         }

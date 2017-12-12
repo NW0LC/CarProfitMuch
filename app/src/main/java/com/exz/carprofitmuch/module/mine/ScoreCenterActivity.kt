@@ -1,5 +1,6 @@
 package com.exz.carprofitmuch.module.mine
 
+import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -9,8 +10,12 @@ import com.exz.carprofitmuch.DataCtrlClassXZW
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.ScoreRecordAdapter
 import com.exz.carprofitmuch.bean.ScoreRecordBean
+import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
+import com.exz.carprofitmuch.widget.MyWebActivity
+import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Title
+import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Url
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.szw.framelibrary.base.BaseActivity
@@ -24,7 +29,8 @@ import kotlinx.android.synthetic.main.header_score_center.view.*
  * Created by 史忠文
  * on 2017/10/17.
  */
-class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, View.OnClickListener {
+
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
     private var currentPage = 1
@@ -62,7 +68,7 @@ class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.
                 headerView.tv_scoreCount.text = it.score//可用积分
                 headerView.tv_pendScoreCount.text = it.scoreL//待返还积分
                 headerView.tv_frizzScoreCount.text = it.scoreT//冻结积分
-                headerView.tv_score_date.text = it.score + "积分将于" + it.invalidDate + "过期"
+                headerView.tv_score_date.text =String.format(getString(R.string.mine_score_date),it.score,it.invalidDate)
             }
 
         })
@@ -70,9 +76,14 @@ class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.
 
     private fun initEvent() {
         toolbar.setNavigationOnClickListener { finish() }
-
+        headerView.bt_rule.setOnClickListener(this)
     }
-
+    override fun onClick(p0: View?) {
+        val intent = Intent(this, MyWebActivity::class.java)
+        intent.putExtra(Intent_Url, Urls.PointRule)
+        intent.putExtra(Intent_Title, getString(R.string.mine_score_rule))
+        startActivity(intent)
+    }
     private fun initRecycler() {
         mAdapter = ScoreRecordAdapter()
 

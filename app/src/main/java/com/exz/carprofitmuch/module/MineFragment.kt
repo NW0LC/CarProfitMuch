@@ -78,8 +78,8 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 tv_userInfo.text= "${it.level}${it.overDate}"//会员等级 -过期时间
                 totalScore=it.scoreT.toFloat()//车险总积分
                 realScore=it.scoreG.toFloat()//车险获得积分
-                realScore=it.scoreL.toFloat()//车险解锁积分
-                rootView.postDelayed({ SZWUtils.resetProgress(progressBar = progressBar, parentLayout = rootView, realScore = realScore, unlockScore = unlockScore, totalScore = totalScore) {} }, 2000)
+                unlockScore=it.scoreL.toFloat()//车险解锁积分
+                rootView.postDelayed({ SZWUtils.resetProgress(progressBar = progressBar, parentLayout = rootView, realScore = realScore, unlockScore = unlockScore, totalScore = totalScore,reset = reset) {reset=false} }, 2000)
                 tv_myBalance.text=String.format(context.getString(R.string.CNY)+"%s",it.balance)//余额
                 bt_tab_card_count.text=String.format(context.getString(R.string.unit_piece),it.wallet)//可用卡劵数量
                 bt_tab_coupon_count.text=String.format(context.getString(R.string.unit_piece),it.coupon)//可用优惠券数量
@@ -246,8 +246,10 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         }
     }
 
+    private var reset=false
     override fun onRefresh(refreshLayout: RefreshLayout?) {
         if (MyApplication.checkUserLogin()) {
+            reset=true
             getUserInfo()
         }
     }

@@ -34,6 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
+            android:clipToPadding="false"
+            android:paddingBottom="?attr/actionBarSize"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -85,7 +87,7 @@
                         android:ellipsize="end"
                         android:lines="1"
                         android:minWidth="@dimen/margin_90"
-                        android:text="标准会员 20179.5.5过期"
+                        android:text=""
                         android:textColor="@color/White"
                         android:textSize="12sp"
                         app:layout_constraintLeft_toRightOf="@+id/img_head"
@@ -410,6 +412,7 @@
                             android:layout_marginBottom="@dimen/margin_15"
                             android:layout_marginTop="@dimen/margin_15"
                             android:layout_weight="1"
+                            android:drawablePadding="@dimen/margin_5"
                             android:drawableTop="@mipmap/icon_goods_detail_favorite_on"
                             android:gravity="center_horizontal"
                             android:text="@string/mine_tab_favoriteGoods"
@@ -433,6 +436,7 @@
                             android:drawableTop="@mipmap/icon_mine_tab_favorite_shop"
                             android:gravity="center_horizontal"
                             android:text="@string/mine_tab_favoriteShop"
+                            android:drawablePadding="@dimen/margin_5"
                             android:textColor="@color/MaterialGrey600"
                             android:textSize="@dimen/text_12" />
 
@@ -453,6 +457,7 @@
                             android:drawableTop="@mipmap/icon_mine_tab_history"
                             android:gravity="center_horizontal"
                             android:text="@string/mine_tab_history"
+                            android:drawablePadding="@dimen/margin_5"
                             android:textColor="@color/MaterialGrey600"
                             android:textSize="@dimen/text_12" />
 
@@ -474,6 +479,7 @@
                             android:drawableTop="@mipmap/icon_mine_tab_my_comment"
                             android:gravity="center_horizontal"
                             android:text="@string/mine_tab_myComment"
+                            android:drawablePadding="@dimen/margin_5"
                             android:textColor="@color/MaterialGrey600"
                             android:textSize="@dimen/text_12" />
 
@@ -499,7 +505,6 @@
                         android:id="@+id/bt_promotions"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_40"
                         android:layout_marginTop="@dimen/margin_8"
                         android:background="@color/White"
                         android:drawableEnd="@mipmap/icon_main_gray_next"

@@ -146,7 +146,7 @@ class FavoriteGoodsFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdap
                     DialogUtils.delete(context) {
 
                         DataCtrlClass.favoriteGoodsIsCollection(context, "1", "0",goodsEntities.toTypedArray()) {
-                            removeItem(mAdapter, it)
+                            removeItem(activity as FavoriteGoodsActivity,mAdapter, it)
                         }
                     }
                 }

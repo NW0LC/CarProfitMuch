@@ -10,7 +10,6 @@ import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.PromotionsBean
 import com.flyco.roundview.RoundTextView
 import kotlinx.android.synthetic.main.item_main_promotions.view.*
-import org.jetbrains.anko.textColor
 import java.util.*
 
 class PromotionsAdapter<T : PromotionsBean> : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_main_promotions, ArrayList<T>()) {
@@ -23,7 +22,7 @@ class PromotionsAdapter<T : PromotionsBean> : BaseQuickAdapter<T, BaseViewHolder
         itemView.tv_title.text = item.title
         itemView.tv_speed.text = String.format("%s" + mContext.getString(R.string.DAY), item.dayCount)
         itemView.tv_distance.text = item.distance
-        setStateColorAndStr(mContext, item.isJoin + item.state,view= itemView.tv_state)
+        setStateColorAndStr(mContext, item.isJoin + item.state, view = *arrayOf(itemView.tv_state))
     }
 
     companion object {
@@ -82,7 +81,7 @@ class PromotionsAdapter<T : PromotionsBean> : BaseQuickAdapter<T, BaseViewHolder
                 }
             }
             view[0].text = str
-            view[0].textColor = color
+            view[0].delegate.backgroundColor = color
         }
     }
 }

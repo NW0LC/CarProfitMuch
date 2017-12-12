@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.activity_service_order_comment.*
  * Created by 史忠文
  * on 2017/10/18.
  */
-
+@Deprecated("被普通商品评价代替")
 class ServiceOrderCommentActivity : BaseActivity(), View.OnClickListener {
     private lateinit var imagePicker:ImagePicker
     lateinit var mAdapter: ItemOrderCommentImageAdapter

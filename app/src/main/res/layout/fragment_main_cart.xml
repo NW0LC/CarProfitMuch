@@ -33,6 +33,7 @@
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <android.support.constraint.ConstraintLayout
         android:id="@+id/footer_bar"
+        android:visibility="gone"
         android:layout_gravity="bottom"
         android:background="@color/white"
         android:layout_width="match_parent"

@@ -228,7 +228,7 @@ class OpenShopActivity : BaseActivity() {
              * idName	string	必填	身份证上的姓名
              * businessImg	string	必填	营业执照（base64)
              * */
-            DataCtrlClassXZW.ConfirmInfoData(mContext, classMark, levelId, name, categoryId, districtId, detail, longitude, latitude, contact,idFrontImg,
+            DataCtrlClassXZW.confirmInfoData(mContext, classMark, levelId, name, categoryId, districtId, detail, longitude, latitude, contact,idFrontImg,
                     idBackImg, idNum, idName, businessImg, url, {
                 if (it != null) {
                     finish()

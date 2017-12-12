@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,7 +12,7 @@
     android:orientation="vertical"
     android:padding="@dimen/dp_10">
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="5dp"
@@ -22,10 +23,13 @@
             android:id="@+id/tv_store_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/mine_coupon_store_name"
             android:textColor="@color/colorPrimary"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
@@ -33,10 +37,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_store_name"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/mine_coupon_limit"
             android:textColor="@color/MaterialGrey700"
-            android:textSize="@dimen/sp_14" />
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_store_name" />
 
         <TextView
             android:id="@+id/tv_price"
@@ -44,47 +51,53 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_below="@id/tv_store_name"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:text="5"
             android:textColor="@color/Red"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-
             android:id="@+id/tv_cny"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="4dp"
-            android:layout_toStartOf="@id/tv_price"
+            android:layout_alignBottom="@+id/tv_price"
+            android:layout_toStartOf="@+id/tv_price"
             android:text="@string/CNY"
             android:textColor="@color/Red"
-            android:textSize="@dimen/sp_14" />
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_price"
+            app:layout_constraintEnd_toStartOf="@+id/tv_price" />
 
         <ImageView
             android:id="@+id/iv_coupon_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="15dp"
-            android:visibility="invisible"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
             android:layout_toStartOf="@id/tv_cny"
-            android:background="@mipmap/icon_mine_coupon_old" />
+            android:background="@mipmap/icon_mine_coupon_old"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_cny"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginStart="5dp"
-        android:background="@color/app_bg"></View>
+        android:background="@color/app_bg"/>
 
     <TextView
         android:id="@+id/tv_validity_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_store_name"
         android:layout_marginTop="6dp"
         android:layout_marginStart="5dp"
         android:drawableEnd="@mipmap/icon_main_gray_next"

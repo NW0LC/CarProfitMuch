@@ -1,4 +1,4 @@
-package com.exz.carprofitmuch.adapter
+package com.exz.carprofitmuch.bean
 
 import android.content.Context
 import com.exz.carprofitmuch.R
@@ -9,8 +9,8 @@ import com.exz.carprofitmuch.R
  */
 class GoodsConfirmScoreBean{
     var isSelect =false
-    var scores="1500"
-    var money ="15"
+    var scores=""
+    var money =""
     fun toString(context: Context): String =
             String.format(context.getString(R.string.goods_confirm_score),scores, money)
 }

@@ -63,6 +63,8 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     private lateinit var mAdapter: MainCartAdapter<GoodsCarBean>
     private var selectCount = 0
     private lateinit var actionView: TextView
+    var canBack: Boolean = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_main_cart, container, false)
         return rootView
@@ -76,7 +78,11 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     }
 
     private fun initBar() {
-        toolbar.navigationIcon = null
+        if (canBack) {
+            toolbar.setNavigationOnClickListener { activity.finish() }
+        } else {
+            toolbar.navigationIcon = null
+        }
         mTitle.text = getString(R.string.main_cart_name)
         //状态栏透明和间距处理
         StatusBarUtil.immersive(activity)
@@ -522,6 +528,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                     iterator.remove()
                     if (adapter.data.size <= 0) {
                         adapter.notifyDataSetChanged()
+                        if (Edit_Type == Edit_Type_Delete)
                         context.onClick(context.actionView)
                     } else
                         adapter.notifyItemRemoved(parentPosition)

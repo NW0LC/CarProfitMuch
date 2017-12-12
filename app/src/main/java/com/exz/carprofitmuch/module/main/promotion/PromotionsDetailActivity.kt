@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_promotions_detail.*
  */
 class PromotionsDetailActivity : BaseActivity(), View.OnClickListener {
 
-    var promotionsBean: PromotionsBean? = null
+    private var promotionsBean: PromotionsBean? = null
     override fun initToolbar(): Boolean {
         toolbar.setNavigationOnClickListener { finish() }
 
@@ -40,7 +40,7 @@ class PromotionsDetailActivity : BaseActivity(), View.OnClickListener {
         bottom_bar.visibility = View.GONE
         img.layoutParams.height = ScreenUtils.getScreenWidth() * 5 / 13
         bt_submit.setOnClickListener(this)
-
+        iniData()
     }
 
     fun iniData() {
@@ -57,7 +57,7 @@ class PromotionsDetailActivity : BaseActivity(), View.OnClickListener {
                 tv_peopleCount.text = String.format(it.already + "/" + it.total)
 
                 bottom_bar.visibility = View.VISIBLE
-                setStateColorAndStr(mContext, it.isJoin + it.state, view = bt_submit)
+                setStateColorAndStr(mContext, it.isJoin + it.state, view = *arrayOf(bt_submit))
             }
         }
     }

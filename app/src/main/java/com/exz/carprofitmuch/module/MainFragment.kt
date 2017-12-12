@@ -24,6 +24,7 @@ import com.exz.carprofitmuch.module.main.HotNewsActivity
 import com.exz.carprofitmuch.module.main.ads.AdsActivity
 import com.exz.carprofitmuch.module.main.map.MapPinActivity
 import com.exz.carprofitmuch.module.main.promotion.PromotionsActivity
+import com.exz.carprofitmuch.module.main.store.score.ScoreStoreActivity
 import com.exz.carprofitmuch.service.LocationService
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.exz.carprofitmuch.widget.MyWebActivity
@@ -176,7 +177,8 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         when (p0) {
             headerView.bt_tab_1 -> {
             }
-            headerView.bt_tab_2 -> {
+            headerView.bt_tab_2 -> {//积分兑换
+                startActivity(Intent(context, ScoreStoreActivity::class.java))
             }
             headerView.bt_tab_3 -> {
                 startActivity(Intent(context, AdsActivity::class.java))

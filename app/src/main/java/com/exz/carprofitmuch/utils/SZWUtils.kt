@@ -194,6 +194,10 @@ object SZWUtils {
                 animatorSet.play(x)
                 animatorSet.duration = 0
                 animatorSet.start()
+                progressBar.progress=0
+                progressBar.secondaryProgress=0
+                SZWUtils.start=0
+                parentLayout.bar_tag.bar_tag_text.text ="0.00"
             }
         }
 
@@ -221,9 +225,10 @@ object SZWUtils {
         }
         val widthUnit = progressBar.measuredWidth.toFloat() / progressBar.max
         tagThread = Thread {
+            if (start+endNum!=0)
             for (i in start..endNum) {
                 Log.i("progressNum:", i.toString())
-                if (i != 0 && start != end)
+                if (i != 0 && start != end||reset)
                     runOnUiThread {
                         if (originalX != 0f)
                             originalX = tagView.x
@@ -234,8 +239,8 @@ object SZWUtils {
                         animatorSet.play(x)
                         animatorSet.duration = 0
                         animatorSet.start()
-                        val decimalFormat = DecimalFormat("0.0")
-                        tagView.bar_tag_text.text = decimalFormat.format((realScore / end) * i)
+                        val decimalFormat = DecimalFormat("0.00")
+                        tagView.bar_tag_text.text = decimalFormat.format((realScore / if (end==0)1 else end) * i )
                     }
                 if (i >= 5)
                     progressBar.progress = i
@@ -244,6 +249,7 @@ object SZWUtils {
             }
             SZWUtils.start = end
             SZWUtils.secondStart = secondEnd
+
             listener.invoke()
         }
         tagThread.start()

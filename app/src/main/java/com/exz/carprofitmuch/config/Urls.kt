@@ -246,6 +246,18 @@ object Urls{
      * 编辑订单（删除，申请退款）-虚拟类
      */
     val VirtuallyEditOrder=url+"App/Order/Virtually/EditOrder.aspx"
+    /**
+     * 积分规则
+     */
+    val PointRule=url+"App/H5/PointRule.aspx"
+    /**
+     * 关于我们
+     */
+    val AboutUS=url+"App/H5/AboutUS.aspx"
+    /**
+     * 用户协议
+     */
+    val UserAgreement=url+"App/H5/UserAgreement.aspx"
 
 
 

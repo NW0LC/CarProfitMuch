@@ -12,6 +12,8 @@ import java.util.*
 class MyCommentAdapter<T : MyCommentBean> : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_my_comment, ArrayList<T>()) {
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView = helper.itemView
+        helper.addOnClickListener(R.id.llLay)
+        helper.addOnClickListener(R.id.img)
         itemView.img.setImageURI(item.imgUrl)
         itemView.tv_userName.text=item.goodsName
         itemView.mRatingBar.rating=item.score.toFloat()

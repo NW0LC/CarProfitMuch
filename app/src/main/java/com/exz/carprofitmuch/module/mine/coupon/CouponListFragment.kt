@@ -51,7 +51,6 @@ class CouponListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
         StatusBarUtil.setMargin(activity, header)
         SZWUtils.setPaddingSmart(mRecyclerView, 55f)
         SZWUtils.setMargin(header, 55f)
-        header.visibility = View.VISIBLE
         return false
     }
 

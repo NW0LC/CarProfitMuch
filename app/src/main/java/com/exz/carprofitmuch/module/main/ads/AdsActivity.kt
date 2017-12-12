@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.layout_ads_tab.view.*
 
 class AdsActivity : BaseActivity(){
 
-    private val mTitles = arrayOf("首页", "消息")
+    private val mTitles = arrayOf("无偿", "有偿")
     private val mFragments = ArrayList<Fragment>()
     override fun initToolbar(): Boolean {
 //        mTitle.text = getString(R.string.ads_name)

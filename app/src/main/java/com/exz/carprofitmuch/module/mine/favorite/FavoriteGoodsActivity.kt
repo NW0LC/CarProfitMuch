@@ -21,13 +21,15 @@ import java.util.*
  * on 2017/3/28.
  */
 
-class FavoriteGoodsActivity : BaseActivity() {
+class FavoriteGoodsActivity : BaseActivity(), View.OnClickListener {
+
 
     private val mTitles = arrayOf("全部商品", "降价商品", "失效商品")
     private val mIconUnSelectIds = intArrayOf(R.mipmap.icon_home_off, R.mipmap.icon_store_off, R.mipmap.icon_goods_car_off, R.mipmap.icon_mine_off)
     private val mIconSelectIds = intArrayOf(R.mipmap.icon_home_on, R.mipmap.icon_store_on, R.mipmap.icon_goods_car_on, R.mipmap.icon_mine_on)
     private val mTabEntities = ArrayList<CustomTabEntity>()
     private val mFragments = ArrayList<Fragment>()
+    private lateinit var actionView:TextView
     override fun initToolbar(): Boolean {
         toolbar.setNavigationOnClickListener { finish() }
         mTitle.text = getString(R.string.favorite_goods_name)
@@ -36,25 +38,9 @@ class FavoriteGoodsActivity : BaseActivity() {
         StatusBarUtil.setPaddingSmart(this, toolbar)
         StatusBarUtil.setPaddingSmart(this, blurView)
         toolbar.inflateMenu(R.menu.menu_favorite_goods)
-        val actionView = toolbar.menu.getItem(0).actionView
-        (actionView as TextView).text = getString(R.string.favorite_goods_edit)
-        actionView.setOnClickListener {
-            when (if (Edit_Type == "-1") Edit_Type_Edit else Edit_Type) {
-                Edit_Type_Edit -> {
-                    lay_tabLayout.visibility = View.GONE
-                    actionView.text = getString(R.string.favorite_goods_confirm)
-                    Edit_Type = Edit_Type_Delete
-                }
-                Edit_Type_Delete -> {
-                    lay_tabLayout.visibility = View.VISIBLE
-                    actionView.text = getString(R.string.favorite_goods_edit)
-                    Edit_Type = Edit_Type_Edit
-                }
-            }
-            actionView.isClickable = false
-            RxBus.get().post(Constants.Collection_Edit, Edit_Type)
-            actionView.postDelayed({ actionView.isClickable = true }, 500)
-        }
+        actionView = toolbar.menu.getItem(0).actionView as TextView
+        actionView.text = getString(R.string.favorite_goods_edit)
+        actionView.setOnClickListener(this)
         return false
     }
 
@@ -76,7 +62,23 @@ class FavoriteGoodsActivity : BaseActivity() {
 //        transition.setAnimator(LayoutTransition.DISAPPEARING, animatorExit)
     }
 
-
+    override fun onClick(p0: View?) {
+        when (if (Edit_Type == "-1") Edit_Type_Edit else Edit_Type) {
+            Edit_Type_Edit -> {
+                lay_tabLayout.visibility = View.GONE
+                actionView.text = getString(R.string.favorite_goods_confirm)
+                Edit_Type = Edit_Type_Delete
+            }
+            Edit_Type_Delete -> {
+                lay_tabLayout.visibility = View.VISIBLE
+                actionView.text = getString(R.string.favorite_goods_edit)
+                Edit_Type = Edit_Type_Edit
+            }
+        }
+        actionView.isClickable = false
+        RxBus.get().post(Constants.Collection_Edit, Edit_Type)
+        actionView.postDelayed({ actionView.isClickable = true }, 500)
+    }
     override fun onDestroy() {
         super.onDestroy()
         Edit_Type = "-1"
@@ -91,7 +93,7 @@ class FavoriteGoodsActivity : BaseActivity() {
          * @param adapter       适配器
          * @param goodsEntities 移除
          */
-        fun removeItem(adapter: FavoriteGoodsAdapter<out GoodsBean>, goodsEntities: Array<GoodsBean>?) {
+        fun removeItem(context:FavoriteGoodsActivity,adapter: FavoriteGoodsAdapter<out GoodsBean>, goodsEntities: Array<GoodsBean>?) {
             if (goodsEntities == null) {
                 return
             }
@@ -102,7 +104,12 @@ class FavoriteGoodsActivity : BaseActivity() {
                     if (temp.goodsId == goodsEntity.goodsId) {
                         val position = adapter.data.indexOf(temp)
                         iterator.remove()
-                        adapter.notifyDataSetChanged()
+                        if (adapter.data.size <= 0) {
+                            adapter.notifyDataSetChanged()
+                            if (Edit_Type == Edit_Type_Delete)
+                            context.onClick(context.actionView)
+                        } else
+                            adapter.notifyItemRemoved(position)
                     }
                 }
 

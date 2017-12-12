@@ -1,5 +1,6 @@
 package com.exz.carprofitmuch.module.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v4.content.ContextCompat
@@ -12,7 +13,11 @@ import android.view.ViewGroup
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.User
+import com.exz.carprofitmuch.config.Urls.UserAgreement
 import com.exz.carprofitmuch.widget.CustomViewpager
+import com.exz.carprofitmuch.widget.MyWebActivity
+import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Title
+import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Url
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.config.PreferencesService
 import com.szw.framelibrary.observer.SmsContentObserver
@@ -179,6 +184,10 @@ class RegisterFragment : MyBaseFragment(), View.OnFocusChangeListener, TextWatch
             }
             bt_protocol -> {
                 //协议
+                val intent = Intent(context, MyWebActivity::class.java)
+                intent.putExtra(Intent_Url, UserAgreement)
+                intent.putExtra(Intent_Title, getString(R.string.user_protocol))
+                startActivity(intent)
             }
             else -> {
             }
