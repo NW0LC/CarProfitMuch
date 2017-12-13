@@ -1,10 +1,12 @@
 package com.exz.carprofitmuch.bean
 
+import java.io.Serializable
+
 /**
  * Created by 史忠文
  * on 2017/10/21.
  */
-open class GoodsBean : AbsMark(), AbsBanner {
+open class GoodsBean : AbsMark(), AbsBanner ,Serializable{
     override fun getPayM() = payMark
     override fun getImgUri() = imgUrl
     override fun getMarkId() = goodsId

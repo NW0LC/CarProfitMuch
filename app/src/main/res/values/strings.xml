@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CarProfitMuch</string>
+    <string name="app_name">车利多</string>
     <string name="main_store_name">商城</string>
     <string name="main_cart_name">购物车</string>
     <string name="main_score_store_name">积分商城</string>
@@ -341,4 +341,5 @@
     <string name="cardPackage_pass">已过期</string>
     <string name="cardPackage_return">已退款</string>
     <string name="user_protocol">用户协议</string>
+    <string name="mine_msg_name">消息列表</string>
 </resources>

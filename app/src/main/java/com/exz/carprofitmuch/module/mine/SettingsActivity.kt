@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.config.Urls.AboutUS
+import com.exz.carprofitmuch.module.MineFragment
 import com.exz.carprofitmuch.module.login.LoginActivity
 import com.exz.carprofitmuch.widget.MyWebActivity
 import com.szw.framelibrary.app.MyApplication
@@ -56,6 +57,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
             bt_exit -> {
                 PreferencesService.saveAccount(this, PreferencesService.getAccountKey(this) ?: "", "")
                 MyApplication.user = null
+                MineFragment.reset=true
                 setResult(LoginActivity.RESULT_LOGIN_CANCELED)
                 onBackPressed()
             }

@@ -258,6 +258,14 @@ object Urls{
      * 用户协议
      */
     val UserAgreement=url+"App/H5/UserAgreement.aspx"
+    /**
+     * 向平台申诉
+     */
+    val PlatformAppeal=url+"App/Order/Reality/ReturnOrder/PlatformAppeal.aspx"
+    /**
+     * 消息列表
+     */
+    val Message=url+"App/UserCenter/Message.aspx"
 
 
 

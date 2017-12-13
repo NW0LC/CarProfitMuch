@@ -81,10 +81,10 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 unlockScore=it.scoreL.toFloat()//车险解锁积分
                 rootView.postDelayed({ SZWUtils.resetProgress(progressBar = progressBar, parentLayout = rootView, realScore = realScore, unlockScore = unlockScore, totalScore = totalScore,reset = reset) {reset=false} }, 2000)
                 tv_myBalance.text=String.format(context.getString(R.string.CNY)+"%s",it.balance)//余额
-                bt_tab_card_count.text=String.format(context.getString(R.string.unit_piece),it.wallet)//可用卡劵数量
-                bt_tab_coupon_count.text=String.format(context.getString(R.string.unit_piece),it.coupon)//可用优惠券数量
-                bt_tab_treasure_count.text=String.format(context.getString(R.string.unit_individual),it.treasure)//待领取宝藏数量
-                bt_tab_score_count.text=String.format(context.getString(R.string.unit_individual),it.score)//我的积分
+                bt_tab_card_count.text=SZWUtils.setUnitTextColor(context,String.format(context.getString(R.string.unit_piece),it.wallet))//可用卡劵数量
+                bt_tab_coupon_count.text=SZWUtils.setUnitTextColor(context,String.format(context.getString(R.string.unit_piece),it.coupon))//可用优惠券数量
+                bt_tab_treasure_count.text=SZWUtils.setUnitTextColor(context,String.format(context.getString(R.string.unit_individual),it.treasure))//待领取宝藏数量
+                bt_tab_score_count.text=SZWUtils.setUnitTextColor(context,String.format(context.getString(R.string.unit_individual),it.score))//我的积分
                 openState=it.openState
                 bt_applyFor_openShop.visibility= if(it.openState == "0" || it.openState == "1") View.GONE else View.VISIBLE
                 mHasNews= it.isMsg == "1"
@@ -147,7 +147,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 startActivityForResult(Intent(context, SettingsActivity::class.java), 100)
             }
             R.id.action_notifications -> {
-
+                startActivityForResult(Intent(context, MsgActivity::class.java), 100)
             }
         }
         return false
@@ -209,7 +209,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 val intent = Intent(context, CouponActivity::class.java)
                 SZWUtils.checkLogin(this, intent, CouponActivity::class.java.name)
             }
-            bt_treasure -> {//红包
+            bt_treasure -> {//我的宝藏
                 startActivity(Intent(context, TreasureListActivity::class.java))
             }
             bt_tab_history -> {//我的足迹
@@ -246,7 +246,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         }
     }
 
-    private var reset=false
+
     override fun onRefresh(refreshLayout: RefreshLayout?) {
         if (MyApplication.checkUserLogin()) {
             reset=true
@@ -266,11 +266,13 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
     override fun onDetach() {
         super.onDetach()
+        reset=false
         SZWUtils.start = 0
         SZWUtils.secondStart = 0
     }
 
     companion object {
+        var reset=false
         fun newInstance(): MineFragment {
             val bundle = Bundle()
             val fragment = MineFragment()

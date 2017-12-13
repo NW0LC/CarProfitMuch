@@ -11,6 +11,7 @@ import com.exz.carprofitmuch.R.id.lowPrice
 import com.exz.carprofitmuch.adapter.GoodsConfirmBean
 import com.exz.carprofitmuch.bean.*
 import com.exz.carprofitmuch.config.Urls
+import com.exz.carprofitmuch.config.Urls.PlatformAppeal
 import com.exz.carprofitmuch.config.Urls.VirtuallyEditOrder
 import com.exz.carprofitmuch.pop.SearchFilterPop
 import com.lzy.okgo.OkGo
@@ -312,6 +313,34 @@ object DataCtrlClass {
                     }
 
                     override fun onError(response: Response<NetEntity<ArrayList<InformationBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 个人中心消息
+     * */
+    fun mineMsgData(context: Context,currentPage: Int, listener: (informationBeans: ArrayList<MsgBean>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("page", currentPage.toString())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase())
+        OkGo.post<NetEntity<ArrayList<MsgBean>>>(Urls.Message)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<ArrayList<MsgBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<ArrayList<MsgBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<ArrayList<MsgBean>>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -1346,6 +1375,40 @@ object DataCtrlClass {
         params.put("editType", editType)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId, salt).toLowerCase())
         OkGo.post<NetEntity<Void>>(VirtuallyEditOrder)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<Void>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<Void>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body())
+                        } else {
+                            context.toast(response.body().message)
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<Void>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     * 平台申诉
+     * */
+    fun platformAppeal(context: Context,orderId:String, appealContent:String,listener: (addressBean: NetEntity<Void>?) -> Unit) {
+//       userId	string	必填	用户ID
+//       returnOrderId	string	必填	订单ID
+//       appealContent	string	必填	申诉内容（UTF-8转码）
+//       requestCheck	string	必填	验证请求
+
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("returnOrderId", orderId)
+        params.put("appealContent", appealContent)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId, salt).toLowerCase())
+        OkGo.post<NetEntity<Void>>(PlatformAppeal)
                 .params(params)
                 .tag(this)
                 .execute(object : DialogCallback<NetEntity<Void>>(context) {

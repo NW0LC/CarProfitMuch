@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/main_bar_text_bg"
                     android:gravity="center"
-                    android:text="0.0"
+                    android:text="0.00"
                     android:textColor="@color/White"
                     android:textSize="12sp" />
 
@@ -229,7 +229,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_3"
-                    android:text="0"
+                    android:text="0.00"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp" />
             </LinearLayout>

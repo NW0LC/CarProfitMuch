@@ -1,12 +1,13 @@
 package com.exz.carprofitmuch.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by pc on 2017/11/30.
  */
 
-public class ReturnGoodsBean  {
+public class ReturnGoodsBean implements Serializable {
 
 
     /**
@@ -15,6 +16,7 @@ public class ReturnGoodsBean  {
      * shopId : 店铺id
      * shopName : 店铺名称
      * shopPhone : 店铺联系电话
+     * platformPhone : 平台联系电话
      * returnOrderState : 订单状态
      * returnOrderSubState : 订单子状态
      * returnMoney : 退款金额
@@ -30,6 +32,7 @@ public class ReturnGoodsBean  {
     private String shopId;
     private String shopName;
     private String shopPhone;
+    private String platformPhone;
     private String returnOrderState;
     private String returnOrderSubState;
     private String returnMoney;
@@ -143,4 +146,11 @@ public class ReturnGoodsBean  {
         this.goodsInfo = goodsInfo;
     }
 
+    public String getPlatformPhone() {
+        return platformPhone;
+    }
+
+    public void setPlatformPhone(String platformPhone) {
+        this.platformPhone = platformPhone;
+    }
 }

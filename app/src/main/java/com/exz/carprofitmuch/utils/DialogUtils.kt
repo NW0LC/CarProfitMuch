@@ -41,7 +41,7 @@ object DialogUtils {
      */
     fun cancel(context: Context, listener: () -> Unit) {
         dialog = CommonDialogFactory.createDialogByType(context, DialogUtil.DIALOG_TYPE_103)
-        dialog.setTitleText("删除")
+        dialog.setTitleText("取消")
         dialog.setContentText("确定取消？")
         dialog.setCancelBtn("取消") { dialog.dismiss() }
         dialog.setOkBtn("确定") {
@@ -127,6 +127,32 @@ object DialogUtils {
         dialog.setOnShowListener { KeyboardUtils.toggleSoftInput() }
         (dialog as DialogType104).setOnBeforeDismiss {
             KeyboardUtils.hideSoftInput(view.count)
+            true
+        }
+        dialog.show()
+    }
+
+    /**
+     * 退款
+     */
+    fun platform(context: Context, listener: (num: String) -> Unit) {
+        dialog = DialogType104(context)
+        val view = View.inflate(context, R.layout.dialog_platform, null)
+        dialog.setTitleText("平台申诉")
+        dialog.setContentView(view)
+        dialog.setOkBtn("确定") {
+            val trim = view.ed_content.text.toString().trim()
+            if (!TextUtils.isEmpty(trim)) {
+                listener.invoke(trim)
+            }
+            dialog.dismiss()
+        }
+        dialog.setCancelBtn("取消") {
+            dialog.dismiss()
+        }
+        dialog.setOnShowListener { KeyboardUtils.toggleSoftInput() }
+        (dialog as DialogType104).setOnBeforeDismiss {
+            KeyboardUtils.hideSoftInput(view.ed_content)
             true
         }
         dialog.show()

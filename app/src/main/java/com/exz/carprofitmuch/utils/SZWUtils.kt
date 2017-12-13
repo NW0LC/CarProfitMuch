@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
+import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.TextUtils
@@ -204,7 +205,7 @@ object SZWUtils {
 
         end = ((realScore / totalScore) * 100).toInt()
         secondEnd = ((unlockScore / totalScore) * 10).toInt() * 10
-        parentLayout.tv_totalScore.text = totalScore.toString()
+        parentLayout.tv_totalScore.text = DecimalFormat("0.00").format(totalScore)
         progressBar.postDelayed({
             secondThread = Thread {
                 for (i in secondStart..secondEnd step 10) {
@@ -527,5 +528,14 @@ object SZWUtils {
 
         }
         return intent
+    }
+
+    /**
+     * 将个人中心 数字单位换成黑色
+     */
+    fun setUnitTextColor(context: Context,msg:String):SpannableString{
+        val msp = SpannableString(msg)
+        msp.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.MaterialGrey600)), msg.length-1, msg.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        return msp
     }
 }
