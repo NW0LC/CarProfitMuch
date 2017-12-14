@@ -327,7 +327,7 @@ object DataCtrlClass {
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
         params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
         OkGo.post<NetEntity<ArrayList<MsgBean>>>(Urls.Message)
                 .params(params)
                 .tag(this)
@@ -983,7 +983,7 @@ object DataCtrlClass {
     /**
      * 商铺搜索结果页
      * */
-    fun searchGoodsShopResult(context: Context, currentPage: Int, shopId:String,selfTypeId:String,status:String,search:String,sortType:String,listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
+    fun searchGoodsShopResult(currentPage: Int, shopId:String,selfTypeId:String,status:String,search:String,sortType:String,listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
 //        shopId	string	必填	店铺id
 //        selfTypeId	string	选填	店铺自定义商品分类id
 //        status	string	选填	1:上新、2:热销
@@ -1003,7 +1003,7 @@ object DataCtrlClass {
         OkGo.post<NetEntity<List<GoodsBean>>>(Urls.ShopGoodsList)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<List<GoodsBean>>>(context) {
+                .execute(object : JsonCallback<NetEntity<List<GoodsBean>>>() {
                     override fun onSuccess(response: Response<NetEntity<List<GoodsBean>>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)
@@ -1373,7 +1373,7 @@ object DataCtrlClass {
         params.put("userId", MyApplication.loginUserId)
         params.put("orderId", orderId)
         params.put("editType", editType)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId, salt).toLowerCase())
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId+editType, salt).toLowerCase())
         OkGo.post<NetEntity<Void>>(VirtuallyEditOrder)
                 .params(params)
                 .tag(this)

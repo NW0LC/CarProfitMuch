@@ -41,11 +41,9 @@ class TreasureListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLi
         initToolbar()
         SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
         initRecycler()
+        refreshLayout.autoRefresh()
     }
 
-    override fun initEvent() {
-
-    }
 
     fun initToolbar(): Boolean {
         //状态栏透明和间距处理

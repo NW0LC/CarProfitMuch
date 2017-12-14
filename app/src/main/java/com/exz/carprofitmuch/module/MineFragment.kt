@@ -30,12 +30,13 @@ import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.base.MyBaseFragment
+import com.szw.framelibrary.config.PreferencesService
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main_mine.*
 import kotlinx.android.synthetic.main.layout_progress_score.*
-import java.net.URLDecoder
+import org.jetbrains.anko.toast
 
 /**
  * Created by 史忠文
@@ -46,7 +47,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     private var mHasNews = false
     private var mOffset = 0
     private var mScrollY = 0
-    private var openState="0"
+    private var openState = "0"
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_main_mine, container, false)
         return rootView
@@ -61,7 +62,8 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         if (!hidden) {
             if (MyApplication.checkUserLogin()) {
                 getUserInfo()
-            } }
+            }
+        }
     }
 
     override fun initView() {
@@ -74,20 +76,20 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             refreshLayout?.finishRefresh()
             if (it != null) {
                 img_head.setImageURI(it.headerUrl)
-                tv_userName.text=URLDecoder.decode(it.nickname,"utf-8")
-                tv_userInfo.text= "${it.level}${it.overDate}"//会员等级 -过期时间
-                totalScore=it.scoreT.toFloat()//车险总积分
-                realScore=it.scoreG.toFloat()//车险获得积分
-                unlockScore=it.scoreL.toFloat()//车险解锁积分
-                rootView.postDelayed({ SZWUtils.resetProgress(progressBar = progressBar, parentLayout = rootView, realScore = realScore, unlockScore = unlockScore, totalScore = totalScore,reset = reset) {reset=false} }, 2000)
-                tv_myBalance.text=String.format(context.getString(R.string.CNY)+"%s",it.balance)//余额
-                bt_tab_card_count.text=SZWUtils.setUnitTextColor(context,String.format(context.getString(R.string.unit_piece),it.wallet))//可用卡劵数量
-                bt_tab_coupon_count.text=SZWUtils.setUnitTextColor(context,String.format(context.getString(R.string.unit_piece),it.coupon))//可用优惠券数量
-                bt_tab_treasure_count.text=SZWUtils.setUnitTextColor(context,String.format(context.getString(R.string.unit_individual),it.treasure))//待领取宝藏数量
-                bt_tab_score_count.text=SZWUtils.setUnitTextColor(context,String.format(context.getString(R.string.unit_individual),it.score))//我的积分
-                openState=it.openState
-                bt_applyFor_openShop.visibility= if(it.openState == "0" || it.openState == "1") View.GONE else View.VISIBLE
-                mHasNews= it.isMsg == "1"
+                tv_userName.text = PreferencesService.getAccountKey(context)
+                tv_userInfo.text = String.format("${it.level}${if (it.overDate.isNotEmpty()) it.overDate + getString(R.string.mine_vip_pass) else ""}")//会员等级 -过期时间
+                totalScore = it.scoreT.toFloat()//车险总积分
+                realScore = it.scoreG.toFloat()//车险获得积分
+                unlockScore = it.scoreL.toFloat()//车险解锁积分
+                rootView.postDelayed({ SZWUtils.resetProgress(progressBar = progressBar, parentLayout = rootView, realScore = realScore, unlockScore = unlockScore, totalScore = totalScore, reset = reset) { reset = false } }, 2000)
+                tv_myBalance.text = String.format(context.getString(R.string.CNY) + "%s", it.balance)//余额
+                bt_tab_card_count.text = SZWUtils.setUnitTextColor(context, String.format(context.getString(R.string.unit_piece), it.wallet))//可用卡劵数量
+                bt_tab_coupon_count.text = SZWUtils.setUnitTextColor(context, String.format(context.getString(R.string.unit_piece), it.coupon))//可用优惠券数量
+                bt_tab_treasure_count.text = SZWUtils.setUnitTextColor(context, String.format(context.getString(R.string.unit_individual), it.treasure))//待领取宝藏数量
+                bt_tab_score_count.text = SZWUtils.setUnitTextColor(context, String.format(context.getString(R.string.unit_individual), it.score))//我的积分
+                openState = it.openState
+                bt_applyFor_openShop.visibility = if (it.openState == "1") View.GONE else View.VISIBLE
+                mHasNews = it.isMsg == "1"
                 if (mHasNews) {
                     toolbar.menu.getItem(1)?.setIcon(R.mipmap.icon_mine_msg_on)
                 } else {
@@ -144,7 +146,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_settings -> {
-                startActivityForResult(Intent(context, SettingsActivity::class.java), 100)
+                startActivityForResult(Intent(context, SettingsActivity::class.java), 300)
             }
             R.id.action_notifications -> {
                 startActivityForResult(Intent(context, MsgActivity::class.java), 100)
@@ -189,10 +191,10 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 startActivity(Intent(context, GoodsOrderActivity::class.java).putExtra("currentTab", 1))
             }
             bt_order_tab_2 -> {//我的订单-待收货
-                startActivity(Intent(context, GoodsOrderActivity::class.java).putExtra("currentTab", 2))
+                startActivity(Intent(context, GoodsOrderActivity::class.java).putExtra("currentTab", 3))
             }
             bt_order_tab_3 -> {//我的订单-待评价
-                startActivity(Intent(context, GoodsOrderActivity::class.java).putExtra("currentTab", 3))
+                startActivity(Intent(context, GoodsOrderActivity::class.java).putExtra("currentTab", 4))
             }
             bt_order_tab_4 -> {//退货退款
                 startActivity(Intent(context, ReturnGoodsActivity::class.java))
@@ -233,8 +235,12 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 startActivityForResult(Intent(context, ScoreCenterActivity::class.java), 100)
             }
             bt_applyFor_openShop -> {//申请开店
-                val intent = Intent(context, OpenShopActivity::class.java).putExtra(OpenShopActivity.OPENSTATE,openState)
-                SZWUtils.checkLogin(this, intent, OpenShopActivity::class.java.name)
+                if (openState == "0")
+                    context.toast("开店审核中..")
+                else {
+                    val intent = Intent(context, OpenShopActivity::class.java).putExtra(OpenShopActivity.OPENSTATE, openState)
+                    SZWUtils.checkLogin(this, intent, OpenShopActivity::class.java.name)
+                }
             }
             bt_promotions -> {//我的活动
                 startActivity(Intent(context, PromotionsPersonalActivity::class.java))
@@ -249,13 +255,12 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
     override fun onRefresh(refreshLayout: RefreshLayout?) {
         if (MyApplication.checkUserLogin()) {
-            reset=true
+            reset = true
             getUserInfo()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == LoginActivity.RESULT_LOGIN_CANCELED) {
             (activity as MainActivity).mainTabBar.currentTab = 0
         } else if (resultCode == Activity.RESULT_OK) {
@@ -266,13 +271,13 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
     override fun onDetach() {
         super.onDetach()
-        reset=false
+        reset = false
         SZWUtils.start = 0
         SZWUtils.secondStart = 0
     }
 
     companion object {
-        var reset=false
+        var reset = false
         fun newInstance(): MineFragment {
             val bundle = Bundle()
             val fragment = MineFragment()

@@ -36,7 +36,7 @@ import java.util.*
 class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerView.OnOptionsSelectListener {
     private lateinit var mTextEntity: OpenTextBen
     private var textType = 0
-    private lateinit var mUserInfo: UserInfoBean
+    private var mUserInfo: UserInfoBean?=null
     private lateinit var pvOptions: OptionsPickerView<GenderBean>
     private lateinit var genderList: ArrayList<GenderBean>
     override fun initToolbar(): Boolean {
@@ -60,7 +60,7 @@ class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerVi
     }
 
     private fun initUserInfo() {
-        DataCtrlClassXZW.UserInfoData(mContext, {
+        DataCtrlClassXZW.userInfoData(mContext, {
             if (it != null) {
                 mUserInfo = it
                 iv_header.setImageURI(it.headerUrl)
@@ -150,11 +150,11 @@ class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerVi
         } else if (resultCode == OpenShopActivity.RESULTCODE_OPEN_SHOP) {
             when (textType) {
                 1 -> {//昵称
-                    mTextEntity = data!!.getSerializableExtra("text") as OpenTextBen
+                    mTextEntity = data?.getSerializableExtra("text") as OpenTextBen
                     editInfo("nickname", mTextEntity.content)
                 }
                 2 -> {//微信
-                    mTextEntity = data!!.getSerializableExtra("text") as OpenTextBen
+                    mTextEntity = data?.getSerializableExtra("text") as OpenTextBen
                     editInfo("wechat", mTextEntity.content)
                 }
             }
@@ -177,13 +177,13 @@ class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerVi
             }
             bt_nicename -> {
                 textType = 1
-                if (mUserInfo != null) mTextEntity = OpenTextBen("修改昵称", URLDecoder.decode(mUserInfo.nickname, "utf-8"), 10, "*店铺名称请控制长度不要超过15字")
+                if (mUserInfo != null) mTextEntity = OpenTextBen("修改昵称", URLDecoder.decode(mUserInfo?.nickname, "utf-8"), 15, "*店铺名称请控制长度不要超过15字")
                 b.putSerializable("text", mTextEntity)
                 startActivityForResult(Intent(mContext, OpenShopInputTextActivity::class.java).putExtras(b), OpenShopActivity.RESULTCODE_OPEN_SHOP)
             }
             bt_wechat -> {
                 textType = 2
-                if (mUserInfo != null) mTextEntity = OpenTextBen("修改微信号", URLDecoder.decode(mUserInfo.wechat, "utf-8"), 10, "*微信号请控制长度不要超过15字")
+                if (mUserInfo != null) mTextEntity = OpenTextBen("修改微信号", URLDecoder.decode(mUserInfo?.wechat, "utf-8"), 15, "*微信号请控制长度不要超过15字")
                 b.putSerializable("text", mTextEntity)
                 startActivityForResult(Intent(mContext, OpenShopInputTextActivity::class.java).putExtras(b), OpenShopActivity.RESULTCODE_OPEN_SHOP)
             }

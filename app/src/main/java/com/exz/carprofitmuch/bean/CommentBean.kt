@@ -17,7 +17,7 @@ open class CommentBean {
 
     var images=ArrayList<String>()
     var userIcon =""
-    var uerName=""
+    var userName=""
     var score="5"
     var content=""
     var commentDate =""

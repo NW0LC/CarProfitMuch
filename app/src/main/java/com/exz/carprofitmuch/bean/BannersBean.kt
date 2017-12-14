@@ -7,7 +7,8 @@ package com.exz.carprofitmuch.bean
 
 class BannersBean(var imgUrl: String = "") :AbsBanner, AbsMark() {
     override fun getImgUri()=imgUrl
-    override fun getMarkId()=mark
+    override fun getMarkId()=id
+    override fun getMarkType()=mark
     override fun getAdUri()= adUrl
     override fun getAdsID()=adsId
     /**

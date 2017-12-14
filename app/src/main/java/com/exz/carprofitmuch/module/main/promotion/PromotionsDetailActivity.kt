@@ -55,20 +55,25 @@ class PromotionsDetailActivity : BaseActivity(), View.OnClickListener {
                 myWeb.loadUrl(it.contentUrl)
 
                 tv_peopleCount.text = String.format(it.already + "/" + it.total)
-
+                val already = it.already.toDoubleOrNull() ?: 0.toDouble()
+                val total = it.total.toDoubleOrNull() ?: 0.toDouble()
+                progressBar.progress= ((already/ total) * 100).toInt()
                 bottom_bar.visibility = View.VISIBLE
-                setStateColorAndStr(mContext, it.isJoin + it.state, view = *arrayOf(bt_submit))
+                setStateColorAndStr(mContext, it.isJoin + it.state+it.isUpload, view = *arrayOf(bt_submit))
             }
         }
     }
 
     override fun onClick(view: View) {
         if (promotionsBean != null) {
-            when (promotionsBean?.isJoin + promotionsBean?.state) {
-                "01" -> {
-                    DataCtrlClass.promotionJoin(this@PromotionsDetailActivity, promotionsBean?.id ?: "") { iniData() }
+            when (promotionsBean?.isJoin + promotionsBean?.state+ promotionsBean?.isUpload) {
+                "010" -> {
+                    DataCtrlClass.promotionJoin(this@PromotionsDetailActivity, promotionsBean?.id ?: "") {
+                        setResult(Activity.RESULT_OK)
+                        iniData() }
                 }
-                "14" -> {
+                "140" -> {
+
                     val intent = Intent(this, PromotionsPushActivity::class.java)
                     intent.putExtra(PromotionsDetail_Intent_PromotionId,getIntent().getStringExtra(PromotionsDetail_Intent_PromotionId))
                     startActivityForResult(intent,100)
@@ -80,6 +85,7 @@ class PromotionsDetailActivity : BaseActivity(), View.OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode== Activity.RESULT_OK) {
+            setResult(Activity.RESULT_OK)
             iniData()
         }
     }

@@ -6,6 +6,7 @@ package com.exz.carprofitmuch.bean
  */
 abstract class AbsMark{
     open fun getMarkId():String=""
+    open fun getMarkType():String=""
     open fun getIdM():String=""
     open fun getClassM():String=""
     open fun getPayM():String=""

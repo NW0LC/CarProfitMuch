@@ -16,11 +16,8 @@ import com.exz.carprofitmuch.config.Urls.IsSetPayPwd
 import com.exz.carprofitmuch.config.Urls.PayInfo
 import com.exz.carprofitmuch.config.Urls.PayState
 import com.exz.carprofitmuch.config.Urls.WeChatPay
-import com.exz.carprofitmuch.module.mine.CardPackageDetailActivity
-import com.exz.carprofitmuch.module.mine.CardPackageDetailActivity.Companion.CardPackageDetail_Intent_OrderId
 import com.exz.carprofitmuch.module.mine.CardPackageListActivity
 import com.exz.carprofitmuch.module.mine.goodsorder.GoodsOrderActivity
-import com.exz.carprofitmuch.module.mine.goodsorder.GoodsOrderDetailActivity
 import com.exz.carprofitmuch.pop.PwdPop
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.hwangjr.rxbus.annotation.Subscribe
@@ -47,15 +44,16 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
 
     lateinit var pwdPop: PwdPop
     var canBalancePay = false
-    private var  orderId=""
+    private var orderId = ""
     private var payMoney = ""
     private var finishType = ""
-    companion object {
-        var Pay_Intent_OrderId="Pay_Intent_OrderId"
 
-        var Pay_Intent_Finish_Type="Intent_Finish_Type"
-        var Intent_Finish_Type_1="ServiceConfirmActivity"
-        var Intent_Finish_Type_2="GoodsConfirmActivity"
+    companion object {
+        var Pay_Intent_OrderId = "Pay_Intent_OrderId"
+
+        var Pay_Intent_Finish_Type = "Intent_Finish_Type"
+        var Intent_Finish_Type_1 = "ServiceConfirmActivity"
+        var Intent_Finish_Type_2 = "GoodsConfirmActivity"
     }
 
     override fun setInflateId() = R.layout.activity_pay_methods
@@ -71,8 +69,8 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
     }
 
     override fun init() {
-        orderId =intent.getStringExtra(Pay_Intent_OrderId)?:""
-        finishType=intent.getStringExtra(Pay_Intent_Finish_Type)?:""
+        orderId = intent.getStringExtra(Pay_Intent_OrderId) ?: ""
+        finishType = intent.getStringExtra(Pay_Intent_Finish_Type) ?: ""
         pwdPop = PwdPop(this) {
             OnPasswordInputFinish {
                 balancePay(it)
@@ -88,9 +86,9 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(0).id)
-            aliPay(AliPay, "orderId", orderId,EncryptUtils.encryptMD5ToString(MyApplication.loginUserId , MyApplication.salt).toLowerCase())
+            aliPay(AliPay, "orderId", orderId, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(1).id)
-            weChatPay(WeChatPay, "orderId", orderId,EncryptUtils.encryptMD5ToString(MyApplication.loginUserId , MyApplication.salt).toLowerCase())
+            weChatPay(WeChatPay, "orderId", orderId, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(2).id) {
             if (canBalancePay)
                 checkHavePayPwd()
@@ -110,29 +108,30 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
         val map = HashMap<String, String>()
         map.put("userId", MyApplication.loginUserId)
         map.put("orderId", orderId)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId +orderId, MyApplication.salt).toLowerCase())
+        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<PayInfoBean>>(PayInfo).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<PayInfoBean>>(this) {
 
                     override fun onSuccess(response: Response<NetEntity<PayInfoBean>>) {
-                        tv_orderNum.text=String.format(getString(R.string.goods_order_orderNum),response.body().data?.orderNum)
-                        tv_totalPrice.text=String.format(getString(R.string.CNY)+"%s",response.body().data?.payMoney)
-                        payMoney=response.body().data?.payMoney?:""
+                        tv_orderNum.text = String.format(getString(R.string.goods_order_orderNum), response.body().data?.orderNum)
+                        tv_totalPrice.text = String.format(getString(R.string.CNY) + "%s", response.body().data?.payMoney)
+                        payMoney = response.body().data?.payMoney ?: ""
                         pwdPop.setPrice(String.format("${getString(R.string.CNY)}%s", payMoney))
                         myBalance()
                     }
                 })
 
     }
+
     /**
      * 我的余额
      */
     private fun myBalance() {
-        DataCtrlClass.accountBalance(this){
+        DataCtrlClass.accountBalance(this) {
             (radioGroup.getChildAt(2) as RadioButton).text = String.format("%s(￥%s)", resources.getString(R.string.pay_balance), it?.balance)//我的余额
             canBalancePay = try {
-                (it?.balance?.toDouble()?:0.toDouble()) >= payMoney.toDouble()
+                (it?.balance?.toDouble() ?: 0.toDouble()) >= payMoney.toDouble()
             } catch (e: Exception) {
                 false
             }
@@ -151,7 +150,7 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
         map.put("userId", MyApplication.loginUserId)
         val nowMills = TimeUtils.getNowMills().toString()
         map.put("timestamp", nowMills)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+nowMills, MyApplication.salt).toLowerCase())
+        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + nowMills, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<String>>(IsSetPayPwd).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<String>>(this) {
@@ -184,18 +183,16 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
         map.put("userId", MyApplication.loginUserId)
         map.put("payPwd", payPwd)
         map.put("orderId", orderId)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId+payPwd, MyApplication.salt).toLowerCase())
+        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + orderId + payPwd, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<CheckPayBean>>(BalancePay).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<CheckPayBean>>(this) {
 
                     override fun onSuccess(response: Response<NetEntity<CheckPayBean>>) {
-                        val intent= if (Pay_Intent_Finish_Type== Intent_Finish_Type_1) {
-                            intent.putExtra(CardPackageDetail_Intent_OrderId,orderId)
-                           Intent(mContext, CardPackageDetailActivity::class.java)
-                        }else {
-                            GoodsOrderDetailActivity.orderId =orderId
-                            Intent(mContext, GoodsOrderDetailActivity::class.java)
+                        val intent = if (Pay_Intent_Finish_Type == Intent_Finish_Type_1) {
+                            Intent(mContext, CardPackageListActivity::class.java)
+                        } else {
+                            Intent(mContext, GoodsOrderActivity::class.java)
                         }
                         startActivity(intent)
                         RxBus.get().post(Constants.BusAction.Pay_Finish, Constants.BusAction.Pay_Finish)
@@ -228,9 +225,9 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
 
                     override fun onSuccess(response: Response<NetEntity<CheckPayBean>>) {
                         if (response.body().data?.payState == "1") {
-                            val intent= if (Pay_Intent_Finish_Type== Intent_Finish_Type_1) {
+                            val intent = if (Pay_Intent_Finish_Type == Intent_Finish_Type_1) {
                                 Intent(mContext, CardPackageListActivity::class.java)
-                            }else
+                            } else
                                 Intent(mContext, GoodsOrderActivity::class.java)
                             startActivity(intent)
                             finish()

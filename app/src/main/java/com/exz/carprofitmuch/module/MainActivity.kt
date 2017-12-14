@@ -105,9 +105,9 @@ class MainActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode==RESULT_LOGIN_OK) {
+        if (resultCode==RESULT_LOGIN_OK&&requestCode==0xc8) {
             mainTabBar.currentTab=newPosition
-        }else if (resultCode== RESULT_LOGIN_CANCELED)
+        }else if (resultCode== RESULT_LOGIN_CANCELED&&requestCode==0xc8)
             mainTabBar.currentTab=oldPosition
     }
     companion object {

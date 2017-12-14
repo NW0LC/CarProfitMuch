@@ -1,12 +1,15 @@
 package com.exz.carprofitmuch.adapter
 
+import android.app.Activity
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.SizeUtils
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.exz.carprofitmuch.R
+import com.szw.framelibrary.imageloder.GlideApp
 import com.szw.framelibrary.view.preview.PreviewActivity
 import com.szw.framelibrary.view.preview.PreviewActivity.Companion.PREVIEW_INTENT_IMAGES
 import com.szw.framelibrary.view.preview.PreviewActivity.Companion.PREVIEW_INTENT_POSITION
@@ -16,7 +19,7 @@ import kotlinx.android.synthetic.main.item_image.view.*
 class ItemCommentImageAdapter : BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_image, ArrayList<String>()) {
     override fun convert(helper: BaseViewHolder, item: String) {
         val itemView = helper.itemView
-        itemView.img.setImageURI(item)
+        GlideApp.with(mContext).load(item).centerCrop().transition(DrawableTransitionOptions.withCrossFade()).into(itemView.img)
         val layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
         layoutParams.height = (ScreenUtils.getScreenWidth() - SizeUtils.dp2px(94f)) / 3
         when {
@@ -35,6 +38,7 @@ class ItemCommentImageAdapter : BaseQuickAdapter<String, BaseViewHolder>(R.layou
             intent.putExtra(PREVIEW_INTENT_SHOW_NUM, true)
             intent.putExtra(PREVIEW_INTENT_POSITION, helper.adapterPosition)
             mContext.startActivity(intent)
+            (mContext as Activity).overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }
     }
 

@@ -41,6 +41,7 @@ class TreasureListActivity : BaseActivity() {
         mTitles.indices.mapTo(mTabEntities) { TabEntity(mTitles[it], mIconSelectIds[it], mIconUnSelectIds[it]) }
         mFragments.add(TreasureListFragment.newInstance(0))
         mFragments.add(TreasureListFragment.newInstance(1))
+        mFragments.add(TreasureListFragment.newInstance(2))
         mTabLayout.setTabData(mTabEntities, this, R.id.frameLayout, mFragments)
     }
 

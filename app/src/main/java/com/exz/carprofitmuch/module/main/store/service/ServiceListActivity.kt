@@ -31,7 +31,7 @@ import razerdp.basepopup.BasePopupWindow
  * on 2017/10/17.
  */
 
-class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
+class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener{
 
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH
@@ -73,13 +73,22 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
             SZWUtils.setGreyOrGreen(this, radioButton2, position == 0)
             onRefresh(refreshLayout)
         }
-        classifyPop.onDismissListener = popDismissListener
-        sortPop.onDismissListener = popDismissListener
         sortPop.data = SZWUtils.getServiceListSortData()
 
+        classifyPop.onDismissListener = dismissListener
+        sortPop.onDismissListener = dismissListener
+
+        DataCtrlClass.serviceClassifyData(this,"2"){
+            if (it!=null)
+                classifyPop.data =it
+        }
+    }
+    private val dismissListener: BasePopupWindow.OnDismissListener = object : BasePopupWindow.OnDismissListener() {
+        override fun onDismiss() {
+            radioGroup.clearCheck()
+        }
 
     }
-
     private fun initEvent() {
         toolbar.setNavigationOnClickListener { finish() }
         radioButton1.setOnClickListener(this)
@@ -102,17 +111,19 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
             }
         })
     }
-
     override fun onClick(p0: View?) {
         when (p0) {
             radioButton1 -> {
-                if (classifyPop.data.isNotEmpty())
-                classifyPop.showPopupWindow(radioGroup)
+                if (classifyPop.data.isNotEmpty()&& !classifyPop.isShowing)
+                    classifyPop.showPopupWindow(radioGroup)
                 else
                     radioGroup.clearCheck()
             }
             radioButton2 -> {
+                if (!sortPop.isShowing)
                 sortPop.showPopupWindow(radioGroup)
+                else
+                    radioGroup.clearCheck()
             }
             else -> {
             }
@@ -123,10 +134,6 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
         currentPage = 1
         refreshState = Constants.RefreshState.STATE_REFRESH
         iniData()
-        DataCtrlClass.serviceClassifyData(this,"2"){
-            if (it!=null)
-            classifyPop.data =it
-        }
     }
 
     override fun onLoadMoreRequested() {
@@ -153,11 +160,6 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
             } else {
                 mAdapter.loadMoreFail()
             }
-        }
-    }
-    private val popDismissListener: BasePopupWindow.OnDismissListener = object : BasePopupWindow.OnDismissListener() {
-        override fun onDismiss() {
-            radioGroup.clearCheck()
         }
     }
 }

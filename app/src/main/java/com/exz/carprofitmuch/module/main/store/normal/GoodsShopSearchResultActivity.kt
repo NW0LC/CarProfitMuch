@@ -48,11 +48,11 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
 //    status   1:上新、2:热销
 //    search   搜索内容(UTF-8编码)
 //    sortType   排序方式(0:综合排序，1:按价格降序，2:按价格升序，3:按销量排序)
-    var shopId=""
-    var selfTypeId=""
-    var status=""
+    var shopId="0"
+    var selfTypeId="0"
+    var status="0"
     var search=""
-    var sortType=""
+    var sortType="0"
 
     override fun initToolbar(): Boolean {
         toolbar.setContentInsetsAbsolute(0, 0)
@@ -133,9 +133,12 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
                 }
             }
         }
+        bt_sort1.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
+
         SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
         initEvent()
+        onRefresh(refreshLayout)
     }
 
     private fun initEvent() {
@@ -231,7 +234,7 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
 
     private fun iniData() {
 
-        DataCtrlClass.searchGoodsShopResult(this, currentPage,shopId,selfTypeId,status,search,sortType) {
+        DataCtrlClass.searchGoodsShopResult(currentPage,shopId,selfTypeId,status,search,sortType) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

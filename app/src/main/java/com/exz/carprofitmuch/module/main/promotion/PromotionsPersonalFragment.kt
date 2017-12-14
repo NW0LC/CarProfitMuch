@@ -40,11 +40,17 @@ class PromotionsPersonalFragment : MyBaseFragment(), OnRefreshListener,  BaseQui
         rootView = inflater.inflate(R.layout.fragment_comment_list, container, false)
         return rootView
     }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden){
+            onRefresh(refreshLayout)
+        }
+    }
     override fun initView() {
         initToolbar()
         SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initRecycler()
-        refreshLayout.autoRefresh()
     }
 
     override fun initEvent() {

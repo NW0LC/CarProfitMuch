@@ -7,13 +7,14 @@ import com.blankj.utilcode.util.SizeUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.exz.carprofitmuch.R
+import com.szw.framelibrary.imageloder.GlideApp
 import com.szw.framelibrary.view.preview.PreviewActivity
 import kotlinx.android.synthetic.main.item_image.view.*
 
 class ItemMyCommentImageAdapter : BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_image, ArrayList<String>()) {
     override fun convert(helper: BaseViewHolder, item: String) {
         val itemView = helper.itemView
-        itemView.img.setImageURI(item)
+        GlideApp.with(mContext).load(item).into(itemView.img)
         val layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
         layoutParams.width = ScreenUtils.getScreenWidth() / 8
         layoutParams.height = ScreenUtils.getScreenWidth() / 8

@@ -337,7 +337,7 @@ object SZWUtils {
         val filterBeans = ArrayList<ServiceListFilterBean>()
         filterBeans.add(ServiceListFilterBean("1", "综合排序"))
         filterBeans.add(ServiceListFilterBean("2", "报名人数由少到多"))
-        filterBeans.add(ServiceListFilterBean("3", "报名人数由到到少"))
+        filterBeans.add(ServiceListFilterBean("3", "报名人数由多到少"))
         filterBeans.add(ServiceListFilterBean("4", "截止日期由近到远"))
         filterBeans.add(ServiceListFilterBean("5", "截止日期由远到近"))
         return filterBeans
@@ -454,7 +454,7 @@ object SZWUtils {
     fun <T:AbsMark>getIntent(context: Context, item: T): Intent? {
 //            1虚拟类商品 2金钱实物类商品 3积分实物类商品 4虚拟类店铺 5实物类店铺 6网页
         var intent: Intent?=null
-        when (item.getMarkId()) {
+        when (item.getMarkType()) {
             "1" -> {
                 intent = Intent()
                 intent.setClass(context, ServiceDetailActivity::class.java)
@@ -515,12 +515,12 @@ object SZWUtils {
                 intent.setClass(context, ServiceDetailActivity::class.java)
                 intent.putExtra(Service_Intent_ServiceId, item.getMarkId())
             }
-            "211","212"->{//商品店铺
+            "211","212","21"->{//商品店铺
                 intent = Intent()
                 intent.setClass(context, GoodsShopActivity::class.java)
                 intent.putExtra(GoodsShop_Intent_ShopId, item.getMarkId())
             }
-            "221","222"->{//服务店铺
+            "221","222","22"->{//服务店铺
                 intent = Intent()
                 intent.setClass(context, ServiceShopActivity::class.java)
                 intent.putExtra(ServiceShop_Intent_ServiceShopId, item.getMarkId())

@@ -107,6 +107,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
+        mAdapter.setEmptyView(R.layout.empty_cart)
         mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
         mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener() {
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -299,16 +300,13 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                                 setAllPrice()
                                 listener.invoke(response.body().data)
                             } else {
+                                context.toast(response.body().message)
                                 listener.invoke(null)
                             }
 
                     override fun onError(response: Response<NetEntity<String>>) {
                         super.onError(response)
                         listener.invoke(null)
-
-                        goodsEntity.goodsCount = String.format("%s", index)
-                        mAdapter.notifyDataSetChanged()
-                        setAllPrice()
                     }
 
                 })

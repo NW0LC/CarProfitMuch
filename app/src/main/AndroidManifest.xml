@@ -151,6 +151,8 @@
         <activity android:name=".module.CartActivity"/>
         <!--消息-->
         <activity android:name=".module.mine.MsgActivity"/>
+        <!--车险-->
+        <activity android:name=".module.main.insurance.InsuranceActivity"/>
 
 
 

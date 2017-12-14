@@ -12,7 +12,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.GoodsShopAdapter
-import com.exz.carprofitmuch.bean.BannersBean
 import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.ShopBean
 import com.exz.carprofitmuch.config.Urls
@@ -68,7 +67,7 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
         val mNsp = SpannableString(getString(R.string.goods_shop_newGoodsList))
         mNsp.setSpan(ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.MaterialRed600)), mNsp.length - 1, mNsp.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_newGoodsList.text = mNsp
-        val mHsp = SpannableString(getString(R.string.goods_shop_newGoodsList))
+        val mHsp = SpannableString(getString(R.string.goods_shop_hotGoodsList))
         mHsp.setSpan(ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.MaterialRed600)), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_hotGoodsList.text = mHsp
 
@@ -80,10 +79,6 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
     }
 
     private fun initBanner() {
-        val bannersBean = ArrayList<BannersBean>()
-        bannersBean.add(BannersBean())
-        bannersBean.add(BannersBean())
-        bannersBean.add(BannersBean())
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
         //设置图片加载器
         banner.setImageLoader(BannerImageLoader())
@@ -138,9 +133,8 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View?, position: Int) {
-        val intent = Intent(this, GoodsDetailActivity::class.java)
-        intent.putExtra(GoodsDetail_Intent_GoodsId, (adapter.data[position] as GoodsBean).goodsId)
-        startActivity(intent)
+        if (SZWUtils.getMarkIntent(this@GoodsShopActivity, adapter.data[position] as GoodsBean) != null)
+            startActivity(SZWUtils.getMarkIntent(this@GoodsShopActivity, adapter.data[position] as GoodsBean))
     }
 
     override fun onClick(p0: View?) {
@@ -150,7 +144,8 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
                 onBackPressed()
             }
             mTitle -> {
-                intent.putExtra("isShowSoft", true)
+                shopSearchIntent.putExtra("isShowSoft", true)
+                shopSearchIntent.putExtra(GoodsShop_Intent_ShopId,intent.getStringExtra(GoodsShop_Intent_ShopId) ?: "")
                 startActivity(shopSearchIntent)
             }
             mRightImg -> {
@@ -187,8 +182,9 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
                 startActivity(shopSearchIntent)
             }
             bt_goodsShop_detail -> {//
+                val shopId = intent.getStringExtra(GoodsShop_Intent_ShopId)
                 val intent = Intent(this, MyWebActivity::class.java)
-                intent.putExtra(Intent_Url, "${Urls.url}Mobile/ShopDetail.aspx?id=${intent.getStringExtra(GoodsShop_Intent_ShopId)}")
+                intent.putExtra(Intent_Url, "${Urls.url}Mobile/ShopDetail.aspx?id=$shopId")
                 intent.putExtra(Intent_Title, getString(R.string.goods_shop_detail))
                 startActivity(intent)
             }

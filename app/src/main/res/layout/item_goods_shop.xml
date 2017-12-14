@@ -3,6 +3,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/White"
     android:orientation="vertical">
 
@@ -14,7 +15,7 @@
         android:contentDescription="@string/main_hot_msg"
         android:minHeight="45dp"
         android:minWidth="45dp"
-        android:scaleType="centerCrop"
+        app:actualImageScaleType="fitXY"
         android:src="@mipmap/icon_main_store_service_bg_1"
         tool:background="@color/MaterialGrey200" />
 

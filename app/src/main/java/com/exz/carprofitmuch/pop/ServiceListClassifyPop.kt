@@ -71,7 +71,6 @@ class ServiceListClassifyPop(context: Activity, listener:(title:String,serviceCl
         return set
     }
 
-
     override fun getClickToDismissView(): View = popupWindowView
 
     override fun onCreatePopupView(): View = createPopupById(R.layout.pop_list)

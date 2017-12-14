@@ -34,112 +34,126 @@
 
                 <LinearLayout
 
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_8"
                     android:background="@color/White"
-                    android:padding="@dimen/margin_15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:padding="@dimen/margin_15">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/White"
-                        android:drawableStart="@mipmap/icon_balance_withdrawal"
                         android:drawablePadding="@dimen/margin_5"
+                        android:drawableStart="@mipmap/icon_balance_withdrawal"
                         android:gravity="center_vertical"
                         android:text="@string/withdrawal_can_price"
                         android:textColor="@color/MaterialGrey600"
                         android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/tv_price"
-                        android:layout_marginStart="@dimen/margin_5"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_5"
                         android:background="@color/White"
                         android:gravity="center_vertical"
                         android:text="@string/CNY"
                         android:textColor="@color/Red"
                         android:textSize="14sp" />
                 </LinearLayout>
+
                 <com.szw.framelibrary.view.ClearWriteEditText
+                    android:id="@+id/tv_withdrawal_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_8"
                     android:background="@color/White"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:padding="@dimen/margin_15"
                     android:hint="@string/withdrawal_price"
-                    android:id="@+id/tv_withdrawal_price"
                     android:inputType="number"
                     android:lines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/MaterialGrey600"
-                    android:textSize="15sp" />
-                <com.szw.framelibrary.view.ClearWriteEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_0.5"
-                    android:background="@color/White"
-                    android:gravity="center_vertical"
                     android:padding="@dimen/margin_15"
-                    android:hint="@string/withdrawal_cardNum"
+                    android:textColor="@color/MaterialGrey600"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="15sp" />
+
+                <com.szw.framelibrary.view.ClearWriteEditText
                     android:id="@+id/tv_withdrawal_cardNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    android:background="@color/White"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:hint="@string/withdrawal_cardNum"
                     android:inputType="number"
                     android:lines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/MaterialGrey600"
-                    android:textSize="15sp" />
-                <com.szw.framelibrary.view.ClearWriteEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_0.5"
-                    android:background="@color/White"
-                    android:gravity="center_vertical"
                     android:padding="@dimen/margin_15"
-                    android:hint="@string/withdrawal_bankName"
+                    android:textColor="@color/MaterialGrey600"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="15sp" />
+
+                <com.szw.framelibrary.view.ClearWriteEditText
                     android:id="@+id/tv_withdrawal_bankName"
-                    android:lines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/MaterialGrey600"
-                    android:textSize="15sp" />
-                <com.szw.framelibrary.view.ClearWriteEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_0.5"
                     android:background="@color/White"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
+                    android:hint="@string/withdrawal_bankName"
+                    android:lines="1"
                     android:padding="@dimen/margin_15"
-                    android:hint="@string/withdrawal_bankAddress"
+                    android:textColor="@color/MaterialGrey600"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="15sp" />
+
+                <com.szw.framelibrary.view.ClearWriteEditText
                     android:id="@+id/tv_withdrawal_bankAddress"
-                    android:lines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/MaterialGrey600"
-                    android:textSize="15sp" />
-                <com.szw.framelibrary.view.ClearWriteEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_0.5"
                     android:background="@color/White"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
+                    android:hint="@string/withdrawal_bankAddress"
+                    android:lines="1"
                     android:padding="@dimen/margin_15"
-                    android:hint="@string/withdrawal_cardUserName"
+                    android:textColor="@color/MaterialGrey600"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="15sp" />
+
+                <com.szw.framelibrary.view.ClearWriteEditText
                     android:id="@+id/tv_withdrawal_cardUserName"
-                    android:lines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/MaterialGrey600"
-                    android:textSize="15sp" />
-                <com.szw.framelibrary.view.ClearWriteEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_0.5"
                     android:background="@color/White"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
+                    android:hint="@string/withdrawal_cardUserName"
+                    android:lines="1"
                     android:padding="@dimen/margin_15"
-                    android:hint="@string/withdrawal_cardUserPhone"
+                    android:textColor="@color/MaterialGrey600"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="15sp" />
+
+                <com.szw.framelibrary.view.ClearWriteEditText
                     android:id="@+id/tv_withdrawal_cardUserPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_0.5"
+                    android:background="@color/White"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:hint="@string/withdrawal_cardUserPhone"
                     android:inputType="phone"
                     android:lines="1"
-                    android:ellipsize="end"
+                    android:padding="@dimen/margin_15"
                     android:textColor="@color/MaterialGrey600"
+                    android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="15sp" />
 
 
@@ -156,8 +170,9 @@
         android:gravity="center"
         android:padding="@dimen/margin_15"
         android:text="@string/withdrawal_confirm"
-        android:textSize="@dimen/sp_14"
         android:textColor="@color/White"
+        android:textSize="@dimen/sp_14"
         app:layout_constraintBottom_toBottomOf="parent" />
+
     <include layout="@layout/action_bar_custom" />
 </android.support.constraint.ConstraintLayout>

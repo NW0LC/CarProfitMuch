@@ -231,6 +231,22 @@ object Urls{
      */
     val VipSignature=url+"App/UserCenter/Vip/Signature.aspx"
     /**
+     * 【会员缴费】 余额支付
+     */
+    val VipBalancePay=url+"App/UserCenter/Vip/BalancePay.aspx"
+    /**
+     * 【会员缴费】 支付状态 (第三方支付服务器端验证）
+     */
+    val VipPayState=url+"App/UserCenter/Vip/PayState.aspx"
+    /**
+     * 【会员缴费】 微信支付签名
+     */
+    val VipWeChatPay=url+"App/UserCenter/Vip/WeChatPay/Signature.aspx"
+    /**
+     * 【会员缴费】 支付宝签名
+     */
+    val VipAliPay=url+"App/UserCenter/Vip/AliPay/Signature.aspx"
+    /**
      * 订单详情-实物类
      */
     val OrderDetail=url+"App/Order/Reality/OrderDetail.aspx"
@@ -467,7 +483,7 @@ object Urls{
      /*
         * 申请退款-实物类
         */
-     var ApplyReturnMoney = url + "App/Order/Reality/ReturnOrder/ApplyReturnMoney.aspx"
+     var ApplyReturnMoney = url + "App/Order/Reality/ReturnOrder/applyReturnMoney.aspx"
 
 
     /*

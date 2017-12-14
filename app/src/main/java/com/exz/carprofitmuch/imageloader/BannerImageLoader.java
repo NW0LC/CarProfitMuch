@@ -1,11 +1,10 @@
 package com.exz.carprofitmuch.imageloader;
 
 import android.content.Context;
-import android.net.Uri;
 import android.widget.ImageView;
 
 import com.exz.carprofitmuch.bean.AbsBanner;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.szw.framelibrary.imageloder.GlideApp;
 import com.youth.banner.loader.ImageLoader;
 
 public class BannerImageLoader extends ImageLoader {
@@ -18,14 +17,14 @@ public class BannerImageLoader extends ImageLoader {
           传输的到的是什么格式，那么这种就使用Object接收和返回，你只需要强转成你传输的类型就行，
           切记不要胡乱强转！
          */
-        Uri uri = Uri.parse(((AbsBanner) path).getImgUri());
-        imageView.setImageURI(uri);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        GlideApp.with(context).load(((AbsBanner) path).getImgUri()).into(imageView);
     }
     
     //提供createImageView 方法，如果不用可以不重写这个方法，主要是方便自定义ImageView的创建
     @Override
     public ImageView createImageView(Context context) {
         //使用fresco，需要创建它提供的ImageView，当然你也可以用自己自定义的具有图片加载功能的ImageView
-        return new SimpleDraweeView(context);
+        return new ImageView(context);
     }
 }

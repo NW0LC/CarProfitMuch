@@ -26,7 +26,7 @@ class GoodsOrderAdapter<T:MyOrderBean> : BaseQuickAdapter<T, BaseViewHolder>(R.l
         helper.itemView.mRecyclerView.layoutManager = LinearLayoutManager(mContext)
         helper.addOnClickListener(R.id.tv_mid)
         helper.addOnClickListener(R.id.tv_right)
-        initStateBtn(item.orderState, helper.itemView.tv_my_order, TextView(mContext), helper.itemView.tv_mid, helper.itemView.tv_right)
+        initStateBtn(item.orderState,true, helper.itemView.tv_my_order, helper.itemView.tv_left, helper.itemView.tv_mid, helper.itemView.tv_right)
         helper.itemView.tv_shop_name.text = item.shopName
         helper.itemView.tv_num_goods.text = String.format(mContext.getString(R.string.mine_my_order_num_goods), item.goodsInfo.size)
         if (item.payMark=="1"){
@@ -56,12 +56,12 @@ class GoodsOrderAdapter<T:MyOrderBean> : BaseQuickAdapter<T, BaseViewHolder>(R.l
          * [view] view[2] btMid
          * [view] view[3] btRight
          */
-        fun initStateBtn(state: String, vararg view: TextView) {
+        fun initStateBtn(state: String,isAdapter:Boolean, vararg view: TextView) {
             /**         btLeft        btMid     btRight
              * 1待付款 【联系商家   取消订单   支付订单】
              * 2待发货 【联系商家              申请退款】
-             * 3待收货 【联系商家   查看物流   确认收货】
-             * 4待评价 【联系商家   申请退货   评价订单】
+             * 3待收货 【申请退货   查看物流   确认收货】
+             * 4待评价 【联系商家              评价订单】
              * 5已结束 【联系商家              删除订单】
              * 6已取消 【                      删除订单】
              * 其他
@@ -75,6 +75,9 @@ class GoodsOrderAdapter<T:MyOrderBean> : BaseQuickAdapter<T, BaseViewHolder>(R.l
             val strRight: String
             when (state) {
                 "1" -> {  // 【联系商家   取消订单  支付订单】
+                    if (isAdapter) {
+                        view[1].visibility = View.GONE
+                    }
                     strLeft = "联系商家"
                     strMid = "取消订单"
                     strRight = "支付订单"
@@ -85,14 +88,18 @@ class GoodsOrderAdapter<T:MyOrderBean> : BaseQuickAdapter<T, BaseViewHolder>(R.l
                     strMid = ""
                     strRight = "申请退款"
                 }
-                "3" -> { //【联系商家   查看物流  确认收货】
-                    strLeft = "联系商家"
+                "3" -> { //【申请退货   查看物流  确认收货】
+                    if (isAdapter) {
+                        view[1].visibility = View.GONE
+                    }
+                    strLeft = "申请退货"
                     strMid = "查看物流"
                     strRight = "确认收货"
                 }
-                "4" -> {// 【联系商家   申请退货  评价订单】
+                "4" -> {// 【联系商家     评价订单】
+                    view[2].visibility = View.GONE
                     strLeft = "联系商家"
-                    strMid = "申请退货"
+                    strMid = ""
                     strRight = "评价订单"
                 }
                 "5" -> {// 【联系商家   删除订单  】
@@ -122,14 +129,6 @@ class GoodsOrderAdapter<T:MyOrderBean> : BaseQuickAdapter<T, BaseViewHolder>(R.l
             view[1].text = strLeft
             view[2].text = strMid
             view[3].text = strRight
-
-            if (view[1].id != R.id.tv_left){
-                if (view[2].visibility==View.VISIBLE) {
-                    view[1].visibility=View.GONE
-                }else{
-                    view[1].visibility=View.VISIBLE
-                }
-            }
         }
     }
 }

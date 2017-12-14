@@ -17,6 +17,7 @@ import com.szw.framelibrary.utils.net.callback.DialogCallback
 import com.szw.framelibrary.utils.net.callback.JsonCallback
 import com.szw.framelibrary.view.CustomProgress
 import org.jetbrains.anko.toast
+import top.zibin.luban.Luban
 import java.util.*
 
 /**
@@ -732,11 +733,11 @@ object DataCtrlClassXZW {
         if (!TextUtils.isEmpty(longitude)) params.put("longitude", longitude)
         if (!TextUtils.isEmpty(latitude)) params.put("latitude", latitude)
         if (!TextUtils.isEmpty(contact)) params.put("contact", contact)
-        if (!TextUtils.isEmpty(idFrontImg)) params.put("idFrontImg", EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(idFrontImg)))
-        if (!TextUtils.isEmpty(idBackImg)) params.put("idBackImg",EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(idBackImg)) )
+        if (!TextUtils.isEmpty(idFrontImg)) params.put("idFrontImg", EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(Luban.with(context).load(idFrontImg).get(idFrontImg))))
+        if (!TextUtils.isEmpty(idBackImg)) params.put("idBackImg",EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(Luban.with(context).load(idBackImg).get(idBackImg))) )
         if (!TextUtils.isEmpty(idNum)) params.put("idNum", idNum)
         if (!TextUtils.isEmpty(idName)) params.put("idName", idName)
-        if (!TextUtils.isEmpty(businessImg)) params.put("businessImg",EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(businessImg)) )
+        if (!TextUtils.isEmpty(businessImg)) params.put("businessImg",EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(Luban.with(context).load(businessImg).get(businessImg))) )
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         OkGo.post<NetEntity<Void>>(url)
                 .params(params)
@@ -959,27 +960,27 @@ object DataCtrlClassXZW {
     /**
      *  申请退款-实物类
      * */
-    fun ApplyReturnMoney(context: Context,  goodsId:String,reason:String, listener: (scoreStoreBean: String?) -> Unit) {
+    fun applyReturnMoney(context: Context, orderId:String, reason:String, listener: (scoreStoreBean: NetEntity<Void>?) -> Unit) {
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
-        params.put("goodsId", goodsId)
+        params.put("orderId", orderId)
         params.put("reason", reason)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId+goodsId, MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<String>>(Urls.ApplyReturnMoney)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId+orderId, MyApplication.salt).toLowerCase())
+        OkGo.post<NetEntity<Void>>(Urls.ApplyReturnMoney)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                .execute(object : DialogCallback<NetEntity<Void>>(context) {
 
-                    override fun onSuccess(response: Response<NetEntity<String>>) {
+                    override fun onSuccess(response: Response<NetEntity<Void>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
-                            listener.invoke(response.body().data)
+                            listener.invoke(response.body())
                         } else {
                             listener.invoke(null)
                             context.toast(response.body().message)
                         }
                     }
 
-                    override fun onError(response: Response<NetEntity<String>>) {
+                    override fun onError(response: Response<NetEntity<Void>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }
@@ -1074,7 +1075,7 @@ object DataCtrlClassXZW {
     /**
      *  设置-个人信息
      * */
-    fun UserInfoData(context: Context,   listener: (scoreStoreBean: UserInfoBean?) -> Unit) {
+    fun userInfoData(context: Context, listener: (scoreStoreBean: UserInfoBean?) -> Unit) {
         val params = HashMap<String, String>()
         params.put("userId", MyApplication.loginUserId)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, MyApplication.salt).toLowerCase())

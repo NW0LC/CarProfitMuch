@@ -17,7 +17,7 @@ class ReAccountPwdActivity : BaseActivity() {
         toolbar.setNavigationOnClickListener { finish() }
 
         //状态栏透明和间距处理
-        mTitle.text = getString(R.string.settings_name)
+        mTitle.text = getString(R.string.account_pwd_change_login)
         StatusBarUtil.immersive(this)
         StatusBarUtil.setPaddingSmart(this, toolbar)
         StatusBarUtil.setPaddingSmart(this, header)

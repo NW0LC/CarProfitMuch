@@ -42,7 +42,10 @@ class ServiceListSortPop(context: Activity, listener:(title:String,state:String,
             adapter.data[position].isCheck = true
             adapter.notifyDataSetChanged()
             sortId=adapter.data[position].key
-            listener.invoke(if (position==0) context.getString(R.string.service_list_sort_default) else adapter.data[position].value,adapter.data[position].key,position)
+            val value = adapter.data[position].value
+            listener.invoke(if (position==0) context.getString(R.string.service_list_sort_default) else {
+                if (value.length>5)value.substring(0,5)+".." else value
+            },adapter.data[position].key,position)
             dismiss()
         }
 

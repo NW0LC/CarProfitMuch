@@ -152,7 +152,7 @@ class ServiceShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
                 tv_service_shop_type.text=String.format(getString(R.string.service_shop_type,it.goodsCount))
                 tv_service_shop_commentCount.text=String.format(getString(R.string.service_shop_comment,it.commentCount))
                 bt_service_goodsMore.visibility=if (it.goodsCount.toIntOrNull()?:0>3) View.VISIBLE else View.GONE
-                tv_service_goodsMore.text=String.format(getString(R.string.service_shop_goods_footer),it.goodsCount.toIntOrNull()?:0)
+                tv_service_goodsMore.text=String.format(getString(R.string.service_shop_goods_footer),if (it.goodsCount.toIntOrNull()?:0>3)it.goodsCount.toInt()-3 else 0)
 
                 mServiceShopGoodsAdapter.setNewData(it.goodsList)
                 mServiceCommentAdapter.setNewData(it.commentList)

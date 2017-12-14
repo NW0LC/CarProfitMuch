@@ -42,7 +42,7 @@
                     android:background="@null"
                     android:drawableEnd="@mipmap/icon_search"
                     android:drawablePadding="@dimen/margin_5"
-                    android:hint="请输入客户名、订单编号"
+                    android:hint="请输入关键字"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:paddingEnd="@dimen/margin_5"

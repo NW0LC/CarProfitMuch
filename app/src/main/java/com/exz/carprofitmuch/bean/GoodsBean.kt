@@ -6,7 +6,7 @@ import java.io.Serializable
  * Created by 史忠文
  * on 2017/10/21.
  */
-open class GoodsBean : AbsMark(), AbsBanner ,Serializable{
+open class GoodsBean : AbsMark(), AbsBanner, Serializable {
     override fun getPayM() = payMark
     override fun getImgUri() = imgUrl
     override fun getMarkId() = goodsId
@@ -44,7 +44,14 @@ open class GoodsBean : AbsMark(), AbsBanner ,Serializable{
 //
 
 
+    var image = ""//商品属性
     var imgUrl = ""//商品属性
+        get() {
+            if (field.isEmpty()) {
+                field = image
+            }
+            return field
+        }
     var goodsId: String = ""  //商品属性
     var payMark = ""//商品属性
     var goodsName = ""//商品属性

@@ -1,5 +1,6 @@
 package com.exz.carprofitmuch.module.mine.shop
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -231,6 +232,7 @@ class OpenShopActivity : BaseActivity() {
             DataCtrlClassXZW.confirmInfoData(mContext, classMark, levelId, name, categoryId, districtId, detail, longitude, latitude, contact,idFrontImg,
                     idBackImg, idNum, idName, businessImg, url, {
                 if (it != null) {
+                    setResult(Activity.RESULT_OK)
                     finish()
                 }
 
@@ -376,7 +378,7 @@ class OpenShopActivity : BaseActivity() {
             adapter.data.get(position).id = ShopLevel.get(options1).levelId
             adapter.notifyItemChanged(position)
             levelId = ShopLevel.get(options1).levelId
-            footerView.tv_fee.text = String.format(mContext.getString(R.string.main_open_shop_fee), ShopLevel.get(position).fee)
+            footerView.tv_fee.text = String.format(mContext.getString(R.string.main_open_shop_fee), ShopLevel.get(options1).fee)
 
 
         }

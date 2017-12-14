@@ -36,7 +36,7 @@ import org.jetbrains.anko.support.v4.toast
 class RegisterFragment : MyBaseFragment(), View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
 
     lateinit var viewpager: CustomViewpager
-    private lateinit var countDownTimer: CountDownTimer
+    private var countDownTimer: CountDownTimer?=null
     private val time = 120000//倒计时时间
     private val downKey = "R"
     lateinit var smsContentObserver: SmsContentObserver
@@ -99,7 +99,7 @@ class RegisterFragment : MyBaseFragment(), View.OnFocusChangeListener, TextWatch
             ed_pwd.setShakeAnimation()
             toast(getString(R.string.login_error_pwd))
         } else{
-            DataCtrlClass.register(context, ed_phone.text.toString(), ed_code.text.toString(), ed_pwd.text.toString(), ed_pwd.text.toString(), ed_referrer.text.toString()) {
+            DataCtrlClass.register(context, ed_phone.text.toString(), ed_code.text.toString(), ed_pwd.text.toString(), ed_weChat.text.toString(), ed_referrer.text.toString()) {
                 if (it != null){
                     ed_phone.postDelayed({
                         LoginActivity.loginSuccess(activity, ed_phone.text.toString(), ed_pwd.text.toString(), User(it))
@@ -118,12 +118,12 @@ class RegisterFragment : MyBaseFragment(), View.OnFocusChangeListener, TextWatch
                 resetTimer(true, java.lang.Long.MIN_VALUE)
             }
         }
-        countDownTimer.start()
+        countDownTimer?.start()
     }
 
     private fun resetTimer(b: Boolean, millisUntilFinished: Long) {
         if (b) {
-            countDownTimer.cancel()
+            countDownTimer?.cancel()
             bt_code.text = getString(R.string.login_hint_get_code)
             bt_code.isClickable = true
             bt_code.setTextColor(ContextCompat.getColor(context, R.color.MaterialTealA700))
@@ -138,6 +138,10 @@ class RegisterFragment : MyBaseFragment(), View.OnFocusChangeListener, TextWatch
 
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        countDownTimer?.cancel()
+    }
 
     override fun afterTextChanged(p0: Editable?) {
     }

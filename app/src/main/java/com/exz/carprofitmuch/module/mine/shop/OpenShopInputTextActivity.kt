@@ -39,9 +39,7 @@ class OpenShopInputTextActivity : BaseActivity() {
         return false
     }
 
-    override fun setInflateId(): Int {
-        return R.layout.activity_shop_input_text
-    }
+    override fun setInflateId(): Int = R.layout.activity_shop_input_text
 
     override fun init() {
         super.init()
@@ -52,10 +50,10 @@ class OpenShopInputTextActivity : BaseActivity() {
 
         entity = intent.getSerializableExtra("text") as OpenTextBen
         mTitle.text = entity.className
+        ed_text.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(entity.length))
         ed_text.setText(entity.content)
-        ed_text.setSelection(entity.content.length)
-        ed_text.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(entity.length));
-        tv_length.setText("剩余" + (entity.length - ed_text.text.length) + "/" + entity.length)
+        ed_text.setSelection(ed_text.text.length)
+        tv_length.text = "剩余" + (entity.length - ed_text.text.length) + "/" + entity.length
         SZWUtils.matcherSearchTitle(tv_warn, entity.warn, entity.warn.indexOf("*"), entity.warn.indexOf("*") + 1, ContextCompat.getColor(mContext, R.color.Red))
         ed_text.isFocusable = true
         KeyboardUtils.showSoftInput(ed_text)
@@ -67,7 +65,7 @@ class OpenShopInputTextActivity : BaseActivity() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                tv_length.setText("剩余" + (entity.length - p0.toString().length) + "/" + entity.length)
+                tv_length.text = "剩余" + (entity.length - p0.toString().length) + "/" + entity.length
             }
         })
 

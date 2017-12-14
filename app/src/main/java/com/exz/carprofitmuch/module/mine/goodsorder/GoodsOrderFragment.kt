@@ -26,6 +26,7 @@ import com.exz.carprofitmuch.widget.MyWebActivity
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
+import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
@@ -86,13 +87,20 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdapter
                 /**         btLeft        btMid     btRight
                  * 1待付款 【联系商家   取消订单   支付订单】
                  * 2待发货 【联系商家              申请退款】
-                 * 3待收货 【联系商家   查看物流   确认收货】
-                 * 4待评价 【联系商家   申请退货   评价订单】
+                 * 3待收货 【申请退货   查看物流   确认收货】
+                 * 4待评价 【联系商家              评价订单】
                  * 5已结束 【联系商家              删除订单】
                  * 6已取消 【                      删除订单】
                  * 其他
                  */
                 when (view.id) {
+                    R.id.tv_left -> {
+                        if (mAdapter.data[position].orderState=="3") {
+                            //申请退货
+                            startActivityForResult(Intent(context,RefundActivity::class.java).putExtra(Refund_Intent_OrderId,mAdapter.data[position].orderId),100)
+                        }else
+                        com.szw.framelibrary.utils.DialogUtils.Call(activity as BaseActivity, mAdapter.data[position].shopPhone ?: "")
+                    }
                     R.id.tv_mid -> {
                         when (mAdapter.data[position].orderState) {
                             "1" -> {//取消订单
@@ -108,9 +116,6 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdapter
                             "3" -> {//查看物流
                                 startActivity(Intent(context, MyWebActivity::class.java).putExtra(MyWebActivity.Intent_Url, "http://m.kuaidi100.com/result.jsp?nu=" + mAdapter.data[position].logisticsNum).putExtra(MyWebActivity.Intent_Title, "查看物流"))
                             }
-                            "4" -> {    //申请退货
-                                startActivityForResult(Intent(context,RefundActivity::class.java).putExtra(Refund_Intent_OrderId,mAdapter.data[position].orderId),100)
-                            }
 
                         }
 
@@ -122,8 +127,8 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdapter
                                 startActivityForResult(Intent(context, PayMethodsActivity::class.java).putExtra(Pay_Intent_OrderId, mAdapter.data[position].orderId).putExtra(Pay_Intent_Finish_Type, Intent_Finish_Type_2),100)
                             }
                             "2" -> {//申请退款
-                                com.exz.carprofitmuch.utils.DialogUtils.refund(context, mAdapter.data[position].orderId, {
-                                    DataCtrlClassXZW.ApplyReturnMoney(context, mAdapter.data[position].orderId, it, {
+                                com.exz.carprofitmuch.utils.DialogUtils.refund(context, mAdapter.data[position].orderNum, {
+                                    DataCtrlClassXZW.applyReturnMoney(context, mAdapter.data[position].orderId, it, {
                                         if (it != null) {
                                             onRefresh(refreshLayout)
                                         }

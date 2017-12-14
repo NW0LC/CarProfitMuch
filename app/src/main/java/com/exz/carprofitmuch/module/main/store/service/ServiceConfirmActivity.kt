@@ -10,7 +10,7 @@ import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity
 import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Intent_Finish_Type_1
 import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Pay_Intent_Finish_Type
 import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Pay_Intent_OrderId
-import com.exz.carprofitmuch.module.mine.goodsorder.GoodsOrderActivity
+import com.exz.carprofitmuch.module.mine.CardPackageListActivity
 import com.exz.carprofitmuch.pop.GoodsConfirmCouponPop
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.szw.framelibrary.base.BaseActivity
@@ -177,7 +177,7 @@ class ServiceConfirmActivity : BaseActivity(), View.OnClickListener, CompoundBut
                 DataCtrlClass.createServiceOrder(this, shopId, goodsId, countIndex.toString(), payMark, data?.scores.toString(), data?.totalPrice.toString(), couponId, discount) {
                     if (it != null) {
                         if (payMark == "1") {
-                            startActivity(Intent(this, GoodsOrderActivity::class.java))
+                            startActivity(Intent(this, CardPackageListActivity::class.java))
                         } else {
                             val intent = Intent(this, PayMethodsActivity::class.java)
                             intent.putExtra(Pay_Intent_OrderId, it)

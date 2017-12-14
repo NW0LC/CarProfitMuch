@@ -59,8 +59,8 @@ class MapRedpacketPop(context: Context) : BasePopupWindow(context) {
     }
 
     fun setData(it: MapGetTreasurePacketBean, entity: MapPinBean) {
-        this.entity = entity;
-        inflate.tv_title.text = it.title
+        this.entity = entity
+        inflate.tv_score.text = it.title
         inflate.tv_time.text = it.date
 
     }

@@ -5,7 +5,8 @@ package com.exz.carprofitmuch.bean
  * on 2017/10/21.
  */
 class MainRecommendBean : AbsMark() {
-    override fun getMarkId()=mark
+    override fun getMarkId()=id
+    override fun getMarkType()=mark
 //    "mark":"1",
 //    "id":"1",
 //    "imgUrl":"http://123.png"

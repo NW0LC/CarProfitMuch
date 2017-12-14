@@ -17,9 +17,9 @@ import java.util.*
 
 class PromotionsPersonalActivity : BaseActivity() {
 
-    private val mTitles = arrayOf("未开始", "已开始", "审核中", "已通过", "未通过")
-    private val mIconUnSelectIds = intArrayOf(R.mipmap.icon_home_off, R.mipmap.icon_store_off, R.mipmap.icon_goods_car_off, R.mipmap.icon_mine_off, R.mipmap.icon_mine_off)
-    private val mIconSelectIds = intArrayOf(R.mipmap.icon_home_on, R.mipmap.icon_store_on, R.mipmap.icon_goods_car_on, R.mipmap.icon_mine_on, R.mipmap.icon_mine_on)
+    private val mTitles = arrayOf("未开始", "已开始", "审核中", "已通过", "未通过", "已过期")
+    private val mIconUnSelectIds = intArrayOf(R.mipmap.icon_home_off, R.mipmap.icon_store_off, R.mipmap.icon_goods_car_off, R.mipmap.icon_mine_off, R.mipmap.icon_mine_off, R.mipmap.icon_mine_off)
+    private val mIconSelectIds = intArrayOf(R.mipmap.icon_home_on, R.mipmap.icon_store_on, R.mipmap.icon_goods_car_on, R.mipmap.icon_mine_on, R.mipmap.icon_mine_on, R.mipmap.icon_mine_on)
     private val mTabEntities = ArrayList<CustomTabEntity>()
     private val mFragments = ArrayList<Fragment>()
     override fun initToolbar(): Boolean {
@@ -44,7 +44,8 @@ class PromotionsPersonalActivity : BaseActivity() {
         mFragments.add(PromotionsPersonalFragment.newInstance("2"))
         mFragments.add(PromotionsPersonalFragment.newInstance("3"))
         mFragments.add(PromotionsPersonalFragment.newInstance("4"))
-        mFragments.add(PromotionsPersonalFragment.newInstance("5,6"))
+        mFragments.add(PromotionsPersonalFragment.newInstance("5"))
+        mFragments.add(PromotionsPersonalFragment.newInstance("6"))
         mTabLayout.setTabData(mTabEntities, this, R.id.frameLayout, mFragments)
     }
 

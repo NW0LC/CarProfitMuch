@@ -3,6 +3,7 @@ package com.exz.carprofitmuch.module.main.store.normal
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
+import android.graphics.Paint
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.LinearLayoutManager
@@ -139,6 +140,7 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
         initEvent()
         onRefresh(refreshLayout)
         mWebView.loadUrl("${Urls.url}App/H5/GoodsInfo.aspx?id=${intent.getStringExtra(GoodsDetail_Intent_GoodsId)}")
+        mWebView.isFocusable = false
     }
 
     private fun initPop() {
@@ -273,7 +275,8 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
 
                 tv_goodsName.text = it.goodsName
                 tv_goodsPrice.text = String.format(getString(R.string.CNY) + "%s", it.goodsPrice)
-                tv_goodsOldPrice.text = String.format(getString(R.string.goods_detail_oldPrice), it.goodsPrice)
+                tv_goodsOldPrice.text = String.format(getString(R.string.goods_detail_oldPrice), it.oldPrice)
+                tv_goodsOldPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG //中划线
                 tv_goodsExpressPrice.text = String.format(getString(R.string.goods_detail_expressPrice), it.expressPrice)
                 tv_goodsSoldCount.text = String.format(getString(R.string.goods_detail_soldCount), it.saleCount)
                 tv_goodsAddress.text = it.address

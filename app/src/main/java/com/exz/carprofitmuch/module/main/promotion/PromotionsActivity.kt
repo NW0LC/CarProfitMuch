@@ -1,5 +1,6 @@
 package com.exz.carprofitmuch.module.main.promotion
 
+import android.app.Activity
 import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -98,14 +99,14 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 val intent = Intent(this@PromotionsActivity, PromotionsDetailActivity::class.java)
-                intent.putExtra(PromotionsDetail_Intent_PromotionId,mAdapter.data[position].id)
-                startActivity(intent)
+                intent.putExtra(PromotionsDetail_Intent_PromotionId, mAdapter.data[position].id)
+                startActivityForResult(intent,100)
             }
 
             override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                if (mAdapter.data[position].isJoin + mAdapter.data[position].isJoin == "01") {
+                if (mAdapter.data[position].isJoin + mAdapter.data[position].state == "01") {
                     if (view?.id == R.id.tv_state) {
-                        DataCtrlClass.promotionJoin(this@PromotionsActivity, mAdapter.data[position].id) {onRefresh(refreshLayout)}
+                        DataCtrlClass.promotionJoin(this@PromotionsActivity, mAdapter.data[position].id) { onRefresh(refreshLayout) }
                     }
                 }
             }
@@ -114,7 +115,11 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
 
     override fun onClick(p0: View) {
         when (p0.id) {
-            R.id.radioButton1 -> sortPop.showPopupWindow(radioGroup)
+            R.id.radioButton1 ->
+                if (!sortPop.isShowing)
+                    sortPop.showPopupWindow(radioGroup)
+                else
+                    radioGroup.clearCheck()
             R.id.radioButton2 -> {
                 setGaryOrOrange(radioButton1, true)
                 radioButton1.text = getString(R.string.service_list_sort_default)
@@ -174,6 +179,13 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
             } else {
                 mAdapter.loadMoreFail()
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            onRefresh(refreshLayout)
         }
     }
 

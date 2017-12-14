@@ -99,7 +99,7 @@ class MapPinActivity : BaseActivity(), TencentLocationListener, TencentMap.OnMar
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        val entity = data?.get(marker.tag as Int)
+        val entity = marker.tag as MapPinBean
         val b = Bundle()
         b.putSerializable(MAP_BEAN, entity)
         //宝藏领取
@@ -155,7 +155,7 @@ class MapPinActivity : BaseActivity(), TencentLocationListener, TencentMap.OnMar
                 for (bean in it) {
                     tencentMap.addMarker(MarkerOptions()
                             .position(LatLng(bean.latitude, bean.longitude))
-                            .icon(BitmapDescriptorFactory.fromAsset(icLction)).tag(it.indexOf(bean)))
+                            .icon(BitmapDescriptorFactory.fromAsset(icLction)).tag(bean))
                 }
                 tv_get.text = String.format(bottomContent, it.size)
             }

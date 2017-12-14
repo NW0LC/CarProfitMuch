@@ -24,7 +24,6 @@ import com.exz.carprofitmuch.module.mine.goodsorder.RefundActivity.Companion.Ref
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.widget.MyWebActivity
 import com.szw.framelibrary.base.BaseActivity
-import com.szw.framelibrary.utils.DialogUtils
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.action_bar_tv.*
 import kotlinx.android.synthetic.main.activity_my_order_detail.*
@@ -120,7 +119,7 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
 
                 adapter.setNewData(it.goodsInfo)
                 adapter.loadMoreEnd()
-                GoodsOrderAdapter.initStateBtn(it.orderState ?: "", tv_order_type, tv_left, tv_mid, tv_right)
+                GoodsOrderAdapter.initStateBtn(it.orderState ?: "", false,tv_order_type, tv_left, tv_mid, tv_right)
             }
         }
     }
@@ -129,15 +128,19 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
         /**         btLeft        btMid     btRight
          * 1待付款 【联系商家   取消订单   支付订单】
          * 2待发货 【联系商家              申请退款】
-         * 3待收货 【联系商家   查看物流   确认收货】
-         * 4待评价 【联系商家   申请退货   评价订单】
+         * 3待收货 【申请退货   查看物流   确认收货】
+         * 4待评价 【联系商家              评价订单】
          * 5已结束 【联系商家              删除订单】
          * 6已取消 【                      删除订单】
          * 其他
          */
         when (v.id) {
             R.id.tv_left -> {
-                DialogUtils.Call(this, entity.shopPhone ?: "")
+                if (entity.orderState=="3") {
+                    //申请退货
+                    startActivityForResult(Intent(this,RefundActivity::class.java).putExtra(Refund_Intent_OrderId,entity.orderId),100)
+                }else
+                    com.szw.framelibrary.utils.DialogUtils.Call(this, entity.shopPhone ?: "")
             }
             R.id.tv_mid -> {
                 when (entity.orderState) {
@@ -151,10 +154,6 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
                     "3" -> {//查看物流
                         startActivity(Intent(this, MyWebActivity::class.java).putExtra(MyWebActivity.Intent_Url, "http://m.kuaidi100.com/result.jsp?nu=" + entity.logisticsNum).putExtra(MyWebActivity.Intent_Title, "查看物流"))
                     }
-                    "4" -> {    //申请退货
-                        startActivityForResult(Intent(this, RefundActivity::class.java).putExtra(Refund_Intent_OrderId, entity.orderId), 100)
-                    }
-
                 }
 
 
@@ -166,7 +165,7 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
                     }
                     "2" -> {//申请退款
                         com.exz.carprofitmuch.utils.DialogUtils.refund(this, entity.orderId ?: "", {
-                            DataCtrlClassXZW.ApplyReturnMoney(this, entity.orderId ?: "", it, {
+                            DataCtrlClassXZW.applyReturnMoney(this, entity.orderId ?: "", it, {
                                 if (it != null) {
                                     iniData()
                                 }
@@ -191,7 +190,7 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
                     "5", "6" -> {    //删除订单
                         DataCtrlClassXZW.editOrderData(this, entity.orderId ?: "", "1", {
                             if (it != null) {
-                                iniData()
+                                finish()
                             }
                         })
                     }

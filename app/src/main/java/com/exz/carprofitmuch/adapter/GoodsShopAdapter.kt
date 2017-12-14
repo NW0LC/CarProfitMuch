@@ -14,21 +14,26 @@ import java.util.*
 class GoodsShopAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>(R.layout.item_goods_shop, ArrayList<T>()) {
 
     override fun convert(helper: BaseViewHolder, item: T) {
-        val itemView=helper.itemView
-        itemView.img.layoutParams.height=(ScreenUtils.getScreenWidth() - SizeUtils.dp2px(5f))/2
+        val itemView = helper.itemView
+        itemView.img.layoutParams.height = (ScreenUtils.getScreenWidth() - SizeUtils.dp2px(5f)) / 2
         itemView.img.setImageURI(item.imgUrl)
-        itemView.tv_title.text=item.goodsName
-        itemView.tv_price.text=String.format("${mContext.getString(R.string.CNY)}%s",item.goodsPrice)
-        itemView.tv_oldPrice.text= String.format("${mContext.getString(R.string.CNY)}%s",item.oldPrice)
+        itemView.tv_title.text = item.goodsName
+        if (item.payMark == "1") {
+            itemView.tv_price.text = String.format("%s${mContext.getString(R.string.SCORE)}", item.goodsPrice)
+            itemView.tv_oldPrice.text = String.format("%s${mContext.getString(R.string.SCORE)}", item.oldPrice)
+        } else {
+            itemView.tv_price.text = String.format("${mContext.getString(R.string.CNY)}%s", item.goodsPrice)
+            itemView.tv_oldPrice.text = String.format("${mContext.getString(R.string.CNY)}%s", item.oldPrice)
+        }
         itemView.tv_oldPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
         val layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
-        if (helper.adapterPosition%2==0) {
-            layoutParams.rightMargin= SizeUtils.dp2px(2.5f)
-        }else{
-            layoutParams.leftMargin= SizeUtils.dp2px(2.5f)
+        if (helper.adapterPosition % 2 == 0) {
+            layoutParams.rightMargin = SizeUtils.dp2px(2.5f)
+        } else {
+            layoutParams.leftMargin = SizeUtils.dp2px(2.5f)
         }
-        layoutParams.bottomMargin= SizeUtils.dp2px(5f)
-        itemView.layoutParams= layoutParams
+        layoutParams.bottomMargin = SizeUtils.dp2px(5f)
+        itemView.layoutParams = layoutParams
 
     }
 }

@@ -222,7 +222,9 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
                 if (countIndex + 1 > maxCount) {
                     if (canToast)
                     Thread{
-                        context.toast(context.getString(R.string.classify_pop_toast_outOfDex))
+                        context.runOnUiThread{
+                            context.toast(context.getString(R.string.classify_pop_toast_outOfDex))
+                        }
                         canToast=false
                         Thread.sleep(500)
                         canToast=true
@@ -269,22 +271,22 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
                                 context.startActivity(intent)
                             }
                             GOODS_STATE_NORMAL -> {
-
+                                val intent = Intent(context, GoodsConfirmActivity::class.java)
+                                val list =ArrayList<GoodsCarBean>()
+                                val goodsCarBeans= GoodsCarBean()
+                                goodsCarBeans.shopId=goodsBean?.shopId?:"0"
+                                val bean = GoodsBean()
+                                bean.shopCarId="0"
+                                bean.goodsId=goodsBean?.goodsId?:"0"
+                                bean.skuid=poolId
+                                bean.goodsCount=countIndex.toString()
+                                goodsCarBeans.goodsInfo.add(bean)
+                                list.add(goodsCarBeans)
+                                intent.putExtra(GoodsConfirm_Intent_shopInfo, Gson().toJson(list))
+                                context.startActivity(intent)
                             }
                         }
-                        val intent = Intent(context, GoodsConfirmActivity::class.java)
-                        val list =ArrayList<GoodsCarBean>()
-                        val goodsCarBeans= GoodsCarBean()
-                        goodsCarBeans.shopId=goodsBean?.shopId?:"0"
-                        val bean = GoodsBean()
-                        bean.shopCarId="0"
-                        bean.goodsId=goodsBean?.goodsId?:"0"
-                        bean.skuid=poolId
-                        bean.goodsCount=countIndex.toString()
-                        goodsCarBeans.goodsInfo.add(bean)
-                        list.add(goodsCarBeans)
-                        intent.putExtra(GoodsConfirm_Intent_shopInfo, Gson().toJson(list))
-                        context.startActivity(intent)
+
                         dismiss()
                     }
             R.id.img ->{

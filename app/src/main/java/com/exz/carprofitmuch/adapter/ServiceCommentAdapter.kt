@@ -12,7 +12,7 @@ class ServiceCommentAdapter<T : CommentBean> : BaseQuickAdapter<T, BaseViewHolde
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
         itemView.img.setImageURI(item.userIcon)
-        itemView.tv_userName.text=item.uerName
+        itemView.tv_userName.text=item.userName
         itemView.tv_commentTime.text=item.commentDate
         itemView.mRatingBar.rating=item.score.toFloat()
         itemView.tv_comment_content.text=item.content

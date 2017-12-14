@@ -116,7 +116,7 @@ class CardPackageDetailActivity : BaseActivity(), View.OnClickListener {
                 for (ticketInfoBean in it.ticketInfo) {
                     val layout = View.inflate(mContext,R.layout.layout_card_package_detail,null)
 
-                    layout.tv_service_codeName.text=String.format(mContext.getString(R.string.service_code_code),it.ticketInfo.indexOf(ticketInfoBean)+1)
+                    layout.tv_service_codeName.text=String.format(mContext.getString(R.string.service_code_code),if (it.ticketInfo.size==1)"" else it.ticketInfo.indexOf(ticketInfoBean)+1)
                     layout.tv_service_code.text=ticketInfoBean.ticket
                     layout.tv_service_isUsed.text= when(ticketInfoBean.ticketState){
                                 "1"->{mContext.getString(R.string.cardPackage_use)}

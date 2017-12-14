@@ -148,13 +148,13 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
                 }
             }
             headerView.bt_service_lay_1 -> {
-                if (severModel.isNotEmpty() && SZWUtils.getMarkIntent(context, severModel[2]) != null) {
-                    startActivity(SZWUtils.getMarkIntent(context, severModel[2]))
+                if (severModel.isNotEmpty() && SZWUtils.getMarkIntent(context, severModel[1]) != null) {
+                    startActivity(SZWUtils.getMarkIntent(context, severModel[1]))
                 }
             }
             headerView.bt_service_lay_2 -> {
-                if (severModel.isNotEmpty() && SZWUtils.getMarkIntent(context, severModel[1]) != null) {
-                    startActivity(SZWUtils.getMarkIntent(context, severModel[1]))
+                if (severModel.isNotEmpty() && SZWUtils.getMarkIntent(context, severModel[2]) != null) {
+                    startActivity(SZWUtils.getMarkIntent(context, severModel[2]))
                 }
             }
         }

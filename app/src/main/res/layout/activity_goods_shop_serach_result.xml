@@ -84,6 +84,7 @@
                         android:maxEms="10"
                         android:padding="@dimen/margin_5"
                         android:text=""
+                        android:textCursorDrawable="@drawable/color_cursor"
                         android:imeOptions="actionSearch"
                         android:textColor="@color/MaterialGrey600"
                         android:textColorHint="@color/MaterialGrey400"

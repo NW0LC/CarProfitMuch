@@ -41,8 +41,8 @@ import java.util.*
  */
 class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
 
-    private var typeId: String=""
-    private var searchContent: String=""
+    private var typeId: String = ""
+    private var searchContent: String = ""
     private var status = "0"
     private var otherSift = ""
 
@@ -51,20 +51,20 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
     private lateinit var mAdapter: MainStoreAdapter<GoodsBean>
     private lateinit var sortPop: ServiceListSortPop
     private lateinit var filterPopWin: SearchFilterPop
-    private var filterEntities= ArrayList<SearchFilterEntity>()
+    private var filterEntities = ArrayList<SearchFilterEntity>()
     override fun initToolbar(): Boolean {
-        mTitle.hint=getString(R.string.search_filter_hint)
+        mTitle.hint = getString(R.string.search_filter_hint)
         mTitle.text = URLDecoder.decode(searchContent, "utf-8")
-        val params= LinearLayout.LayoutParams(ScreenUtils.getScreenWidth()-SizeUtils.dp2px(85f),SizeUtils.dp2px(35f))
-        params.topMargin=SizeUtils.dp2px(10f)
-        params.bottomMargin=SizeUtils.dp2px(10f)
-        params.marginEnd=SizeUtils.dp2px(10f)
-        mTitle.layoutParams=params
-        mTitle.textColor=ContextCompat.getColor(mContext,R.color.MaterialGrey500)
-        mTitle.textSize=12f
-        mTitle.gravity=Gravity.CENTER_VERTICAL
-        mTitle.background=ContextCompat.getDrawable(mContext,R.drawable.search_filter_title_bg)
-        mTitle.setPadding(SizeUtils.dp2px(10f),SizeUtils.dp2px(5f),SizeUtils.dp2px(5f),SizeUtils.dp2px(5f))
+        val params = LinearLayout.LayoutParams(ScreenUtils.getScreenWidth() - SizeUtils.dp2px(85f), SizeUtils.dp2px(35f))
+        params.topMargin = SizeUtils.dp2px(10f)
+        params.bottomMargin = SizeUtils.dp2px(10f)
+        params.marginEnd = SizeUtils.dp2px(10f)
+        mTitle.layoutParams = params
+        mTitle.textColor = ContextCompat.getColor(mContext, R.color.MaterialGrey500)
+        mTitle.textSize = 12f
+        mTitle.gravity = Gravity.CENTER_VERTICAL
+        mTitle.background = ContextCompat.getDrawable(mContext, R.drawable.search_filter_title_bg)
+        mTitle.setPadding(SizeUtils.dp2px(10f), SizeUtils.dp2px(5f), SizeUtils.dp2px(5f), SizeUtils.dp2px(5f))
         mTitle.setOnClickListener(this)
 
         //状态栏透明和间距处理
@@ -81,10 +81,10 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
     override fun setInflateId(): Int = R.layout.activity_search_goods_filter
 
     override fun init() {
-        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
+        SZWUtils.setRefreshAndHeaderCtrl(this, header, refreshLayout)
 
-        typeId = intent.getStringExtra("typeId")?:""
-        searchContent=intent.getStringExtra(Intent_Search_Content)?:""
+        typeId = intent.getStringExtra("typeId") ?: ""
+        searchContent = intent.getStringExtra(Intent_Search_Content) ?: ""
         if (!TextUtils.isEmpty(searchContent)) {
             this.searchContent = URLEncoder.encode(searchContent, "utf-8")
         }
@@ -97,14 +97,14 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
     }
 
     private fun initFilterPop() {
-        sortPop = ServiceListSortPop(this) { title,state, _  ->
+        sortPop = ServiceListSortPop(this) { title, state, _ ->
             status = state
             radioButton1.text = title
             radioButton2.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
             onRefresh(refreshLayout)
         }
         val sortData = SZWUtils.getSearchGoodsResultSortData()
-        sortData[0].isCheck=true
+        sortData[0].isCheck = true
         status = sortData[0].key
         sortPop.data = sortData
         setGaryOrOrange(radioButton1, false)
@@ -157,7 +157,7 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        mRecyclerView.addOnItemTouchListener(object : OnItemClickListener(){
+        mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 if (SZWUtils.getMarkIntent(this@SearchFilterActivity, mAdapter.data[position]) != null)
                     startActivity(SZWUtils.getMarkIntent(this@SearchFilterActivity, mAdapter.data[position]))
@@ -167,22 +167,26 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
 
     override fun onClick(p0: View) {
         when (p0.id) {
-            R.id.mTitle-> {
+            R.id.mTitle -> {
                 val intent = Intent()
                 intent.setClass(this@SearchFilterActivity, SearchGoodsActivity::class.java)
                 intent.putExtra(Intent_isShowSoft, true)
                 startActivity(intent)
                 finish()
             }
-            R.id.radioButton1 -> sortPop.showPopupWindow(radioGroup)
+            R.id.radioButton1 ->
+                if (!sortPop.isShowing)
+                    sortPop.showPopupWindow(radioGroup)
+                else
+                    radioGroup.clearCheck()
             R.id.radioButton2 -> {
                 setGaryOrOrange(radioButton1, true)
-                radioButton1.text =getString(R.string.service_list_sort_default)
+                radioButton1.text = getString(R.string.service_list_sort_default)
                 radioButton2.setTextColor(ContextCompat.getColor(this@SearchFilterActivity, R.color.colorPrimary))
                 for (valueEntity in sortPop.adapter.data) {
-                    valueEntity.isCheck=false
+                    valueEntity.isCheck = false
                 }
-                sortPop.adapter.data.firstOrNull()?.isCheck=true
+                sortPop.adapter.data.firstOrNull()?.isCheck = true
                 sortPop.adapter.notifyDataSetChanged()
                 status = "4"
                 onRefresh(refreshLayout)
@@ -190,9 +194,9 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
 
             R.id.radioButton4 -> {
                 filterPopWin.showPopupWindow()
-                if (filterEntities.size==0) {
-                    DataCtrlClass.searchFilterData(mContext,typeId,searchContent){
-                        filterEntities = it?: ArrayList()
+                if (filterEntities.size == 0) {
+                    DataCtrlClass.searchFilterData(mContext, typeId, searchContent) {
+                        filterEntities = it ?: ArrayList()
                         filterPopWin.setData(filterEntities)
                     }
                 }
@@ -212,8 +216,8 @@ class SearchFilterActivity : BaseActivity(), OnRefreshListener, View.OnClickList
         iniData()
     }
 
-    private fun iniData(){
-        DataCtrlClass.searchFilterGoodsData(this, currentPage,typeId,searchContent,otherSift,status,filterPopWin) {
+    private fun iniData() {
+        DataCtrlClass.searchFilterGoodsData(this, currentPage, typeId, searchContent, otherSift, status, filterPopWin) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

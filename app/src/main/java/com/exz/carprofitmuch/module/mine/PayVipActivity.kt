@@ -10,12 +10,12 @@ import com.blankj.utilcode.util.TimeUtils
 import com.exz.carprofitmuch.DataCtrlClass
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.CheckPayBean
-import com.exz.carprofitmuch.config.Urls.AliPay
-import com.exz.carprofitmuch.config.Urls.BalancePay
 import com.exz.carprofitmuch.config.Urls.IsSetPayPwd
-import com.exz.carprofitmuch.config.Urls.PayState
+import com.exz.carprofitmuch.config.Urls.VipAliPay
+import com.exz.carprofitmuch.config.Urls.VipBalancePay
+import com.exz.carprofitmuch.config.Urls.VipPayState
 import com.exz.carprofitmuch.config.Urls.VipSignature
-import com.exz.carprofitmuch.config.Urls.WeChatPay
+import com.exz.carprofitmuch.config.Urls.VipWeChatPay
 import com.exz.carprofitmuch.module.main.pay.PayActivity
 import com.exz.carprofitmuch.module.main.pay.PwdGetCodeActivity
 import com.exz.carprofitmuch.pop.PwdPop
@@ -69,14 +69,14 @@ class PayVipActivity : PayActivity(), View.OnClickListener {
         radioGroup.check(radioGroup.getChildAt(0).id)
         bt_confirm.setOnClickListener(this)
         orderInfo()
-        myBalance()
+
     }
 
     override fun onClick(p0: View?) {
         if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(0).id)
-            aliPay(AliPay, "vipPrice", rechargePrice, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+            aliPay(VipAliPay, "vipPrice", rechargePrice, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(1).id)
-            weChatPay(WeChatPay, "vipPrice", rechargePrice, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+            weChatPay(VipWeChatPay, "vipPrice", rechargePrice, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(2).id) {
             if (canBalancePay)
                 checkHavePayPwd()
@@ -104,6 +104,7 @@ class PayVipActivity : PayActivity(), View.OnClickListener {
                             rechargePrice = response.body()?.data ?: ""
                             pwdPop.setPrice(String.format("${getString(R.string.CNY)}%s", rechargePrice))
                             tv_rechargeMoney.text = String.format(getString(R.string.pay_vip_unit), response.body()?.data ?: "")
+                            myBalance()
                         } else {
                             toast(response.body()?.message ?: "")
                         }
@@ -172,7 +173,7 @@ class PayVipActivity : PayActivity(), View.OnClickListener {
         map.put("payPwd", payPwd)
         map.put("vipPrice", rechargePrice)
         map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + payPwd, MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<CheckPayBean>>(BalancePay).tag(this)
+        OkGo.post<NetEntity<CheckPayBean>>(VipBalancePay).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<CheckPayBean>>(this) {
 
@@ -204,7 +205,7 @@ class PayVipActivity : PayActivity(), View.OnClickListener {
         map.put("userId", MyApplication.loginUserId)
         map.put("vipOrderId", vipOrderId)
         map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + vipOrderId, MyApplication.salt).toLowerCase())
-        OkGo.post<NetEntity<CheckPayBean>>(PayState).tag(this)
+        OkGo.post<NetEntity<CheckPayBean>>(VipPayState).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<CheckPayBean>>(this) {
 

@@ -17,6 +17,9 @@ import com.exz.carprofitmuch.bean.CommentBean
 import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
+import com.exz.carprofitmuch.module.main.store.comment.GoodsCommentListActivity
+import com.exz.carprofitmuch.module.main.store.comment.GoodsCommentListActivity.Companion.GoodsCommentList_Intent_Id
+import com.exz.carprofitmuch.module.main.store.comment.GoodsCommentListActivity.Companion.GoodsCommentList_Intent_IdMark
 import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity.Companion.GoodsDetail_Intent_GoodsId
 import com.exz.carprofitmuch.pop.GoodsDetailClassifyPop
 import com.exz.carprofitmuch.pop.GoodsDetailClassifyPop.Companion.SCORE_STATE_NORMAL
@@ -137,6 +140,7 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
         toolbar.setNavigationOnClickListener { finish() }
         bt_choose_type.setOnClickListener(this)
         bt_confirm.setOnClickListener(this)
+        bt_more_goodsComment.setOnClickListener(this)
     }
 
 
@@ -163,6 +167,15 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
     }
     override fun onClick(p0: View?) {
         when (p0) {
+            bt_more_goodsComment -> {
+                if (goodsBean!=null) {
+                    val intent = Intent(this, GoodsCommentListActivity::class.java)
+                    intent.putExtra(GoodsCommentList_Intent_Id,goodsBean?.goodsId)
+                    intent.putExtra(GoodsCommentList_Intent_IdMark,"1")
+                    startActivity(intent)
+                }
+
+            }
             bt_choose_type -> {
                 classifyPop.showPopupWindow()
             }
@@ -174,6 +187,7 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
     }
     override fun onRefresh(refreshLayout: RefreshLayout?) {
         DataCtrlClass.goodsDetailData(this, intent.getStringExtra(GoodsDetail_Intent_GoodsId) ?: "") {
+            refreshLayout?.finishRefresh()
             if (it != null) {
                 goodsBean = it
                 //设置图片集合
@@ -186,8 +200,7 @@ class ScoreGoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClick
 
                 tv_goodsName.text = it.goodsName
                 tv_score_count.text = String.format("%s"+getString(R.string.SCORE)  , it.goodsPrice)
-                bt_choose_type.visibility = if (it.isCoupon == "1") View.VISIBLE else View.GONE
-                tv_goodsType.visibility = if (it.isHaveRank == "1") View.VISIBLE else View.GONE
+                bt_choose_type.visibility = if (it.isHaveRank == "1") View.VISIBLE else View.GONE
                 bt_more_goodsComment.text = String.format(getString(R.string.goods_detail_comment), it.commentCount)
                 mGoodsCommentAdapter.setNewData(it.commentList)
 

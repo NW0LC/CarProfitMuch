@@ -22,6 +22,8 @@
 
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/scrollView"
+            android:paddingBottom="@dimen/margin_45"
+            android:clipToPadding="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never">

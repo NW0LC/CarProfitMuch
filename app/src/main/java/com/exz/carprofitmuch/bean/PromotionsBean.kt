@@ -27,6 +27,7 @@ open class PromotionsBean{
     var distance=""
     var state=""
     var isJoin=""
+    var isUpload=""
     var limitDate=""
     var total=""
     var already=""
