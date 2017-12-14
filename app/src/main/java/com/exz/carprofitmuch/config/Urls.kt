@@ -283,6 +283,11 @@ object Urls{
      */
     val Message=url+"App/UserCenter/Message.aspx"
 
+    /**
+     * 买车险送积分
+     */
+    val SendIntegral=url+"App/Home/SendIntegral.aspx"
+
 
 
 

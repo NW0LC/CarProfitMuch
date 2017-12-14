@@ -22,6 +22,7 @@ import com.exz.carprofitmuch.bean.MainRecommendBean
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
 import com.exz.carprofitmuch.module.main.HotNewsActivity
 import com.exz.carprofitmuch.module.main.ads.AdsActivity
+import com.exz.carprofitmuch.module.main.insurance.InsuranceActivity
 import com.exz.carprofitmuch.module.main.map.MapPinActivity
 import com.exz.carprofitmuch.module.main.promotion.PromotionsActivity
 import com.exz.carprofitmuch.module.main.store.score.ScoreStoreActivity
@@ -176,6 +177,8 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     override fun onClick(p0: View?) {
         when (p0) {
             headerView.bt_tab_1 -> {
+                val intent = Intent(context, InsuranceActivity::class.java)
+                SZWUtils.checkLogin(this, intent, InsuranceActivity::class.java.name)
             }
             headerView.bt_tab_2 -> {//积分兑换
                 startActivity(Intent(context, ScoreStoreActivity::class.java))

@@ -343,4 +343,5 @@
     <string name="user_protocol">用户协议</string>
     <string name="mine_msg_name">消息列表</string>
     <string name="mine_vip_pass">过期</string>
+    <string name="main_Insurance">%1$s&amp;bizContent=%2$s</string>
 </resources>
