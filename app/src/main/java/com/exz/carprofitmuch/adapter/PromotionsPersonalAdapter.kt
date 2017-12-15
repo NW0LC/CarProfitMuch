@@ -12,7 +12,7 @@ class PromotionsPersonalAdapter<T : PromotionsPersonalBean> : BaseQuickAdapter<T
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
         helper.addOnClickListener(R.id.lay_content)
-        helper.addOnClickListener(R.id.lay_shop)
+        helper.addOnClickListener(R.id.tv_shopName)
         helper.addOnClickListener(R.id.bt_phoneCall)
         itemView.tv_title.text=item.title
         itemView.tv_beginTime.text=item.startDate

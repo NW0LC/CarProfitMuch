@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_score_center_order.*
  * Created by 史忠文
  * on 2017/10/17.
  */
+@Deprecated("融合于普通订单")
 class ScoreOrderListActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private var refreshState = Constants.RefreshState.STATE_REFRESH

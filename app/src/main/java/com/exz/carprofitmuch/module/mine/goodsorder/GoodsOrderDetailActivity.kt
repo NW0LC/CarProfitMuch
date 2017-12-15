@@ -1,5 +1,6 @@
 package com.exz.carprofitmuch.module.mine.goodsorder
 
+import android.app.Activity
 import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -198,6 +199,7 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
                 }
             }
         }
+        setResult(Activity.RESULT_OK)
     }
 
     override fun onDestroy() {

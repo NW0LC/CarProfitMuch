@@ -82,7 +82,10 @@ class ScoreStoreActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.R
         headerView.banner.setDelayTime(3000)
         //设置指示器位置（当banner模式中有指示器时）
         headerView.banner.setIndicatorGravity(BannerConfig.CENTER)
-
+        headerView.banner .setOnBannerListener {
+            if (SZWUtils.checkLogin(this@ScoreStoreActivity) && SZWUtils.getIntent(this@ScoreStoreActivity, banners[it]) != null)
+                startActivity(SZWUtils.getIntent(this@ScoreStoreActivity, banners[it]))
+        }
     }
     override fun onRefresh(refreshLayout: RefreshLayout?) {
         currentPage = 1

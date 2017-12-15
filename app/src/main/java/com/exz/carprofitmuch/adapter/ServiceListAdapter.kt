@@ -33,8 +33,8 @@ class ServiceListAdapter<T : ServiceShopBean> : BaseQuickAdapter<T, BaseViewHold
                 inflate.tv_service_goods_price.text = String.format("%s"+mContext.getString(R.string.SCORE), serviceGood.goodsPrice)
                 inflate.tv_service_goods_oldPrice.text = String.format("%s"+mContext.getString(R.string.SCORE), serviceGood.oldPrice)
             }else{
-                inflate.tv_service_goods_price.text = String.format("%s"+mContext.getString(R.string.CNY), serviceGood.goodsPrice)
-                inflate.tv_service_goods_oldPrice.text = String.format("%s"+mContext.getString(R.string.service_goods_oldPrice), serviceGood.oldPrice)
+                inflate.tv_service_goods_price.text = String.format(mContext.getString(R.string.CNY)+"%s", serviceGood.goodsPrice)
+                inflate.tv_service_goods_oldPrice.text = String.format(mContext.getString(R.string.service_goods_oldPrice)+"%s", serviceGood.oldPrice)
             }
             inflate.tv_service_goods_oldPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG //中划线
             inflate.tv_service_goodsName.text = serviceGood.goodsName

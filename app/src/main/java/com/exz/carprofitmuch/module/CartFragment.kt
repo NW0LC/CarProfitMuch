@@ -114,6 +114,9 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 when (view?.id) {
                     R.id.bt_clearGoods -> {
                         //清空失效商品
+                       DataCtrlClass. clearCartListPassData(context){
+                           onRefresh(refreshLayout)
+                       }
                     }
                     R.id.cb_goodsShop_name -> {
                         mRecyclerView.post {
@@ -322,7 +325,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         for (goodsCarBean in mAdapter.data) {
             val goodsBeans = ArrayList<GoodsBean>()
             for (goodsBean in goodsCarBean.goodsInfo) {
-                if (goodsBean.isCheck) {
+                if (goodsBean.isCheck&&goodsBean.isDelete!="1") {
                     goodsBeans.add(goodsBean)
                     b = true
                 }

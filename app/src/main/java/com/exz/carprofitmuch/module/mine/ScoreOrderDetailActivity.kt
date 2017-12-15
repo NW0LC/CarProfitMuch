@@ -21,7 +21,7 @@ import org.jetbrains.anko.verticalLayout
  * Created by 史忠文
  * on 2017/10/17.
  */
-
+@Deprecated("融合于普通订单")
 class ScoreOrderDetailActivity : BaseActivity(), View.OnClickListener {
 
     override fun initToolbar(): Boolean {

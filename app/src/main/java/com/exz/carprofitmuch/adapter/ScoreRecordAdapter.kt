@@ -13,7 +13,7 @@ class ScoreRecordAdapter<T : ScoreRecordBean> : BaseQuickAdapter<T, BaseViewHold
     override fun convert(helper: BaseViewHolder, item: T) {
         val itemView=helper.itemView
         itemView.tv_title.text = item.title
-        itemView.tv_date.text = item.title
+        itemView.tv_date.text = item.date
         if (item.isAdd == "1") {
             itemView.tv_score.text = String.format("+%s", item.amount)
             itemView.img.setImageResource(R.mipmap.icon_mine_score_expend)

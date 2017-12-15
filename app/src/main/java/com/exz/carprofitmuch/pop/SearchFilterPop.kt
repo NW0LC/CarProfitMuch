@@ -59,6 +59,7 @@ class SearchFilterPop(context: Activity) : BasePopupWindow(context), View.OnFocu
     override fun onCreatePopupView(): View {
         inflate = View.inflate(context, R.layout.pop_search_filter, null)
         inflate.clear.setOnClickListener(this)
+        inflate.confirm.setOnClickListener(this)
         return inflate
     }
 

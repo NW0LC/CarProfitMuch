@@ -26,6 +26,7 @@ open class ServiceOrderBean {
     var shopPhone = ""
     var shopName = ""
     var orderState = ""
+    var orderNum = ""
     var orderImg = ""
     var payMark = ""
     var ticketDate = ""

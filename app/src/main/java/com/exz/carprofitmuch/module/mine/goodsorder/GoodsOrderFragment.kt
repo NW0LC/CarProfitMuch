@@ -80,7 +80,7 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdapter
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 GoodsOrderDetailActivity.orderId = mAdapter.data[position].orderId
-                startActivity(Intent(context, GoodsOrderDetailActivity::class.java))
+                startActivityForResult(Intent(context, GoodsOrderDetailActivity::class.java),100)
             }
 
             override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View, position: Int) {

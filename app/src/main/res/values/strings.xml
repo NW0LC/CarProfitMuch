@@ -330,7 +330,7 @@
     <string name="promotions_detail_startTime">活动开始时间：%s</string>
     <string name="promotions_detail_peopleCount">报名人数</string>
     <string name="promotions_push_confirm">确认上传</string>
-    <string name="pay_vip_passTime">当前时间于%s过期</string>
+    <string name="pay_vip_passTime">当前会员于%s过期</string>
     <string name="pay_vip_recharge">会员充值</string>
     <string name="pay_vip_unit">%s元/年</string>
     <string name="pay_vip_confirm">确认充值</string>

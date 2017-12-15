@@ -46,6 +46,7 @@ import org.jetbrains.anko.toast
 class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, Toolbar.OnMenuItemClickListener {
     private var mHasNews = false
     private var mOffset = 0
+    private var overDate =""
     private var mScrollY = 0
     private var openState = "0"
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -77,6 +78,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             if (it != null) {
                 img_head.setImageURI(it.headerUrl)
                 tv_userName.text = PreferencesService.getAccountKey(context)
+                overDate=it.overDate
                 tv_userInfo.text = String.format("${it.level}${if (it.overDate.isNotEmpty()) it.overDate + getString(R.string.mine_vip_pass) else ""}")//会员等级 -过期时间
                 totalScore = it.scoreT.toFloat()//车险总积分
                 realScore = it.scoreG.toFloat()//车险获得积分
@@ -184,7 +186,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 SZWUtils.checkLogin(this, intent, PersonInfoActivity::class.java.name)
             }
             bt_vip_recharge -> {// vip充值
-                val intent = Intent(context, PayVipActivity::class.java)
+                val intent = Intent(context, PayVipActivity::class.java).putExtra("overDate",overDate)
                 SZWUtils.checkLogin(this, intent, PayVipActivity::class.java.name)
             }
             bt_order_tab_1 -> {//我的订单-待付款

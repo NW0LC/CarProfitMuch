@@ -12,6 +12,7 @@ import com.common.controls.dialog.DialogUtil
 import com.common.controls.dialog.ICommonDialog
 import com.exz.carprofitmuch.R
 import kotlinx.android.synthetic.main.dialog_change_num.view.*
+import kotlinx.android.synthetic.main.dialog_promotion_share.view.*
 import kotlinx.android.synthetic.main.dialog_refund.view.*
 import kotlinx.android.synthetic.main.dialog_score_failed.view.*
 import kotlinx.android.synthetic.main.dialog_score_success.view.*
@@ -134,7 +135,7 @@ object DialogUtils {
     }
 
     /**
-     * 退款
+     * 平台申诉
      */
     fun platform(context: Context, listener: (num: String) -> Unit) {
         dialog = DialogType104(context)
@@ -236,6 +237,29 @@ object DialogUtils {
         dlg.setCanceledOnTouchOutside(true)
         inflate.tv_score_failed_reason.text = reason
         inflate.bt_score_failed_close.setOnClickListener {
+            dlg.dismiss()
+        }
+        dlg.show()
+    }
+    /***
+     *分享活动
+     */
+    fun sharePromotion(context: Context,listener: (cancel:Boolean) -> Unit) {
+
+        val inflate = View.inflate(context, R.layout.dialog_promotion_share, null)
+        val dlg = CoreDialog(context, com.common.alertpop.R.style.dialog, inflate, true)
+        dlg.setPosition(Gravity.CENTER, 0, 0)
+        dlg.setCanceledOnTouchOutside(true)
+        inflate.bt_cancel.setOnClickListener {
+            listener.invoke(true)
+            dlg.dismiss()
+        }
+        inflate.bt_share.setOnClickListener {
+            listener.invoke(false)
+            dlg.dismiss()
+        }
+        inflate.bt_promotion_close.setOnClickListener {
+            listener.invoke(true)
             dlg.dismiss()
         }
         dlg.show()

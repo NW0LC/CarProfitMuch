@@ -430,6 +430,7 @@ object DataCtrlClass {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -1710,6 +1711,34 @@ object DataCtrlClass {
                 })
     }
     /**
+     * 清空购物车内所有失效商品
+     * */
+    fun clearCartListPassData(context: Context,listener: (v: NetEntity<Void>?) -> Unit) {
+
+        val params = HashMap<String, String>()
+        params.put("userId", MyApplication.loginUserId)
+        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        OkGo.post<NetEntity<Void>>(Urls.ClearDeleteGoods)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<Void>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<Void>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body())
+                        } else {
+                            context.toast(response.body().message)
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<Void>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
      * 购物车列表
      * */
     fun cartListData(context: Context, currentPage: Int, listener: (goodsCarBean: ArrayList<GoodsCarBean>?) -> Unit) {
@@ -1820,6 +1849,7 @@ object DataCtrlClass {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -2012,7 +2042,7 @@ object DataCtrlClass {
 
 
         if (!TextUtils.isEmpty(other)) {
-            params.put("other", other.substring(0, "".length - 1))
+            params.put("other", other.substring(0, other.length - 1))
         }
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase())
         OkGo.post<NetEntity<List<GoodsBean>>>(Urls.GoodsList)

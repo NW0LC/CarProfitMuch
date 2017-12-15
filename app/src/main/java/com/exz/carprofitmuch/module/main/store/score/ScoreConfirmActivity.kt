@@ -106,6 +106,8 @@ class ScoreConfirmActivity : BaseActivity(),View.OnClickListener {
                     tv_goodsCanUseScore.text=String.format("%s"+getString(R.string.SCORE), it?.score)
                     this.data.score=it?.score?.toDouble()?:0.toDouble()
                 }
+            }else{
+                finish()
             }
         }
     }

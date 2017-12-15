@@ -34,6 +34,7 @@ import com.szw.framelibrary.utils.net.callback.DialogCallback
 import com.szw.framelibrary.view.pwd.widget.OnPasswordInputFinish
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_pay_methods.*
+import org.jetbrains.anko.toast
 
 
 /**
@@ -189,14 +190,19 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
                 .execute(object : DialogCallback<NetEntity<CheckPayBean>>(this) {
 
                     override fun onSuccess(response: Response<NetEntity<CheckPayBean>>) {
-                        val intent = if (Pay_Intent_Finish_Type == Intent_Finish_Type_1) {
-                            Intent(mContext, CardPackageListActivity::class.java)
-                        } else {
-                            Intent(mContext, GoodsOrderActivity::class.java)
+                        if (response.body().getCode()==Constants.NetCode.SUCCESS) {
+                            val intent = if (Pay_Intent_Finish_Type == Intent_Finish_Type_1) {
+                                Intent(mContext, CardPackageListActivity::class.java)
+                            } else {
+                                Intent(mContext, GoodsOrderActivity::class.java)
+                            }
+                            startActivity(intent)
+                            RxBus.get().post(Constants.BusAction.Pay_Finish, Constants.BusAction.Pay_Finish)
+                            finish()
+                        }else{
+                            toast(response.body().message)
                         }
-                        startActivity(intent)
-                        RxBus.get().post(Constants.BusAction.Pay_Finish, Constants.BusAction.Pay_Finish)
-                        finish()
+
                     }
                 })
 

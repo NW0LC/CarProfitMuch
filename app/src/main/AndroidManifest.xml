@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.exz.carprofitmuch">
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
     <!--腾讯地图 SDK 要求的权限(开始)-->
     <!--访问网络获取地图服务-->
@@ -21,6 +27,17 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--腾讯地图 SDK 要求的权限(结束)-->
 
+<!--友盟分享-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!--end-->
     <application
         android:name=".app.ToolApplication"
         android:allowBackup="true"
@@ -71,7 +88,7 @@
         <!--服务支付成功-->
         <activity android:name=".module.main.store.service.ServicePayResultActivity" />
         <!--商品搜索-->
-        <activity android:name="com.exz.carprofitmuch.module.main.store.search.SearchGoodsActivity"/>
+        <activity android:name=".module.main.store.search.SearchGoodsActivity"/>
         <!--商品搜索结果-->
         <activity android:name="com.exz.carprofitmuch.module.main.store.search.SearchResultActivity"/>
         <!--商品详情-->
@@ -325,7 +342,15 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
 
         <!--支付  end -->
         <!-- 微信支付 begin -->
@@ -334,6 +359,9 @@
             android:exported="true"
             android:launchMode="singleTop" />
         <!--微信支付  end -->
+
+
+
 
 
 
@@ -357,7 +385,43 @@
         <!-- 如果您腾讯地图key确认无误，却依然授权没有通过，请检查您的key的白名单配置 -->
         <meta-data
             android:name="TencentMapSDK"
-            android:value="LEBBZ-2LCWS-3DKOF-63GND-KS6OE-R5FGS"/>
+            android:value="${Tencent_APPKEY}"/>
+
+
+
+        <!--友盟分享-->
+        <!-- wechat callback-->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- qq -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent1106614642" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <meta-data
+            tools:replace="android:value"
+            android:name="UMENG_APPKEY"
+            android:value="${UMENG_APPKEY}" >
+        </meta-data>
+<!--友盟分享 end-->
     </application>
 
 </manifest>

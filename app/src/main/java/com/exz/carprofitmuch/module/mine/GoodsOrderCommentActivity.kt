@@ -83,6 +83,7 @@ class GoodsOrderCommentActivity : BaseActivity(), View.OnClickListener {
                             DataCtrlClassXZW.confirmCommentData(mContext, orderId, shopId,serveStar,logisticsStar,JSON.toJSONString(commentInfo), {
                                 mCustomProgress.dismiss()
                                 if (it != null) {
+                                    setResult(Activity.RESULT_OK)
                                     finish()
                                 }
                             })

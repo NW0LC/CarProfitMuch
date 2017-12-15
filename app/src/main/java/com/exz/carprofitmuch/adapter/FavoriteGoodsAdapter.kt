@@ -32,7 +32,7 @@ class FavoriteGoodsAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>(
             itemView.tv_goodsChooseClassify.text = "已失效"
             itemView.tv_goodsChooseClassify.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
         } else {
-            if (item.downPrice.toDoubleOrNull()?:0==0) {
+            if ((item.downPrice.toDoubleOrNull()?:0.toDouble())==0.toDouble()) {
                 itemView.tv_goodsChooseClassify.text=""
             }else
             itemView.tv_goodsChooseClassify.text ="比收藏时降价"+ item.downPrice+"元"

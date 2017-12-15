@@ -35,14 +35,16 @@ class CouponListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
         return rootView
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            onRefresh(refreshLayout)
+        }
+    }
     override fun initView() {
         SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         initToolbar()
         initRecycler()
-    }
-
-    override fun initEvent() {
-
     }
 
     fun initToolbar(): Boolean {

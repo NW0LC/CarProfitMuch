@@ -15,6 +15,7 @@ import com.szw.framelibrary.utils.RxBus
 import com.szw.framelibrary.utils.net.NetEntity
 import com.szw.framelibrary.utils.net.callback.DialogCallback
 import com.tencent.mm.opensdk.modelpay.PayReq
+import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -25,7 +26,7 @@ import io.reactivex.schedulers.Schedulers
  * on 2017/10/27.
  */
 abstract class PayActivity : BaseActivity() {
-    private val msgApi = WXAPIFactory.createWXAPI(mContext, null)
+    lateinit var msgApi : IWXAPI
     //    @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(Pay_Finish)})
     //    public void PayFinish(String tag) {
     //        finish();
@@ -39,6 +40,9 @@ abstract class PayActivity : BaseActivity() {
             return msgApi.isWXAppInstalled && msgApi.isWXAppSupportAPI
         }
 
+    override fun init() {
+        msgApi= WXAPIFactory.createWXAPI(mContext, null)
+    }
     // 微信支付
     protected fun weChatPay(url: String, key: String, value: String,requestCheck:String) {
         val map = HashMap<String, String>()
@@ -55,19 +59,19 @@ abstract class PayActivity : BaseActivity() {
                             rechargeId = response.body().data?.rechargeId?:""
                             vipOrderId = response.body().data?.vipOrderId?:""
                             val req = PayReq()
-                            req.appId = response.body().info?.appId?:""
-                            Urls.APP_ID = response.body().info?.appId?:""
-                            req.partnerId = response.body().info?.partnerId?:""
-                            req.prepayId = response.body().info?.prepayId?:""
-                            req.packageValue = response.body().info?.packageValue?:""
-                            req.nonceStr = response.body().info?.nonceStr?:""
-                            req.timeStamp = response.body().info?.timestamp?:""
-                            req.sign = response.body().info?.sign?:""
+                            req.appId = response.body().data?.appId?:""
+                            Urls.APP_ID = response.body().data?.appId?:""
+                            req.partnerId = response.body().data?.partnerId?:""
+                            req.prepayId = response.body().data?.prepayId?:""
+                            req.packageValue = response.body().data?.packageValue?:""
+                            req.nonceStr = response.body().data?.nonceStr?:""
+                            req.timeStamp = response.body().data?.timeStamp?:""
+                            req.sign = response.body().data?.sign?:""
                             if (!isWXAppInstalledAndSupported) {
                                 Toast.makeText(this@PayActivity, "没安装微信客户端", Toast.LENGTH_SHORT).show()
                                 return
                             }
-                            msgApi.registerApp(response.body().info?.appId)
+                            msgApi.registerApp(response.body().data?.appId)
                             msgApi.sendReq(req)
                         }
                     }
@@ -91,7 +95,7 @@ abstract class PayActivity : BaseActivity() {
                         if (response.body().data!= null) {
                             rechargeId = response.body().data?.rechargeId?:""
                             vipOrderId = response.body().data?.vipOrderId?:""
-                            pay(response.body().info?.paymentDescription, response.body().info?.sign)
+                            pay(response.body().data?.payDescription, response.body().data?.sign)
                         }
                     }
                 })
@@ -167,7 +171,7 @@ abstract class PayActivity : BaseActivity() {
         var vipOrderId: String = ""
         var prepayId: String = ""
         var nonceStr: String = ""
-        var timestamp: String = ""
+        var timeStamp: String = ""
         var packageValue: String = ""
         var sign: String = ""
     }
@@ -180,7 +184,7 @@ abstract class PayActivity : BaseActivity() {
          * rechargeId : 订单号
          */
 
-        var paymentDescription: String = ""
+        var payDescription: String = ""
         var sign: String = ""
         var rechargeId: String = ""
         var vipOrderId: String = ""

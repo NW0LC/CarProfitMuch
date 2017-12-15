@@ -156,8 +156,9 @@ class ServiceDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickLis
                 startActivity(intent)
             }
             bt_goods_detail -> {
+                val url = "${Urls.url}App/H5/GoodsInfo.aspx?id=${intent.getStringExtra(Service_Intent_ServiceId)}"
                 val intent = Intent(this, MyWebActivity::class.java)
-                intent.putExtra(Intent_Url, "${Urls.url}App/H5/GoodsInfo.aspx?id=${intent.getStringExtra(Service_Intent_ServiceId)}")
+                intent.putExtra(Intent_Url, url)
                 intent.putExtra(Intent_Title, getString(R.string.service_detail_name))
                 startActivity(intent)
             }

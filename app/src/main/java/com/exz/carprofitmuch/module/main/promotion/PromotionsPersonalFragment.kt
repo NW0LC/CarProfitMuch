@@ -14,6 +14,8 @@ import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.adapter.PromotionsPersonalAdapter
 import com.exz.carprofitmuch.bean.PromotionsPersonalBean
 import com.exz.carprofitmuch.module.main.promotion.PromotionsDetailActivity.Companion.PromotionsDetail_Intent_PromotionId
+import com.exz.carprofitmuch.module.main.store.service.ServiceShopActivity
+import com.exz.carprofitmuch.module.main.store.service.ServiceShopActivity.Companion.ServiceShop_Intent_ServiceShopId
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -78,8 +80,10 @@ class PromotionsPersonalFragment : MyBaseFragment(), OnRefreshListener,  BaseQui
                         intent.putExtra(PromotionsDetail_Intent_PromotionId,mAdapter.data[position].id)
                         startActivity(intent)
                     }
-                    R.id.lay_shop -> {
-
+                    R.id.tv_shopName -> {
+                        val intent = Intent(context, ServiceShopActivity::class.java)
+                        intent.putExtra(ServiceShop_Intent_ServiceShopId,mAdapter.data[position].shopId)
+                        startActivity(intent)
                     }
                     R.id.bt_phoneCall -> {DialogUtils.Call(activity as BaseActivity,mAdapter.data[position].shopPhone) }
                     else -> {

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="250dp"
+        android:layout_height="170dp"
+        android:layout_gravity="center">
+
+        <com.flyco.roundview.RoundTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:rv_backgroundColor="@color/White"
+            app:rv_cornerRadius="@dimen/margin_8" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="分享（づ￣3￣）づ╭❤～"
+            android:textColor="@color/MaterialGrey600"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8"
+            android:src="@mipmap/icon_mine_default_head"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+        <ImageView
+            android:id="@+id/bt_promotion_close"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_toEndOf="@+id/tv_title"
+            android:src="@mipmap/icon_score_pay_success_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/bt_cancel"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="@dimen/margin_8"
+            android:gravity="center"
+            android:padding="@dimen/margin_5"
+            android:text="下次吧"
+            android:textColor="@color/White"
+            android:textSize="@dimen/text_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_bg"
+            app:rv_backgroundColor="@color/MaterialGrey"
+            app:rv_cornerRadius="@dimen/margin_5" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/bt_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="@dimen/margin_8"
+            android:gravity="center"
+            android:maxLines="2"
+            android:minWidth="75dp"
+            android:padding="@dimen/margin_5"
+            android:text="告诉他"
+            android:textColor="@color/White"
+            android:textSize="@dimen/text_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_bg"
+            app:rv_backgroundColor="@color/colorPrimary"
+            app:rv_cornerRadius="@dimen/margin_5" />
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>

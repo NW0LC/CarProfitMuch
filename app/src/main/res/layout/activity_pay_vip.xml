@@ -79,6 +79,7 @@
                     android:textColor="#939296"
                     android:textSize="12sp" />
                 <RadioGroup
+                    android:layout_marginTop="@dimen/margin_0.5"
                     android:id="@+id/radioGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">

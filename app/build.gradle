@@ -28,13 +28,15 @@ android {
                 JPUSH_APPKEY : "635a09fdad601abbb4b24fe8", //JPush上注册的包名对应的appkey.
                 JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
 
-                AMap_Key : "4dbce37156db4b2624e343a9b787b610", //高德key
+//                AMap_Key : "4dbce37156db4b2624e343a9b787b610", //高德key
 
-                UMENG_APPKEY : "59b0e408f29d983f190018f5", //友盟key
+                UMENG_APPKEY : "5a3385fcf43e48403b000383", //友盟key
 
-                EASEMOB_APPKEY : "1175170810115218#logistics", //环信应用的AppKey
+//                EASEMOB_APPKEY : "1175170810115218#logistics", //环信应用的AppKey
 
-                BD_APPKEY : "3ecea51f560650b1ed8a4b99808f52e8", //百度地图的AppKey
+//                BD_APPKEY : "3ecea51f560650b1ed8a4b99808f52e8", //百度地图的AppKey
+
+                Tencent_APPKEY : "LEBBZ-2LCWS-3DKOF-63GND-KS6OE-R5FGS", //百度地图的AppKey
         ]
     }
 

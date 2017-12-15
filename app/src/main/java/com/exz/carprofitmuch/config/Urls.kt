@@ -288,6 +288,11 @@ object Urls{
      */
     val SendIntegral=url+"App/Home/SendIntegral.aspx"
 
+    /**
+     * 清空购物车内所有失效商品
+     */
+    val ClearDeleteGoods=url+"App/ShopCar/Reality/ClearDeleteGoods.aspx"
+
 
 
 
