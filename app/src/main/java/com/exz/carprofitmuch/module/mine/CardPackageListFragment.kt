@@ -104,13 +104,6 @@ class CardPackageListFragment : MyBaseFragment(), OnRefreshListener,  BaseQuickA
                          }
                     }
                 }
-
-                //删除
-                DataCtrlClass.editServiceState(context,mAdapter.data[position].orderId,"1"){
-                    if (it!=null)
-                        onRefresh(refreshLayout)
-                }
-
             }
         })
     }

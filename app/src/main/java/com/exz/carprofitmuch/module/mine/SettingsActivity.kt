@@ -37,6 +37,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
 //     bt_personInfo.setOnClickListener(this)
         bt_security.setOnClickListener(this)
         bt_aboutUs.setOnClickListener(this)
+        bt_QR.setOnClickListener(this)
         bt_exit.setOnClickListener(this)
     }
 
@@ -47,6 +48,12 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         when (p0) {
             bt_security -> {
                 startActivity(Intent(this, AccountSafeActivity::class.java))
+            }
+            bt_QR -> {
+                val intent = Intent(this, MyWebActivity::class.java)
+                intent.putExtra(MyWebActivity.Intent_Title, getString(R.string.settings_aboutUs))
+                intent.putExtra(MyWebActivity.Intent_Url, AboutUS)
+                startActivity(intent)
             }
             bt_aboutUs -> {
                 val intent = Intent(this, MyWebActivity::class.java)

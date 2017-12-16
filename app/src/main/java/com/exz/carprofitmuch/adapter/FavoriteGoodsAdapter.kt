@@ -31,11 +31,10 @@ class FavoriteGoodsAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>(
         if ("2" == item.state) {
             itemView.tv_goodsChooseClassify.text = "已失效"
             itemView.tv_goodsChooseClassify.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
-        } else {
-            if ((item.downPrice.toDoubleOrNull()?:0.toDouble())==0.toDouble()) {
-                itemView.tv_goodsChooseClassify.text=""
-            }else
-            itemView.tv_goodsChooseClassify.text ="比收藏时降价"+ item.downPrice+"元"
+        } else if ("1" == item.state){
+            if ((item.downPrice.toDoubleOrNull()?:0.toDouble())>0.toDouble()) {
+                itemView.tv_goodsChooseClassify.text ="比收藏时降价"+ item.downPrice+"元"
+            }
             itemView.tv_goodsChooseClassify.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
         }
 

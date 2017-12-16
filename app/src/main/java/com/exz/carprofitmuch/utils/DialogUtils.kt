@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.dialog_promotion_share.view.*
 import kotlinx.android.synthetic.main.dialog_refund.view.*
 import kotlinx.android.synthetic.main.dialog_score_failed.view.*
 import kotlinx.android.synthetic.main.dialog_score_success.view.*
-import org.jetbrains.anko.toast
 
 /**
  * Created by 史忠文
@@ -170,11 +169,8 @@ object DialogUtils {
         dialog.setContentView(view)
         dialog.setOkBtn("确定") {
             val trim = view.ed_content.text.toString().trim()
-            if (!TextUtils.isEmpty(trim)) {
-                listener.invoke(trim)
-                dialog.dismiss()
-            }else
-                context.toast("请填写原因")
+            listener.invoke(if (trim.isEmpty())"" else trim)
+            dialog.dismiss()
 
         }
         dialog.setCancelBtn("取消") {

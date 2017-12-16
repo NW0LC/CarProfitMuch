@@ -151,10 +151,12 @@ class PersonInfoActivity : BaseActivity(), View.OnClickListener, OptionsPickerVi
             when (textType) {
                 1 -> {//昵称
                     mTextEntity = data?.getSerializableExtra("text") as OpenTextBen
+                    mUserInfo?.nickname=mTextEntity.content
                     editInfo("nickname", mTextEntity.content)
                 }
                 2 -> {//微信
                     mTextEntity = data?.getSerializableExtra("text") as OpenTextBen
+                    mUserInfo?.wechat=mTextEntity.content
                     editInfo("wechat", mTextEntity.content)
                 }
             }

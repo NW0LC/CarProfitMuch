@@ -53,6 +53,7 @@
                             android:layout_height="wrap_content"
                             android:background="@null"
                             android:text=""
+                            android:textCursorDrawable="@drawable/color_cursor"
                             android:gravity="start"
                             android:hint="@string/service_order_comment_hint_content"
                             android:labelFor="@+id/ed_content"

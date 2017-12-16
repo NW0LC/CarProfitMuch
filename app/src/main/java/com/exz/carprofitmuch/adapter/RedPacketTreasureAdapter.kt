@@ -24,7 +24,7 @@ class RedPacketTreasureAdapter(val type:Int) : BaseQuickAdapter<MapIdBean, BaseV
         }else{//红包
             layoutParams.width = (ScreenUtils.getScreenWidth() ) / 2
             layoutParams.height = (ScreenUtils.getScreenWidth()) / 2
-            GlideApp.with(mContext).load(Uri.parse("android.resource://" + mContext.packageName + "/" +R.mipmap.icon_map_red_packet3).toString())
+            GlideApp.with(mContext).load(Uri.parse("android.resource://" + mContext.packageName + "/" +R.mipmap.icon_map_red_packet3).toString()).into(itemView.img)
         }
         itemView.layoutParams=layoutParams
 

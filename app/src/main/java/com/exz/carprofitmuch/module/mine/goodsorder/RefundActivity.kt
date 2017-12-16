@@ -219,6 +219,7 @@ class RefundActivity : BaseActivity(), View.OnClickListener {
                                         it.replace("file://", ""))) + "," }
                 DataCtrlClassXZW.submitRefundData(mContext, intent.getStringExtra(Refund_Intent_OrderId), returnTypeId, reasonId, issue, img, {
                     if (it != null) {
+                        setResult(Activity.RESULT_OK)
                         finish()
                     }
                 })

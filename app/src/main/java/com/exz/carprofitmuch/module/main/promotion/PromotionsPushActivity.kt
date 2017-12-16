@@ -2,6 +2,7 @@ package com.exz.carprofitmuch.module.main.promotion
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
@@ -37,6 +38,7 @@ import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
 import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
+import com.umeng.socialize.shareboard.ShareBoardConfig
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.activity_promotions_push.*
 
@@ -72,7 +74,7 @@ class PromotionsPushActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun initImgRecycler() {
-        photos.add(0, "res://com.exz.carprofitmuch/" + R.mipmap.icon_take_photo)
+        photos.add(0, Uri.parse("android.resource://" + applicationContext.packageName + "/" +R.mipmap.icon_take_photo).toString())
         mAdapter = ItemOrderCommentImageAdapter()
         mAdapter.setNewData(photos)
         mAdapter.bindToRecyclerView(mPhotoRecyclerView)
@@ -163,6 +165,8 @@ class PromotionsPushActivity : BaseActivity(), View.OnClickListener {
                         web.title = intent.getStringExtra(PromotionsDetail_Intent_PromotionTitle)//标题
                         web.setThumb(thumb)  //缩略图
                         web.description = ed_content.text.toString()//描述
+                        val shareBoardConfig = ShareBoardConfig()
+                        shareBoardConfig.setOnDismissListener { finish() }
                         ShareAction(this).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
                                 .withMedia(web).setCallback(object : UMShareListener {
                             override fun onStart(p0: SHARE_MEDIA?) {
@@ -184,7 +188,7 @@ class PromotionsPushActivity : BaseActivity(), View.OnClickListener {
                                 finish()
 
                             }
-                        }).open()
+                        }).open(shareBoardConfig)
                     }
                 }
             }

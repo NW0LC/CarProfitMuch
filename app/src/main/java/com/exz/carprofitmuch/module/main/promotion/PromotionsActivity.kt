@@ -100,7 +100,7 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 val intent = Intent(this@PromotionsActivity, PromotionsDetailActivity::class.java)
                 intent.putExtra(PromotionsDetail_Intent_PromotionId, mAdapter.data[position].id)
-                startActivityForResult(intent,100)
+                startActivityForResult(intent, 100)
             }
 
             override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -116,9 +116,9 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
     override fun onClick(p0: View) {
         when (p0.id) {
             R.id.radioButton1 ->
-                if (!sortPop.isShowing)
+                if (!sortPop.isShowing ) {
                     sortPop.showPopupWindow(radioGroup)
-                else
+                } else
                     radioGroup.clearCheck()
             R.id.radioButton2 -> {
                 setGaryOrOrange(radioButton1, true)

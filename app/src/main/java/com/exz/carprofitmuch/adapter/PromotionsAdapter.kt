@@ -18,11 +18,11 @@ class PromotionsAdapter<T : PromotionsBean> : BaseQuickAdapter<T, BaseViewHolder
         val itemView = helper.itemView
         helper.addOnClickListener(R.id.tv_state)
         itemView.img.setImageURI(item.imgUrl)
-        itemView.img.layoutParams.height=(ScreenUtils.getScreenWidth()-SizeUtils.dp2px(20f))*5/13
+        itemView.img.layoutParams.height = (ScreenUtils.getScreenWidth() - SizeUtils.dp2px(20f)) * 5 / 13
         itemView.tv_title.text = item.title
         itemView.tv_speed.text = String.format("%s" + mContext.getString(R.string.DAY), item.dayCount)
         itemView.tv_distance.text = item.distance
-        setStateColorAndStr(mContext, item.isJoin + item.state+item.isUpload, view = *arrayOf(itemView.tv_state))
+        setStateColorAndStr(mContext, item.isJoin + item.state + item.isUpload, view = *arrayOf(itemView.tv_state))
     }
 
     companion object {
@@ -32,51 +32,51 @@ class PromotionsAdapter<T : PromotionsBean> : BaseQuickAdapter<T, BaseViewHolder
          * state :1可报名 2名额已满 3报名截止 4活动开始 5活动结束
          *         橘黄色   灰色       灰色      绿色      灰色
          */
-        fun setStateColorAndStr(context: Context, state: String,isList:Boolean=true, vararg view: RoundTextView) {
+        fun setStateColorAndStr(context: Context, state: String, isList: Boolean = true, vararg view: RoundTextView) {
             val str: String
             val color: Int
             when (state) {
-                "010","011" -> {
+                "01", "010", "011" -> {
                     str = "去报名"
                     color = ContextCompat.getColor(context, R.color.colorPrimary)
                 }
-                "020","021" -> {
+                "02", "020", "021" -> {
                     str = "名额已满"
                     color = ContextCompat.getColor(context, R.color.MaterialGrey400)
                 }
-                "030","031" -> {
+                "03", "030", "031" -> {
                     str = "报名截止"
                     color = ContextCompat.getColor(context, R.color.MaterialGrey400)
                 }
-                "040","041" -> {
+                "04", "040", "041" -> {
                     str = "已开始"
                     color = ContextCompat.getColor(context, R.color.MaterialGreenA400)
                 }
-                "050","051" -> {
+                "05", "050", "051" -> {
                     str = "已结束"
                     color = ContextCompat.getColor(context, R.color.MaterialGrey400)
                 }
-                "110","111" -> {
+                "11", "110", "111" -> {
                     str = "已报名"
                     color = ContextCompat.getColor(context, R.color.MaterialBlue400)
                 }
-                "120","121" -> {
+                "12", "120", "121" -> {
                     str = "已报名"
                     color = ContextCompat.getColor(context, R.color.MaterialBlue400)
                 }
-                "130" ,"131"-> {
+                "13", "130", "131" -> {
                     str = "已报名"
                     color = ContextCompat.getColor(context, R.color.MaterialBlue400)
                 }
-                "140" -> {
-                    str =  if (isList)"已开始" else "上传照片"
+                "14","140" -> {
+                    str = if (isList) "已开始" else "上传照片"
                     color = ContextCompat.getColor(context, R.color.MaterialGreenA400)
                 }
                 "141" -> {
-                    str =  if (isList)"已开始" else "已上传"
+                    str = if (isList) "已开始" else "已上传"
                     color = ContextCompat.getColor(context, R.color.MaterialGreenA400)
                 }
-                "150","151" -> {
+                "15", "150", "151" -> {
                     str = "已结束"
                     color = ContextCompat.getColor(context, R.color.MaterialGrey400)
                 }

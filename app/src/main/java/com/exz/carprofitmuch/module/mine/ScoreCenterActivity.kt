@@ -69,7 +69,7 @@ class ScoreCenterActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter.
                 headerView.tv_pendScoreCount.text = it.scoreL//待返还积分
                 headerView.tv_frizzScoreCount.text = it.scoreT//冻结积分
                 headerView.tv_score_date.text =String.format(getString(R.string.mine_score_date),it.scoreT,it.invalidDate)
-                headerView.tv_score_date.visibility=if ((it.scoreT.toDoubleOrNull()?:0)==0) View.GONE else View.VISIBLE
+                headerView.tv_score_date.visibility=if ((it.scoreT.toDoubleOrNull()?:0.toDouble())==0.toDouble()) View.GONE else View.VISIBLE
             }
 
         })

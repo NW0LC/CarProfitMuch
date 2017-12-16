@@ -24,8 +24,10 @@ import com.exz.carprofitmuch.module.mine.GoodsOrderCommentActivity
 import com.exz.carprofitmuch.module.mine.goodsorder.RefundActivity.Companion.Refund_Intent_OrderId
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.widget.MyWebActivity
+import com.google.gson.Gson
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
+import com.umeng.socialize.utils.DeviceConfig.context
 import kotlinx.android.synthetic.main.action_bar_tv.*
 import kotlinx.android.synthetic.main.activity_my_order_detail.*
 import kotlinx.android.synthetic.main.lay_goods_detail_text.view.*
@@ -183,9 +185,10 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
                         })
                     }
                     "4" -> {    //评价订单
-                        GoodsOrderCommentActivity.shopId = entity.shopId ?: ""
-                        GoodsOrderCommentActivity.orderId = entity.orderId ?: ""
-                        startActivityForResult(Intent(this, GoodsOrderCommentActivity::class.java), 100)
+                        GoodsOrderCommentActivity.shopId = entity.shopId?:""
+                        GoodsOrderCommentActivity.orderId = entity.orderId?:""
+                        GoodsOrderCommentActivity.json = Gson().toJson(entity.goodsInfo)
+                        startActivityForResult(Intent(context, GoodsOrderCommentActivity::class.java),100)
 
                     }
                     "5", "6" -> {    //删除订单
@@ -202,6 +205,12 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
         setResult(Activity.RESULT_OK)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode== Activity.RESULT_OK) {
+            iniData()
+        }
+    }
     override fun onDestroy() {
         super.onDestroy()
         orderId = ""

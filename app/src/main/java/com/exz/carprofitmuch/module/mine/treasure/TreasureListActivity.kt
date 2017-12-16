@@ -16,9 +16,9 @@ import java.util.*
  */
 
 class TreasureListActivity : BaseActivity() {
-    private val mTitles = arrayOf("未领取", "已领取")
-    private val mIconUnSelectIds = intArrayOf(R.mipmap.icon_home_off, R.mipmap.icon_store_off)
-    private val mIconSelectIds = intArrayOf(R.mipmap.icon_home_on, R.mipmap.icon_store_on)
+    private val mTitles = arrayOf("未领取", "已领取", "已过期")
+    private val mIconUnSelectIds = intArrayOf(R.mipmap.icon_home_off, R.mipmap.icon_store_off, R.mipmap.icon_store_off)
+    private val mIconSelectIds = intArrayOf(R.mipmap.icon_home_on, R.mipmap.icon_store_on, R.mipmap.icon_store_on)
     private val mTabEntities = ArrayList<CustomTabEntity>()
     private val mFragments = ArrayList<Fragment>()
     override fun initToolbar(): Boolean {

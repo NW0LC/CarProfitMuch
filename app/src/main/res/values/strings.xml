@@ -185,6 +185,7 @@
     <string name="settings_person">个人信息</string>
     <string name="settings_security">账户安全</string>
     <string name="settings_aboutUs">关于我们</string>
+    <string name="settings_QR">我的二维码</string>
     <string name="settings_exit">退出登录</string>
     <string name="person_info_header">会员头像</string>
     <string name="person_info_phone">手机号</string>
@@ -226,7 +227,7 @@
     <string name="service_code_seeOnOrder">您可在“订单-未使用订单”中查看</string>
     <string name="service_order_comment_name">评价服务</string>
     <string name="service_order_comment_score">服务评分</string>
-    <string name="service_order_comment_hint_content">填写详细评价内容</string>
+    <string name="service_order_comment_hint_content">填写活动简述</string>
     <string name="service_order_comment_content_count">你还可以输入%s个字符</string>
     <string name="favorite_goods_name">收藏商品</string>
     <string name="favorite_shop_name">店铺收藏</string>

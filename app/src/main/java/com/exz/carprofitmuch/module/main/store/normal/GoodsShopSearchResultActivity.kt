@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import com.blankj.utilcode.util.KeyboardUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClass
@@ -78,6 +79,7 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
                 // do something
                 search= mTitle.text.toString().trim { it <= ' ' }
                 if (!TextUtils.isEmpty(search)) {
+                    KeyboardUtils.hideSoftInput(mTitle)
                     refreshLayout.autoRefresh()
                 }
                 return@OnEditorActionListener true
@@ -221,7 +223,7 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
         currentPage = 1
         refreshState = Constants.RefreshState.STATE_REFRESH
         iniData()
-        DataCtrlClass.goodsShopClassifyData(this, intent.getStringExtra(GoodsShop_Intent_ShopId) ?: "") {
+        DataCtrlClass.goodsShopClassifyData(intent.getStringExtra(GoodsShop_Intent_ShopId) ?: "") {
             if (it!=null)
                 goodsShopClassifyPop.data =it
         }

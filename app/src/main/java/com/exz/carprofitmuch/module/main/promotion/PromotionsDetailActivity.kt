@@ -59,7 +59,7 @@ class PromotionsDetailActivity : BaseActivity(), View.OnClickListener {
                 val total = it.total.toDoubleOrNull() ?: 0.toDouble()
                 progressBar.progress= ((already/ total) * 100).toInt()
                 bottom_bar.visibility = View.VISIBLE
-                setStateColorAndStr(mContext, it.isJoin + it.state+it.isUpload, view = *arrayOf(bt_submit))
+                setStateColorAndStr(mContext, it.isJoin + it.state+it.isUpload,isList = false, view = *arrayOf(bt_submit))
             }
         }
     }

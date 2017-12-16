@@ -22,6 +22,7 @@ class ServiceListClassifyPop(context: Activity, listener:(title:String,serviceCl
                 firstSetData=false
                 val bean = ServiceListFilterBean()
                 bean.title="全部"
+                bean.id="0"
                 bean.isCheck=true
                 value.add(0,bean)
             }

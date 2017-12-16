@@ -16,7 +16,6 @@ import com.exz.carprofitmuch.bean.GoodsBean
 import com.exz.carprofitmuch.bean.ShopBean
 import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.imageloader.BannerImageLoader
-import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity.Companion.GoodsDetail_Intent_GoodsId
 import com.exz.carprofitmuch.module.main.store.normal.GoodsShopSearchResultActivity.Companion.GoodsShopSearchResult_Intent_Status
 import com.exz.carprofitmuch.pop.GoodsShopClassifyPop
 import com.exz.carprofitmuch.utils.SZWUtils
@@ -91,9 +90,8 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
         banner.setIndicatorGravity(BannerConfig.CENTER)
         banner.setOnBannerListener {
             if (recommends != null) {
-                val intent = Intent(this, GoodsDetailActivity::class.java)
-                intent.putExtra(GoodsDetail_Intent_GoodsId, recommends?.get(it)?.goodsId)
-                startActivity(intent)
+                if (SZWUtils.getMarkIntent(this@GoodsShopActivity, recommends?.get(it) as GoodsBean) != null)
+                    startActivity(SZWUtils.getMarkIntent(this@GoodsShopActivity, recommends?.get(it)as GoodsBean))
             }
 
         }
@@ -204,7 +202,7 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
 
     override fun onRefresh(refreshLayout: RefreshLayout?) {
 
-        DataCtrlClass.goodsShopClassifyData(this, intent.getStringExtra(GoodsShop_Intent_ShopId) ?: "") {
+        DataCtrlClass.goodsShopClassifyData( intent.getStringExtra(GoodsShop_Intent_ShopId) ?: "") {
             if (it != null)
                 goodsShopClassifyPop.data = it
         }

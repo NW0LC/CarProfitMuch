@@ -591,6 +591,7 @@ object DataCtrlClass {
                             listener.invoke(response.body().data)
                         } else {
                             listener.invoke(null)
+                            context.toast(response.body().message)
                         }
                     }
 
@@ -605,7 +606,7 @@ object DataCtrlClass {
     /**
      * 店铺分类
      * */
-    fun goodsShopClassifyData(context: Context,shopId:String, listener: (shopBean: ArrayList<GoodsShopClassifyBean>?) -> Unit) {
+    fun goodsShopClassifyData(shopId:String, listener: (shopBean: ArrayList<GoodsShopClassifyBean>?) -> Unit) {
 //       shopId	string	必填	店铺id
 //       requestCheck	string	必填	验证请求
         val params = HashMap<String, String>()
@@ -614,7 +615,7 @@ object DataCtrlClass {
         OkGo.post<NetEntity<ArrayList<GoodsShopClassifyBean>>>(Urls.ShopSelfTypeList)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<ArrayList<GoodsShopClassifyBean>>>(context) {
+                .execute(object : JsonCallback<NetEntity<ArrayList<GoodsShopClassifyBean>>>() {
                     override fun onSuccess(response: Response<NetEntity<ArrayList<GoodsShopClassifyBean>>>) {
                         if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             listener.invoke(response.body().data)

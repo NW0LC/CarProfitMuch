@@ -36,6 +36,7 @@
                 android:orientation="vertical">
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/img"
+                    app:actualImageScaleType="fitXY"
                     android:layout_width="match_parent"
                     android:layout_height="150dp" />
                 <android.support.constraint.ConstraintLayout
