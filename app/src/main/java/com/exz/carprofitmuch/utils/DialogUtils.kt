@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.dialog_promotion_share.view.*
 import kotlinx.android.synthetic.main.dialog_refund.view.*
 import kotlinx.android.synthetic.main.dialog_score_failed.view.*
 import kotlinx.android.synthetic.main.dialog_score_success.view.*
+import org.jetbrains.anko.toast
 
 /**
  * Created by 史忠文
@@ -145,6 +146,8 @@ object DialogUtils {
             val trim = view.ed_content.text.toString().trim()
             if (!TextUtils.isEmpty(trim)) {
                 listener.invoke(trim)
+            }else{
+                context.toast("请输入申诉原因")
             }
             dialog.dismiss()
         }
@@ -162,10 +165,10 @@ object DialogUtils {
     /**
      * 退款
      */
-    fun refund(context: Context, orderNum: String, listener: (num: String) -> Unit) {
+    fun refund(context: Context, listener: (num: String) -> Unit) {
         dialog = DialogType104(context)
         val view = View.inflate(context, R.layout.dialog_refund, null)
-        dialog.setTitleText("订单编号:" + orderNum)
+        dialog.setTitleText("退款原因")
         dialog.setContentView(view)
         dialog.setOkBtn("确定") {
             val trim = view.ed_content.text.toString().trim()

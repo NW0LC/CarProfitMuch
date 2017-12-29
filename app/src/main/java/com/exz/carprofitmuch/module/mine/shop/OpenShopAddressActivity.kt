@@ -55,10 +55,11 @@ class OpenShopAddressActivity : BaseActivity() {
 
     override fun init() {
         super.init()
-        ed_address.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(40));
+        ed_address.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(40))
         entity = (intent.getSerializableExtra("location") as OpenShopLocationBean)
         ed_address.setText(entity.address)
         ed_address.setSelection(entity.address.length)
+        ed_address.setText("剩余" + (40 - entity.address.length) + "/" + 40)
         if (!TextUtils.isEmpty(entity.latitude) && !TextUtils.isEmpty(entity.longitude)) tv_address.setText("已添加")
         if (entity.addressCheck.equals("0")) {
             ed_address.textColor = ContextCompat.getColor(mContext, R.color.Red)

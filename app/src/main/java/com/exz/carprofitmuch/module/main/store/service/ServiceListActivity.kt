@@ -107,7 +107,7 @@ class ServiceListActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 val intent = Intent(this@ServiceListActivity, ServiceShopActivity::class.java)
                 intent.putExtra(ServiceShop_Intent_ServiceShopId,mAdapter.data[position].shopId)
-                SZWUtils.checkLogin(this@ServiceListActivity, intent, ServiceShopActivity::class.java.name)
+                startActivity(intent)
             }
         })
     }

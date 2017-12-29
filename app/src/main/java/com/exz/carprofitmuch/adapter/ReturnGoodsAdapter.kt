@@ -38,10 +38,10 @@ class ReturnGoodsAdapter<T : ReturnGoodsBean> : BaseQuickAdapter<T, BaseViewHold
         helper.addOnClickListener(R.id.tv_right)
         when (item.returnOrderType) {
             "1", "3" -> {//退款
-                helper.itemView.tv_refund_num.text = String.format(mContext.getString(R.string.return_priceOrderNum) + "%s", item.returnOrderId)
+                helper.itemView.tv_refund_num.text = String.format(mContext.getString(R.string.return_priceOrderNum) + "%s", item.returnOrderNum)
             }
             "2" -> {//退货
-                helper.itemView.tv_refund_num.text = String.format(mContext.getString(R.string.return_goodsOrderNum) + "%s", item.returnOrderId)
+                helper.itemView.tv_refund_num.text = String.format(mContext.getString(R.string.return_goodsOrderNum) + "%s", item.returnOrderNum)
             }
         }
 

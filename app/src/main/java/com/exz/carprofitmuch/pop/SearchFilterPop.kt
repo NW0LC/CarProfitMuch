@@ -85,6 +85,10 @@ class SearchFilterPop(context: Activity) : BasePopupWindow(context), View.OnFocu
     override fun onClick(p0: View) {
         when (p0.id) {
             R.id.clear -> {
+                lowPrice=""
+                heightPrice=""
+                headerView.lowPrice.setText("")
+                headerView.heightPrice.setText("")
                 mAdapter.data.flatMap { it.items }.forEach { it.isCheck = false }
                 mAdapter.notifyDataSetChanged()
             }

@@ -134,10 +134,10 @@ class OpenShopActivity : BaseActivity() {
                             adapter.data.get(adapter.data.indexOf(bean)).v = "已填写"
                             // check 0 未通过审核 1 通过审核   check[0]=adapter.data.state[3]  check[1]=adapter.data.state[4]
                             adapter.data.get(adapter.data.indexOf(bean)).state = if (it.detail.check.equals("0")) "3" else "4"
-                            locationBean = OpenShopLocationBean(it.longitude.check, it.latitude.check, it.detail.check)
-                            locationBean!!.latitude=it.latitude.check
-                            locationBean!!.longitudCheck=it.longitude.check
-                            locationBean!!.addressCheck=it.detail.check
+                            locationBean = OpenShopLocationBean(it.longitude.value, it.latitude.value, it.detail.value)
+                            locationBean?.latitudeCheck=it.latitude.check
+                            locationBean?.longitudCheck=it.longitude.check
+                            locationBean?.addressCheck=it.detail.check
                             if (it.detail.check.equals("0") || it.latitude.check.equals("0") || it.longitude.check.equals("0")) {
                                 adapter.data.get(adapter.data.indexOf(bean)).state = "3"
                             } else {

@@ -20,6 +20,7 @@ import com.exz.carprofitmuch.module.main.store.score.ScoreConfirmActivity
 import com.exz.carprofitmuch.module.main.store.score.ScoreConfirmActivity.Companion.ScoreConfirm_Intent_Ids
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.exz.carprofitmuch.utils.RecycleViewDivider
+import com.exz.carprofitmuch.utils.SZWUtils
 import com.google.gson.Gson
 import com.hwangjr.rxbus.RxBus
 import com.hwangjr.rxbus.annotation.Subscribe
@@ -246,6 +247,7 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
                             context.toast(context.getString(R.string.classify_pop_toast_noInventory))
                             return
                         }
+                        if (SZWUtils.checkLogin(context))
                         CartFragment.addCar(context,goodsBean?.shopId?:"" ,poolId, countIndex.toString(), arrayListOf(goodsBean?:GoodsBean()))
                         dismiss()
                     }
@@ -268,7 +270,7 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
 
                                 val intent = Intent(context, ScoreConfirmActivity::class.java)
                                 intent.putExtra(ScoreConfirm_Intent_Ids,goodsBean?.shopId+","+goodsBean?.goodsId+","+countIndex+","+poolId)
-                                context.startActivity(intent)
+                                SZWUtils.checkLogin(context,intent,ScoreConfirmActivity::class.java.name)
                             }
                             GOODS_STATE_NORMAL -> {
                                 val intent = Intent(context, GoodsConfirmActivity::class.java)
@@ -283,7 +285,7 @@ class GoodsDetailClassifyPop(private val context: Activity, private val listener
                                 goodsCarBeans.goodsInfo.add(bean)
                                 list.add(goodsCarBeans)
                                 intent.putExtra(GoodsConfirm_Intent_shopInfo, Gson().toJson(list))
-                                context.startActivity(intent)
+                                SZWUtils.checkLogin(context,intent,GoodsConfirmActivity::class.java.name)
                             }
                         }
 

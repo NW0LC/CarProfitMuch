@@ -66,7 +66,7 @@ class PayVipActivity : PayActivity(), View.OnClickListener {
             }
         }
         tv_minRecharge.visibility=if (intent.getStringExtra("overDate").isNotEmpty() ) View.VISIBLE else View.GONE
-        tv_minRecharge.text=intent.getStringExtra("overDate")
+        tv_minRecharge.text=String.format(getString(R.string.pay_vip_passTime),intent.getStringExtra("overDate"))
         radioGroup.check(radioGroup.getChildAt(0).id)
         bt_confirm.setOnClickListener(this)
         orderInfo()

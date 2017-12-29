@@ -166,7 +166,7 @@ class CardPackageDetailActivity : BaseActivity(), View.OnClickListener {
                 lay_time.addView(with(lay_time.context) {
 
                     verticalLayout {
-                        textView(getString(R.string.goods_order_orderNum) + ":" + it.orderNum) {
+                        textView(String.format(getString(R.string.goods_order_orderNum),it.orderNum)) {
                             textSize = 14f
                             setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey500))
                         }.lparams { bottomMargin = SizeUtils.dp2px(5f) }

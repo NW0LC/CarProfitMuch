@@ -145,7 +145,7 @@ class ServiceDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickLis
                 val intent = Intent(this, ServiceConfirmActivity::class.java)
                 val ids=serviceGoodsBean?.shopInfo?.shopId+","+serviceGoodsBean?.goodsId+","+serviceGoodsBean?.payMark
                 intent.putExtra(ServiceConfirm_Intent_ids,ids)
-                startActivity(intent)
+                SZWUtils.checkLogin(this,intent, ServiceConfirmActivity::class.java.name)
             }
             tv_service_store_phone -> {
                 DialogUtils.Call(this, serviceGoodsBean?.shopInfo?.shopPhone ?: "")

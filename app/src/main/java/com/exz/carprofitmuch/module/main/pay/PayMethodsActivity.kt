@@ -70,6 +70,7 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
     }
 
     override fun init() {
+        super.init()
         orderId = intent.getStringExtra(Pay_Intent_OrderId) ?: ""
         finishType = intent.getStringExtra(Pay_Intent_Finish_Type) ?: ""
         pwdPop = PwdPop(this) {

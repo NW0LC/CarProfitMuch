@@ -27,7 +27,6 @@ import com.exz.carprofitmuch.widget.MyWebActivity
 import com.google.gson.Gson
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.utils.StatusBarUtil
-import com.umeng.socialize.utils.DeviceConfig.context
 import kotlinx.android.synthetic.main.action_bar_tv.*
 import kotlinx.android.synthetic.main.activity_my_order_detail.*
 import kotlinx.android.synthetic.main.lay_goods_detail_text.view.*
@@ -90,7 +89,7 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
                 msp.setSpan(ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.MaterialGrey700)), 0, scoreConfirmAddressDetail.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                 tv_address.text = msp
                 tv_shop_name.text = it.shopName
-                tv_msg.visibility = if (it.buyerMessage?.isEmpty()==true) View.GONE else View.VISIBLE
+                tv_msg.visibility = if (it.buyerMessage?.isEmpty() == true) View.GONE else View.VISIBLE
                 tv_msg.text = String.format(getString(R.string.goods_confirm_msg) + "%s", it.buyerMessage)
                 tv_order_type.text = GoodsOrderAdapter.getState(it.orderState ?: "")
                 ll_lay1.removeAllViews()
@@ -99,30 +98,30 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
                     lay1.tv_key.width = 1
                     ll_lay1.addView(lay1)
                     lay1.tv_key.text = info.key
-                    if (it.payMark=="1"){
-                        lay1.tv_value.text=String.format("%s${mContext.getString(R.string.SCORE)}",info.value)
-                    }else{
-                        lay1.tv_value.text=String.format(mContext.getString(R.string.CNY)+"%s",info.value)
+                    if (it.payMark == "1") {
+                        lay1.tv_value.text = String.format("%s${mContext.getString(R.string.SCORE)}", info.value)
+                    } else {
+                        lay1.tv_value.text = String.format(mContext.getString(R.string.CNY) + "%s", info.value)
                     }
                 }
                 ll_lay2.removeAllViews()
                 val numberLay = LayoutInflater.from(mContext).inflate(R.layout.lay_goods_detail_text, RelativeLayout(mContext), false)
-                numberLay.tv_key.text=String.format(getString(R.string.goods_order_orderNum),it.orderNum)
+                numberLay.tv_key.text = String.format(getString(R.string.goods_order_orderNum), it.orderNum)
                 ll_lay2.addView(numberLay)
                 for (info in it.dateInfo ?: ArrayList()) {
                     val lay2 = LayoutInflater.from(mContext).inflate(R.layout.lay_goods_detail_text, RelativeLayout(mContext), false)
                     ll_lay2.addView(lay2)
-                    lay2.tv_key.text = String.format(info.key+"：%s",info.value)
+                    lay2.tv_key.text = String.format(info.key + "：%s", info.value)
                 }
-                if (it.payMark=="1"){
-                    tv_goods_total.text =String.format("%s${mContext.getString(R.string.SCORE)}",it.actualMoney)
-                }else{
+                if (it.payMark == "1") {
+                    tv_goods_total.text = String.format("%s${mContext.getString(R.string.SCORE)}", it.actualMoney)
+                } else {
                     tv_goods_total.text = String.format(mContext.getString(R.string.CNY) + "%s", it.actualMoney)
                 }
 
                 adapter.setNewData(it.goodsInfo)
                 adapter.loadMoreEnd()
-                GoodsOrderAdapter.initStateBtn(it.orderState ?: "", false,tv_order_type, tv_left, tv_mid, tv_right)
+                GoodsOrderAdapter.initStateBtn(it.orderState ?: "", false, tv_order_type, tv_left, tv_mid, tv_right)
             }
         }
     }
@@ -139,10 +138,10 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
          */
         when (v.id) {
             R.id.tv_left -> {
-                if (entity.orderState=="3") {
+                if (entity.orderState == "3") {
                     //申请退货
-                    startActivityForResult(Intent(this,RefundActivity::class.java).putExtra(Refund_Intent_OrderId,entity.orderId),100)
-                }else
+                    startActivityForResult(Intent(this, RefundActivity::class.java).putExtra(Refund_Intent_OrderId, entity.orderId), 100)
+                } else
                     com.szw.framelibrary.utils.DialogUtils.Call(this, entity.shopPhone ?: "")
             }
             R.id.tv_mid -> {
@@ -150,7 +149,7 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
                     "1" -> {//取消订单
                         DataCtrlClassXZW.editOrderData(this, entity.orderId ?: "", "0", {
                             if (it != null) {
-                                iniData()
+                                finish()
                             }
                         })
                     }
@@ -167,10 +166,10 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
                         startActivityForResult(Intent(this, PayMethodsActivity::class.java).putExtra(Pay_Intent_OrderId, entity.orderId).putExtra(Pay_Intent_Finish_Type, Intent_Finish_Type_2), 100)
                     }
                     "2" -> {//申请退款
-                        com.exz.carprofitmuch.utils.DialogUtils.refund(this, entity.orderId ?: "", {
+                        com.exz.carprofitmuch.utils.DialogUtils.refund(this, {
                             DataCtrlClassXZW.applyReturnMoney(this, entity.orderId ?: "", it, {
                                 if (it != null) {
-                                    iniData()
+                                    finish()
                                 }
                             })
 
@@ -178,17 +177,17 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
 
                     }
                     "3" -> {//确认收货
-                        DataCtrlClassXZW.editOrderData(this, entity.orderId?:"", "2", {
+                        DataCtrlClassXZW.editOrderData(this, entity.orderId ?: "", "2", {
                             if (it != null) {
-                                iniData()
+                                finish()
                             }
                         })
                     }
                     "4" -> {    //评价订单
-                        GoodsOrderCommentActivity.shopId = entity.shopId?:""
-                        GoodsOrderCommentActivity.orderId = entity.orderId?:""
+                        GoodsOrderCommentActivity.shopId = entity.shopId ?: ""
+                        GoodsOrderCommentActivity.orderId = entity.orderId ?: ""
                         GoodsOrderCommentActivity.json = Gson().toJson(entity.goodsInfo)
-                        startActivityForResult(Intent(context, GoodsOrderCommentActivity::class.java),100)
+                        startActivityForResult(Intent(this, GoodsOrderCommentActivity::class.java), 100)
 
                     }
                     "5", "6" -> {    //删除订单
@@ -207,10 +206,12 @@ class GoodsOrderDetailActivity : BaseActivity(), View.OnClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode== Activity.RESULT_OK) {
-            iniData()
+        if (resultCode == Activity.RESULT_OK) {
+            setResult(Activity.RESULT_OK)
+            finish()
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         orderId = ""

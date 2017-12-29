@@ -28,6 +28,16 @@ public class ReturnGoodsBean implements Serializable {
      */
 
     private String returnOrderId;
+
+    public String getReturnOrderNum() {
+        return returnOrderNum;
+    }
+
+    public void setReturnOrderNum(String returnOrderNum) {
+        this.returnOrderNum = returnOrderNum;
+    }
+
+    private String returnOrderNum;
     private String returnOrderType;
     private String shopId;
     private String shopName;

@@ -151,7 +151,7 @@
                 android:gravity="center"
                 android:drawablePadding="@dimen/margin_5"
                 android:text="价格"
-                android:drawableEnd="@drawable/vector_goods_shop_search_result_price_off"
+                android:drawableEnd="@drawable/vector_goods_shop_price_off"
                 android:textColor="@color/MaterialGrey600"
                 android:textSize="@dimen/text_14" />
 

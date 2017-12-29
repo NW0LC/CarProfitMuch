@@ -44,6 +44,7 @@ class PwdGetCodeActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun init() {
+        super.init()
         phoneNum=PreferencesService.getAccountKey(this)?:""
         ed_phone.setText(SZWUtils.hideMidPhone(phoneNum))
         val l = System.currentTimeMillis()

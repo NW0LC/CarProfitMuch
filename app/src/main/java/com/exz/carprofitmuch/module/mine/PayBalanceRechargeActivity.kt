@@ -43,6 +43,7 @@ class PayBalanceRechargeActivity : PayActivity(), View.OnClickListener {
     }
 
     override fun init() {
+        super.init()
         radioGroup.check(radioGroup.getChildAt(0).id)
         bt_confirm.setOnClickListener(this)
         initView()
@@ -70,7 +71,7 @@ class PayBalanceRechargeActivity : PayActivity(), View.OnClickListener {
             weChatPay(Urls.WeChatRecharge, "rechargeMoney", rechargeMoney,EncryptUtils.encryptMD5ToString(MyApplication.loginUserId , MyApplication.salt).toLowerCase())
     }
 
-    @Subscribe(thread = EventThread.MAIN_THREAD, tags = arrayOf(Tag(Constants.BusAction.Pay_Finish)))
+    @Subscribe(thread = EventThread.MAIN_THREAD, tags = arrayOf(Tag (Constants.BusAction.Pay_Finish)))
     fun PayFinish(tag: String) {
         checkPay()
     }

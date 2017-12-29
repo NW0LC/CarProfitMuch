@@ -45,6 +45,7 @@ class PwdSetActivity : BaseActivity(), OnPasswordInputFinish {
     override fun setInflateId(): Int = R.layout.pwd_activity_set
 
     override fun init() {
+        super.init()
         phoneNum = PreferencesService.getAccountKey(this) ?: ""
         type = if (TextUtils.isEmpty(type)) intent.getStringExtra(PwdSetActivity_Type) else type
         mPasswordView = findViewById(R.id.mPasswordView)

@@ -4,6 +4,7 @@ import android.text.TextUtils
 import android.widget.Toast
 import com.alipay.sdk.app.PayTask
 import com.exz.carprofitmuch.config.Urls
+import com.hwangjr.rxbus.RxBus
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.szw.framelibrary.app.MyApplication
@@ -11,7 +12,6 @@ import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.config.Constants.BusAction.Pay_Finish
 import com.szw.framelibrary.utils.DialogUtils
 import com.szw.framelibrary.utils.PayResult
-import com.szw.framelibrary.utils.RxBus
 import com.szw.framelibrary.utils.net.NetEntity
 import com.szw.framelibrary.utils.net.callback.DialogCallback
 import com.tencent.mm.opensdk.modelpay.PayReq

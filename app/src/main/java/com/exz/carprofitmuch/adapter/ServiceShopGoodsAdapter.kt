@@ -19,8 +19,8 @@ class ServiceShopGoodsAdapter<T : ServiceGoodsBean> : BaseQuickAdapter<T, BaseVi
             itemView.tv_service_goodsPrice.text=String.format("%s"+mContext.getString(R.string.SCORE), item.goodsPrice)
             itemView.tv_service_goodsOldPrice.text=String.format("%s"+mContext.getString(R.string.SCORE), item.oldPrice)
         }else{
-            itemView.tv_service_goodsPrice.text=String.format("%s"+mContext.getString(R.string.CNY), item.goodsPrice)
-            itemView.tv_service_goodsOldPrice.text=String.format("%s"+mContext.getString(R.string.service_goods_oldPrice), item.oldPrice)
+            itemView.tv_service_goodsPrice.text=String.format(mContext.getString(R.string.CNY)+"%s", item.goodsPrice)
+            itemView.tv_service_goodsOldPrice.text=String.format(mContext.getString(R.string.service_goods_oldPrice)+"%s", item.oldPrice)
         }
         itemView.tv_service_goodsOldPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG //中划线
         itemView.tv_service_goodsSoldCount.text=String.format("${mContext.getString(R.string.service_list_serviceGoods_soldCount)}%s", getSoldCount(mContext,item.saleCount))

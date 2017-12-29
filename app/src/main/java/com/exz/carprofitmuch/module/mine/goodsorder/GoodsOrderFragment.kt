@@ -127,7 +127,7 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdapter
                                 startActivityForResult(Intent(context, PayMethodsActivity::class.java).putExtra(Pay_Intent_OrderId, mAdapter.data[position].orderId).putExtra(Pay_Intent_Finish_Type, Intent_Finish_Type_2),100)
                             }
                             "2" -> {//申请退款
-                                com.exz.carprofitmuch.utils.DialogUtils.refund(context, mAdapter.data[position].orderNum, {
+                                com.exz.carprofitmuch.utils.DialogUtils.refund(context,{
                                     DataCtrlClassXZW.applyReturnMoney(context, mAdapter.data[position].orderId, it, {
                                         if (it != null) {
                                             onRefresh(refreshLayout)

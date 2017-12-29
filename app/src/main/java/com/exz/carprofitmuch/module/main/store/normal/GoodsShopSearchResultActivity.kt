@@ -178,7 +178,7 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
                 isPriceUp = false
                 bt_sort1.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
                 bt_sort2.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
-                bt_sort2.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.vector_goods_shop_search_result_price_off), null)
+                bt_sort2.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.vector_goods_shop_price_off), null)
                 bt_sort3.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
                 refreshLayout.autoRefresh()
             }
@@ -188,13 +188,13 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
                     sortType="1"
                     bt_sort1.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
                     bt_sort2.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
-                    bt_sort2.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.vector_goods_shop_search_result_price_up), null)
+                    bt_sort2.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.vector_goods_shop_price_up), null)
                     bt_sort3.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
                 } else {
                     sortType="2"
                     bt_sort1.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
                     bt_sort2.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
-                    bt_sort2.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.vector_goods_shop_search_result_price_down), null)
+                    bt_sort2.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.vector_goods_shop_price_down), null)
                     bt_sort3.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
                 }
                 refreshLayout.autoRefresh()
@@ -204,7 +204,7 @@ class GoodsShopSearchResultActivity : BaseActivity(), OnRefreshListener, View.On
                 isPriceUp = false
                 bt_sort1.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
                 bt_sort2.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
-                bt_sort2.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.vector_goods_shop_search_result_price_off), null)
+                bt_sort2.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.vector_goods_shop_price_off), null)
                 bt_sort3.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
                 refreshLayout.autoRefresh()
             }

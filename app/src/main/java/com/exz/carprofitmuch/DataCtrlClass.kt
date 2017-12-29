@@ -6,8 +6,6 @@ import com.blankj.utilcode.util.EncodeUtils
 import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.FileIOUtils
 import com.blankj.utilcode.util.TimeUtils
-import com.exz.carprofitmuch.R.id.heightPrice
-import com.exz.carprofitmuch.R.id.lowPrice
 import com.exz.carprofitmuch.adapter.GoodsConfirmBean
 import com.exz.carprofitmuch.bean.*
 import com.exz.carprofitmuch.config.Urls
@@ -2034,7 +2032,7 @@ object DataCtrlClass {
         if (!TextUtils.isEmpty(search))
             params.put("search", search)
         if (!TextUtils.isEmpty(filterPopWin.heightPrice)) {
-            params.put("price", if (TextUtils.isEmpty(filterPopWin.lowPrice)) "0" + "," + heightPrice else lowPrice.toString() + "," + heightPrice)
+            params.put("price", if (TextUtils.isEmpty(filterPopWin.lowPrice)) "0" + "," + filterPopWin.heightPrice else filterPopWin.lowPrice + "," + filterPopWin.heightPrice)
         }else if (!TextUtils.isEmpty(filterPopWin.lowPrice)){
              params.put("price", filterPopWin.lowPrice)
         }
