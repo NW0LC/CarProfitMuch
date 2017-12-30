@@ -76,8 +76,8 @@ class PromotionsDetailActivity : BaseActivity(), View.OnClickListener {
 
                     val intent = Intent(this, PromotionsPushActivity::class.java)
                     intent.putExtra(PromotionsDetail_Intent_PromotionId,getIntent().getStringExtra(PromotionsDetail_Intent_PromotionId))
-                    intent.putExtra(PromotionsDetail_Intent_PromotionTitle,getIntent().getStringExtra(promotionsBean?.title))
-                    intent.putExtra(PromotionsDetail_Intent_PromotionUrl,getIntent().getStringExtra(promotionsBean?.contentUrl))
+                    intent.putExtra(PromotionsDetail_Intent_PromotionTitle,promotionsBean?.title)
+                    intent.putExtra(PromotionsDetail_Intent_PromotionUrl,promotionsBean?.contentUrl)
                     startActivityForResult(intent,100)
                 }
             }

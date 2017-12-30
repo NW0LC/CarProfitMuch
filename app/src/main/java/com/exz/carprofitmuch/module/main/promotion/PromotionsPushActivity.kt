@@ -161,13 +161,13 @@ class PromotionsPushActivity : BaseActivity(), View.OnClickListener {
                         finish()
                     } else {
                         val thumb = UMImage(this, FileUtils.getFileByPath(photos[0]))
-                        val web = UMWeb(intent.getStringExtra(PromotionsDetail_Intent_PromotionUrl))
-                        web.title = intent.getStringExtra(PromotionsDetail_Intent_PromotionTitle)//标题
+                        val web = UMWeb(intent.getStringExtra(PromotionsDetail_Intent_PromotionUrl)?:"")
+                        web.title = intent.getStringExtra(PromotionsDetail_Intent_PromotionTitle)?:""//标题
                         web.setThumb(thumb)  //缩略图
                         web.description = ed_content.text.toString()//描述
                         val shareBoardConfig = ShareBoardConfig()
                         shareBoardConfig.setOnDismissListener { finish() }
-                        ShareAction(this).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
+                        ShareAction(this).setDisplayList(SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
                                 .withMedia(web).setCallback(object : UMShareListener {
                             override fun onStart(p0: SHARE_MEDIA?) {
 
