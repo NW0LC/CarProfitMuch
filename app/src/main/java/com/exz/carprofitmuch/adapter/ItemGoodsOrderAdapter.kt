@@ -16,6 +16,7 @@ class ItemGoodsOrderAdapter<T :GoodsBean>: BaseQuickAdapter<T, BaseViewHolder>(R
         itemView.tv_goodsName.text = item.goodsName
         itemView.img.setImageURI(item.imgUrl)
         itemView.tv_goodsType.text=String.format(mContext.getString(R.string.goods_order_goodsType),item.goodsType)
+        itemView.tv_goodsType.visibility=if (item.goodsType.isNotEmpty()) {View.VISIBLE }else View.INVISIBLE
         itemView.tv_goodsCount.text=String.format(mContext.getString(R.string.goods_order_goodsCount),item.goodsCount)
         if (item.goodsPrice.isEmpty()) {
             itemView.tv_goodsPriceText.visibility= View.GONE

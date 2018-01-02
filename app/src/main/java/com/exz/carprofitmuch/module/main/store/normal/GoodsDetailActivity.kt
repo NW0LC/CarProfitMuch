@@ -239,7 +239,7 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
                 }
             }
             bt_favorite -> {//收藏 操作
-                if (goodsBean != null) {
+                if (goodsBean != null&&SZWUtils.checkLogin(this)) {
                     DataCtrlClass.editFavoriteData(this, goodsBean?.goodsId ?: "", "1",
                             if (goodsBean?.isCollected == "1") {
                                 goodsBean?.isCollected = "0"

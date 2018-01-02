@@ -51,7 +51,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
             }
             bt_QR -> {
                 val intent = Intent(this, MyWebActivity::class.java)
-                intent.putExtra(MyWebActivity.Intent_Title, getString(R.string.settings_aboutUs))
+                intent.putExtra(MyWebActivity.Intent_Title, getString(R.string.settings_QR))
                 intent.putExtra(MyWebActivity.Intent_Url, AboutUS)
                 startActivity(intent)
             }

@@ -151,7 +151,7 @@ class GoodsShopActivity : BaseActivity(), OnRefreshListener, View.OnClickListene
                 goodsShopClassifyPop.showPopupWindow()
             }
             bt_goodsShop_favorite -> {
-                if (shopBean != null) {
+                if (shopBean != null&&SZWUtils.checkLogin(this)) {
                     DataCtrlClass.editFavoriteData(this, shopBean?.shopId ?: "", "0",
                             if (shopBean?.isCollected == "1") {
                                 shopBean?.isCollected = "0"

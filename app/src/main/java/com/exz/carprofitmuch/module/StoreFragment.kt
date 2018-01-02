@@ -27,6 +27,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.youth.banner.BannerConfig
+import com.youth.banner.listener.OnBannerListener
 import kotlinx.android.synthetic.main.action_bar_custom.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.header_store.view.*
@@ -37,7 +38,8 @@ import kotlinx.android.synthetic.main.layout_card_main_store_score.view.*
  * on 2017/10/17.
  */
 
-class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener {
+class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, OnBannerListener {
+
 
     private var banners = ArrayList<BannersBean>()
     private var severModel = ArrayList<MainStoreServiceBean>()
@@ -59,6 +61,7 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
     }
 
     override fun initEvent() {
+        headerView.banner.setOnBannerListener(this)
         headerView.bt_type_more_0.setOnClickListener(this)
         headerView.bt_type_more_1.setOnClickListener(this)
         headerView.bt_type_more_2.setOnClickListener(this)
@@ -129,7 +132,10 @@ class StoreFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener 
 
 
     }
-
+    override fun OnBannerClick(position: Int) {
+        if (SZWUtils.checkLogin(this@StoreFragment) && SZWUtils.getIntent(context, banners[position]) != null)
+            startActivity(SZWUtils.getIntent(context, banners[position]))
+    }
     override fun onClick(p0: View?) {
         when (p0) {
             headerView.bt_type_more_0 -> {

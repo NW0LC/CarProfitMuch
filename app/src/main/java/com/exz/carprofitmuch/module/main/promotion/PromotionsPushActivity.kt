@@ -9,7 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.View
-import com.blankj.utilcode.util.FileUtils
+import com.blankj.utilcode.util.ImageUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.exz.carprofitmuch.DataCtrlClass
@@ -160,7 +160,8 @@ class PromotionsPushActivity : BaseActivity(), View.OnClickListener {
                     if (it) {
                         finish()
                     } else {
-                        val thumb = UMImage(this, FileUtils.getFileByPath(photos[0]))
+                        val bitmap = ImageUtils.getBitmap(photos[0].replace("file://",""))
+                        val thumb = UMImage(this, bitmap)
                         val web = UMWeb(intent.getStringExtra(PromotionsDetail_Intent_PromotionUrl)?:"")
                         web.title = intent.getStringExtra(PromotionsDetail_Intent_PromotionTitle)?:""//标题
                         web.setThumb(thumb)  //缩略图

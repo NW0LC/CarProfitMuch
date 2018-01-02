@@ -29,6 +29,11 @@ class GoodsShopClassifyPop(context: Activity) : BasePopupWindow(context) {
     var data = ArrayList<GoodsShopClassifyBean>()
         set(value) {
             field = value
+            if (value.size>0){
+                if (value[0].selfTypeId!="0") {
+                    value.add(0,GoodsShopClassifyBean("0","全部宝贝"))
+                }
+            }
             for (goodsShopClassifyBean in value) {
                 if (shopClassifyId == goodsShopClassifyBean.selfTypeId) {
                     goodsShopClassifyBean.isCheck = true
