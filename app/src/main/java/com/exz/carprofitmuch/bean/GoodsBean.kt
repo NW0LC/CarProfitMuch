@@ -10,6 +10,8 @@ open class GoodsBean : AbsMark(), AbsBanner, Serializable {
     override fun getPayM() = payMark
     override fun getImgUri() = imgUrl
     override fun getMarkId() = goodsId
+    override fun getClassM()=classMark
+    override fun getIdM()=idMark
 //            "goodsId":"商品id"
 //            "payMark":"1",
 //            "goodsName":"商品名称"
@@ -53,7 +55,15 @@ open class GoodsBean : AbsMark(), AbsBanner, Serializable {
             return field
         }
     var goodsId: String = ""  //商品属性
+        get() {
+            if (field.isEmpty()) {
+                field = id
+            }
+            return field
+        }
     var payMark = ""//商品属性
+    var idMark = ""//商品属性
+    var classMark = ""//商品属性
     var goodsName = ""//商品属性
     var goodsPrice: String = ""//商品属性
     var oldPrice = ""//商品属性

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.mylhyl.zxing.scanner.ScannerView
+        android:id="@+id/mScannerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <com.flyco.roundview.RoundFrameLayout
+        android:id="@+id/bt_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="72dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rv_backgroundColor="#1f000000"
+        app:rv_cornerRadius="@dimen/margin_20">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/vector_white_back" />
+    </com.flyco.roundview.RoundFrameLayout>
+    <com.flyco.roundview.RoundFrameLayout
+        android:id="@+id/bt_flash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:layout_marginStart="@dimen/dp_10"
+        app:layout_constraintEnd_toStartOf="@+id/bt_photo"
+        app:layout_constraintStart_toEndOf="@+id/bt_back"
+        app:layout_constraintTop_toTopOf="@+id/bt_back"
+        app:rv_backgroundColor="#1f000000"
+        app:rv_cornerRadius="@dimen/margin_20">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/vector_flash" />
+    </com.flyco.roundview.RoundFrameLayout>
+
+
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/bt_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:paddingBottom="@dimen/margin_5"
+        android:paddingEnd="@dimen/margin_15"
+        android:paddingStart="@dimen/margin_15"
+        android:paddingTop="@dimen/margin_5"
+        android:text="相册"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bt_flash"
+        app:rv_backgroundColor="#1f000000"
+        app:rv_cornerRadius="@dimen/margin_20" />
+</android.support.constraint.ConstraintLayout>

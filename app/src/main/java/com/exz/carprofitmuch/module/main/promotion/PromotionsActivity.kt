@@ -64,10 +64,12 @@ class PromotionsActivity : BaseActivity(), OnRefreshListener, View.OnClickListen
     }
 
     private fun initFilterPop() {
-        sortPop = ServiceListSortPop(this) { title, state, _ ->
+        sortPop = ServiceListSortPop(this) { title, state, position->
             status = state
             radioButton1.text = title
             radioButton2.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
+            radioButton3.setTextColor(ContextCompat.getColor(mContext, R.color.MaterialGrey600))
+            setGaryOrOrange(radioButton1, position==0)
             onRefresh(refreshLayout)
         }
         val sortData = SZWUtils.getPromotionsSortData()

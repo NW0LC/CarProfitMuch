@@ -81,7 +81,7 @@ class FavoriteShopActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter
                     Edit_Type_Edit -> {
                         //跳转
                         val intent = Intent(this@FavoriteShopActivity, GoodsShopActivity::class.java)
-                        intent.putExtra(GoodsShopActivity.GoodsShop_Intent_ShopId, mAdapter.data[position].id)
+                        intent.putExtra(GoodsShopActivity.GoodsShop_Intent_ShopId, mAdapter.data[position].shopId)
                         startActivity(intent)
                     }
                     Edit_Type_Delete -> {
@@ -204,7 +204,7 @@ class FavoriteShopActivity : BaseActivity(), OnRefreshListener, BaseQuickAdapter
             while (iterator.hasNext()) {
                 val temp = iterator.next()
                 for (goodsEntity in goodsEntities) {
-                    if (temp.id == goodsEntity.id) {
+                    if (temp.shopId == goodsEntity.shopId) {
                         val position = adapter.data.indexOf(temp)
                         iterator.remove()
                         if (adapter.data.size <= 0) {

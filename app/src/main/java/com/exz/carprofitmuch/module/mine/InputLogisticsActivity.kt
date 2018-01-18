@@ -1,5 +1,6 @@
 package com.exz.carprofitmuch.module.mine
 
+import android.app.Activity
 import android.text.TextUtils
 import android.view.View
 import com.exz.carprofitmuch.DataCtrlClassXZW
@@ -52,6 +53,7 @@ class InputLogisticsActivity : BaseActivity(), View.OnClickListener {
 
                 DataCtrlClassXZW.submitLogisticsCompanyData(mContext, intent.getStringExtra(InputLogistics_Intent_OrderId), logisticsName, logisticsNum, {
                     if (it != null) {
+                        setResult(Activity.RESULT_OK)
                         finish()
                     }
                 })

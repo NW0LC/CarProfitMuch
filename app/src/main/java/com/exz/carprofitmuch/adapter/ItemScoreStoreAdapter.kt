@@ -1,6 +1,5 @@
 package com.exz.carprofitmuch.adapter
 
-import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.SizeUtils
@@ -8,8 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.exz.carprofitmuch.R
 import com.exz.carprofitmuch.bean.GoodsBean
-import com.exz.carprofitmuch.module.main.store.normal.GoodsDetailActivity.Companion.GoodsDetail_Intent_GoodsId
-import com.exz.carprofitmuch.module.main.store.score.ScoreGoodsDetailActivity
+import com.exz.carprofitmuch.utils.SZWUtils
 import kotlinx.android.synthetic.main.item_item_score_store.view.*
 import java.util.*
 
@@ -31,9 +29,10 @@ class ItemScoreStoreAdapter<T : GoodsBean> : BaseQuickAdapter<T, BaseViewHolder>
         layoutParams.bottomMargin=SizeUtils.dp2px(5f)
         itemView.layoutParams= layoutParams
         itemView.setOnClickListener{
-            val intent = Intent(mContext, ScoreGoodsDetailActivity::class.java)
-            intent.putExtra(GoodsDetail_Intent_GoodsId,item.id)
-            mContext.startActivity(intent)
+            item.idMark="1"
+            item.payMark="1"
+            if (SZWUtils.getMarkIntent( mContext, item) != null)
+                mContext.startActivity(SZWUtils.getMarkIntent(mContext, item))
         }
     }
 }

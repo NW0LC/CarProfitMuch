@@ -2,6 +2,7 @@ package com.exz.carprofitmuch.module
 
 import android.content.Intent
 import android.support.v4.app.Fragment
+import android.view.KeyEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
@@ -112,5 +113,16 @@ class MainActivity : BaseActivity() {
     }
     companion object {
         var locationEntity: LocationBean? = null
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.addCategory(Intent.CATEGORY_HOME)
+            startActivity(intent)
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }

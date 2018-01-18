@@ -1,6 +1,7 @@
 package com.exz.carprofitmuch.module.mine.returngoods
 
 import android.app.Activity
+import android.content.Intent
 import android.view.View
 import android.widget.TextView
 import com.exz.carprofitmuch.R
@@ -59,6 +60,14 @@ class ReturnGoodsDetailActivity : BaseActivity(), View.OnClickListener {
             finish()
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode==RESULT_OK){
+            setResult(Activity.RESULT_OK)
+            finish()
+        }
     }
 
     companion object {

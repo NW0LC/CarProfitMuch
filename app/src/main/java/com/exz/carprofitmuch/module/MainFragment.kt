@@ -5,7 +5,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -26,14 +28,17 @@ import com.exz.carprofitmuch.module.main.insurance.InsuranceActivity
 import com.exz.carprofitmuch.module.main.map.MapPinActivity
 import com.exz.carprofitmuch.module.main.promotion.PromotionsActivity
 import com.exz.carprofitmuch.module.main.store.score.ScoreStoreActivity
+import com.exz.carprofitmuch.scanner.ScannerActivity
 import com.exz.carprofitmuch.service.LocationService
 import com.exz.carprofitmuch.utils.SZWUtils
 import com.exz.carprofitmuch.widget.MyWebActivity
 import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Title
 import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Url
 import com.facebook.drawee.view.SimpleDraweeView
+import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
+import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.base.MyBaseFragment
@@ -52,7 +57,7 @@ import org.jetbrains.anko.textColor
  * on 2017/10/17.
  */
 
-class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, OnBannerListener {
+class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, OnBannerListener, Toolbar.OnMenuItemClickListener {
 
 
     private var mScrollY = 0
@@ -102,6 +107,16 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         mAdapter.bindToRecyclerView(mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
 
+
+        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
+            override fun onHeaderPulling(header: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
+                toolbar.alpha = 1 - Math.min(percent, 1f)
+            }
+
+            override fun onHeaderReleasing(header: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
+                toolbar.alpha = 1 - Math.min(percent, 1f)
+            }
+        })
         mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             private val h = DensityUtil.dp2px(170f)
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -109,7 +124,9 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 mScrollY += dy
                 if (mScrollY < h) {
                     buttonBarLayout.alpha = 1f * mScrollY / h
-                    blurView.alpha = 1f * mScrollY / h
+//                    blurView.alpha = 1f * mScrollY / h
+                    blurView.setBlurRadius((1f * mScrollY / h) * 10)
+                    blurView.setOverlayColor(Color.argb(((1f * mScrollY / h) * 204).toInt(), 252, 133, 23))
                 }
 
             }
@@ -128,13 +145,25 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
     private fun initBar() {
         toolbar.navigationIcon = null
+        blurView.setBlurRadius(0f)
         buttonBarLayout.alpha = 0f
-        blurView.alpha = 0f
+        blurView.setOverlayColor(Color.argb(0, 252, 133, 23))
         mTitle.text = getString(R.string.app_name)
         //状态栏透明和间距处理
         StatusBarUtil.immersive(activity)
         StatusBarUtil.setPaddingSmart(activity, toolbar)
         StatusBarUtil.setPaddingSmart(activity, blurView)
+
+        toolbar.inflateMenu(R.menu.menu_main)
+        val actionView = toolbar.menu.getItem(0).actionView
+        actionView.setOnClickListener {
+            (activity as BaseActivity).PermissionCameraWithCheck(Intent(context, ScannerActivity::class.java), false)
+        }
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+
+        return false
     }
 
     private fun initHeaderAndFooter() {
@@ -187,7 +216,7 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 startActivity(Intent(context, AdsActivity::class.java))
             }
             headerView.bt_tab_4 -> {//宝藏领取
-                val intent = Intent(context,MapPinActivity::class.java).putExtra("className", context.getString(R.string.main_treasure_get))
+                val intent = Intent(context, MapPinActivity::class.java).putExtra("className", context.getString(R.string.main_treasure_get))
                 SZWUtils.checkLogin(this, intent, MapPinActivity::class.java.name)
             }
             headerView.bt_tab_5 -> {//红包领取
@@ -195,13 +224,13 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 SZWUtils.checkLogin(this, intent, MapPinActivity::class.java.name)
             }
             headerView.bt_tab_6 -> {//商家活动
-                if (MainActivity.locationEntity==null) {
+                if (MainActivity.locationEntity == null) {
                     toast("定位中，请允许获取定位权限")
-                    (activity as BaseActivity).PermissionLocationWithCheck(Intent(context, LocationService::class.java),true)
-                }else{
+                    (activity as BaseActivity).PermissionLocationWithCheck(Intent(context, LocationService::class.java), true)
+                } else {
                     val intent = Intent(context, PromotionsActivity::class.java)
-                SZWUtils.checkLogin(this,intent,clazzName = PromotionsActivity::class.java.name)
-            }
+                    SZWUtils.checkLogin(this, intent, clazzName = PromotionsActivity::class.java.name)
+                }
             }
             headerView.bt_more_hot_recommend -> {
                 (activity as MainActivity).mainTabBar.currentTab = 1

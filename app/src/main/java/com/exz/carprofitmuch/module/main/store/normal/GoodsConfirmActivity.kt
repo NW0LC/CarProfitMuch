@@ -18,7 +18,7 @@ import com.exz.carprofitmuch.adapter.GoodsConfirmBean
 import com.exz.carprofitmuch.bean.AddressBean
 import com.exz.carprofitmuch.bean.GoodsConfirmSubBean
 import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity
-import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Intent_Finish_Type_1
+import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Intent_Finish_Type_2
 import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Pay_Intent_Finish_Type
 import com.exz.carprofitmuch.module.main.pay.PayMethodsActivity.Companion.Pay_Intent_OrderId
 import com.exz.carprofitmuch.module.mine.address.AddressAddOrUpdateActivity
@@ -280,7 +280,7 @@ class GoodsConfirmActivity : BaseActivity(), View.OnClickListener, CompoundButto
                             //跳转支付
                             val intent = Intent(this, PayMethodsActivity::class.java)
                             intent.putExtra(Pay_Intent_OrderId, it)
-                            intent.putExtra(Pay_Intent_Finish_Type, Intent_Finish_Type_1)
+                            intent.putExtra(Pay_Intent_Finish_Type, Intent_Finish_Type_2)
                             startActivity(intent)
                         }
                         finish()

@@ -1,6 +1,5 @@
 package com.exz.carprofitmuch.module.mine.returngoods
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -84,12 +83,12 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 val intent = Intent(context, ReturnGoodsDetailActivity::class.java)
                 intent.putExtra(ReturnGoodsDetail_Intent_orderData,mAdapter.data[position])
-                startActivity(intent)
+                startActivityForResult(intent,100)
             }
 
             override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View, position: Int) {
                 val entity = mAdapter.data[position]
-                ReturnGoodsAdapter.setOnClick(activity,view.id,entity){
+                ReturnGoodsAdapter.setOnClick(activity, view.id ,entity){
                     onRefresh(refreshLayout)
                 }
             }
@@ -134,11 +133,9 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode== Activity.RESULT_OK) {
-            onRefresh(refreshLayout)
-        }
+    override fun onResume() {
+        super.onResume()
+        onRefresh(refreshLayout)
     }
     companion object {
         private const val COMMENT_TYPE = "type"

@@ -59,8 +59,8 @@ class OpenShopAddressActivity : BaseActivity() {
         entity = (intent.getSerializableExtra("location") as OpenShopLocationBean)
         ed_address.setText(entity.address)
         ed_address.setSelection(entity.address.length)
-        ed_address.setText("剩余" + (40 - entity.address.length) + "/" + 40)
-        if (!TextUtils.isEmpty(entity.latitude) && !TextUtils.isEmpty(entity.longitude)) tv_address.setText("已添加")
+        tv_length.text = "剩余" + (40 - entity.address.length) + "/" + 40
+        if (!TextUtils.isEmpty(entity.latitude) && !TextUtils.isEmpty(entity.longitude)) tv_address.text = "已添加"
         if (entity.addressCheck.equals("0")) {
             ed_address.textColor = ContextCompat.getColor(mContext, R.color.Red)
         }
@@ -76,7 +76,7 @@ class OpenShopAddressActivity : BaseActivity() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                tv_length.setText("剩余" + (40 - p0.toString().trim().length) + "/" + 40)
+                tv_length.text = "剩余" + (40 - p0.toString().trim().length) + "/" + 40
                 ed_address.textColor = ContextCompat.getColor(mContext, R.color.MaterialGrey800)
                 entity.addressCheck="1"
             }
@@ -131,12 +131,12 @@ class OpenShopAddressActivity : BaseActivity() {
 
                     var url = data.getStringExtra("url")
                     try {
-                        val decode = URLDecoder.decode(url, "UTF-8");
-                        val uri = Uri.parse(decode);
-                        val latng = uri.getQueryParameter("latng");//纬度在前，经度在后，以逗号分隔
-                        val split = latng.split(",");
-                        mNewLat = split[0];//纬度
-                        mNewLon = split[1];//经度
+                        val decode = URLDecoder.decode(url, "UTF-8")
+                        val uri = Uri.parse(decode)
+                        val latng = uri.getQueryParameter("latng")//纬度在前，经度在后，以逗号分隔
+                        val split = latng.split(",")
+                        mNewLat = split[0]//纬度
+                        mNewLon = split[1]//经度
 //                    var mNewAddress = uri.getQueryParameter("addr");
                         tv_address.text = "已添加"
                         entity.latitudeCheck="1"

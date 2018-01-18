@@ -105,6 +105,7 @@ class ServiceConfirmActivity : BaseActivity(), View.OnClickListener, CompoundBut
         bt_confirm.setOnClickListener(this)
         count.setOnClickListener(this)
         bt_coupon.setOnClickListener(this)
+        accumulatePoints.setOnCheckedChangeListener(this)
     }
 
     private fun initPop() {
@@ -142,7 +143,7 @@ class ServiceConfirmActivity : BaseActivity(), View.OnClickListener, CompoundBut
 
         //减去积分对应的金额
         totalPrice -= if (data?.scoreInfo?.isSelect == true) (data.scoreInfo?.money ?: "0").toDouble() else 0.toDouble()
-        data?.scores = if (data?.scoreInfo?.isSelect == true) (data.scoreInfo?.money ?: "0").toDouble() else 0.toDouble()
+        data?.scores = if (data?.scoreInfo?.isSelect == true) (data.scoreInfo?.scores ?: "0").toDouble() else 0.toDouble()
 
         //避免负数
         totalPrice = if (totalPrice < 0) 0.toDouble() else totalPrice

@@ -18,7 +18,11 @@ public class BannerImageLoader extends ImageLoader {
           切记不要胡乱强转！
          */
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        GlideApp.with(context).load(((AbsBanner) path).getImgUri()).into(imageView);
+        try {
+            GlideApp.with(context).load(((AbsBanner) path).getImgUri()).into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     //提供createImageView 方法，如果不用可以不重写这个方法，主要是方便自定义ImageView的创建

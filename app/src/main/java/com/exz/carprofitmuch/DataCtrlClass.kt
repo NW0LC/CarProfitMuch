@@ -830,7 +830,8 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
+
+        params.put("userId",if (!MyApplication.checkUserLogin())"0" else MyApplication.loginUserId)
         params.put("shopId", shopId)
         params.put("requestCheck", EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase())
         OkGo.post<NetEntity<ServiceShopBean>>(Urls.VirtuallyShopMain)

@@ -67,6 +67,7 @@ dependencies {
     kapt "io.objectbox:objectbox-processor:$objectboxVersion"
     //这里没有指定版本号，用户也可以指定 4.0.3.2 之后的地图 sdk 版本号
 //    compile 'com.tencent.map:tencent-map-vector-sdk:+'
+    compile 'com.mylhyl:zxingscanner:2.1.0'
 }
 repositories {
     mavenCentral()

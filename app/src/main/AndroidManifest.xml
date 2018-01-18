@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.exz.carprofitmuch">
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -170,6 +171,10 @@
         <activity android:name=".module.mine.MsgActivity"/>
         <!--车险-->
         <activity android:name=".module.main.insurance.InsuranceActivity"/>
+        <!--Q-->
+        <activity android:name=".scanner.ScannerActivity"/>
+        <!--Q-->
+        <activity android:name=".module.mine.PayQRActivity"/>
 
 
 
@@ -416,6 +421,8 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".module.LoginActivity" />
+
         <meta-data
             tools:replace="android:value"
             android:name="UMENG_APPKEY"
