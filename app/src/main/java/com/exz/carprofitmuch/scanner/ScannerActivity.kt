@@ -1,10 +1,12 @@
 package com.exz.carprofitmuch.scanner
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Handler
 import android.util.TypedValue
 import com.exz.carprofitmuch.R
+import com.exz.carprofitmuch.config.Urls
 import com.exz.carprofitmuch.module.mine.PayQRActivity
 import com.google.zxing.Result
 import com.google.zxing.client.result.ParsedResult
@@ -21,8 +23,6 @@ import com.szw.framelibrary.utils.DialogUtils
 import com.szw.framelibrary.utils.StatusBarUtil
 import kotlinx.android.synthetic.main.activity_scanner.*
 import org.jetbrains.anko.toast
-
-
 
 
 /**
@@ -82,17 +82,23 @@ class ScannerActivity: BaseActivity(), OnScannerCompletionListener {
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) { //图片选择
             val images = data?.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS) as ArrayList<*>
             QRDecode.decodeQR((images[0] as ImageItem).path,this)
-        }
+        }else if (resultCode== Activity.RESULT_OK)
+            finish()
     }
 
     override fun onScannerCompletion(rawResult: Result?, parsedResult: ParsedResult?, barcode: Bitmap?) {
         val type = parsedResult?.type
         when (type) {
 
-            ParsedResultType.TEXT -> {
-                toast(rawResult?.text?:"")
+            ParsedResultType.TEXT,ParsedResultType.URI -> {
+//                toast(rawResult?.text?:"")
                 if (rawResult?.text?.isNotEmpty()==true){
-                    Handler().postDelayed({startActivityForResult(Intent(this, PayQRActivity::class.java),100)},1000)
+                    if (rawResult.text.contains(Urls.url)){
+                        Handler().postDelayed({startActivityForResult(Intent(this, PayQRActivity::class.java).putExtra("QRCode",rawResult.text?.split("?")?.get(1)),100)},1000)
+                    }else{
+                        toast(rawResult.text.toString())
+                        mScannerView.restartPreviewAfterDelay(1000)
+                    }
                 }else{
                     DialogUtils.Warning(this,"识别二维码失败！")
                 }

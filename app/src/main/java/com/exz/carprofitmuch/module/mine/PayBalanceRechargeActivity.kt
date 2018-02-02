@@ -64,11 +64,12 @@ class PayBalanceRechargeActivity : PayActivity(), View.OnClickListener {
             mContext.toast("最低充值额度"+intent.getStringExtra(PayBalanceRecharge_Intent_MinRecharge))
             return
         }
-
+        val params=HashMap<String,String>()
+        params["rechargeMoney"] = rechargeMoney
         if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(0).id)
-            aliPay(Urls.AliRecharge, "rechargeMoney", rechargeMoney,EncryptUtils.encryptMD5ToString(MyApplication.loginUserId , MyApplication.salt).toLowerCase())
+            aliPay(Urls.AliRecharge,params,EncryptUtils.encryptMD5ToString(MyApplication.loginUserId , MyApplication.salt).toLowerCase())
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(1).id)
-            weChatPay(Urls.WeChatRecharge, "rechargeMoney", rechargeMoney,EncryptUtils.encryptMD5ToString(MyApplication.loginUserId , MyApplication.salt).toLowerCase())
+            weChatPay(Urls.WeChatRecharge, params,EncryptUtils.encryptMD5ToString(MyApplication.loginUserId , MyApplication.salt).toLowerCase())
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = arrayOf(Tag (Constants.BusAction.Pay_Finish)))

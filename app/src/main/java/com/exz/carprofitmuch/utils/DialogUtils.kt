@@ -24,6 +24,18 @@ import org.jetbrains.anko.toast
  */
 object DialogUtils {
     private lateinit var dialog: ICommonDialog
+    fun WarningWithListener(context: Context, str: String, listener: ()->Unit) {
+        dialog = CommonDialogFactory.createDialogByType(context, DialogUtil.DIALOG_TYPE_4)
+        dialog.setTitleText(if (TextUtils.isEmpty(str)) "空空如也" else str)
+        dialog.setOkBtn("确定") {
+            dialog.dismiss()
+        }
+        dialog.setOnDismissListener{
+            listener.invoke()
+        }
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.show()
+    }
     /**
      * 清除提醒
      */

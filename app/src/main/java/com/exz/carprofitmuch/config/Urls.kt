@@ -293,6 +293,27 @@ object Urls{
      */
     val ClearDeleteGoods=url+"App/ShopCar/Reality/ClearDeleteGoods.aspx"
 
+    /**
+     * 支付宝线下向店铺支付
+     */
+    val QRAliPay=url+"App/QR/AliPay/Signature.aspx"
+    /**
+     * 微信线下向店铺支付
+     */
+    val QRWeChatPay=url+"App/QR/WeChatPay/Signature.aspx"
+    /**
+     * 支付状态 (第三方支付服务器端验证）
+     */
+    val QRPayCheck=url+"App/QR/PayCheck.aspx"
+    /**
+     * 余额线下向店铺支付
+     */
+    val QRBalancePay=url+"App/QR/BalancePay.aspx"
+    /**
+     * 线下向店铺支付记录
+     */
+    val QRLineRecord=url+"App/QR/LineRecord.aspx"
+
 
 
 
@@ -606,6 +627,10 @@ object Urls{
      * 新增收货地址（当用户添加地址时，后台判断该用户是否有其他地址，若没有，将该地址设为默认地址）
      */
     var ModifyAddress = url + "App/Address/Modify.aspx"
+    /*
+     * 新增收货地址（当用户添加地址时，后台判断该用户是否有其他地址，若没有，将该地址设为默认地址）
+     */
+    var ShopInfo = url + "App/QR/ShopInfo.aspx"
 
 
 

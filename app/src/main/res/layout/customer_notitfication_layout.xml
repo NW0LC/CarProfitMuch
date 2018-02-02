@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rl"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingTop="10dp"
+                android:paddingBottom="@dimen/dp_10"
+                android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:background="@mipmap/ic_launcher"
+        android:fitsSystemWindows="true" >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/NotificationTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toEndOf="@id/icon"
+        android:text="集卡专车"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/text"
+        style="@style/NotificationText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/icon"
+        android:maxLines="3"
+        android:textSize="12sp" />
+
+</RelativeLayout>

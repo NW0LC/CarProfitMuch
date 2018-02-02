@@ -87,10 +87,12 @@ class PayMethodsActivity : PayActivity(), View.OnClickListener {
     }
 
     override fun onClick(p0: View?) {
+        val params=HashMap<String,String>()
+        params["orderId"] = orderId
         if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(0).id)
-            aliPay(AliPay, "orderId", orderId, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+            aliPay(AliPay, params, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(1).id)
-            weChatPay(WeChatPay, "orderId", orderId, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+            weChatPay(WeChatPay, params, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(2).id) {
             if (canBalancePay)
                 checkHavePayPwd()

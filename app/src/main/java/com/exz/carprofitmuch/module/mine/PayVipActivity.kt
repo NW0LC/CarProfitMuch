@@ -74,10 +74,12 @@ class PayVipActivity : PayActivity(), View.OnClickListener {
     }
 
     override fun onClick(p0: View?) {
+        val params=HashMap<String,String>()
+        params["vipPrice"] = rechargePrice
         if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(0).id)
-            aliPay(VipAliPay, "vipPrice", rechargePrice, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+            aliPay(VipAliPay, params, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(1).id)
-            weChatPay(VipWeChatPay, "vipPrice", rechargePrice, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+            weChatPay(VipWeChatPay, params, EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(2).id) {
             if (canBalancePay)
                 checkHavePayPwd()
@@ -94,8 +96,8 @@ class PayVipActivity : PayActivity(), View.OnClickListener {
 //        requestCheck	string	必填	验证请求
 
         val map = HashMap<String, String>()
-        map.put("userId", MyApplication.loginUserId)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase())
+        map["userId"] = MyApplication.loginUserId
+        map["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, MyApplication.salt).toLowerCase()
         OkGo.post<NetEntity<String>>(VipSignature).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<String>>(this) {
@@ -137,10 +139,10 @@ class PayVipActivity : PayActivity(), View.OnClickListener {
 //                requestCheck	string	必填	验证请求
 
         val map = HashMap<String, String>()
-        map.put("userId", MyApplication.loginUserId)
+        map["userId"] = MyApplication.loginUserId
         val nowMills = TimeUtils.getNowMills().toString()
-        map.put("timestamp", nowMills)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + nowMills, MyApplication.salt).toLowerCase())
+        map["timestamp"] = nowMills
+        map["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + nowMills, MyApplication.salt).toLowerCase()
         OkGo.post<NetEntity<String>>(IsSetPayPwd).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<String>>(this) {
@@ -170,10 +172,10 @@ class PayVipActivity : PayActivity(), View.OnClickListener {
 
 
         val map = HashMap<String, String>()
-        map.put("userId", MyApplication.loginUserId)
-        map.put("payPwd", payPwd)
-        map.put("vipPrice", rechargePrice)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + payPwd, MyApplication.salt).toLowerCase())
+        map["userId"] = MyApplication.loginUserId
+        map["payPwd"] = payPwd
+        map["vipPrice"] = rechargePrice
+        map["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + payPwd, MyApplication.salt).toLowerCase()
         OkGo.post<NetEntity<CheckPayBean>>(VipBalancePay).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<CheckPayBean>>(this) {
@@ -203,9 +205,9 @@ class PayVipActivity : PayActivity(), View.OnClickListener {
             return
         }
         val map = HashMap<String, String>()
-        map.put("userId", MyApplication.loginUserId)
-        map.put("vipOrderId", vipOrderId)
-        map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + vipOrderId, MyApplication.salt).toLowerCase())
+        map["userId"] = MyApplication.loginUserId
+        map["vipOrderId"] = vipOrderId
+        map["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + vipOrderId, MyApplication.salt).toLowerCase()
         OkGo.post<NetEntity<CheckPayBean>>(VipPayState).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<CheckPayBean>>(this) {

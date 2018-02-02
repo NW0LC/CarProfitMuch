@@ -73,10 +73,12 @@ class PayServiceActivity : PayActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         startActivity(Intent(this,ServicePayResultActivity::class.java))
+        val params=HashMap<String,String>()
+        params["rechargeId"] = rechargeId
         if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(0).id)
-            aliPay("", "rechargeId", "","")
+            aliPay("", params,"")
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(2).id)
-            weChatPay("", "rechargeId", "","")
+            weChatPay("", params,"")
         else if (radioGroup.checkedRadioButtonId == radioGroup.getChildAt(4).id) {
             if (canBalancePay)
                 checkHavePayPwd()

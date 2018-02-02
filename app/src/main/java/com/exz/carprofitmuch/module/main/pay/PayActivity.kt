@@ -33,6 +33,7 @@ abstract class PayActivity : BaseActivity() {
     //    }
     protected var rechargeId = ""
     protected var vipOrderId = ""
+    protected var payId = ""
     private val isWXAppInstalledAndSupported: Boolean
         get() {
             val msgApi = WXAPIFactory.createWXAPI(this, null)
@@ -44,11 +45,11 @@ abstract class PayActivity : BaseActivity() {
         msgApi= WXAPIFactory.createWXAPI(mContext, null)
     }
     // 微信支付
-    protected fun weChatPay(url: String, key: String, value: String,requestCheck:String) {
+    protected fun weChatPay(url: String,params: HashMap<String, String>,requestCheck:String) {
         val map = HashMap<String, String>()
-        map.put("userId", MyApplication.loginUserId)
-        map.put(key, value)
-        map.put("requestCheck", requestCheck)
+        map["userId"] = MyApplication.loginUserId
+        map.putAll(params)
+        map["requestCheck"] = requestCheck
         OkGo.post<NetEntity<WxBean>>(url).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<WxBean>>(this) {
@@ -56,6 +57,7 @@ abstract class PayActivity : BaseActivity() {
                     override fun onSuccess(response: Response<NetEntity<WxBean>>) {
                         if (response.body().data != null) {
 
+                            payId = response.body().data?.payId?:""
                             rechargeId = response.body().data?.rechargeId?:""
                             vipOrderId = response.body().data?.vipOrderId?:""
                             val req = PayReq()
@@ -79,20 +81,21 @@ abstract class PayActivity : BaseActivity() {
     }
 
     // 支付宝支付
-    protected fun aliPay(url: String, key: String, value: String,requestCheck:String) {
+    protected fun aliPay(url: String, params: HashMap<String, String>, requestCheck:String) {
         //        userId	string	必填	会员id
         //        buyCardRecordId	string	必填	会员购买卡种记录id
         //        requestCheck	string	必填	验证请求
         val map = HashMap<String, String>()
-        map.put("userId", MyApplication.loginUserId)
-        map.put(key, value)
-        map.put("requestCheck", requestCheck)
+        map["userId"] = MyApplication.loginUserId
+        map.putAll(params)
+        map["requestCheck"] = requestCheck
         OkGo.post<NetEntity<AliBean>>(url).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<AliBean>>(this) {
                     override fun onSuccess(response: Response<NetEntity<AliBean>>) {
 
                         if (response.body().data!= null) {
+                            payId = response.body().data?.payId?:""
                             rechargeId = response.body().data?.rechargeId?:""
                             vipOrderId = response.body().data?.vipOrderId?:""
                             pay(response.body().data?.payDescription, response.body().data?.sign)
@@ -167,6 +170,7 @@ abstract class PayActivity : BaseActivity() {
 
         var appId: String = ""
         var partnerId: String = ""
+        var payId: String = ""
         var rechargeId: String = ""
         var vipOrderId: String = ""
         var prepayId: String = ""
@@ -188,5 +192,6 @@ abstract class PayActivity : BaseActivity() {
         var sign: String = ""
         var rechargeId: String = ""
         var vipOrderId: String = ""
+        var payId: String = ""
     }
 }

@@ -177,6 +177,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         bt_applyFor_openShop.setOnClickListener(this)
         bt_guarantee_slip.setOnClickListener(this)
         bt_vip_recharge.setOnClickListener(this)
+        bt_offLine.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -249,6 +250,9 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             }
             bt_guarantee_slip -> {//我的保单
                 startActivity(Intent(context, MyPolicyActivity::class.java))
+            }
+            bt_offLine -> {//线下支付列表
+                startActivity(Intent(context, OffLinePayListActivity::class.java))
             }
 
         }

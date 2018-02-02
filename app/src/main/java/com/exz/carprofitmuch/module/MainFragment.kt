@@ -5,9 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -57,7 +55,7 @@ import org.jetbrains.anko.textColor
  * on 2017/10/17.
  */
 
-class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, OnBannerListener, Toolbar.OnMenuItemClickListener {
+class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, OnBannerListener {
 
 
     private var mScrollY = 0
@@ -146,8 +144,8 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
     private fun initBar() {
         toolbar.navigationIcon = null
         blurView.setBlurRadius(0f)
-        buttonBarLayout.alpha = 0f
         blurView.setOverlayColor(Color.argb(0, 252, 133, 23))
+        buttonBarLayout.alpha = 0f
         mTitle.text = getString(R.string.app_name)
         //状态栏透明和间距处理
         StatusBarUtil.immersive(activity)
@@ -160,12 +158,6 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             (activity as BaseActivity).PermissionCameraWithCheck(Intent(context, ScannerActivity::class.java), false)
         }
     }
-
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-
-        return false
-    }
-
     private fun initHeaderAndFooter() {
         headerView.banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
         //设置图片加载器

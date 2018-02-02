@@ -42,9 +42,9 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("phone", phone)
-        params.put("purpose", purpose)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(phone + MyApplication.salt).toLowerCase())
+        params["phone"] = phone
+        params["purpose"] = purpose
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(phone + MyApplication.salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.VerifyCode)
                 .params(params)
                 .tag(this)
@@ -72,11 +72,11 @@ object DataCtrlClass {
     fun login(context: Context, mobile: String, pwd: String, listener: (userId: String?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("phone", mobile)
-        params.put("pwd", pwd)
-        params.put("deviceType", "1")
+        params["phone"] = mobile
+        params["pwd"] = pwd
+        params["deviceType"] = "1"
 //      params.put("jpushToken", JPushInterface.getRegistrationID(this))
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(mobile+pwd, salt).toLowerCase())
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(mobile+pwd, salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.Login)
                 .params(params)
                 .tag(this)
@@ -103,11 +103,11 @@ object DataCtrlClass {
     fun loginNoDialog(mobile: String, pwd: String,listener: (userId: String?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("phone", mobile)
-        params.put("pwd", pwd)
-        params.put("deviceType", "1")
+        params["phone"] = mobile
+        params["pwd"] = pwd
+        params["deviceType"] = "1"
 //      params.put("jpushToken", JPushInterface.getRegistrationID(this))
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(mobile+pwd, salt).toLowerCase())
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(mobile+pwd, salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.Login)
                 .params(params)
                 .tag(this)
@@ -147,14 +147,14 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求 "手机号+验证码+秘钥"的 MD5加密
 
         val params = HashMap<String, String>()
-        params.put("phone", phone)
-        params.put("code", code)
-        params.put("pwd", pwd)
-        params.put("wechat", wechat)
-        params.put("putPhone", invitePhone)
-        params.put("deviceType", "1")
+        params["phone"] = phone
+        params["code"] = code
+        params["pwd"] = pwd
+        params["wechat"] = wechat
+        params["putPhone"] = invitePhone
+        params["deviceType"] = "1"
 //        params.put("jpushToken", JPushInterface.getRegistrationID(this))
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(phone + code, salt).toLowerCase())
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(phone + code, salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.Register)
                 .params(params)
                 .tag(this)
@@ -185,10 +185,10 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("phone", mobile)
-        params.put("code", code)
-        params.put("pwd", pwd)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(mobile + code, salt).toLowerCase())
+        params["phone"] = mobile
+        params["code"] = code
+        params["pwd"] = pwd
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(mobile + code, salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.ForgetPwd)
                 .params(params)
                 .tag(this)
@@ -217,8 +217,8 @@ object DataCtrlClass {
 //        type	string	必填	位置
 
         val params = HashMap<String, String>()
-        params.put("type", type)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(type, salt).toLowerCase())
+        params["type"] = type
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(type, salt).toLowerCase()
         OkGo.post<NetEntity<ArrayList< BannersBean>>>(Urls.HomeBanner)
                 .params(params)
                 .tag(this)
@@ -244,7 +244,7 @@ object DataCtrlClass {
     fun mainRecommendData(context: Context, listener: (mainBean: ArrayList<MainRecommendBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("Recommend", salt).toLowerCase())
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString("Recommend", salt).toLowerCase()
         OkGo.post<NetEntity<ArrayList<MainRecommendBean>>>(Urls.HomeRecommend)
                 .params(params)
                 .tag(this)
@@ -270,7 +270,7 @@ object DataCtrlClass {
     fun mainNewsData(context: Context, listener: (informationBeans: ArrayList<InformationBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("HotNews", salt).toLowerCase())
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString("HotNews", salt).toLowerCase()
         OkGo.post<NetEntity<ArrayList<InformationBean>>>(Urls.HomeHotNews)
                 .params(params)
                 .tag(this)
@@ -296,8 +296,8 @@ object DataCtrlClass {
     fun mainNewsListData(context: Context,currentPage: Int, listener: (informationBeans: ArrayList<InformationBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase())
+        params["page"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase()
         OkGo.post<NetEntity<ArrayList<InformationBean>>>(Urls.HomeNewsList)
                 .params(params)
                 .tag(this)
@@ -323,9 +323,9 @@ object DataCtrlClass {
     fun mineMsgData(context: Context,currentPage: Int, listener: (informationBeans: ArrayList<MsgBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["page"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<ArrayList<MsgBean>>>(Urls.Message)
                 .params(params)
                 .tag(this)
@@ -352,7 +352,7 @@ object DataCtrlClass {
     fun mainStoreData(context: Context, listener: (mainStoreBean: MainStoreBean?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("StoreHome", salt).toLowerCase())
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString("StoreHome", salt).toLowerCase()
         OkGo.post<NetEntity<MainStoreBean>>(Urls.StoreHome)
                 .params(params)
                 .tag(this)
@@ -379,8 +379,8 @@ object DataCtrlClass {
     fun scoreStoreData(context: Context,currentPage:Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase())
+        params["page"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase()
         OkGo.post<NetEntity<List<GoodsBean>>>(Urls.ScoreGoodsList)
                 .params(params)
                 .tag(this)
@@ -413,12 +413,12 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("shopId", shopId)
-        params.put("goodsId", goodsId)
-        params.put("goodsCount", goodsCount)
-        params.put("skuid", skuid)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["shopId"] = shopId
+        params["goodsId"] = goodsId
+        params["goodsCount"] = goodsCount
+        params["skuid"] = skuid
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<ScoreConfirmBean>>(Urls.ScoreOrderInfo)
                 .params(params)
                 .tag(this)
@@ -455,14 +455,14 @@ object DataCtrlClass {
 
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("addressId", addressId)
-        params.put("scores", scores)
-        params.put("shopId", shopId)
-        params.put("goodsId", goodsId)
-        params.put("goodsCount", goodsCount)
-        params.put("skuid", skuid)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["addressId"] = addressId
+        params["scores"] = scores
+        params["shopId"] = shopId
+        params["goodsId"] = goodsId
+        params["goodsCount"] = goodsCount
+        params["skuid"] = skuid
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.CreateScoreOrder)
                 .params(params)
                 .tag(this)
@@ -491,9 +491,9 @@ object DataCtrlClass {
 //       shopId	string	必填	店铺id
 //       requestCheck	string	必填	验证请求
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("shopId", shopId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["shopId"] = shopId
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase()
         OkGo.post<NetEntity<ShopBean>>(Urls.ShopMain)
                 .params(params)
                 .tag(this)
@@ -526,12 +526,12 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("shopId",shopId)
-        params.put("goodsId", goodsId)
-        params.put("goodsCount", goodsCount.toString())
-        params.put("payMark", payMark)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["shopId"] = shopId
+        params["goodsId"] = goodsId
+        params["goodsCount"] = goodsCount.toString()
+        params["payMark"] = payMark
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<ServiceConfirmBean>>(Urls.VirtuallyOrderInfo)
                 .params(params)
                 .tag(this)
@@ -570,16 +570,16 @@ object DataCtrlClass {
 
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("shopId", param[0])
-        params.put("goodsId", param[1])
-        params.put("goodsCount", param[2])
-        params.put("payMark", param[3])
-        params.put("scores", param[4])
-        params.put("ordersMoney", param[5])
-        params.put("couponId", param[6])
-        params.put("discount", param[7])
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["shopId"] = param[0]
+        params["goodsId"] = param[1]
+        params["goodsCount"] = param[2]
+        params["payMark"] = param[3]
+        params["scores"] = param[4]
+        params["ordersMoney"] = param[5]
+        params["couponId"] = param[6]
+        params["discount"] = param[7]
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.VirtuallyCreateOrder)
                 .params(params)
                 .tag(this)
@@ -608,8 +608,8 @@ object DataCtrlClass {
 //       shopId	string	必填	店铺id
 //       requestCheck	string	必填	验证请求
         val params = HashMap<String, String>()
-        params.put("shopId", shopId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase())
+        params["shopId"] = shopId
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase()
         OkGo.post<NetEntity<ArrayList<GoodsShopClassifyBean>>>(Urls.ShopSelfTypeList)
                 .params(params)
                 .tag(this)
@@ -637,9 +637,9 @@ object DataCtrlClass {
 //        goodsId	string	必填	商品id
 //        requestCheck	string	必填	验证请求
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("goodsId", goodsId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(goodsId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["goodsId"] = goodsId
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(goodsId, salt).toLowerCase()
         OkGo.post<NetEntity<GoodsBean>>(Urls.GoodsDetail)
                 .params(params)
                 .tag(this)
@@ -667,8 +667,8 @@ object DataCtrlClass {
 //        goodsId	string	必填	商品id
 //        requestCheck	string	必填	验证请求
         val params = HashMap<String, String>()
-        params.put("goodsId", goodsId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(goodsId, salt).toLowerCase())
+        params["goodsId"] = goodsId
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(goodsId, salt).toLowerCase()
         OkGo.post<NetEntity<SpecBean>>(Urls.GoodsRank)
                 .params(params)
                 .tag(this)
@@ -698,11 +698,11 @@ object DataCtrlClass {
 //        type	string	必填	0:取消，1:添加
 //        requestCheck	string	必填	验证请求
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("id", id)
-        params.put("idMark", idMark)
-        params.put("type", type)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+id, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["id"] = id
+        params["idMark"] = idMark
+        params["type"] = type
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+id, salt).toLowerCase()
         OkGo.post<NetEntity<Void>>(Urls.Attention)
                 .params(params)
                 .tag(this)
@@ -732,10 +732,10 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("shopId", shopId)
-        params.put("objectId", objectId)
-        params.put("page", "1")
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase())
+        params["shopId"] = shopId
+        params["objectId"] = objectId
+        params["page"] = "1"
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase()
         OkGo.post<NetEntity<ArrayList<CouponBean>>>(Urls.CouponList)
                 .params(params)
                 .tag(this)
@@ -763,8 +763,8 @@ object DataCtrlClass {
 //        classMark	string	必填	店铺类别：1实物类  2虚拟类
 //        requestCheck	string	必填	验证请求
         val params = HashMap<String, String>()
-        params.put("classMark", classMark)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(classMark, salt).toLowerCase())
+        params["classMark"] = classMark
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(classMark, salt).toLowerCase()
         OkGo.post<NetEntity<ArrayList<ServiceListFilterBean>>>(Urls.ShopCategory)
                 .params(params)
                 .tag(this)
@@ -796,12 +796,12 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("page", currentPage.toString())
-        params.put("categoryId", categoryId)
-        params.put("sequence", sequence)
-        params.put("longitude",longitude)
-        params.put("latitude", latitude)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("ShopList", salt).toLowerCase())
+        params["page"] = currentPage.toString()
+        params["categoryId"] = categoryId
+        params["sequence"] = sequence
+        params["longitude"] = longitude
+        params["latitude"] = latitude
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString("ShopList", salt).toLowerCase()
         OkGo.post<NetEntity<List<ServiceShopBean>>>(Urls.ShopList)
                 .params(params)
                 .tag(this)
@@ -831,9 +831,9 @@ object DataCtrlClass {
 
         val params = HashMap<String, String>()
 
-        params.put("userId",if (!MyApplication.checkUserLogin())"0" else MyApplication.loginUserId)
-        params.put("shopId", shopId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase())
+        params["userId"] = if (!MyApplication.checkUserLogin())"0" else MyApplication.loginUserId
+        params["shopId"] = shopId
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase()
         OkGo.post<NetEntity<ServiceShopBean>>(Urls.VirtuallyShopMain)
                 .params(params)
                 .tag(this)
@@ -865,11 +865,11 @@ object DataCtrlClass {
 
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("goodsId", goodsId)
-        params.put("longitude", longitude)
-        params.put("latitude", latitude)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(goodsId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["goodsId"] = goodsId
+        params["longitude"] = longitude
+        params["latitude"] = latitude
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(goodsId, salt).toLowerCase()
         OkGo.post<NetEntity<ServiceGoodsBean>>(Urls.VirtuallyGoodsDetail)
                 .params(params)
                 .tag(this)
@@ -895,9 +895,9 @@ object DataCtrlClass {
      */
     fun commentCountData(context: Context, id: String, idMark: String, listener: (data: CommentCountBean?) -> Unit) {
         val params = HashMap<String, String>()
-        params.put("id", id)
-        params.put("idMark", idMark)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(id, MyApplication.salt).toLowerCase())
+        params["id"] = id
+        params["idMark"] = idMark
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(id, MyApplication.salt).toLowerCase()
         OkGo.post<NetEntity<CommentCountBean>>(Urls.CommentCount)
                 .params(params)
                 .tag(this)
@@ -928,11 +928,11 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("id", id)
-        params.put("idMark", idMark)
-        params.put("type", type)
-        params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(id, salt).toLowerCase())
+        params["id"] = id
+        params["idMark"] = idMark
+        params["type"] = type
+        params["page"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(id, salt).toLowerCase()
         OkGo.post<NetEntity<List<CommentBean>>>(Urls.CommentList)
                 .params(params)
                 .tag(this)
@@ -959,8 +959,8 @@ object DataCtrlClass {
     fun searchGoodsResult(context: Context, currentPage: Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        params["currentPage"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString("1", salt).toLowerCase()
         OkGo.post<NetEntity<List<GoodsBean>>>(Urls.url)
                 .params(params)
                 .tag(this)
@@ -994,13 +994,13 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("shopId", shopId)
-        params.put("selfTypeId", selfTypeId)
-        params.put("status", status)
-        params.put("search", search)
-        params.put("sortType", sortType)
-        params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase())
+        params["shopId"] = shopId
+        params["selfTypeId"] = selfTypeId
+        params["status"] = status
+        params["search"] = search
+        params["sortType"] = sortType
+        params["page"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase()
         OkGo.post<NetEntity<List<GoodsBean>>>(Urls.ShopGoodsList)
                 .params(params)
                 .tag(this)
@@ -1030,9 +1030,9 @@ object DataCtrlClass {
 //                requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("isPaid",isPaid)
-        params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase())
+        params["isPaid"] = isPaid
+        params["page"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase()
         OkGo.post<NetEntity<List<BannersBean>>>(Urls.AdsList)
                 .params(params)
                 .tag(this)
@@ -1061,9 +1061,9 @@ object DataCtrlClass {
 //        adsId	string	必填	广告id
 //        requestCheck	string	必填	验证请求 "用户id+广告id+秘钥"的 MD5加密
         val params = HashMap<String, String>()
-        params.put("userId",MyApplication.loginUserId)
-        params.put("adsId", adsId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+adsId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["adsId"] = adsId
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+adsId, salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.AdsClick)
                 .params(params)
                 .tag(this)
@@ -1090,8 +1090,8 @@ object DataCtrlClass {
     fun mainRedPacketData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<CouponBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        params["currentPage"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString("1", salt).toLowerCase()
         OkGo.post<NetEntity<List<CouponBean>>>(Urls.url)
                 .params(params)
                 .tag(this)
@@ -1122,9 +1122,9 @@ object DataCtrlClass {
 //
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("couponId", couponId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+couponId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["couponId"] = couponId
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+couponId, salt).toLowerCase()
         OkGo.post<NetEntity<Void>>(Urls.GetCoupon)
                 .params(params)
                 .tag(this)
@@ -1151,12 +1151,12 @@ object DataCtrlClass {
     fun editPersonInfo(context: Context, key: String, value: String, listener: (data: String?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)//教练id
+        params["userId"] = MyApplication.loginUserId//教练id
         if (key == "header")
-            params.put(key, EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(value)))
+            params[key] = EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(value))
         else
-            params.put(key, value)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+            params[key] = value
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.UpdateUserInfo)
                 .params(params)
                 .tag(this)
@@ -1182,10 +1182,10 @@ object DataCtrlClass {
      */
     fun checkHavePayPwd(context: Context,listener: (data: String?) -> Unit) {
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
+        params["userId"] = MyApplication.loginUserId
         val nowMills = TimeUtils.getNowMills().toString()
-        params.put("timestamp", nowMills)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+nowMills, MyApplication.salt).toLowerCase())
+        params["timestamp"] = nowMills
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+nowMills, MyApplication.salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.IsSetPayPwd)
                 .params(params)
                 .tag(this)
@@ -1215,10 +1215,10 @@ object DataCtrlClass {
 //                requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("userId", loginUserId)
-        params.put("pwd", oldPwd)
-        params.put("newPwd", newPwd)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId +oldPwd+newPwd, MyApplication.salt).toLowerCase())
+        params["userId"] = loginUserId
+        params["pwd"] = oldPwd
+        params["newPwd"] = newPwd
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(loginUserId +oldPwd+newPwd, MyApplication.salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.ModifyLoginPwd)
                 .params(params)
                 .tag(this)
@@ -1244,8 +1244,8 @@ object DataCtrlClass {
      */
     fun accountBalance(context: Context, listener: (data: BalanceBean?) -> Unit) {
         val params = HashMap<String, String>()
-        params.put("userId", loginUserId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId, MyApplication.salt).toLowerCase())
+        params["userId"] = loginUserId
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(loginUserId, MyApplication.salt).toLowerCase()
         OkGo.post<NetEntity<BalanceBean>>(Urls.MyBalance)
                 .params(params)
                 .tag(this)
@@ -1265,20 +1265,47 @@ object DataCtrlClass {
 
                 })
     }
+    /**
+     * ShopInfo
+     */
+    fun shopInfo(context: Context,QRCode:String, listener: (data: OffLinePayBean?) -> Unit) {
+        val params = HashMap<String, String>()
+        params["userId"] = loginUserId
+        params["QRCode"] = QRCode
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(loginUserId+QRCode, MyApplication.salt).toLowerCase()
+        OkGo.post<NetEntity<OffLinePayBean>>(Urls.ShopInfo)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<OffLinePayBean>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<OffLinePayBean>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<OffLinePayBean>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
 
     /**
      * 申请提现
      */
     fun requestWithdrawal(context: Context, price: String, card: String, bankName: String, bankAddress: String, userName: String, userPhone: String, listener: (data: String?) -> Unit) {
         val params = HashMap<String, String>()
-        params.put("userId", loginUserId)
-        params.put("applyMoney", price)
-        params.put("bankCardNum", card)
-        params.put("bankName", bankName)
-        params.put("bankAddress", bankAddress)
-        params.put("userName", userName)
-        params.put("userPhone", userPhone)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId, MyApplication.salt).toLowerCase())
+        params["userId"] = loginUserId
+        params["applyMoney"] = price
+        params["bankCardNum"] = card
+        params["bankName"] = bankName
+        params["bankAddress"] = bankAddress
+        params["userName"] = userName
+        params["userPhone"] = userPhone
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(loginUserId, MyApplication.salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.ApplyWithdraw)
                 .params(params)
                 .tag(this)
@@ -1306,9 +1333,9 @@ object DataCtrlClass {
     fun balanceRecord(context: Context, currentPage: Int, listener: (scoreStoreBean: List<BalanceRecordBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId", loginUserId)
-        params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId, salt).toLowerCase())
+        params["userId"] = loginUserId
+        params["page"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<List<BalanceRecordBean>>>(Urls.Record)
                 .params(params)
                 .tag(this)
@@ -1338,10 +1365,10 @@ object DataCtrlClass {
 //       page	string	选填	分页
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("orderState", orderState)
-        params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["orderState"] = orderState
+        params["page"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<List<ServiceOrderBean>>>(Urls.VirtuallyOrderList)
                 .params(params)
                 .tag(this)
@@ -1371,10 +1398,10 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("orderId", orderId)
-        params.put("editType", editType)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId+editType, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["orderId"] = orderId
+        params["editType"] = editType
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId+editType, salt).toLowerCase()
         OkGo.post<NetEntity<Void>>(VirtuallyEditOrder)
                 .params(params)
                 .tag(this)
@@ -1405,10 +1432,10 @@ object DataCtrlClass {
 //       requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("returnOrderId", orderId)
-        params.put("appealContent", appealContent)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["returnOrderId"] = orderId
+        params["appealContent"] = appealContent
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId, salt).toLowerCase()
         OkGo.post<NetEntity<Void>>(PlatformAppeal)
                 .params(params)
                 .tag(this)
@@ -1438,9 +1465,9 @@ object DataCtrlClass {
 //                requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("userId", loginUserId)
-        params.put("orderId", orderId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(loginUserId +orderId, MyApplication.salt).toLowerCase())
+        params["userId"] = loginUserId
+        params["orderId"] = orderId
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(loginUserId +orderId, MyApplication.salt).toLowerCase()
         OkGo.post<NetEntity<ServiceOrderBean>>(Urls.VirtuallyOrderDetail)
                 .params(params)
                 .tag(this)
@@ -1473,12 +1500,12 @@ object DataCtrlClass {
         for (goodsEntity in goodsEntities) {
             goodsIds += goodsEntity.goodsId + ","
         }
-        params.put("userId", MyApplication.loginUserId)
+        params["userId"] = MyApplication.loginUserId
         val subGoodsIds = goodsIds.substring(0, goodsIds.length - 1)
-        params.put("id", subGoodsIds)
-        params.put("idMark", idMark)//0:店铺，1:商品
-        params.put("type", isCollection) //0:取消，1:添加
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+subGoodsIds, MyApplication.salt).toLowerCase())
+        params["id"] = subGoodsIds
+        params["idMark"] = idMark//0:店铺，1:商品
+        params["type"] = isCollection //0:取消，1:添加
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+subGoodsIds, MyApplication.salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.Attention)
                 .params(params)
                 .tag(this)
@@ -1514,12 +1541,12 @@ object DataCtrlClass {
         for (goodsEntity in goodsEntities) {
             goodsIds += goodsEntity.shopId + ","
         }
-        params.put("userId", MyApplication.loginUserId)
+        params["userId"] = MyApplication.loginUserId
         val subGoodsIds = goodsIds.substring(0, goodsIds.length - 1)
-        params.put("id", subGoodsIds)
-        params.put("idMark", idMark)//0:店铺，1:商品
-        params.put("type", isCollection) //0:取消，1:添加
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+subGoodsIds, MyApplication.salt).toLowerCase())
+        params["id"] = subGoodsIds
+        params["idMark"] = idMark//0:店铺，1:商品
+        params["type"] = isCollection //0:取消，1:添加
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+subGoodsIds, MyApplication.salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.Attention)
                 .params(params)
                 .tag(this)
@@ -1545,10 +1572,10 @@ object DataCtrlClass {
     fun favoriteGoodsListData(context: Context, state: Int, currentPage: Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("state", state.toString())
-        params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["state"] = state.toString()
+        params["page"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<List<GoodsBean>>>(Urls.CollectedGoodsList)
                 .params(params)
                 .tag(this)
@@ -1574,9 +1601,9 @@ object DataCtrlClass {
     fun favoriteShopListData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<GoodsShopBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["page"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<List<GoodsShopBean>>>(Urls.CollectedShopList)
                 .params(params)
                 .tag(this)
@@ -1603,9 +1630,9 @@ object DataCtrlClass {
     fun footprintData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<FootprintBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["page"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<List<FootprintBean>>>(Urls.Footprint)
                 .params(params)
                 .tag(this)
@@ -1632,9 +1659,9 @@ object DataCtrlClass {
     fun mineScoreRecordData(context: Context, currentPage: Int, listener: (scoreRecordBean: List<ScoreRecordBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["page"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<List<ScoreRecordBean>>>(Urls.MyScoreRecord)
                 .params(params)
                 .tag(this)
@@ -1661,8 +1688,8 @@ object DataCtrlClass {
     fun scoreOrderListData(context: Context, currentPage: Int, listener: (scoreRecordBean: List<ScoreOrderBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("currentPage", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        params["currentPage"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString("1", salt).toLowerCase()
         OkGo.post<NetEntity<List<ScoreOrderBean>>>(Urls.url)
                 .params(params)
                 .tag(this)
@@ -1689,8 +1716,8 @@ object DataCtrlClass {
     fun scoreOrderDetailData(context: Context,orderId:String, listener: (scoreOrderBean: ScoreOrderBean?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("orderId", orderId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("1", salt).toLowerCase())
+        params["orderId"] = orderId
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString("1", salt).toLowerCase()
         OkGo.post<NetEntity<ScoreOrderBean>>(Urls.url)
                 .params(params)
                 .tag(this)
@@ -1716,8 +1743,8 @@ object DataCtrlClass {
     fun clearCartListPassData(context: Context,listener: (v: NetEntity<Void>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<Void>>(Urls.ClearDeleteGoods)
                 .params(params)
                 .tag(this)
@@ -1747,9 +1774,9 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("page", currentPage.toString())
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["page"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<ArrayList<GoodsCarBean>>>(Urls.ShopCarList)
                 .params(params)
                 .tag(this)
@@ -1775,9 +1802,9 @@ object DataCtrlClass {
     fun goodsConfirmData(context: Context,info:String, listener: (goodsConfirmBean: GoodsConfirmBean?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("shopInfo", info)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["shopInfo"] = info
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<GoodsConfirmBean>>(Urls.MoneyOrderInfo)
                 .params(params)
                 .tag(this)
@@ -1803,9 +1830,9 @@ object DataCtrlClass {
     fun goodsConfirmScoreData(context: Context,info:String, listener: (goodsConfirmBean: GoodsConfirmScoreBean?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("shopInfo", info)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["shopInfo"] = info
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<GoodsConfirmScoreBean>>(Urls.CanUseScore)
                 .params(params)
                 .tag(this)
@@ -1834,12 +1861,12 @@ object DataCtrlClass {
 //        scores	string	必填	抵扣积分数
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("addressId", addressId)
-        params.put("scores", scores)
-        params.put("ordersMoney", ordersMoney)
-        params.put("shopInfo", info)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["addressId"] = addressId
+        params["scores"] = scores
+        params["ordersMoney"] = ordersMoney
+        params["shopInfo"] = info
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.CreateMoneyOrder)
                 .params(params)
                 .tag(this)
@@ -1866,8 +1893,8 @@ object DataCtrlClass {
     fun addressChooseData(context: Context,  listener: (addressBean: List<AddressBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<List<AddressBean>>>(Urls.AddressList)
                 .params(params)
                 .tag(this)
@@ -1893,9 +1920,9 @@ object DataCtrlClass {
     fun editAddressState(context: Context,addressId:String, url:String,listener: (addressBean: NetEntity<Void>?) -> Unit) {
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("addressId", addressId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+addressId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["addressId"] = addressId
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+addressId, salt).toLowerCase()
         OkGo.post<NetEntity<Void>>(url)
                 .params(params)
                 .tag(this)
@@ -1921,14 +1948,14 @@ object DataCtrlClass {
      * */
     fun addAddressData(context: Context, name:String, phone:String, provinceId:String, cityId:String, districtId:String, detail:String, listener: (addressBean: String?) -> Unit) {
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("name", name)
-        params.put("phone", phone)
-        params.put("provinceId", provinceId)
-        params.put("cityId", cityId)
-        params.put("districtId", districtId)
-        params.put("detail", detail)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["name"] = name
+        params["phone"] = phone
+        params["provinceId"] = provinceId
+        params["cityId"] = cityId
+        params["districtId"] = districtId
+        params["detail"] = detail
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.AddAddress)
                 .params(params)
                 .tag(this)
@@ -1953,15 +1980,15 @@ object DataCtrlClass {
      * */
     fun updateAddAddressData(context: Context, addressId:String,name:String, phone:String, provinceId:String, cityId:String, districtId:String, detail:String, listener: (addressBean: String?) -> Unit) {
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("addressId", addressId)
-        params.put("name", name)
-        params.put("phone", phone)
-        params.put("provinceId", provinceId)
-        params.put("cityId", cityId)
-        params.put("districtId", districtId)
-        params.put("detail", detail)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+addressId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["addressId"] = addressId
+        params["name"] = name
+        params["phone"] = phone
+        params["provinceId"] = provinceId
+        params["cityId"] = cityId
+        params["districtId"] = districtId
+        params["detail"] = detail
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+addressId, salt).toLowerCase()
         OkGo.post<NetEntity<String>>(Urls.ModifyAddress)
                 .params(params)
                 .tag(this)
@@ -1991,10 +2018,10 @@ object DataCtrlClass {
 //      requestCheck	string	必填	验证请求
         val params = HashMap<String, String>()
         if (!TextUtils.isEmpty(typeId))
-            params.put("typeId", typeId)
+            params["typeId"] = typeId
         if (!TextUtils.isEmpty(search))
-            params.put("search", search)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString("SiftList", salt).toLowerCase())
+            params["search"] = search
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString("SiftList", salt).toLowerCase()
         OkGo.post<NetEntity<ArrayList<SearchFilterEntity>>>(Urls.SiftList)
                 .params(params)
                 .tag(this)
@@ -2027,24 +2054,24 @@ object DataCtrlClass {
 //       page	string	必填	分页，从第1页开始，每页30条数据
 //       requestCheck	string	必填	验证请求
         val params = HashMap<String, String>()
-        params.put("page", currentPage.toString())
+        params["page"] = currentPage.toString()
         if (!TextUtils.isEmpty(typeId))
-            params.put("typeId", typeId)
+            params["typeId"] = typeId
         if (!TextUtils.isEmpty(search))
-            params.put("search", search)
+            params["search"] = search
         if (!TextUtils.isEmpty(filterPopWin.heightPrice)) {
-            params.put("price", if (TextUtils.isEmpty(filterPopWin.lowPrice)) "0" + "," + filterPopWin.heightPrice else filterPopWin.lowPrice + "," + filterPopWin.heightPrice)
+            params["price"] = if (TextUtils.isEmpty(filterPopWin.lowPrice)) "0" + "," + filterPopWin.heightPrice else filterPopWin.lowPrice + "," + filterPopWin.heightPrice
         }else if (!TextUtils.isEmpty(filterPopWin.lowPrice)){
-             params.put("price", filterPopWin.lowPrice)
+            params["price"] = filterPopWin.lowPrice
         }
 
-        params.put("status", status)
+        params["status"] = status
 
 
         if (!TextUtils.isEmpty(other)) {
-            params.put("other", other.substring(0, other.length - 1))
+            params["other"] = other.substring(0, other.length - 1)
         }
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase())
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase()
         OkGo.post<NetEntity<List<GoodsBean>>>(Urls.GoodsList)
                 .params(params)
                 .tag(this)
@@ -2077,12 +2104,12 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("page", currentPage.toString())
-        params.put("sequence", sequence)
-        params.put("longitude", longitude?:"")
-        params.put("latitude",latitude?:"")
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(longitude+latitude, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["page"] = currentPage.toString()
+        params["sequence"] = sequence
+        params["longitude"] = longitude?:""
+        params["latitude"] = latitude?:""
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(longitude+latitude, salt).toLowerCase()
         OkGo.post<NetEntity<List<PromotionsBean>>>(Urls.ActivityList)
                 .params(params)
                 .tag(this)
@@ -2111,9 +2138,9 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("activityId", activityId)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId+activityId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["activityId"] = activityId
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString( MyApplication.loginUserId+activityId, salt).toLowerCase()
         OkGo.post<NetEntity<Void>>(Urls.ActivityJoin)
                 .params(params)
                 .tag(this)
@@ -2148,11 +2175,11 @@ object DataCtrlClass {
 
 
         val params = HashMap<String, String>()
-        params.put("userId", MyApplication.loginUserId)
-        params.put("activityId", activityId)
-        params.put("longitude", longitude?:"")
-        params.put("latitude", latitude?:"")
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString( activityId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["activityId"] = activityId
+        params["longitude"] = longitude?:""
+        params["latitude"] = latitude?:""
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString( activityId, salt).toLowerCase()
         OkGo.post<NetEntity<PromotionsBean>>(Urls.ActivityDetial)
                 .params(params)
                 .tag(this)
@@ -2187,11 +2214,11 @@ object DataCtrlClass {
             pushImgData(images){
                 if (it!=null) {
                     val params = HashMap<String, String>()
-                    params.put("userId", MyApplication.loginUserId)
-                    params.put("activityId", activityId)
-                    params.put("content", content)
-                    params.put("image", it)
-                    params.put("requestCheck", EncryptUtils.encryptMD5ToString( MyApplication.loginUserId+activityId, salt).toLowerCase())
+                    params["userId"] = MyApplication.loginUserId
+                    params["activityId"] = activityId
+                    params["content"] = content
+                    params["image"] = it
+                    params["requestCheck"] = EncryptUtils.encryptMD5ToString( MyApplication.loginUserId+activityId, salt).toLowerCase()
                     OkGo.post<NetEntity<Void>>(Urls.UploadActivity)
                             .params(params)
                             .tag(this)
@@ -2230,11 +2257,11 @@ object DataCtrlClass {
             var str=""
 
             val params = HashMap<String, String>()
-            params.put("userId", MyApplication.loginUserId)
+            params["userId"] = MyApplication.loginUserId
             val time = TimeUtils.getNowMills().toString()
-            params.put("timeStamp", time)
-            params.put("imgBase64", EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(images[count].replace("file:///",""))))
-            params.put("requestCheck", EncryptUtils.encryptMD5ToString(  MyApplication.loginUserId+time, salt).toLowerCase())
+            params["timeStamp"] = time
+            params["imgBase64"] = EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(images[count].replace("file:///","")))
+            params["requestCheck"] = EncryptUtils.encryptMD5ToString(  MyApplication.loginUserId+time, salt).toLowerCase()
             OkGo.post<NetEntity<String>>(Urls.UploadImg)
                     .params(params)
                     .tag(this)
@@ -2279,10 +2306,10 @@ object DataCtrlClass {
 //        requestCheck	string	必填	验证请求
 
         val params = HashMap<String, String>()
-        params.put("userId",  MyApplication.loginUserId)
-        params.put("page",currentPage.toString())
-        params.put("state", state)
-        params.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase())
+        params["userId"] = MyApplication.loginUserId
+        params["page"] = currentPage.toString()
+        params["state"] = state
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         OkGo.post<NetEntity<List<PromotionsPersonalBean>>>(Urls.MyActivity)
                 .params(params)
                 .tag(this)
@@ -2296,6 +2323,38 @@ object DataCtrlClass {
                     }
 
                     override fun onError(response: Response<NetEntity<List<PromotionsPersonalBean>>>) {
+                        super.onError(response)
+                        listener.invoke(null)
+                    }
+
+                })
+    }
+    /**
+     *线下向店铺支付记录
+     * */
+    fun qrLineRecord(context: Context, currentPage: Int,listener: (promotionsBean: List<OffLinePayBean>?) -> Unit) {
+//        userId	string	必填	用户id
+//        page	string	必填	分页，从第1页开始，每页10条数据
+//        state	string	必填	1未开始 2已开始 3审核中 4已通过 5未通过
+//        requestCheck	string	必填	验证请求
+
+        val params = HashMap<String, String>()
+        params["userId"] = MyApplication.loginUserId
+        params["page"] = currentPage.toString()
+        params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+currentPage.toString(), salt).toLowerCase()
+        OkGo.post<NetEntity<List<OffLinePayBean>>>(Urls.QRLineRecord)
+                .params(params)
+                .tag(this)
+                .execute(object : DialogCallback<NetEntity<List<OffLinePayBean>>>(context) {
+                    override fun onSuccess(response: Response<NetEntity<List<OffLinePayBean>>>) {
+                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                            listener.invoke(response.body().data)
+                        } else {
+                            listener.invoke(null)
+                        }
+                    }
+
+                    override fun onError(response: Response<NetEntity<List<OffLinePayBean>>>) {
                         super.onError(response)
                         listener.invoke(null)
                     }

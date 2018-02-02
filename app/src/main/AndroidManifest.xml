@@ -175,6 +175,8 @@
         <activity android:name=".scanner.ScannerActivity"/>
         <!--Q-->
         <activity android:name=".module.mine.PayQRActivity"/>
+        <!--线下支付记录-->
+        <activity android:name=".module.mine.OffLinePayListActivity"/>
 
 
 
@@ -339,7 +341,27 @@
 
 
 
-
+        <!--极光推送-->
+        <receiver
+            android:name=".receiver.MyReceiver"
+            android:enabled="true"
+            tools:node="replace"
+            >
+            <intent-filter>
+                <!--Required ⽤用户注册SDK的intent-->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <!--Required ⽤用户接收SDK消息的intent-->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!--Required ⽤用户接收SDK通知栏信息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!--Required ⽤用户打开⾃自定义通知栏的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <!-- 接收⽹网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <category android:name="cn.com.exz.jkzc" />
+            </intent-filter>
+        </receiver>
+        <!--极光推送-->
 
         <!-- aliPay sdk begin -->
         <activity

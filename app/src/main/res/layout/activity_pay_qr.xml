@@ -59,16 +59,6 @@
                         android:textColor="@color/MaterialGrey700" />
 
                     <TextView
-                        android:id="@+id/tv_realName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:text="付款给：真实姓名"
-                        android:textColor="@color/MaterialGrey800"
-                        android:textSize="@dimen/text_12" />
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_15"
@@ -121,7 +111,21 @@
                         android:layout_marginStart="@dimen/margin_15"
                         android:background="@color/MaterialGrey400" />
                 </LinearLayout>
-
+<com.szw.framelibrary.view.ClearWriteEditText
+    android:id="@+id/ed_remark"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/White"
+    android:textSize="@dimen/sp_12"
+    android:textColor="#FF333333"
+    android:inputType="text"
+    android:singleLine="true"
+    android:paddingEnd="15dp"
+    android:paddingStart="15dp"
+    android:paddingTop="@dimen/dp_10"
+    android:paddingBottom="25dp"
+    android:hint="填写备注(20字以内)"
+    />
                 <RadioGroup
                     android:id="@+id/radioGroup"
                     android:layout_width="match_parent"
