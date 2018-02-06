@@ -27,7 +27,7 @@ import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.config.Constants
-import com.szw.framelibrary.utils.RxBus
+import com.hwangjr.rxbus.RxBus
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.szw.framelibrary.utils.net.NetEntity
 import com.szw.framelibrary.utils.net.callback.DialogCallback
@@ -185,7 +185,9 @@ class PayVipActivity : PayActivity(), View.OnClickListener {
                         RxBus.get().post(Constants.BusAction.Pay_Finish, Constants.BusAction.Pay_Finish)
                         setResult(Activity.RESULT_OK)
                         finish()
-                    }
+                    }else{
+                            toast(response.body().message)
+                        }
                     }
                 })
 

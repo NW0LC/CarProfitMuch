@@ -21,6 +21,7 @@ import com.exz.carprofitmuch.module.main.pay.PwdGetCodeActivity
 import com.exz.carprofitmuch.pop.PwdPop
 import com.exz.carprofitmuch.utils.DialogUtils
 import com.exz.carprofitmuch.utils.MoneyEditText
+import com.hwangjr.rxbus.RxBus
 import com.hwangjr.rxbus.annotation.Subscribe
 import com.hwangjr.rxbus.annotation.Tag
 import com.hwangjr.rxbus.thread.EventThread
@@ -28,7 +29,6 @@ import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.config.Constants
-import com.szw.framelibrary.utils.RxBus
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.szw.framelibrary.utils.net.NetEntity
 import com.szw.framelibrary.utils.net.callback.DialogCallback
@@ -191,7 +191,9 @@ class PayQRActivity : PayActivity(), View.OnClickListener {
                             DialogUtils.WarningWithListener(this@PayQRActivity,response.body().message) {
                                 finish()
                             }
-                    }
+                    }else{
+                            toast(response.body().message)
+                        }
                     }
                 })
 
@@ -204,10 +206,10 @@ class PayQRActivity : PayActivity(), View.OnClickListener {
 
     private fun checkPay() {
         //        userId		String		必填		用户Id
-        //        rechargeId		String		必填		货源订单id
+        //        payId		String		必填		货源订单id
         //        requestCheck		string		必填		验证请求
 
-        if (rechargeId.isEmpty()) {
+        if (payId.isEmpty()) {
             return
         }
         val map = HashMap<String, String>()
@@ -222,9 +224,7 @@ class PayQRActivity : PayActivity(), View.OnClickListener {
                             if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                             if (response.body().data?.payState == "1") {
                                 setResult(Activity.RESULT_OK)
-                                DialogUtils.WarningWithListener(this@PayQRActivity,response.body().message) {
-                                    finish()
-                                }
+                                finish()
                             } else {
                                 com.szw.framelibrary.utils.DialogUtils.Warning(mContext, getString(R.string.pay_check_failed))
                             }

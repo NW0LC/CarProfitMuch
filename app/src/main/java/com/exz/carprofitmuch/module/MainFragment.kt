@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,11 +32,8 @@ import com.exz.carprofitmuch.widget.MyWebActivity
 import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Title
 import com.exz.carprofitmuch.widget.MyWebActivity.Intent_Url
 import com.facebook.drawee.view.SimpleDraweeView
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
-import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.szw.framelibrary.base.BaseActivity
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.utils.StatusBarUtil
@@ -106,29 +102,29 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         mRecyclerView.layoutManager = LinearLayoutManager(context)
 
 
-        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
-            override fun onHeaderPulling(header: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
-                toolbar.alpha = 1 - Math.min(percent, 1f)
-            }
-
-            override fun onHeaderReleasing(header: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
-                toolbar.alpha = 1 - Math.min(percent, 1f)
-            }
-        })
-        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            private val h = DensityUtil.dp2px(170f)
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                mScrollY += dy
-                if (mScrollY < h) {
-                    buttonBarLayout.alpha = 1f * mScrollY / h
-//                    blurView.alpha = 1f * mScrollY / h
-                    blurView.setBlurRadius((1f * mScrollY / h) * 10)
-                    blurView.setOverlayColor(Color.argb(((1f * mScrollY / h) * 204).toInt(), 252, 133, 23))
-                }
-
-            }
-        })
+//        refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
+//            override fun onHeaderPulling(header: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
+//                toolbar.alpha = 1 - Math.min(percent, 1f)
+//            }
+//
+//            override fun onHeaderReleasing(header: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
+//                toolbar.alpha = 1 - Math.min(percent, 1f)
+//            }
+//        })
+//        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            private val h = DensityUtil.dp2px(170f)
+//            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//                mScrollY += dy
+//                if (mScrollY < h) {
+//                    buttonBarLayout.alpha = 1f * mScrollY / h
+////                    blurView.alpha = 1f * mScrollY / h
+//                    blurView.setBlurRadius((1f * mScrollY / h) * 10)
+//                    blurView.setOverlayColor(Color.argb(((1f * mScrollY / h) * 204).toInt(), 252, 133, 23))
+//                }
+//
+//            }
+//        })
         refreshLayout.setOnRefreshListener(this)
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
@@ -143,15 +139,17 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
     private fun initBar() {
         toolbar.navigationIcon = null
-        blurView.setBlurRadius(0f)
-        blurView.setOverlayColor(Color.argb(0, 252, 133, 23))
-        buttonBarLayout.alpha = 0f
+//        blurView.setBlurRadius(0f)
+//        blurView.setOverlayColor(Color.argb(0, 252, 133, 23))
+//        buttonBarLayout.alpha = 0f
         mTitle.text = getString(R.string.app_name)
         //状态栏透明和间距处理
         StatusBarUtil.immersive(activity)
         StatusBarUtil.setPaddingSmart(activity, toolbar)
+        StatusBarUtil.setMargin(activity, header)
         StatusBarUtil.setPaddingSmart(activity, blurView)
-
+        StatusBarUtil.setPaddingSmart(activity, mRecyclerView)
+        SZWUtils.setRefreshAndHeaderCtrl(this,header,refreshLayout)
         toolbar.inflateMenu(R.menu.menu_main)
         val actionView = toolbar.menu.getItem(0).actionView
         actionView.setOnClickListener {
