@@ -206,11 +206,11 @@ class MainFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 startActivity(Intent(context, AdsActivity::class.java))
             }
             headerView.bt_tab_4 -> {//宝藏领取
-                val intent = Intent(context, MapPinActivity::class.java).putExtra("className", context.getString(R.string.main_treasure_get))
+                val intent = Intent(context, MapPinActivity::class.java).putExtra("className", context?.getString(R.string.main_treasure_get))
                 SZWUtils.checkLogin(this, intent, MapPinActivity::class.java.name)
             }
             headerView.bt_tab_5 -> {//红包领取
-                val intent = Intent(context, MapPinActivity::class.java).putExtra("className", context.getString(R.string.main_redpacket_get))
+                val intent = Intent(context, MapPinActivity::class.java).putExtra("className", context?.getString(R.string.main_redpacket_get))
                 SZWUtils.checkLogin(this, intent, MapPinActivity::class.java.name)
             }
             headerView.bt_tab_6 -> {//商家活动

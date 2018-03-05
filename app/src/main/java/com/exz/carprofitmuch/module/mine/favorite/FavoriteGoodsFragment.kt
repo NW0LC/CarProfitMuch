@@ -91,15 +91,15 @@ class FavoriteGoodsFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdap
         mAdapter = FavoriteGoodsAdapter()
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
-        mRecyclerView.layoutManager = LinearLayoutManager(context)
-        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
+        mRecyclerView.layoutManager = LinearLayoutManager(context!!)
+        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context!!, R.color.app_bg)))
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(baseAdapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 when (if (Edit_Type == "-1") Edit_Type_Edit else Edit_Type) {
                     Edit_Type_Edit -> {
                         //跳转
-                        val intent = Intent(context, GoodsDetailActivity::class.java)
+                        val intent = Intent(context!!, GoodsDetailActivity::class.java)
                         intent.putExtra(GoodsDetail_Intent_GoodsId, mAdapter.data[position].goodsId)
                         startActivity(intent)
                     }
@@ -157,7 +157,7 @@ class FavoriteGoodsFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdap
     }
 
     private fun initData() {
-        DataCtrlClass.favoriteGoodsListData(context, arguments.getInt(COMMENT_TYPE,0),currentPage) {
+        DataCtrlClass.favoriteGoodsListData(context, arguments?.getInt(COMMENT_TYPE,0)?:0,currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

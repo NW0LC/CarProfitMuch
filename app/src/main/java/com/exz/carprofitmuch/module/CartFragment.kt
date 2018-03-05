@@ -79,7 +79,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
 
     private fun initBar() {
         if (canBack) {
-            toolbar.setNavigationOnClickListener { activity.finish() }
+            toolbar.setNavigationOnClickListener { activity?.finish() }
         } else {
             toolbar.navigationIcon = null
         }
@@ -108,7 +108,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
         mAdapter.setEmptyView(R.layout.empty_cart)
-        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
+        mRecyclerView.addItemDecoration(RecycleViewDivider(context!!, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context!!, R.color.app_bg)))
         mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener() {
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 when (view?.id) {
@@ -295,7 +295,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
         OkGo.post<NetEntity<String>>(Urls.EditShopCar)
                 .params(params)
                 .tag(this)
-                .execute(object : DialogCallback<NetEntity<String>>(context) {
+                .execute(object : DialogCallback<NetEntity<String>>(context!!) {
                     override fun onSuccess(response: Response<NetEntity<String>>) =
                             if (response.body().getCode() == Constants.NetCode.SUCCESS) {
                                 goodsEntity.goodsCount = String.format("%s", index)
@@ -440,7 +440,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
          * type 0,删除；1，添加
          * @param goodsEntities 实体
          */
-        fun deleteCar(context: Context, goodsEntities: ArrayList<GoodsBean>, onDeleteFinishListener: (scoreRecordBean: List<GoodsBean>) -> Unit) {
+        fun deleteCar(context: Context?, goodsEntities: ArrayList<GoodsBean>, onDeleteFinishListener: (scoreRecordBean: List<GoodsBean>) -> Unit) {
             addOrDelete(context, DeleteShopCar, "0", "", "", "", goodsEntities, onDeleteFinishListener)
         }
 
@@ -449,7 +449,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
          * type 0,删除；1，添加
          * @param goodsEntities 实体
          */
-        fun addCar(context: Context, shopId: String, poolId: String, goodsCount: String, goodsEntities: ArrayList<GoodsBean>) {
+        fun addCar(context: Context?, shopId: String, poolId: String, goodsCount: String, goodsEntities: ArrayList<GoodsBean>) {
             addOrDelete(context, AddShopCar, "1", shopId, poolId, goodsCount, goodsEntities, null)
         }
 
@@ -459,7 +459,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
          * @param onDeleteFinishListener    是否删除成功
          * @param goodsEntities            实体
          */
-        private fun addOrDelete(context: Context, url: String, type: String, shopId: String, poolId: String, goodsCount: String, goodsEntities: List<GoodsBean>, onDeleteFinishListener: ((goodsEntities: List<GoodsBean>) -> Unit)?) {
+        private fun addOrDelete(context: Context?, url: String, type: String, shopId: String, poolId: String, goodsCount: String, goodsEntities: List<GoodsBean>, onDeleteFinishListener: ((goodsEntities: List<GoodsBean>) -> Unit)?) {
 //            userId	string	必填	用户id
 //            goodsId	string	必填	商品id
 //            shopId	string	必填	店铺id
@@ -484,7 +484,7 @@ class CartFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
                 map.put("count", goodsCount)
                 map.put("requestCheck", EncryptUtils.encryptMD5ToString(MyApplication.loginUserId + goodsIds.substring(0, goodsIds.length - 1) + shopId, salt).toLowerCase())
             }
-
+            if (context!=null)
             OkGo.post<NetEntity<String>>(url).tag(context)
                     .params(map)
                     .execute(object : DialogCallback<NetEntity<String>>(context) {

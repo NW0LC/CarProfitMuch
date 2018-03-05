@@ -199,7 +199,7 @@ class ReturnGoodsAdapter<T : ReturnGoodsBean> : BaseQuickAdapter<T, BaseViewHold
         /**
          * 设置点击事件
          */
-        fun setOnClick(context: Activity, viewId: Int, entity: ReturnGoodsBean, listener: () -> Unit) {
+        fun setOnClick(context: Activity?, viewId: Int, entity: ReturnGoodsBean, listener: () -> Unit) {
             when (viewId) {
                 R.id.tv_mid -> {//左边按钮
                     when (entity.returnOrderState) {
@@ -221,7 +221,7 @@ class ReturnGoodsAdapter<T : ReturnGoodsBean> : BaseQuickAdapter<T, BaseViewHold
                                     DialogUtils.Call(context as BaseActivity, entity.platformPhone)
                                 }
                                 "3" -> {//填写物流
-                                    context.startActivityForResult(Intent(context, InputLogisticsActivity::class.java).putExtra(InputLogisticsActivity.InputLogistics_Intent_OrderId, entity.returnOrderId), 100)
+                                    context?.startActivityForResult(Intent(context, InputLogisticsActivity::class.java).putExtra(InputLogisticsActivity.InputLogistics_Intent_OrderId, entity.returnOrderId), 100)
                                 }
                                 "4" -> {//联系卖家
                                     DialogUtils.Call(context as BaseActivity, entity.shopPhone)

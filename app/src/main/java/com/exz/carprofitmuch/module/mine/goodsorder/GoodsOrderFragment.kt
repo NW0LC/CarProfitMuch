@@ -74,7 +74,7 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdapter
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
-        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 15, ContextCompat.getColor(context, R.color.app_bg)))
+        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 15, ContextCompat.getColor(context!!, R.color.app_bg)))
 
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
@@ -184,7 +184,7 @@ class GoodsOrderFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdapter
     }
 
     private fun iniData() {
-        DataCtrlClassXZW.MyOrderData(context, arguments.get(COMMENT_TYPE).toString(), currentPage) {
+        DataCtrlClassXZW.MyOrderData(context, arguments?.get(COMMENT_TYPE).toString(), currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

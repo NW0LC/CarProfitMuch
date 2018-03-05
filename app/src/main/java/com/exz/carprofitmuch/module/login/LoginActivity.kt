@@ -87,8 +87,8 @@ internal class LoginActivity : BaseActivity() {
         val RESULT_LOGIN_OK = 2000
         val RESULT_LOGIN_CANCELED = 3000
 
-        fun loginSuccess(context: Activity, mobile: String,pwd: String, user: User?) {
-            PreferencesService.saveAccount(context, mobile, pwd)
+        fun loginSuccess(context: Activity?, mobile: String,pwd: String, user: User?) {
+            PreferencesService.saveAccount(context!!, mobile, pwd)
             MyApplication.user=user
 //            PreferencesService.saveAutoLoginToken(context, user?.autoLoginToken ?: "")
             val intent = context.intent

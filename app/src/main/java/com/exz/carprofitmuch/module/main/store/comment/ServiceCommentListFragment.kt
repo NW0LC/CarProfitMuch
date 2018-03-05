@@ -58,7 +58,7 @@ class ServiceCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnC
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
-        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
+        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context!!, R.color.app_bg)))
 
     }
 
@@ -78,7 +78,7 @@ class ServiceCommentListFragment : MyBaseFragment(), OnRefreshListener, View.OnC
     }
 
     private fun iniData(){
-        DataCtrlClass.goodsCommentData(context, currentPage,arguments[COMMENT_Id].toString(),arguments[COMMENT_IdMark].toString(),arguments[COMMENT_TYPE].toString()) {
+        DataCtrlClass.goodsCommentData(context, currentPage,arguments?.get(COMMENT_Id).toString(),arguments?.get(COMMENT_IdMark).toString(),arguments?.get(COMMENT_TYPE).toString()) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

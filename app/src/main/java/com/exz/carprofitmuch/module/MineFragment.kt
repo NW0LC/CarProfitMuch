@@ -77,18 +77,18 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             refreshLayout?.finishRefresh()
             if (it != null) {
                 img_head.setImageURI(it.headerUrl)
-                tv_userName.text = PreferencesService.getAccountKey(context)
+                tv_userName.text = PreferencesService.getAccountKey(context!!)
                 overDate=it.overDate
                 tv_userInfo.text = String.format("${it.level}${if (it.overDate.isNotEmpty()) it.overDate + getString(R.string.mine_vip_pass) else ""}")//会员等级 -过期时间
                 totalScore = it.scoreT.toFloat()//车险总积分
                 realScore = it.scoreG.toFloat()//车险获得积分
                 unlockScore = it.scoreL.toFloat()//车险解锁积分
                 rootView.postDelayed({ SZWUtils.resetProgress(progressBar = progressBar, parentLayout = rootView, realScore = realScore, unlockScore = unlockScore, totalScore = totalScore, reset = reset) { reset = false } }, 2000)
-                tv_myBalance.text = String.format(context.getString(R.string.CNY) + "%s", it.balance)//余额
-                bt_tab_card_count.text = SZWUtils.setUnitTextColor(context, String.format(context.getString(R.string.unit_piece), it.wallet))//可用卡劵数量
-                bt_tab_coupon_count.text = SZWUtils.setUnitTextColor(context, String.format(context.getString(R.string.unit_piece), it.coupon))//可用优惠券数量
-                bt_tab_treasure_count.text = SZWUtils.setUnitTextColor(context, String.format(context.getString(R.string.unit_individual), it.treasure))//待领取宝藏数量
-                bt_tab_score_count.text = SZWUtils.setUnitTextColor(context, String.format(context.getString(R.string.unit_individual), it.score))//我的积分
+                tv_myBalance.text = String.format(getString(R.string.CNY) + "%s", it.balance)//余额
+                bt_tab_card_count.text = SZWUtils.setUnitTextColor(context, String.format(getString(R.string.unit_piece), it.wallet))//可用卡劵数量
+                bt_tab_coupon_count.text = SZWUtils.setUnitTextColor(context, String.format(getString(R.string.unit_piece), it.coupon))//可用优惠券数量
+                bt_tab_treasure_count.text = SZWUtils.setUnitTextColor(context, String.format(getString(R.string.unit_individual), it.treasure))//待领取宝藏数量
+                bt_tab_score_count.text = SZWUtils.setUnitTextColor(context, String.format(getString(R.string.unit_individual), it.score))//我的积分
                 openState = it.openState
                 bt_applyFor_openShop.visibility = if (it.openState == "1") View.GONE else View.VISIBLE
                 mHasNews = it.isMsg == "1"
@@ -239,7 +239,7 @@ class MineFragment : MyBaseFragment(), OnRefreshListener, View.OnClickListener, 
             }
             bt_applyFor_openShop -> {//申请开店
                 if (openState == "0")
-                    context.toast("开店审核中..")
+                    context?.toast("开店审核中..")
                 else {
                     val intent = Intent(context, OpenShopActivity::class.java).putExtra(OpenShopActivity.OPENSTATE, openState)
                     SZWUtils.checkLogin(this, intent, OpenShopActivity::class.java.name)

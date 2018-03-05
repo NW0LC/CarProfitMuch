@@ -86,7 +86,7 @@ object SZWUtils {
             }
             login.putExtras(intent)
             mContext.startActivityForResult(login, 0xc8)
-            mContext.activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.fade_out)
+            mContext.activity?.overridePendingTransition(R.anim.slide_in_bottom, R.anim.fade_out)
             false
         } else {
             try {
@@ -456,7 +456,7 @@ object SZWUtils {
     /**
      * Banner  和广告的跳转 意图
      */
-    fun <T:AbsMark>getIntent(context: Context, item: T): Intent? {
+    fun <T:AbsMark>getIntent(context: Context?, item: T): Intent? {
 //            1虚拟类商品 2金钱实物类商品 3积分实物类商品 4虚拟类店铺 5实物类店铺 6网页
         var intent: Intent?=null
         when (item.getMarkType()) {
@@ -502,7 +502,7 @@ object SZWUtils {
     /**
      * 商城首页跳转
      */
-    fun <T:AbsMark>getMarkIntent(context: Context, item: T): Intent? {
+    fun <T:AbsMark>getMarkIntent(context: Context?, item: T): Intent? {
         var intent: Intent?=null
         when (item.getIdM()+item.getClassM()+item.getPayM()) {
             "111","1"->{//积分
@@ -538,8 +538,10 @@ object SZWUtils {
     /**
      * 将个人中心 数字单位换成黑色
      */
-    fun setUnitTextColor(context: Context,msg:String):SpannableString{
+    fun setUnitTextColor(context: Context?,msg:String):SpannableString{
+
         val msp = SpannableString(msg)
+        if (context!=null)
         msp.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.MaterialGrey600)), msg.length-1, msg.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         return msp
     }

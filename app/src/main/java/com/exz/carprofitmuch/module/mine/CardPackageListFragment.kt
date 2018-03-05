@@ -65,11 +65,11 @@ class CardPackageListFragment : MyBaseFragment(), OnRefreshListener,  BaseQuickA
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
-        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
+        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context!!, R.color.app_bg)))
 
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener(){
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                val intent = Intent(context, CardPackageDetailActivity::class.java)
+                val intent = Intent(context!!, CardPackageDetailActivity::class.java)
                 intent.putExtra(CardPackageDetail_Intent_OrderId,mAdapter.data[position].orderId)
                 startActivityForResult(intent,100)
             }
@@ -121,7 +121,7 @@ class CardPackageListFragment : MyBaseFragment(), OnRefreshListener,  BaseQuickA
     }
 
     private fun iniData(){
-        DataCtrlClass.cardPackageListData(context, currentPage,arguments[COMMENT_TYPE].toString()) {
+        DataCtrlClass.cardPackageListData(context, currentPage,arguments?.get(COMMENT_TYPE).toString()) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

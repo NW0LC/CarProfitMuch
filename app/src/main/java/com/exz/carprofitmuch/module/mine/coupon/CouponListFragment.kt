@@ -62,7 +62,7 @@ class CouponListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
-        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
+        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context!!, R.color.app_bg)))
 
     }
 
@@ -82,7 +82,7 @@ class CouponListFragment : MyBaseFragment(), OnRefreshListener, View.OnClickList
     }
 
     private fun iniData() {
-        DataCtrlClassXZW.CouponData(context, arguments.getInt(COMMENT_TYPE,0).toString(),currentPage) {
+        DataCtrlClassXZW.CouponData(context, arguments?.getInt(COMMENT_TYPE,0).toString(),currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

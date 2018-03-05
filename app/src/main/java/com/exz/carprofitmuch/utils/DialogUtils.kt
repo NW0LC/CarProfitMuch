@@ -24,7 +24,7 @@ import org.jetbrains.anko.toast
  */
 object DialogUtils {
     private lateinit var dialog: ICommonDialog
-    fun WarningWithListener(context: Context, str: String, listener: ()->Unit) {
+    fun WarningWithListener(context: Context?, str: String, listener: ()->Unit) {
         dialog = CommonDialogFactory.createDialogByType(context, DialogUtil.DIALOG_TYPE_4)
         dialog.setTitleText(if (TextUtils.isEmpty(str)) "空空如也" else str)
         dialog.setOkBtn("确定") {
@@ -39,7 +39,7 @@ object DialogUtils {
     /**
      * 清除提醒
      */
-    fun delete(context: Context, listener: () -> Unit) {
+    fun delete(context: Context?, listener: () -> Unit) {
         dialog = CommonDialogFactory.createDialogByType(context, DialogUtil.DIALOG_TYPE_103)
         dialog.setTitleText("删除")
         dialog.setContentText("确定删除？")
@@ -53,7 +53,7 @@ object DialogUtils {
     }/**
      * 取消提醒
      */
-    fun cancel(context: Context, listener: () -> Unit) {
+    fun cancel(context: Context?, listener: () -> Unit) {
         dialog = CommonDialogFactory.createDialogByType(context, DialogUtil.DIALOG_TYPE_103)
         dialog.setTitleText("取消")
         dialog.setContentText("确定取消？")
@@ -69,7 +69,7 @@ object DialogUtils {
     /**
      * 清除搜索记录
      */
-    fun deleteSearch(context: Context, listener: View.OnClickListener) {
+    fun deleteSearch(context: Context?, listener: View.OnClickListener) {
         dialog = CommonDialogFactory.createDialogByType(context, DialogUtil.DIALOG_TYPE_103)
         dialog.setTitleText("删除")
         dialog.setContentText("确定清除记录？")
@@ -117,7 +117,7 @@ object DialogUtils {
     /**
      * 数量更改弹窗
      */
-    fun changeNum(context: Context, count: Long, listener: (num: Long) -> Unit) {
+    fun changeNum(context: Context?, count: Long, listener: (num: Long) -> Unit) {
         dialog = DialogType104(context)
         val view = View.inflate(context, R.layout.dialog_change_num, null)
         ViewHolder(view)
@@ -149,7 +149,7 @@ object DialogUtils {
     /**
      * 平台申诉
      */
-    fun platform(context: Context, listener: (num: String) -> Unit) {
+    fun platform(context: Context?, listener: (num: String) -> Unit) {
         dialog = DialogType104(context)
         val view = View.inflate(context, R.layout.dialog_platform, null)
         dialog.setTitleText("平台申诉")
@@ -159,7 +159,7 @@ object DialogUtils {
             if (!TextUtils.isEmpty(trim)) {
                 listener.invoke(trim)
             }else{
-                context.toast("请输入申诉原因")
+                context?.toast("请输入申诉原因")
             }
             dialog.dismiss()
         }
@@ -177,7 +177,7 @@ object DialogUtils {
     /**
      * 退款
      */
-    fun refund(context: Context, listener: (num: String) -> Unit) {
+    fun refund(context: Context?, listener: (num: String) -> Unit) {
         dialog = DialogType104(context)
         val view = View.inflate(context, R.layout.dialog_refund, null)
         dialog.setTitleText("退款原因")
@@ -222,7 +222,7 @@ object DialogUtils {
     /***
      *积分支付成功
      */
-    fun scorePaySuccess(context: Context,listener: () -> Unit) {
+    fun scorePaySuccess(context: Context?,listener: () -> Unit) {
 
         val inflate = View.inflate(context, R.layout.dialog_score_success, null)
         val dlg = CoreDialog(context, com.common.alertpop.R.style.dialog, inflate, true)
@@ -240,7 +240,7 @@ object DialogUtils {
     /***
      *积分支付失败
      */
-    fun scorePayFailed(context: Context, reason: String = context.getString(R.string.score_pay_failed_default_reason)) {
+    fun scorePayFailed(context: Context?, reason: String = context!!.getString(R.string.score_pay_failed_default_reason)) {
 
         val inflate = View.inflate(context, R.layout.dialog_score_failed, null)
         val dlg = CoreDialog(context, com.common.alertpop.R.style.dialog, inflate, true)
@@ -255,7 +255,7 @@ object DialogUtils {
     /***
      *分享活动
      */
-    fun sharePromotion(context: Context,listener: (cancel:Boolean) -> Unit) {
+    fun sharePromotion(context: Context?,listener: (cancel:Boolean) -> Unit) {
 
         val inflate = View.inflate(context, R.layout.dialog_promotion_share, null)
         val dlg = CoreDialog(context, com.common.alertpop.R.style.dialog, inflate, true)

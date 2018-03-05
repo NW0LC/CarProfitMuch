@@ -55,7 +55,7 @@ class AdsFreeFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdapter.Re
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
-        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
+        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context!!, R.color.app_bg)))
         mRecyclerView.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 if (SZWUtils.checkLogin(this@AdsFreeFragment) && SZWUtils.getIntent(context, mAdapter.data[position]) != null)
@@ -78,7 +78,7 @@ class AdsFreeFragment : MyBaseFragment(), OnRefreshListener, BaseQuickAdapter.Re
     }
 
     private fun iniData() {
-        DataCtrlClass.mainAdsData(context, arguments[Bundle_Ads_Type].toString(), currentPage) {
+        DataCtrlClass.mainAdsData(context, arguments?.get(Bundle_Ads_Type).toString(), currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

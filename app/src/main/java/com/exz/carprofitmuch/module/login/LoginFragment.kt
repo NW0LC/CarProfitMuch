@@ -39,8 +39,8 @@ class LoginFragment : MyBaseFragment(), View.OnFocusChangeListener, View.OnClick
     override fun initView() {
         bt_login.isFocusable = true
         bt_login.requestFocus()
-        ed_phone.setText(PreferencesService.getAccountKey(context))
-        ed_pwd.setText(PreferencesService.getAccountValue(context))
+        ed_phone.setText(PreferencesService.getAccountKey(context!!))
+        ed_pwd.setText(PreferencesService.getAccountValue(context!!))
         ed_phone.onFocusChangeListener = this
         ed_pwd.onFocusChangeListener = this
         ed_phone.addTextChangedListener(this)
@@ -62,16 +62,16 @@ class LoginFragment : MyBaseFragment(), View.OnFocusChangeListener, View.OnClick
             ed_phone.hasFocus() -> {
                 if (ed_pwd.text.toString().isNotEmpty()) {
                     ed_pwd.setText("")
-                    ed_pwd.setCompoundDrawablesRelativeWithIntrinsicBounds(ContextCompat.getDrawable(context, R.mipmap.icon_login_pwd_off), null, null, null)
+                    ed_pwd.setCompoundDrawablesRelativeWithIntrinsicBounds(ContextCompat.getDrawable(context!!, R.mipmap.icon_login_pwd_off), null, null, null)
                 }
                 ed_phone.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        if (StringUtil.isPhone(ed_phone.text.toString())) ContextCompat.getDrawable(context, R.mipmap.icon_login_phone_on)
-                        else ContextCompat.getDrawable(context, R.mipmap.icon_login_phone_off), null, null, null)
+                        if (StringUtil.isPhone(ed_phone.text.toString())) ContextCompat.getDrawable(context!!, R.mipmap.icon_login_phone_on)
+                        else ContextCompat.getDrawable(context!!, R.mipmap.icon_login_phone_off), null, null, null)
             }
             ed_pwd.hasFocus() -> {
                 ed_pwd.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        if (p0.toString().isNotEmpty() && p0?.length ?: 0 >= 6) ContextCompat.getDrawable(context, R.mipmap.icon_login_pwd_on)
-                        else ContextCompat.getDrawable(context, R.mipmap.icon_login_pwd_off), null, null, null)
+                        if (p0.toString().isNotEmpty() && p0?.length ?: 0 >= 6) ContextCompat.getDrawable(context!!, R.mipmap.icon_login_pwd_on)
+                        else ContextCompat.getDrawable(context!!, R.mipmap.icon_login_pwd_off), null, null, null)
             }
         }
 

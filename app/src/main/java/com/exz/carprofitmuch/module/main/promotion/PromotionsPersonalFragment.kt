@@ -71,7 +71,7 @@ class PromotionsPersonalFragment : MyBaseFragment(), OnRefreshListener,  BaseQui
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
-        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
+        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context!!, R.color.app_bg)))
         mRecyclerView.addOnItemTouchListener(object : OnItemChildClickListener(){
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 when (view?.id) {
@@ -107,7 +107,7 @@ class PromotionsPersonalFragment : MyBaseFragment(), OnRefreshListener,  BaseQui
     }
 
     private fun iniData(){
-        DataCtrlClass.promotionsPersonalData(context, currentPage,arguments.getString(COMMENT_TYPE)) {
+        DataCtrlClass.promotionsPersonalData(context, currentPage,arguments?.getString(COMMENT_TYPE).toString()) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

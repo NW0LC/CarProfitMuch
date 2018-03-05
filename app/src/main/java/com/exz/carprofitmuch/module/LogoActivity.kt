@@ -1,6 +1,5 @@
 package com.exz.carprofitmuch.module
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.Animation
@@ -32,21 +31,18 @@ class LogoActivity : BaseActivity() {
             override fun onAnimationRepeat(animation: Animation) {}
 
             override fun onAnimationEnd(animation: Animation) {
-                val preferences = getSharedPreferences("CPM",
-                        Context.MODE_PRIVATE)
-                val flag = preferences.getBoolean("FirstRun", false)
-                if (flag) {
-                    val editor = preferences.edit()
-                    editor.putBoolean("FirstRun", false)
-                    editor.apply()
-                    //                    LogoActivity.this.startActivity(new Intent(
-                    //                            LogoActivity.this, FirstRunActivity.class));
-                    //                    finish();
-                } else {
-
-//                    type = 1
-//                    jump(type)
-                }
+//                val preferences = getSharedPreferences("CPM",
+//                        Context.MODE_PRIVATE)
+//                val flag = preferences.getBoolean("FirstRun", true)
+//                if (!flag) {
+//                    val editor = preferences.edit()
+//                    editor.putBoolean("FirstRun", false)
+//                    editor.apply()
+//                    startActivity(Intent(this@LogoActivity, FirstRunActivity::class.java))
+//                                        finish()
+//                } else {
+//
+//                }
             }
         })
         img_logo.animation = anim

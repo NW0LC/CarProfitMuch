@@ -219,9 +219,8 @@ class PayQRActivity : PayActivity(), View.OnClickListener {
         OkGo.post<NetEntity<CheckPayBean>>(QRPayCheck).tag(this)
                 .params(map)
                 .execute(object : DialogCallback<NetEntity<CheckPayBean>>(this) {
-
-                    override fun onSuccess(response: Response<NetEntity<CheckPayBean>>) =
-                            if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                    override fun onSuccess(response: Response<NetEntity<CheckPayBean>>?) {
+                        if (response?.body()?.getCode() == Constants.NetCode.SUCCESS) {
                             if (response.body().data?.payState == "1") {
                                 setResult(Activity.RESULT_OK)
                                 finish()
@@ -229,8 +228,11 @@ class PayQRActivity : PayActivity(), View.OnClickListener {
                                 com.szw.framelibrary.utils.DialogUtils.Warning(mContext, getString(R.string.pay_check_failed))
                             }
                         }else{
-                                toast(response.body().message)
-                            }
+                            toast(response?.body()?.message?:"")
+                        }
+                    }
+
+
                 })
 
     }

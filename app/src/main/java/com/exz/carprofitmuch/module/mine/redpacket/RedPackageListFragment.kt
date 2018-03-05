@@ -13,10 +13,8 @@ import com.exz.carprofitmuch.adapter.RedPackageAdapter
 import com.exz.carprofitmuch.bean.CouponBean
 import com.exz.carprofitmuch.utils.RecycleViewDivider
 import com.exz.carprofitmuch.utils.SZWUtils
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.szw.framelibrary.base.MyBaseFragment
 import com.szw.framelibrary.config.Constants
 import com.szw.framelibrary.utils.StatusBarUtil
@@ -59,7 +57,7 @@ class RedPackageListFragment : MyBaseFragment(), OnRefreshListener, View.OnClick
 
     private val arrayList2 = ArrayList<CouponBean>()
     private fun initRecycler() {
-        mAdapter = RedPackageAdapter(arguments.getInt(COMMENT_TYPE))
+        mAdapter = RedPackageAdapter(arguments?.getInt(COMMENT_TYPE)?:0)
         val imgs = ArrayList<String>()
         arrayList2.add(CouponBean())
         arrayList2.add(CouponBean())
@@ -78,7 +76,7 @@ class RedPackageListFragment : MyBaseFragment(), OnRefreshListener, View.OnClick
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
-        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
+        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context!!, R.color.app_bg)))
 
     }
 

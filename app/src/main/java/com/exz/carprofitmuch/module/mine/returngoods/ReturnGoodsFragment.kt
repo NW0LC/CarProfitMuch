@@ -65,7 +65,7 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
         mAdapter.bindToRecyclerView(mRecyclerView)
         mAdapter.setOnLoadMoreListener(this, mRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
-        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context, R.color.app_bg)))
+        mRecyclerView.addItemDecoration(RecycleViewDivider(context, LinearLayoutManager.VERTICAL, 10, ContextCompat.getColor(context!!, R.color.app_bg)))
 
         refreshLayout.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
             override fun onHeaderPulling(headerView: RefreshHeader?, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
@@ -112,7 +112,7 @@ class ReturnGoodsFragment : MyBaseFragment(), OnRefreshListener, View.OnClickLis
     }
 
     private fun iniData() {
-        DataCtrlClassXZW.returnOrderOrderData(context,arguments.getInt(COMMENT_TYPE).toString(), currentPage) {
+        DataCtrlClassXZW.returnOrderOrderData(context,arguments?.getInt(COMMENT_TYPE).toString(), currentPage) {
             refreshLayout?.finishRefresh()
             if (it != null) {
                 if (refreshState == Constants.RefreshState.STATE_REFRESH) {

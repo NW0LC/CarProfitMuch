@@ -47,7 +47,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".module.LogoActivity">
+        <activity android:name=".module.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,7 +55,7 @@
             </intent-filter>
         </activity>
 
-
+        <activity android:name=".module.LogoActivity" />
         <!--主-->
         <activity android:name=".module.MainActivity"/>
         <!--登录注册-->
@@ -443,7 +443,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".module.LoginActivity" />
+
 
         <meta-data
             tools:replace="android:value"

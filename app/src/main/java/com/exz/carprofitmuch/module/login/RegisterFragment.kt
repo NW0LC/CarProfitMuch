@@ -60,12 +60,11 @@ class RegisterFragment : MyBaseFragment(), View.OnFocusChangeListener, TextWatch
         bt_code.setOnClickListener(this)
         bt_protocol.setOnClickListener(this)
 
-
-        smsContentObserver = SZWUtils.registerSMS(context, SZWUtils.patternCode(context, ed_code,4))
+        smsContentObserver = SZWUtils.registerSMS(context!!, SZWUtils.patternCode(context!!, ed_code,4))
 
         val currentTime = System.currentTimeMillis()
-        if (PreferencesService.getDownTimer(context, downKey) in 1..(currentTime - 1)) {
-            downTimer(time - (currentTime - PreferencesService.getDownTimer(context, downKey)))
+        if (PreferencesService.getDownTimer(context!!, downKey) in 1..(currentTime - 1)) {
+            downTimer(time - (currentTime - PreferencesService.getDownTimer(context!!, downKey)))
         }
     }
 
@@ -74,7 +73,7 @@ class RegisterFragment : MyBaseFragment(), View.OnFocusChangeListener, TextWatch
             ed_phone.setShakeAnimation()
         } else {
             downTimer(time.toLong())
-            PreferencesService.setDownTimer(context, downKey, System.currentTimeMillis())
+            PreferencesService.setDownTimer(context!!, downKey, System.currentTimeMillis())
             DataCtrlClass.getSecurityCode(context, ed_phone.text.toString(), "1") {
                 if (it != null) {
                     ed_code.setText(it)
@@ -126,13 +125,13 @@ class RegisterFragment : MyBaseFragment(), View.OnFocusChangeListener, TextWatch
             countDownTimer?.cancel()
             bt_code.text = getString(R.string.login_hint_get_code)
             bt_code.isClickable = true
-            bt_code.setTextColor(ContextCompat.getColor(context, R.color.MaterialTealA700))
-            bt_code.delegate.strokeColor = ContextCompat.getColor(context, R.color.MaterialTealA700)
-            PreferencesService.setDownTimer(context, downKey, 0)
+            bt_code.setTextColor(ContextCompat.getColor(context!!, R.color.MaterialTealA700))
+            bt_code.delegate.strokeColor = ContextCompat.getColor(context!!, R.color.MaterialTealA700)
+            PreferencesService.setDownTimer(context!!, downKey, 0)
         } else {
             bt_code.isClickable = false
-            bt_code.setTextColor(ContextCompat.getColor(context, R.color.MaterialGrey400))
-            bt_code.delegate.strokeColor = ContextCompat.getColor(context, R.color.MaterialGrey400)
+            bt_code.setTextColor(ContextCompat.getColor(context!!, R.color.MaterialGrey400))
+            bt_code.delegate.strokeColor = ContextCompat.getColor(context!!, R.color.MaterialGrey400)
             bt_code.text = String.format(getString(R.string.login_hint_get_reGetCode), millisUntilFinished / 1000)
         }
 
@@ -155,23 +154,23 @@ class RegisterFragment : MyBaseFragment(), View.OnFocusChangeListener, TextWatch
                 if (ed_pwd.text.toString().isNotEmpty())
                     ed_pwd.setText("")
                 ed_phone.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        if (StringUtil.isPhone(ed_phone.text.toString())) ContextCompat.getDrawable(context, R.mipmap.icon_login_phone_on)
-                        else ContextCompat.getDrawable(context, R.mipmap.icon_login_phone_off), null, null, null)
+                        if (StringUtil.isPhone(ed_phone.text.toString())) ContextCompat.getDrawable(context!!, R.mipmap.icon_login_phone_on)
+                        else ContextCompat.getDrawable(context!!, R.mipmap.icon_login_phone_off), null, null, null)
             }
             ed_pwd.hasFocus() -> {
                 ed_pwd.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        if (p0.toString().isNotEmpty() && p0?.length ?: 0 >= 6) ContextCompat.getDrawable(context, R.mipmap.icon_login_pwd_on)
-                        else ContextCompat.getDrawable(context, R.mipmap.icon_login_pwd_off), null, null, null)
+                        if (p0.toString().isNotEmpty() && p0?.length ?: 0 >= 6) ContextCompat.getDrawable(context!!, R.mipmap.icon_login_pwd_on)
+                        else ContextCompat.getDrawable(context!!, R.mipmap.icon_login_pwd_off), null, null, null)
             }
             ed_code.hasFocus() -> {
                 ed_code.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        if (p0.toString().isNotEmpty() && p0?.length ?: 0 >= 4) ContextCompat.getDrawable(context, R.mipmap.icon_login_pwd_on)
-                        else ContextCompat.getDrawable(context, R.mipmap.icon_login_pwd_off), null, null, null)
+                        if (p0.toString().isNotEmpty() && p0?.length ?: 0 >= 4) ContextCompat.getDrawable(context!!, R.mipmap.icon_login_pwd_on)
+                        else ContextCompat.getDrawable(context!!, R.mipmap.icon_login_pwd_off), null, null, null)
             }
             ed_referrer.hasFocus() -> {
                 ed_referrer.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        if (StringUtil.isPhone(ed_referrer.text.toString())) ContextCompat.getDrawable(context, R.mipmap.icon_login_invite_on)
-                        else ContextCompat.getDrawable(context, R.mipmap.icon_login_invite_off), null, null, null)
+                        if (StringUtil.isPhone(ed_referrer.text.toString())) ContextCompat.getDrawable(context!!, R.mipmap.icon_login_invite_on)
+                        else ContextCompat.getDrawable(context!!, R.mipmap.icon_login_invite_off), null, null, null)
             }
         }
 

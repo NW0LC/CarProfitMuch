@@ -12,6 +12,7 @@ import com.exz.carprofitmuch.module.main.pay.PayActivity
 import com.exz.carprofitmuch.module.main.pay.PwdGetCodeActivity
 import com.exz.carprofitmuch.pop.PwdPop
 import com.exz.carprofitmuch.utils.DialogUtils
+import com.hwangjr.rxbus.RxBus
 import com.hwangjr.rxbus.annotation.Subscribe
 import com.hwangjr.rxbus.annotation.Tag
 import com.hwangjr.rxbus.thread.EventThread
@@ -19,7 +20,6 @@ import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.szw.framelibrary.app.MyApplication
 import com.szw.framelibrary.config.Constants
-import com.szw.framelibrary.utils.RxBus
 import com.szw.framelibrary.utils.StatusBarUtil
 import com.szw.framelibrary.utils.net.NetEntity
 import com.szw.framelibrary.utils.net.callback.DialogCallback

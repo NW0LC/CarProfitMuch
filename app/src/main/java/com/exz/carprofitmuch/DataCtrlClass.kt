@@ -22,8 +22,9 @@ import com.szw.framelibrary.utils.net.NetEntity
 import com.szw.framelibrary.utils.net.callback.DialogCallback
 import com.szw.framelibrary.utils.net.callback.JsonCallback
 import com.szw.framelibrary.view.CustomProgress
+import com.umeng.socialize.utils.DeviceConfig.context
 import org.jetbrains.anko.toast
-import java.util.*
+
 
 /**
  * Created by 史忠文
@@ -36,7 +37,7 @@ object DataCtrlClass {
      * @param[phone] string	必填	手机号
      * @param[purpose] string	必填	用途：1注册，2忘记密码，3设置支付密码
      * */
-    fun getSecurityCode(context: Context, phone: String, purpose: String, listener: (errorMsg: String?) -> Unit) {
+    fun getSecurityCode(context: Context?, phone: String, purpose: String, listener: (errorMsg: String?) -> Unit) {
 //        phone	string	必填	手机号
 //        purpose	string	必填	用途：1注册，2忘记密码，3设置支付密码
 //        requestCheck	string	必填	验证请求
@@ -45,6 +46,7 @@ object DataCtrlClass {
         params["phone"] = phone
         params["purpose"] = purpose
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(phone + MyApplication.salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.VerifyCode)
                 .params(params)
                 .tag(this)
@@ -69,7 +71,7 @@ object DataCtrlClass {
     /**
      * 登录
      * */
-    fun login(context: Context, mobile: String, pwd: String, listener: (userId: String?) -> Unit) {
+    fun login(context: Context?, mobile: String, pwd: String, listener: (userId: String?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["phone"] = mobile
@@ -77,6 +79,7 @@ object DataCtrlClass {
         params["deviceType"] = "1"
 //      params.put("jpushToken", JPushInterface.getRegistrationID(this))
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(mobile+pwd, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.Login)
                 .params(params)
                 .tag(this)
@@ -136,7 +139,7 @@ object DataCtrlClass {
      * @param[wechat] string	必填	微信号
      * @param[invitePhone] string	选填	推荐人手机号
      * */
-    fun register(context: Context, phone: String, code: String, pwd: String,wechat: String, invitePhone: String, listener: (userId: String?) -> Unit) {
+    fun register(context: Context?, phone: String, code: String, pwd: String,wechat: String, invitePhone: String, listener: (userId: String?) -> Unit) {
 //        phone	string	必填	手机号
 //        code	string	必填	验证码
 //        pwd	string	必填	密码
@@ -155,6 +158,7 @@ object DataCtrlClass {
         params["deviceType"] = "1"
 //        params.put("jpushToken", JPushInterface.getRegistrationID(this))
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(phone + code, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.Register)
                 .params(params)
                 .tag(this)
@@ -178,7 +182,7 @@ object DataCtrlClass {
     /**
      * 忘记密码
      * */
-    fun forgetPwd(context: Context, mobile: String, code: String, pwd: String, listener: (user: String?) -> Unit) {
+    fun forgetPwd(context: Context?, mobile: String, code: String, pwd: String, listener: (user: String?) -> Unit) {
 //        phone	string	必填	手机号
 //        code	string	必填	验证码
 //        pwd	string	必填	密码
@@ -189,6 +193,7 @@ object DataCtrlClass {
         params["code"] = code
         params["pwd"] = pwd
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(mobile + code, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.ForgetPwd)
                 .params(params)
                 .tag(this)
@@ -213,12 +218,13 @@ object DataCtrlClass {
     /**
      * banner
      * */
-    fun bannerData(context: Context, type :String,listener: (bannersBean:ArrayList< BannersBean>?) -> Unit) {
+    fun bannerData(context: Context?, type :String,listener: (bannersBean:ArrayList<BannersBean>?) -> Unit) {
 //        type	string	必填	位置
 
         val params = HashMap<String, String>()
         params["type"] = type
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(type, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ArrayList< BannersBean>>>(Urls.HomeBanner)
                 .params(params)
                 .tag(this)
@@ -241,10 +247,11 @@ object DataCtrlClass {
     /**
      * 热销推荐
      * */
-    fun mainRecommendData(context: Context, listener: (mainBean: ArrayList<MainRecommendBean>?) -> Unit) {
+    fun mainRecommendData(context: Context?, listener: (mainBean: ArrayList<MainRecommendBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString("Recommend", salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ArrayList<MainRecommendBean>>>(Urls.HomeRecommend)
                 .params(params)
                 .tag(this)
@@ -267,10 +274,11 @@ object DataCtrlClass {
     /**
      * 热点资讯
      * */
-    fun mainNewsData(context: Context, listener: (informationBeans: ArrayList<InformationBean>?) -> Unit) {
+    fun mainNewsData(context: Context?, listener: (informationBeans: ArrayList<InformationBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString("HotNews", salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ArrayList<InformationBean>>>(Urls.HomeHotNews)
                 .params(params)
                 .tag(this)
@@ -293,11 +301,12 @@ object DataCtrlClass {
     /**
      * 热点资讯列表
      * */
-    fun mainNewsListData(context: Context,currentPage: Int, listener: (informationBeans: ArrayList<InformationBean>?) -> Unit) {
+    fun mainNewsListData(context: Context?,currentPage: Int, listener: (informationBeans: ArrayList<InformationBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ArrayList<InformationBean>>>(Urls.HomeNewsList)
                 .params(params)
                 .tag(this)
@@ -320,12 +329,13 @@ object DataCtrlClass {
     /**
      * 个人中心消息
      * */
-    fun mineMsgData(context: Context,currentPage: Int, listener: (informationBeans: ArrayList<MsgBean>?) -> Unit) {
+    fun mineMsgData(context: Context?,currentPage: Int, listener: (informationBeans: ArrayList<MsgBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["userId"] = MyApplication.loginUserId
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ArrayList<MsgBean>>>(Urls.Message)
                 .params(params)
                 .tag(this)
@@ -349,10 +359,11 @@ object DataCtrlClass {
     /**
      * 首页商城数据
      * */
-    fun mainStoreData(context: Context, listener: (mainStoreBean: MainStoreBean?) -> Unit) {
+    fun mainStoreData(context: Context?, listener: (mainStoreBean: MainStoreBean?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString("StoreHome", salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<MainStoreBean>>(Urls.StoreHome)
                 .params(params)
                 .tag(this)
@@ -376,11 +387,12 @@ object DataCtrlClass {
     /**
      * 积分商城页
      * */
-    fun scoreStoreData(context: Context,currentPage:Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
+    fun scoreStoreData(context: Context?,currentPage:Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<GoodsBean>>>(Urls.ScoreGoodsList)
                 .params(params)
                 .tag(this)
@@ -404,7 +416,7 @@ object DataCtrlClass {
     /**
      * 积分确认信息
      * */
-    fun scoreConfirmData(context: Context,shopId:String, goodsId:String,goodsCount:String, skuid:String, listener: (scoreConfirmBean: ScoreConfirmBean?) -> Unit) {
+    fun scoreConfirmData(context: Context?,shopId:String, goodsId:String,goodsCount:String, skuid:String, listener: (scoreConfirmBean: ScoreConfirmBean?) -> Unit) {
 //        userId	string	必填	用户id
 //        shopId	string	必填	店铺id
 //        goodsId	string	必填	商品id
@@ -419,6 +431,7 @@ object DataCtrlClass {
         params["goodsCount"] = goodsCount
         params["skuid"] = skuid
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ScoreConfirmBean>>(Urls.ScoreOrderInfo)
                 .params(params)
                 .tag(this)
@@ -443,7 +456,7 @@ object DataCtrlClass {
     /**
      * 创建积分订单
      * */
-    fun createScoreOrder(context: Context,addressId:String,scores:String,shopId:String, goodsId:String,goodsCount:String, skuid:String, listener: (orderId: String?) -> Unit) {
+    fun createScoreOrder(context: Context?,addressId:String,scores:String,shopId:String, goodsId:String,goodsCount:String, skuid:String, listener: (orderId: String?) -> Unit) {
 //       userId	string	必填	用户id
 //       addressId	string	必填	地址id
 //       scores	string	必填	积分数
@@ -463,6 +476,7 @@ object DataCtrlClass {
         params["goodsCount"] = goodsCount
         params["skuid"] = skuid
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.CreateScoreOrder)
                 .params(params)
                 .tag(this)
@@ -486,7 +500,7 @@ object DataCtrlClass {
     /**
      * 店铺主页
      * */
-    fun goodsShopData(context: Context,shopId:String, listener: (shopBean: ShopBean?) -> Unit) {
+    fun goodsShopData(context: Context?,shopId:String, listener: (shopBean: ShopBean?) -> Unit) {
 //       userId	string	选填	用户id
 //       shopId	string	必填	店铺id
 //       requestCheck	string	必填	验证请求
@@ -494,6 +508,7 @@ object DataCtrlClass {
         params["userId"] = MyApplication.loginUserId
         params["shopId"] = shopId
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ShopBean>>(Urls.ShopMain)
                 .params(params)
                 .tag(this)
@@ -517,7 +532,7 @@ object DataCtrlClass {
     /**
      * 服务确认信息
      */
-    fun serviceConfirmData(context: Context,shopId: String, goodsId: String, goodsCount: Long,payMark: String,  listener: (data: ServiceConfirmBean?,index: Long) -> Unit) {
+    fun serviceConfirmData(context: Context?,shopId: String, goodsId: String, goodsCount: Long,payMark: String,  listener: (data: ServiceConfirmBean?,index: Long) -> Unit) {
 //        userId	string	必填	用户id
 //        shopId	string	必填	店铺id
 //        goodsId	string	必填	商品id
@@ -532,6 +547,7 @@ object DataCtrlClass {
         params["goodsCount"] = goodsCount.toString()
         params["payMark"] = payMark
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ServiceConfirmBean>>(Urls.VirtuallyOrderInfo)
                 .params(params)
                 .tag(this)
@@ -555,7 +571,7 @@ object DataCtrlClass {
     /**
      * 创建服务订单
      * */
-    fun createServiceOrder(context: Context,vararg param:String, listener: (orderId: String?) -> Unit) {
+    fun createServiceOrder(context: Context?,vararg param:String, listener: (orderId: String?) -> Unit) {
 //        userId	string	必填	用户id
 //        shopId	string	必填	店铺id
 //        goodsId	string	必填	商品id
@@ -580,6 +596,7 @@ object DataCtrlClass {
         params["couponId"] = param[6]
         params["discount"] = param[7]
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.VirtuallyCreateOrder)
                 .params(params)
                 .tag(this)
@@ -610,6 +627,7 @@ object DataCtrlClass {
         val params = HashMap<String, String>()
         params["shopId"] = shopId
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ArrayList<GoodsShopClassifyBean>>>(Urls.ShopSelfTypeList)
                 .params(params)
                 .tag(this)
@@ -632,7 +650,7 @@ object DataCtrlClass {
     /**
      * 商品详情
      * */
-    fun goodsDetailData(context: Context,goodsId:String, listener: (goodsBean: GoodsBean?) -> Unit) {
+    fun goodsDetailData(context: Context?,goodsId:String, listener: (goodsBean: GoodsBean?) -> Unit) {
 //        userId	string	选填	用户id
 //        goodsId	string	必填	商品id
 //        requestCheck	string	必填	验证请求
@@ -640,6 +658,7 @@ object DataCtrlClass {
         params["userId"] = MyApplication.loginUserId
         params["goodsId"] = goodsId
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(goodsId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<GoodsBean>>(Urls.GoodsDetail)
                 .params(params)
                 .tag(this)
@@ -662,13 +681,14 @@ object DataCtrlClass {
     /**
      * 商品规格
      * */
-    fun goodsClassifyData(context: Context,goodsId:String, listener: (goodsBean: SpecBean?) -> Unit) {
+    fun goodsClassifyData(context: Context?,goodsId:String, listener: (goodsBean: SpecBean?) -> Unit) {
 //        userId	string	选填	用户id
 //        goodsId	string	必填	商品id
 //        requestCheck	string	必填	验证请求
         val params = HashMap<String, String>()
         params["goodsId"] = goodsId
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(goodsId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<SpecBean>>(Urls.GoodsRank)
                 .params(params)
                 .tag(this)
@@ -691,7 +711,7 @@ object DataCtrlClass {
     /**
      * 【添加/取消】【关注/收藏】
      * */
-    fun editFavoriteData(context: Context,id:String, idMark:String,type:String, listener: (goodsBean: NetEntity<Void>?) -> Unit) {
+    fun editFavoriteData(context: Context?,id:String, idMark:String,type:String, listener: (goodsBean: NetEntity<Void>?) -> Unit) {
 //        userId	string	必填	用户ID
 //        id	string	必填	店铺/商品id(多个id用英文逗号隔开）
 //        idMark	string	必填	0:店铺，1:商品
@@ -703,6 +723,7 @@ object DataCtrlClass {
         params["idMark"] = idMark
         params["type"] = type
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+id, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<Void>>(Urls.Attention)
                 .params(params)
                 .tag(this)
@@ -736,6 +757,7 @@ object DataCtrlClass {
         params["objectId"] = objectId
         params["page"] = "1"
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ArrayList<CouponBean>>>(Urls.CouponList)
                 .params(params)
                 .tag(this)
@@ -759,12 +781,13 @@ object DataCtrlClass {
     /**
      * 店铺类目
      * */
-    fun serviceClassifyData(context: Context, classMark: String, listener: (serviceListFilterBeans: ArrayList<ServiceListFilterBean>?) -> Unit) {
+    fun serviceClassifyData(context: Context?, classMark: String, listener: (serviceListFilterBeans: ArrayList<ServiceListFilterBean>?) -> Unit) {
 //        classMark	string	必填	店铺类别：1实物类  2虚拟类
 //        requestCheck	string	必填	验证请求
         val params = HashMap<String, String>()
         params["classMark"] = classMark
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(classMark, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ArrayList<ServiceListFilterBean>>>(Urls.ShopCategory)
                 .params(params)
                 .tag(this)
@@ -787,7 +810,7 @@ object DataCtrlClass {
     /**
      * 服务列表
      * */
-    fun serviceListData(context: Context, currentPage: Int, categoryId:String,sequence:String,longitude:String,latitude:String,listener: (scoreStoreBean: List<ServiceShopBean>?) -> Unit) {
+    fun serviceListData(context: Context?, currentPage: Int, categoryId:String,sequence:String,longitude:String,latitude:String,listener: (scoreStoreBean: List<ServiceShopBean>?) -> Unit) {
 //        categoryId	string	必填	店铺分类。【商城】sheet【店铺类目】接口。全部：0
 //        sequence	string	必填	排序：0综合排序，1距离优先，2好评优先
 //        longitude	string	必填	经度（用户）
@@ -802,6 +825,7 @@ object DataCtrlClass {
         params["longitude"] = longitude
         params["latitude"] = latitude
         params["requestCheck"] = EncryptUtils.encryptMD5ToString("ShopList", salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<ServiceShopBean>>>(Urls.ShopList)
                 .params(params)
                 .tag(this)
@@ -824,7 +848,7 @@ object DataCtrlClass {
     /**
      * 服务店铺详情
      * */
-    fun serviceShopData(context: Context, shopId:String,listener: (serviceStoreBean: ServiceShopBean?) -> Unit) {
+    fun serviceShopData(context: Context?, shopId:String,listener: (serviceStoreBean: ServiceShopBean?) -> Unit) {
 //        userId	string	选填	用户id
 //        shopId	string	必填	店铺id
 //        requestCheck	string	必填	验证请求
@@ -834,6 +858,7 @@ object DataCtrlClass {
         params["userId"] = if (!MyApplication.checkUserLogin())"0" else MyApplication.loginUserId
         params["shopId"] = shopId
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ServiceShopBean>>(Urls.VirtuallyShopMain)
                 .params(params)
                 .tag(this)
@@ -856,7 +881,7 @@ object DataCtrlClass {
     /**
      * 服务详情
      * */
-    fun serviceGoodsDetailData(context: Context, goodsId:String,longitude:String,latitude:String,listener: (serviceStoreBean:ServiceGoodsBean?) -> Unit) {
+    fun serviceGoodsDetailData(context: Context?, goodsId:String,longitude:String,latitude:String,listener: (serviceStoreBean:ServiceGoodsBean?) -> Unit) {
 //       userId	string	选填	用户id
 //        goodsId	string	必填	商品id
 //                longitude	string	必填	经度（用户）
@@ -870,6 +895,7 @@ object DataCtrlClass {
         params["longitude"] = longitude
         params["latitude"] = latitude
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(goodsId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ServiceGoodsBean>>(Urls.VirtuallyGoodsDetail)
                 .params(params)
                 .tag(this)
@@ -893,11 +919,12 @@ object DataCtrlClass {
     /**
      * 评价统计
      */
-    fun commentCountData(context: Context, id: String, idMark: String, listener: (data: CommentCountBean?) -> Unit) {
+    fun commentCountData(context: Context?, id: String, idMark: String, listener: (data: CommentCountBean?) -> Unit) {
         val params = HashMap<String, String>()
         params["id"] = id
         params["idMark"] = idMark
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(id, MyApplication.salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<CommentCountBean>>(Urls.CommentCount)
                 .params(params)
                 .tag(this)
@@ -920,7 +947,7 @@ object DataCtrlClass {
     /**
      * 商品评价列表
      * */
-    fun goodsCommentData(context: Context,currentPage: Int,id: String, idMark: String,type: String,  listener: (scoreStoreBean: List<CommentBean>?) -> Unit) {
+    fun goodsCommentData(context: Context?,currentPage: Int,id: String, idMark: String,type: String,  listener: (scoreStoreBean: List<CommentBean>?) -> Unit) {
 //        id	string	必填	商品id
 //        idMark	string	必填	1商品 2店铺
 //        type	string	必填	评论类型
@@ -933,6 +960,7 @@ object DataCtrlClass {
         params["type"] = type
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(id, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<CommentBean>>>(Urls.CommentList)
                 .params(params)
                 .tag(this)
@@ -956,11 +984,12 @@ object DataCtrlClass {
     /**
      * 搜索结果页
      * */
-    fun searchGoodsResult(context: Context, currentPage: Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
+    fun searchGoodsResult(context: Context?, currentPage: Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["currentPage"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString("1", salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<GoodsBean>>>(Urls.url)
                 .params(params)
                 .tag(this)
@@ -1001,6 +1030,7 @@ object DataCtrlClass {
         params["sortType"] = sortType
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(shopId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<GoodsBean>>>(Urls.ShopGoodsList)
                 .params(params)
                 .tag(this)
@@ -1024,7 +1054,7 @@ object DataCtrlClass {
     /**
      * 广告专区
      * */
-    fun mainAdsData(context: Context, isPaid: String,currentPage: Int, listener: (scoreStoreBean: List<BannersBean>?) -> Unit) {
+    fun mainAdsData(context: Context?, isPaid: String,currentPage: Int, listener: (scoreStoreBean: List<BannersBean>?) -> Unit) {
 //        isPaid	string	必填	0无偿 1有偿
 //        page	string	必填	分页，从第1页开始，每页20条数据
 //                requestCheck	string	必填	验证请求
@@ -1033,6 +1063,7 @@ object DataCtrlClass {
         params["isPaid"] = isPaid
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<BannersBean>>>(Urls.AdsList)
                 .params(params)
                 .tag(this)
@@ -1064,6 +1095,7 @@ object DataCtrlClass {
         params["userId"] = MyApplication.loginUserId
         params["adsId"] = adsId
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+adsId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.AdsClick)
                 .params(params)
                 .tag(this)
@@ -1087,11 +1119,12 @@ object DataCtrlClass {
     /**
      *红包专区
      * */
-    fun mainRedPacketData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<CouponBean>?) -> Unit) {
+    fun mainRedPacketData(context: Context?, currentPage: Int, listener: (scoreStoreBean: List<CouponBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["currentPage"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString("1", salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<CouponBean>>>(Urls.url)
                 .params(params)
                 .tag(this)
@@ -1115,7 +1148,7 @@ object DataCtrlClass {
     /**
      * 商品订单优惠券领取
      * */
-    fun getGoodsCoupon(context: Context, couponId:String, listener: (void: NetEntity<Void>?) -> Unit) {
+    fun getGoodsCoupon(context: Context?, couponId:String, listener: (void: NetEntity<Void>?) -> Unit) {
 //        userId	string	必填	用户id
 //        couponId	string	必填	优惠劵id
 //        requestCheck	string	必填	验证请求
@@ -1125,6 +1158,7 @@ object DataCtrlClass {
         params["userId"] = MyApplication.loginUserId
         params["couponId"] = couponId
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+couponId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<Void>>(Urls.GetCoupon)
                 .params(params)
                 .tag(this)
@@ -1148,7 +1182,7 @@ object DataCtrlClass {
     /**
      * 编辑个人信息
      * */
-    fun editPersonInfo(context: Context, key: String, value: String, listener: (data: String?) -> Unit) {
+    fun editPersonInfo(context: Context?, key: String, value: String, listener: (data: String?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["userId"] = MyApplication.loginUserId//教练id
@@ -1157,6 +1191,7 @@ object DataCtrlClass {
         else
             params[key] = value
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.UpdateUserInfo)
                 .params(params)
                 .tag(this)
@@ -1180,12 +1215,13 @@ object DataCtrlClass {
     /**
      * 是否有支付密码
      */
-    fun checkHavePayPwd(context: Context,listener: (data: String?) -> Unit) {
+    fun checkHavePayPwd(context: Context?,listener: (data: String?) -> Unit) {
         val params = HashMap<String, String>()
         params["userId"] = MyApplication.loginUserId
         val nowMills = TimeUtils.getNowMills().toString()
         params["timestamp"] = nowMills
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+nowMills, MyApplication.salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.IsSetPayPwd)
                 .params(params)
                 .tag(this)
@@ -1208,7 +1244,7 @@ object DataCtrlClass {
     /**
      * 修改登录密码
      */
-    fun changeAccountPwd(context: Context,oldPwd:String ,newPwd:String ,listener: (data: String?) -> Unit) {
+    fun changeAccountPwd(context: Context?,oldPwd:String ,newPwd:String ,listener: (data: String?) -> Unit) {
 //        userId	/**/string	必填	用户ID
 //                pwd	string	必填	旧密码
 //                newPwd	string	必填	新密码
@@ -1219,6 +1255,7 @@ object DataCtrlClass {
         params["pwd"] = oldPwd
         params["newPwd"] = newPwd
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(loginUserId +oldPwd+newPwd, MyApplication.salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.ModifyLoginPwd)
                 .params(params)
                 .tag(this)
@@ -1242,10 +1279,11 @@ object DataCtrlClass {
     /**
      * 我的余额
      */
-    fun accountBalance(context: Context, listener: (data: BalanceBean?) -> Unit) {
+    fun accountBalance(context: Context?, listener: (data: BalanceBean?) -> Unit) {
         val params = HashMap<String, String>()
         params["userId"] = loginUserId
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(loginUserId, MyApplication.salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<BalanceBean>>(Urls.MyBalance)
                 .params(params)
                 .tag(this)
@@ -1268,11 +1306,12 @@ object DataCtrlClass {
     /**
      * ShopInfo
      */
-    fun shopInfo(context: Context,QRCode:String, listener: (data: OffLinePayBean?) -> Unit) {
+    fun shopInfo(context: Context?,QRCode:String, listener: (data: OffLinePayBean?) -> Unit) {
         val params = HashMap<String, String>()
         params["userId"] = loginUserId
         params["QRCode"] = QRCode
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(loginUserId+QRCode, MyApplication.salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<OffLinePayBean>>(Urls.ShopInfo)
                 .params(params)
                 .tag(this)
@@ -1296,7 +1335,7 @@ object DataCtrlClass {
     /**
      * 申请提现
      */
-    fun requestWithdrawal(context: Context, price: String, card: String, bankName: String, bankAddress: String, userName: String, userPhone: String, listener: (data: String?) -> Unit) {
+    fun requestWithdrawal(context: Context?, price: String, card: String, bankName: String, bankAddress: String, userName: String, userPhone: String, listener: (data: String?) -> Unit) {
         val params = HashMap<String, String>()
         params["userId"] = loginUserId
         params["applyMoney"] = price
@@ -1306,6 +1345,7 @@ object DataCtrlClass {
         params["userName"] = userName
         params["userPhone"] = userPhone
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(loginUserId, MyApplication.salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.ApplyWithdraw)
                 .params(params)
                 .tag(this)
@@ -1330,12 +1370,13 @@ object DataCtrlClass {
     /**
      * 余额记录
      * */
-    fun balanceRecord(context: Context, currentPage: Int, listener: (scoreStoreBean: List<BalanceRecordBean>?) -> Unit) {
+    fun balanceRecord(context: Context?, currentPage: Int, listener: (scoreStoreBean: List<BalanceRecordBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["userId"] = loginUserId
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<BalanceRecordBean>>>(Urls.Record)
                 .params(params)
                 .tag(this)
@@ -1359,7 +1400,7 @@ object DataCtrlClass {
     /**
      *  卡券包列表
      * */
-    fun cardPackageListData(context: Context, currentPage: Int,orderState:String, listener: (scoreStoreBean: List<ServiceOrderBean>?) -> Unit) {
+    fun cardPackageListData(context: Context?, currentPage: Int,orderState:String, listener: (scoreStoreBean: List<ServiceOrderBean>?) -> Unit) {
 //       userId	string	必填	用户ID
 //       orderState	string	必填	订单状态
 //       page	string	选填	分页
@@ -1369,6 +1410,7 @@ object DataCtrlClass {
         params["orderState"] = orderState
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<ServiceOrderBean>>>(Urls.VirtuallyOrderList)
                 .params(params)
                 .tag(this)
@@ -1391,7 +1433,7 @@ object DataCtrlClass {
     /**
      * 编辑订单（删除，申请退款）-虚拟类
      * */
-    fun editServiceState(context: Context,orderId:String, editType:String,listener: (addressBean: NetEntity<Void>?) -> Unit) {
+    fun editServiceState(context: Context?,orderId:String, editType:String,listener: (addressBean: NetEntity<Void>?) -> Unit) {
 //        userId	string	必填	用户ID
 //                orderId	string	必填	订单ID
 //                editType	string	必填	编辑类型（1：删除  2：申请退款）
@@ -1402,6 +1444,7 @@ object DataCtrlClass {
         params["orderId"] = orderId
         params["editType"] = editType
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId+editType, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<Void>>(VirtuallyEditOrder)
                 .params(params)
                 .tag(this)
@@ -1425,7 +1468,7 @@ object DataCtrlClass {
     /**
      * 平台申诉
      * */
-    fun platformAppeal(context: Context,orderId:String, appealContent:String,listener: (addressBean: NetEntity<Void>?) -> Unit) {
+    fun platformAppeal(context: Context?,orderId:String, appealContent:String,listener: (addressBean: NetEntity<Void>?) -> Unit) {
 //       userId	string	必填	用户ID
 //       returnOrderId	string	必填	订单ID
 //       appealContent	string	必填	申诉内容（UTF-8转码）
@@ -1436,6 +1479,7 @@ object DataCtrlClass {
         params["returnOrderId"] = orderId
         params["appealContent"] = appealContent
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+orderId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<Void>>(PlatformAppeal)
                 .params(params)
                 .tag(this)
@@ -1459,7 +1503,7 @@ object DataCtrlClass {
     /**
      * 卡券包列表详情
      */
-    fun cardPackageDetailData(context: Context,orderId:String,listener: (data: ServiceOrderBean?) -> Unit) {
+    fun cardPackageDetailData(context: Context?,orderId:String,listener: (data: ServiceOrderBean?) -> Unit) {
 //        userId	string	必填	用户ID
 //                orderId	string	必填	订单ID
 //                requestCheck	string	必填	验证请求
@@ -1468,6 +1512,7 @@ object DataCtrlClass {
         params["userId"] = loginUserId
         params["orderId"] = orderId
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(loginUserId +orderId, MyApplication.salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ServiceOrderBean>>(Urls.VirtuallyOrderDetail)
                 .params(params)
                 .tag(this)
@@ -1494,7 +1539,7 @@ object DataCtrlClass {
      * @param listener 是否删除成功
      * @param goodsEntities          实体
      */
-    fun favoriteGoodsIsCollection(context: Context, idMark: String, isCollection: String, goodsEntities: Array<GoodsBean>, listener: (goodsEntities: Array<GoodsBean>?) -> Unit) {
+    fun favoriteGoodsIsCollection(context: Context?, idMark: String, isCollection: String, goodsEntities: Array<GoodsBean>, listener: (goodsEntities: Array<GoodsBean>?) -> Unit) {
         val params = HashMap<String, String>()
         var goodsIds = ""
         for (goodsEntity in goodsEntities) {
@@ -1506,6 +1551,7 @@ object DataCtrlClass {
         params["idMark"] = idMark//0:店铺，1:商品
         params["type"] = isCollection //0:取消，1:添加
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+subGoodsIds, MyApplication.salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.Attention)
                 .params(params)
                 .tag(this)
@@ -1535,7 +1581,7 @@ object DataCtrlClass {
      * @param listener 是否删除成功
      * @param goodsEntities          实体
      */
-    fun favoriteShopIsCollection(context: Context, idMark: String, isCollection: String, goodsEntities: Array<GoodsShopBean>, listener: (goodsEntities: Array<GoodsShopBean>?) -> Unit) {
+    fun favoriteShopIsCollection(context: Context?, idMark: String, isCollection: String, goodsEntities: Array<GoodsShopBean>, listener: (goodsEntities: Array<GoodsShopBean>?) -> Unit) {
         val params = HashMap<String, String>()
         var goodsIds = ""
         for (goodsEntity in goodsEntities) {
@@ -1547,6 +1593,7 @@ object DataCtrlClass {
         params["idMark"] = idMark//0:店铺，1:商品
         params["type"] = isCollection //0:取消，1:添加
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+subGoodsIds, MyApplication.salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.Attention)
                 .params(params)
                 .tag(this)
@@ -1569,13 +1616,14 @@ object DataCtrlClass {
     /**
      * 商品收藏列表
      * */
-    fun favoriteGoodsListData(context: Context, state: Int, currentPage: Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
+    fun favoriteGoodsListData(context: Context?, state: Int, currentPage: Int, listener: (scoreStoreBean: List<GoodsBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["userId"] = MyApplication.loginUserId
         params["state"] = state.toString()
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<GoodsBean>>>(Urls.CollectedGoodsList)
                 .params(params)
                 .tag(this)
@@ -1598,12 +1646,13 @@ object DataCtrlClass {
     /**
      * 商铺收藏列表
      * */
-    fun favoriteShopListData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<GoodsShopBean>?) -> Unit) {
+    fun favoriteShopListData(context: Context?, currentPage: Int, listener: (scoreStoreBean: List<GoodsShopBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["userId"] = MyApplication.loginUserId
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<GoodsShopBean>>>(Urls.CollectedShopList)
                 .params(params)
                 .tag(this)
@@ -1627,12 +1676,13 @@ object DataCtrlClass {
     /**
      *我 的足迹
      * */
-    fun footprintData(context: Context, currentPage: Int, listener: (scoreStoreBean: List<FootprintBean>?) -> Unit) {
+    fun footprintData(context: Context?, currentPage: Int, listener: (scoreStoreBean: List<FootprintBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["userId"] = MyApplication.loginUserId
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<FootprintBean>>>(Urls.Footprint)
                 .params(params)
                 .tag(this)
@@ -1656,12 +1706,13 @@ object DataCtrlClass {
     /**
      *积分变更记录
      * */
-    fun mineScoreRecordData(context: Context, currentPage: Int, listener: (scoreRecordBean: List<ScoreRecordBean>?) -> Unit) {
+    fun mineScoreRecordData(context: Context?, currentPage: Int, listener: (scoreRecordBean: List<ScoreRecordBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["userId"] = MyApplication.loginUserId
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<ScoreRecordBean>>>(Urls.MyScoreRecord)
                 .params(params)
                 .tag(this)
@@ -1685,11 +1736,12 @@ object DataCtrlClass {
     /**
      *积分兑换订单列表
      * */
-    fun scoreOrderListData(context: Context, currentPage: Int, listener: (scoreRecordBean: List<ScoreOrderBean>?) -> Unit) {
+    fun scoreOrderListData(context: Context?, currentPage: Int, listener: (scoreRecordBean: List<ScoreOrderBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["currentPage"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString("1", salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<ScoreOrderBean>>>(Urls.url)
                 .params(params)
                 .tag(this)
@@ -1713,11 +1765,12 @@ object DataCtrlClass {
     /**
      * 积分订单详情
      * */
-    fun scoreOrderDetailData(context: Context,orderId:String, listener: (scoreOrderBean: ScoreOrderBean?) -> Unit) {
+    fun scoreOrderDetailData(context: Context?,orderId:String, listener: (scoreOrderBean: ScoreOrderBean?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["orderId"] = orderId
         params["requestCheck"] = EncryptUtils.encryptMD5ToString("1", salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ScoreOrderBean>>(Urls.url)
                 .params(params)
                 .tag(this)
@@ -1740,11 +1793,12 @@ object DataCtrlClass {
     /**
      * 清空购物车内所有失效商品
      * */
-    fun clearCartListPassData(context: Context,listener: (v: NetEntity<Void>?) -> Unit) {
+    fun clearCartListPassData(context: Context?,listener: (v: NetEntity<Void>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["userId"] = MyApplication.loginUserId
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<Void>>(Urls.ClearDeleteGoods)
                 .params(params)
                 .tag(this)
@@ -1768,7 +1822,7 @@ object DataCtrlClass {
     /**
      * 购物车列表
      * */
-    fun cartListData(context: Context, currentPage: Int, listener: (goodsCarBean: ArrayList<GoodsCarBean>?) -> Unit) {
+    fun cartListData(context: Context?, currentPage: Int, listener: (goodsCarBean: ArrayList<GoodsCarBean>?) -> Unit) {
 //        userId	string	必填	用户id
 //        page	string	必填	分页，从第1页开始，每页30个商品
 //        requestCheck	string	必填	验证请求
@@ -1777,6 +1831,7 @@ object DataCtrlClass {
         params["userId"] = MyApplication.loginUserId
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ArrayList<GoodsCarBean>>>(Urls.ShopCarList)
                 .params(params)
                 .tag(this)
@@ -1799,12 +1854,13 @@ object DataCtrlClass {
     /**
      * 一般商品确认信息
      * */
-    fun goodsConfirmData(context: Context,info:String, listener: (goodsConfirmBean: GoodsConfirmBean?) -> Unit) {
+    fun goodsConfirmData(context: Context?,info:String, listener: (goodsConfirmBean: GoodsConfirmBean?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["userId"] = MyApplication.loginUserId
         params["shopInfo"] = info
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<GoodsConfirmBean>>(Urls.MoneyOrderInfo)
                 .params(params)
                 .tag(this)
@@ -1827,12 +1883,13 @@ object DataCtrlClass {
     /**
      * 一般商品确认信息  积分信息
      * */
-    fun goodsConfirmScoreData(context: Context,info:String, listener: (goodsConfirmBean: GoodsConfirmScoreBean?) -> Unit) {
+    fun goodsConfirmScoreData(context: Context?,info:String, listener: (goodsConfirmBean: GoodsConfirmScoreBean?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["userId"] = MyApplication.loginUserId
         params["shopInfo"] = info
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<GoodsConfirmScoreBean>>(Urls.CanUseScore)
                 .params(params)
                 .tag(this)
@@ -1855,7 +1912,7 @@ object DataCtrlClass {
     /**
      * 一般商品生成订单
      * */
-    fun createGoodsOrderData(context: Context,addressId:String,scores:String,ordersMoney:String,info:String, listener: (orderId: String?) -> Unit) {
+    fun createGoodsOrderData(context: Context?,addressId:String,scores:String,ordersMoney:String,info:String, listener: (orderId: String?) -> Unit) {
 //        userId	string	必填	用户id
 //        addressId	string	必填	收货地址id
 //        scores	string	必填	抵扣积分数
@@ -1867,6 +1924,7 @@ object DataCtrlClass {
         params["ordersMoney"] = ordersMoney
         params["shopInfo"] = info
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.CreateMoneyOrder)
                 .params(params)
                 .tag(this)
@@ -1890,11 +1948,12 @@ object DataCtrlClass {
     /**
      *地址选择列表 15105200983
      * */
-    fun addressChooseData(context: Context,  listener: (addressBean: List<AddressBean>?) -> Unit) {
+    fun addressChooseData(context: Context?,  listener: (addressBean: List<AddressBean>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["userId"] = MyApplication.loginUserId
         params["requestCheck"] = EncryptUtils.encryptMD5ToString( MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<AddressBean>>>(Urls.AddressList)
                 .params(params)
                 .tag(this)
@@ -1917,12 +1976,13 @@ object DataCtrlClass {
     /**
      * 地址编辑，设为默认还是删除
      * */
-    fun editAddressState(context: Context,addressId:String, url:String,listener: (addressBean: NetEntity<Void>?) -> Unit) {
+    fun editAddressState(context: Context?,addressId:String, url:String,listener: (addressBean: NetEntity<Void>?) -> Unit) {
 
         val params = HashMap<String, String>()
         params["userId"] = MyApplication.loginUserId
         params["addressId"] = addressId
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+addressId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<Void>>(url)
                 .params(params)
                 .tag(this)
@@ -1946,7 +2006,7 @@ object DataCtrlClass {
     /**
      *  新增收货地址（当用户添加地址时，后台判断该用户是否有其他地址，若没有，将该地址设为默认地址）
      * */
-    fun addAddressData(context: Context, name:String, phone:String, provinceId:String, cityId:String, districtId:String, detail:String, listener: (addressBean: String?) -> Unit) {
+    fun addAddressData(context: Context?, name:String, phone:String, provinceId:String, cityId:String, districtId:String, detail:String, listener: (addressBean: String?) -> Unit) {
         val params = HashMap<String, String>()
         params["userId"] = MyApplication.loginUserId
         params["name"] = name
@@ -1956,6 +2016,7 @@ object DataCtrlClass {
         params["districtId"] = districtId
         params["detail"] = detail
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.AddAddress)
                 .params(params)
                 .tag(this)
@@ -1978,7 +2039,7 @@ object DataCtrlClass {
     /**
      *  新增收货地址（当用户添加地址时，后台判断该用户是否有其他地址，若没有，将该地址设为默认地址）
      * */
-    fun updateAddAddressData(context: Context, addressId:String,name:String, phone:String, provinceId:String, cityId:String, districtId:String, detail:String, listener: (addressBean: String?) -> Unit) {
+    fun updateAddAddressData(context: Context?, addressId:String,name:String, phone:String, provinceId:String, cityId:String, districtId:String, detail:String, listener: (addressBean: String?) -> Unit) {
         val params = HashMap<String, String>()
         params["userId"] = MyApplication.loginUserId
         params["addressId"] = addressId
@@ -1989,6 +2050,7 @@ object DataCtrlClass {
         params["districtId"] = districtId
         params["detail"] = detail
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+addressId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<String>>(Urls.ModifyAddress)
                 .params(params)
                 .tag(this)
@@ -2012,7 +2074,7 @@ object DataCtrlClass {
     /**
      * 搜索结果  --- 筛选菜单数据
      * */
-    fun searchFilterData(context: Context,typeId:String,search:String, listener: (searchFilterEntity: ArrayList<SearchFilterEntity>?) -> Unit) {
+    fun searchFilterData(context: Context?,typeId:String,search:String, listener: (searchFilterEntity: ArrayList<SearchFilterEntity>?) -> Unit) {
 //        typeId	string	选填	分类id
 //      search	string	选填	搜索内容(URL编码)
 //      requestCheck	string	必填	验证请求
@@ -2022,6 +2084,7 @@ object DataCtrlClass {
         if (!TextUtils.isEmpty(search))
             params["search"] = search
         params["requestCheck"] = EncryptUtils.encryptMD5ToString("SiftList", salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<ArrayList<SearchFilterEntity>>>(Urls.SiftList)
                 .params(params)
                 .tag(this)
@@ -2045,7 +2108,7 @@ object DataCtrlClass {
     /**
      *搜索结果  --- 商品列表数据
      * */
-    fun searchFilterGoodsData(context: Context, currentPage: Int,typeId:String,search:String,other:String,status:String,filterPopWin:SearchFilterPop, listener: (addressBean: List<GoodsBean>?) -> Unit) {
+    fun searchFilterGoodsData(context: Context?, currentPage: Int, typeId:String, search:String, other:String, status:String, filterPopWin: SearchFilterPop, listener: (addressBean: List<GoodsBean>?) -> Unit) {
 //       typeId	string	选填	分类id
 //       search	string	选填	搜索内容(URL编码)
 //       price	string	选填	价格筛选
@@ -2072,6 +2135,7 @@ object DataCtrlClass {
             params["other"] = other.substring(0, other.length - 1)
         }
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(currentPage.toString(), salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<GoodsBean>>>(Urls.GoodsList)
                 .params(params)
                 .tag(this)
@@ -2095,7 +2159,7 @@ object DataCtrlClass {
     /**
      *活动列表
      * */
-    fun promotionsListData(context: Context, currentPage: Int,sequence:String,longitude:String?,latitude:String?, listener: (promotionsBean: List<PromotionsBean>?) -> Unit) {
+    fun promotionsListData(context: Context?, currentPage: Int,sequence:String,longitude:String?,latitude:String?, listener: (promotionsBean: List<PromotionsBean>?) -> Unit) {
 //        userId	string	选填	用户id
 //        page	string	必填	分页，从第1页开始，每页10条数据
 //        sequence	string	必填	排序：1默认排序,2报名人数由少到多,3报名人数由到到少,4截止日期由近到远,5截止日期由远到近,6加速天数优先,7距离优先
@@ -2110,6 +2174,7 @@ object DataCtrlClass {
         params["longitude"] = longitude?:""
         params["latitude"] = latitude?:""
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(longitude+latitude, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<PromotionsBean>>>(Urls.ActivityList)
                 .params(params)
                 .tag(this)
@@ -2132,7 +2197,7 @@ object DataCtrlClass {
     /**
      * 参加商家活动
      * */
-    fun promotionJoin(context: Context,activityId:String, listener: (bean: NetEntity<Void>?) -> Unit) {
+    fun promotionJoin(context: Context?,activityId:String, listener: (bean: NetEntity<Void>?) -> Unit) {
 //        userId	string	必填	用户id
 //        activityId	string	必填	活动id
 //        requestCheck	string	必填	验证请求
@@ -2141,6 +2206,7 @@ object DataCtrlClass {
         params["userId"] = MyApplication.loginUserId
         params["activityId"] = activityId
         params["requestCheck"] = EncryptUtils.encryptMD5ToString( MyApplication.loginUserId+activityId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<Void>>(Urls.ActivityJoin)
                 .params(params)
                 .tag(this)
@@ -2166,7 +2232,7 @@ object DataCtrlClass {
     /**
      * 商家活动详情
      * */
-    fun promotionDetailData(context: Context,activityId:String, longitude:String?,latitude:String?,listener: (promotionsBean: PromotionsBean?) -> Unit) {
+    fun promotionDetailData(context: Context?,activityId:String, longitude:String?,latitude:String?,listener: (promotionsBean: PromotionsBean?) -> Unit) {
 //        userId	string	选填	用户id
 //        activityId	string	必填	活动id
 //        longitude	string	必填	经度（用户）
@@ -2180,6 +2246,7 @@ object DataCtrlClass {
         params["longitude"] = longitude?:""
         params["latitude"] = latitude?:""
         params["requestCheck"] = EncryptUtils.encryptMD5ToString( activityId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<PromotionsBean>>(Urls.ActivityDetial)
                 .params(params)
                 .tag(this)
@@ -2202,12 +2269,13 @@ object DataCtrlClass {
     /**
      * 上传参加的活动图片
      * */
-    fun promotionPushData(context: Context,activityId:String, content:String,images:List<String>,listener: (bean: NetEntity<Void>?) -> Unit) {
+    fun promotionPushData(context: Context?,activityId:String, content:String,images:List<String>,listener: (bean: NetEntity<Void>?) -> Unit) {
 //        userId	string	必填	用户id
 //        activityId	string	必填	活动id
 //        content	string	必填	内容
 //        image	string	必填	图片
 //        requestCheck	string	必填	验证请求
+        if (context!=null)
         CustomProgress.show(context, "加载中", false, null)
 
         Thread{
@@ -2219,7 +2287,8 @@ object DataCtrlClass {
                     params["content"] = content
                     params["image"] = it
                     params["requestCheck"] = EncryptUtils.encryptMD5ToString( MyApplication.loginUserId+activityId, salt).toLowerCase()
-                    OkGo.post<NetEntity<Void>>(Urls.UploadActivity)
+                    if (context!=null)
+        OkGo.post<NetEntity<Void>>(Urls.UploadActivity)
                             .params(params)
                             .tag(this)
                             .execute(object : DialogCallback<NetEntity<Void>>(context) {
@@ -2262,7 +2331,8 @@ object DataCtrlClass {
             params["timeStamp"] = time
             params["imgBase64"] = EncodeUtils.base64Encode2String(FileIOUtils.readFile2BytesByStream(images[count].replace("file:///","")))
             params["requestCheck"] = EncryptUtils.encryptMD5ToString(  MyApplication.loginUserId+time, salt).toLowerCase()
-            OkGo.post<NetEntity<String>>(Urls.UploadImg)
+            if (context!=null)
+        OkGo.post<NetEntity<String>>(Urls.UploadImg)
                     .params(params)
                     .tag(this)
                     .execute(object : JsonCallback<NetEntity<String>>() {
@@ -2299,7 +2369,7 @@ object DataCtrlClass {
     /**
      *我的活动列表
      * */
-    fun promotionsPersonalData(context: Context, currentPage: Int,state: String, listener: (promotionsBean: List<PromotionsPersonalBean>?) -> Unit) {
+    fun promotionsPersonalData(context: Context?, currentPage: Int,state: String, listener: (promotionsBean: List<PromotionsPersonalBean>?) -> Unit) {
 //        userId	string	必填	用户id
 //        page	string	必填	分页，从第1页开始，每页10条数据
 //        state	string	必填	1未开始 2已开始 3审核中 4已通过 5未通过
@@ -2310,6 +2380,7 @@ object DataCtrlClass {
         params["page"] = currentPage.toString()
         params["state"] = state
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<PromotionsPersonalBean>>>(Urls.MyActivity)
                 .params(params)
                 .tag(this)
@@ -2332,7 +2403,7 @@ object DataCtrlClass {
     /**
      *线下向店铺支付记录
      * */
-    fun qrLineRecord(context: Context, currentPage: Int,listener: (promotionsBean: List<OffLinePayBean>?) -> Unit) {
+    fun qrLineRecord(context: Context?, currentPage: Int,listener: (promotionsBean: List<OffLinePayBean>?) -> Unit) {
 //        userId	string	必填	用户id
 //        page	string	必填	分页，从第1页开始，每页10条数据
 //        state	string	必填	1未开始 2已开始 3审核中 4已通过 5未通过
@@ -2342,6 +2413,7 @@ object DataCtrlClass {
         params["userId"] = MyApplication.loginUserId
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId+currentPage.toString(), salt).toLowerCase()
+        if (context!=null)
         OkGo.post<NetEntity<List<OffLinePayBean>>>(Urls.QRLineRecord)
                 .params(params)
                 .tag(this)
