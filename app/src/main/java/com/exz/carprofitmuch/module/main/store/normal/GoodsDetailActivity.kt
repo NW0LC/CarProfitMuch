@@ -289,7 +289,7 @@ class GoodsDetailActivity : BaseActivity(), OnRefreshListener, View.OnClickListe
                                     R.mipmap.icon_goods_detail_favorite_on
                                 else R.mipmap.icon_goods_detail_favorite_off), null, null)
                 bt_coupon.visibility = if (it.isCoupon == "1") View.VISIBLE else View.GONE
-                bt_choose_type.visibility = if (it.isCoupon == "1") View.VISIBLE else View.GONE
+                bt_choose_type.visibility = if (it.isHaveRank == "1") View.VISIBLE else View.GONE
                 if (it.isDelete == "1") {
                     bt_addCard.visibility = View.GONE
                     val params = bt_confirm.layoutParams as LinearLayout.LayoutParams

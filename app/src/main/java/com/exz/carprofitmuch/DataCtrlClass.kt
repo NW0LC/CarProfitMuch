@@ -1411,24 +1411,24 @@ object DataCtrlClass {
         params["page"] = currentPage.toString()
         params["requestCheck"] = EncryptUtils.encryptMD5ToString(MyApplication.loginUserId, salt).toLowerCase()
         if (context!=null)
-        OkGo.post<NetEntity<List<ServiceOrderBean>>>(Urls.VirtuallyOrderList)
-                .params(params)
-                .tag(this)
-                .execute(object : DialogCallback<NetEntity<List<ServiceOrderBean>>>(context) {
-                    override fun onSuccess(response: Response<NetEntity<List<ServiceOrderBean>>>) {
-                        if (response.body().getCode() == Constants.NetCode.SUCCESS) {
-                            listener.invoke(response.body().data)
-                        } else {
+            OkGo.post<NetEntity<List<ServiceOrderBean>>>(Urls.VirtuallyOrderList)
+                    .params(params)
+                    .tag(this)
+                    .execute(object : DialogCallback<NetEntity<List<ServiceOrderBean>>>(context) {
+                        override fun onSuccess(response: Response<NetEntity<List<ServiceOrderBean>>>) {
+                            if (response.body().getCode() == Constants.NetCode.SUCCESS) {
+                                listener.invoke(response.body().data)
+                            } else {
+                                listener.invoke(null)
+                            }
+                        }
+
+                        override fun onError(response: Response<NetEntity<List<ServiceOrderBean>>>) {
+                            super.onError(response)
                             listener.invoke(null)
                         }
-                    }
 
-                    override fun onError(response: Response<NetEntity<List<ServiceOrderBean>>>) {
-                        super.onError(response)
-                        listener.invoke(null)
-                    }
-
-                })
+                    })
     }
     /**
      * 编辑订单（删除，申请退款）-虚拟类
